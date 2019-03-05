@@ -14,35 +14,28 @@
           >
             <a-textarea rows="4" placeholder="You are not alone."/>
           </a-form-item>
-
           <a-form-item
-            label="电子邮件"
-            :required="false"
-          >
-            <a-input placeholder="exp@admin.com"/>
-          </a-form-item>
-          <a-form-item
-            label="加密方式"
+            label="最近状态"
             :required="false"
           >
             <a-select defaultValue="aes-256-cfb">
-              <a-select-option value="aes-256-cfb">aes-256-cfb</a-select-option>
-              <a-select-option value="aes-128-cfb">aes-128-cfb</a-select-option>
-              <a-select-option value="chacha20">chacha20</a-select-option>
+              <a-select-option value="aes-256-cfb">出差中</a-select-option>
+              <a-select-option value="aes-128-cfb">单位忙着呢</a-select-option>
+              <a-select-option value="chacha20">累了休息</a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item
+          <!-- <a-form-item
             label="连接密码"
             :required="false"
           >
             <a-input placeholder="h3gSbecd"/>
-          </a-form-item>
-          <a-form-item
+          </a-form-item> -->
+          <!-- <a-form-item
             label="登陆密码"
             :required="false"
           >
             <a-input placeholder="密码"/>
-          </a-form-item>
+          </a-form-item> -->
 
           <a-form-item>
             <a-button type="primary">提交</a-button>

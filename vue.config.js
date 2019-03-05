@@ -73,12 +73,7 @@ module.exports = {
       less: {
         modifyVars: {
           /* less 变量覆盖，用于自定义 ant design 主题 */
-
-          /*
-          'primary-color': '#F5222D',
-          'link-color': '#F5222D',
-          'border-radius-base': '4px',
-          */
+          // 'layout-header-background': '#0144a8'
         },
         javascriptEnabled: true
       }
@@ -89,12 +84,13 @@ module.exports = {
     proxy: {
       '/api': {
         // target: 'https://mock.ihx.me/mock/5baf3052f7da7e07e04a5116/antd-pro',
-        target: 'https://mock.ihx.me/mock/5baf3052f7da7e07e04a5116/antd-pro',
+        target: 'http://10.12.97.30:7300/mock/5c7e346c4e202c2e806a149d/lark',
         ws: false,
         changeOrigin: true
       },
       '/gateway': {
-        target: 'https://www.easy-mock.com/mock/5b7bce071f130e5b7fe8cd7d/antd-pro',
+        // target: 'https://www.easy-mock.com/mock/5b7bce071f130e5b7fe8cd7d/antd-pro',
+        target: 'http://10.12.97.30:7300/mock/5c7e346c4e202c2e806a149d/lark',
         ws: false,
         changeOrigin: true,
         pathRewrite: {

@@ -17,13 +17,13 @@ export const asyncRouterMap = [
         name: 'dashboard',
         redirect: '/dashboard/workplace',
         component: RouteView,
-        meta: { title: '仪表盘', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
+        meta: { title: '主页', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
         children: [
           {
             path: '/dashboard/analysis',
             name: 'Analysis',
             component: () => import('@/views/dashboard/Analysis'),
-            meta: { title: '分析页', keepAlive: false, permission: [ 'dashboard' ] }
+            meta: { title: '研发门户', keepAlive: false, permission: [ 'dashboard' ] }
           },
           {
             path: '/dashboard/monitor',
@@ -46,7 +46,7 @@ export const asyncRouterMap = [
         path: '/form',
         redirect: '/form/base-form',
         component: PageView,
-        meta: { title: '表单页', icon: 'form', permission: [ 'form' ] },
+        meta: { title: '研讨', icon: 'form', permission: [ 'form' ] },
         children: [
           {
             path: '/form/base-form',
@@ -75,7 +75,7 @@ export const asyncRouterMap = [
         name: 'list',
         component: PageView,
         redirect: '/list/query-list',
-        meta: { title: '列表页', icon: 'table', permission: [ 'table' ] },
+        meta: { title: '任务', icon: 'table', permission: [ 'table' ] },
         children: [
           {
             path: '/list/query-list',
@@ -168,7 +168,7 @@ export const asyncRouterMap = [
         name: 'profile',
         component: RouteView,
         redirect: '/profile/basic',
-        meta: { title: '详情页', icon: 'profile', permission: [ 'profile' ] },
+        meta: { title: '知识', icon: 'profile', permission: [ 'profile' ] },
         children: [
           {
             path: '/profile/basic',
@@ -191,7 +191,7 @@ export const asyncRouterMap = [
         name: 'result',
         component: PageView,
         redirect: '/result/success',
-        meta: { title: '结果页', icon: 'check-circle-o', permission: [ 'result' ] },
+        meta: { title: '工具', icon: 'check-circle-o', permission: [ 'result' ] },
         children: [
           {
             path: '/result/success',
@@ -292,24 +292,24 @@ export const asyncRouterMap = [
             ]
           }
         ]
-      },
+      }
 
       // other
-      {
-        path: '/other',
-        name: 'otherPage',
-        component: PageView,
-        meta: { title: '其他组件', icon: 'slack', permission: [ 'dashboard' ] },
-        redirect: '/other/icon-selector',
-        children: [
-          {
-            path: '/other/icon-selector',
-            name: 'TestIconSelect',
-            component: () => import('@/views/other/IconSelectorView'),
-            meta: { title: 'IconSelector', keepAlive: true, permission: [ 'dashboard' ] }
-          }
-        ]
-      }
+      // {
+      //   path: '/other',
+      //   name: 'otherPage',
+      //   component: PageView,
+      //   meta: { title: '其他组件', icon: 'slack', permission: [ 'dashboard' ] },
+      //   redirect: '/other/icon-selector',
+      //   children: [
+      //     {
+      //       path: '/other/icon-selector',
+      //       name: 'TestIconSelect',
+      //       component: () => import('@/views/other/IconSelectorView'),
+      //       meta: { title: 'IconSelector', keepAlive: true, permission: [ 'dashboard' ] }
+      //     }
+      //   ]
+      // }
     ]
   },
   {

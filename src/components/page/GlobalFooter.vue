@@ -1,17 +1,14 @@
 <template>
   <div class="footer">
     <div class="links">
-      <a href="https://pro.ant.design/" target="_blank">Pro 首页</a>
-      <a href="https://github.com/ant-design/ant-design-pro" target="_blank">
-        <a-icon type="github"/>
-      </a>
-      <a href="https://ant.design/">Ant Design</a>
-      <a href="https://vue.ant.design/">Vue Antd</a>
+      <a href="#" target="_blank">关于</a>
+      <a href="#">帮助</a>
+      <a href="#">其它</a>
     </div>
     <div class="copyright">
       Copyright
       <a-icon type="copyright"/>
-      2018 <span>白鹭学园技术组出品</span>
+      2018 <span>云雀技术组出品</span>
     </div>
   </div>
 </template>

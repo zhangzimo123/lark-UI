@@ -8,8 +8,8 @@ module.exports = {
       }
     ]
   ]
+
   // if your use import on Demand, Use this code
-  // ,
   // plugins: [
   //   [ 'import', {
   //     'libraryName': 'ant-design-vue',

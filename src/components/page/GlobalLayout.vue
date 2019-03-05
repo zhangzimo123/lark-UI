@@ -447,7 +447,7 @@ export default {
           .header-index-left {
             .logo {
               h1 {
-                color: #002140;
+                color: #001529;
               }
             }
           }

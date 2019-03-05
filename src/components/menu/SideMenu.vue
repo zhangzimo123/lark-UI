@@ -60,3 +60,9 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: #000c17;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45) inset;
+}
+</style>

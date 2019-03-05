@@ -13,12 +13,12 @@
           <a-tab-pane tab="通知" key="1">
             <a-list>
               <a-list-item>
-                <a-list-item-meta title="你收到了 14 份新周报" description="一年前">
+                <a-list-item-meta title="你收到了 14 份预先承诺" description="一天前">
                   <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png"/>
                 </a-list-item-meta>
               </a-list-item>
               <a-list-item>
-                <a-list-item-meta title="你推荐的 曲妮妮 已通过第三轮面试" description="一年前">
+                <a-list-item-meta title="你有 1 项工作逾期" description="一年前">
                   <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png"/>
                 </a-list-item-meta>
               </a-list-item>

@@ -15,7 +15,6 @@
           <a-list
             itemLayout="horizontal"
             :dataSource="data"
-            split="false"
           >
             <a-list-item slot="renderItem" slot-scope="item">
               <a-list-item-meta>
@@ -28,7 +27,7 @@
     </a-row>
     <a-row :gutter="24">
       <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="总销售额" total="￥126,560">
+        <chart-card :loading="loading" title="年度加班总量（小时）" total="1126">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
@@ -42,7 +41,7 @@
               11%
             </trend>
           </div>
-          <template slot="footer">日均销售额<span>￥ 234.56</span></template>
+          <template slot="footer">日均加班（小时）<span>23</span></template>
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
@@ -57,18 +56,18 @@
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="支付笔数" :total="6560 | NumberFormat">
+        <chart-card :loading="loading" title="知识量（条）" :total="6560 | NumberFormat">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
             <mini-bar />
           </div>
-          <template slot="footer">转化率 <span>60%</span></template>
+          <template slot="footer">利用率 <span>60%</span></template>
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="运营活动效果" total="78%">
+        <chart-card :loading="loading" title="年度指标完成情况" total="78%">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
@@ -77,11 +76,11 @@
           </div>
           <template slot="footer">
             <trend flag="down" style="margin-right: 16px;">
-              <span slot="term">同周比</span>
+              <span slot="term">同比</span>
               12%
             </trend>
             <trend flag="up">
-              <span slot="term">日环比</span>
+              <span slot="term">环比</span>
               80%
             </trend>
           </template>

@@ -2,18 +2,18 @@
   <page-layout :avatar="avatar">
     <div slot="headerContent">
       <div class="title">{{ timeFix }}，{{ user.name }}<span class="welcome-text">，{{ welcome() }}</span></div>
-      <div>前端工程师 | 蚂蚁金服 - 某某某事业群 - VUE平台</div>
+      <div>主任设计师 | 十一室 - 工程信息化组</div>
     </div>
     <div slot="extra">
       <a-row class="more-info">
         <a-col :span="8">
-          <head-info title="项目数" content="56" :center="false" :bordered="false"/>
+          <head-info title="任务数" content="56" :center="false" :bordered="false"/>
         </a-col>
         <a-col :span="8">
           <head-info title="团队排名" content="8/24" :center="false" :bordered="false"/>
         </a-col>
         <a-col :span="8">
-          <head-info title="项目访问" content="2,223" :center="false" />
+          <head-info title="任务完成率" content="56%" :center="false" />
         </a-col>
       </a-row>
     </div>
@@ -26,9 +26,9 @@
             :loading="loading"
             style="margin-bottom: 24px;"
             :bordered="false"
-            title="进行中的项目"
+            title="进行中的任务"
             :body-style="{ padding: 0 }">
-            <a slot="extra">全部项目</a>
+            <a slot="extra">全部任务</a>
             <div>
               <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in projects">
                 <a-card :bordered="false" :body-style="{ padding: 0 }">
@@ -42,7 +42,7 @@
                     </div>
                   </a-card-meta>
                   <div class="project-item">
-                    <a href="/#/">科学搬砖组</a>
+                    <a href="/#/">云雀小组</a>
                     <span class="datetime">9小时前</span>
                   </div>
                 </a-card>
@@ -76,12 +76,12 @@
           :xs="24">
           <a-card title="快速开始 / 便捷导航" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
             <div class="item-group">
-              <a>操作一</a>
-              <a>操作二</a>
-              <a>操作三</a>
-              <a>操作四</a>
-              <a>操作五</a>
-              <a>操作六</a>
+              <a>PDM</a>
+              <a>TDM</a>
+              <a>MPM</a>
+              <a>ERP</a>
+              <a>OnRoad</a>
+              <a>OA</a>
               <a-button size="small" type="primary" ghost icon="plus">添加</a-button>
             </div>
           </a-card>

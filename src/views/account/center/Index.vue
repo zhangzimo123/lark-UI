@@ -12,15 +12,15 @@
           </div>
           <div class="account-center-detail">
             <p>
-              <i class="title"></i>交互专家
+              <i class="title"></i>导引头专家
             </p>
             <p>
-              <i class="group"></i>蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED
+              <i class="group"></i>二部－十一室－工程信息化组
             </p>
             <p>
               <i class="address"></i>
-              <span>浙江省</span>
-              <span>杭州市</span>
+              <span>东工业区</span>
+              <span>研发楼</span>
             </p>
           </div>
           <a-divider/>
@@ -112,7 +112,7 @@ export default {
   },
   data () {
     return {
-      tags: ['很有想法的', '专注设计', '辣~', '大长腿', '川妹子', '海纳百川'],
+      tags: ['很有想法的', '专注研发', '导弹专家', '大长腿', '川妹子', '海纳百川'],
 
       tagInputVisible: false,
       tagInputValue: '',
@@ -122,16 +122,20 @@ export default {
 
       tabListNoTitle: [
         {
+          key: 'score',
+          tab: '积分统计'
+        },
+        {
           key: 'article',
-          tab: '文章(8)'
+          tab: '发表知识(8)'
         },
         {
           key: 'app',
-          tab: '应用(8)'
+          tab: '发布工具(8)'
         },
         {
           key: 'project',
-          tab: '项目(8)'
+          tab: '参与项目(8)'
         }
       ],
       noTitleKey: 'app'
