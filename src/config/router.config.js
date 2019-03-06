@@ -13,32 +13,31 @@ export const asyncRouterMap = [
     children: [
       // dashboard
       {
-        path: '/dashboard',
-        name: 'dashboard',
-        redirect: '/dashboard/workplace',
-        component: RouteView,
-        meta: { title: '主页', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
-        children: [
-          {
-            path: '/dashboard/analysis',
-            name: 'Analysis',
-            component: () => import('@/views/dashboard/Analysis'),
-            meta: { title: '研发门户', keepAlive: false, permission: [ 'dashboard' ] }
-          },
-          {
-            path: '/dashboard/monitor',
-            name: 'Monitor',
-            hidden: true,
-            component: () => import('@/views/dashboard/Monitor'),
-            meta: { title: '监控页', keepAlive: true, permission: [ 'dashboard' ] }
-          },
-          {
-            path: '/dashboard/workplace',
-            name: 'Workplace',
-            component: () => import('@/views/dashboard/Workplace'),
-            meta: { title: '工作台', keepAlive: true, permission: [ 'dashboard' ] }
-          }
-        ]
+        path: '/dashboard/workplace',
+        name: 'Workplace',
+        component: () => import('@/views/dashboard/Workplace'),
+        meta: { title: '主页', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] }
+        // children: [
+        //   {
+        //     path: '/dashboard/analysis',
+        //     name: 'Analysis',
+        //     component: () => import('@/views/dashboard/Analysis'),
+        //     meta: { title: '研发门户', keepAlive: false, permission: [ 'dashboard' ] }
+        //   },
+        //   {
+        //     path: '/dashboard/monitor',
+        //     name: 'Monitor',
+        //     hidden: true,
+        //     component: () => import('@/views/dashboard/Monitor'),
+        //     meta: { title: '监控页', keepAlive: true, permission: [ 'dashboard' ] }
+        //   },
+        //   {
+        //     path: '/dashboard/workplace',
+        //     name: 'Workplace',
+        //     component: () => import('@/views/dashboard/Workplace'),
+        //     meta: { title: '工作台', keepAlive: true, permission: [ 'dashboard' ] }
+        //   }
+        // ]
       },
 
       // forms
@@ -299,6 +298,21 @@ export const asyncRouterMap = [
       //   path: '/other',
       //   name: 'otherPage',
       //   component: PageView,
+      //   meta: { title: '其他组件', icon: 'slack', permission: [ 'dashboard' ] },
+      //   redirect: '/other/icon-selector',
+      //   children: [
+      //     {
+      //       path: '/other/icon-selector',
+      //       name: 'TestIconSelect',
+      //       component: () => import('@/views/other/IconSelectorView'),
+      //       meta: { title: 'IconSelector', keepAlive: true, permission: [ 'dashboard' ] }
+      //     }
+      //   ]
+      // }
+      // {
+      //   path: '/talk',
+      //   name: 'Talk',
+      //   component: TalkView,
       //   meta: { title: '其他组件', icon: 'slack', permission: [ 'dashboard' ] },
       //   redirect: '/other/icon-selector',
       //   children: [

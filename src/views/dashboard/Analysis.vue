@@ -27,7 +27,7 @@
     </a-row>
     <a-row :gutter="24">
       <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="年度加班总量（小时）" total="1126">
+        <chart-card :loading="loading" title="二部年度加班总量（小时）" total="1126">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>

@@ -1,5 +1,5 @@
 {
-  "name": "vue-antd-pro",
+  "name": "lark",
   "version": "1.3.0",
   "private": true,
   "main": "http://localhost:8080",
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@antv/data-set": "^0.10.1",
+    "@antv/g2": "^3.4.10",
     "ant-design-vue": "~1.3.5",
     "axios": "^0.18.0",
     "enquire.js": "^2.1.6",
