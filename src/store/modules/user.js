@@ -10,7 +10,8 @@ const user = {
     welcome: '',
     avatar: '',
     roles: [],
-    info: {}
+    info: {},
+    chatList: []
   },
 
   mutations: {
@@ -29,6 +30,9 @@ const user = {
     },
     SET_INFO: (state, info) => {
       state.info = info
+    },
+    SET_CHAT_LIST: function (state, chatList) {
+      state.chatList = chatList
     }
   },
 
@@ -71,7 +75,9 @@ const user = {
 
           commit('SET_NAME', { name: result.name, welcome: welcome() })
           commit('SET_AVATAR', result.avatar)
-
+          console.log('SET_CHAT_LIST')
+          console.log(result.chat.chatList)
+          commit('SET_CHAT_LIST', result.chat.chatList)
           resolve(response)
         }).catch(error => {
           reject(error)

@@ -1,201 +1,92 @@
 <template>
-  <div>
-    <a-card class="card" title="仓库管理" :bordered="false">
-      <repository-form ref="repository" :showSubmit="false" />
-    </a-card>
-    <a-card class="card" title="任务管理" :bordered="false">
-      <task-form ref="task" :showSubmit="false" />
-    </a-card>
-
-    <!-- table -->
-    <a-card>
-      <form :autoFormCreate="(form) => this.form = form">
-        <a-table
-          :columns="columns"
-          :dataSource="data"
-          :pagination="false"
+  <div class="talk-view">
+    <a-layout class="talk-layout">
+      <a-layout-sider
+        class="talk-sider"
+        style="flex: 0 0 360px; max-width: 360px; min-width: 360px; width: 360px;"
+      >
+        <div
+          class="demo-infinite-container"
+          v-infinite-scroll="handleInfiniteOnLoad"
+          :infinite-scroll-disabled="busy"
+          :infinite-scroll-distance="10"
         >
-          <template v-for="(col, i) in ['name', 'workId', 'department']" :slot="col" slot-scope="record">
-            <a-input
-              :key="col"
-              v-if="record.editable"
-              style="margin: -5px 0"
-              :value="text"
-              :placeholder="columns[i].title"
-              @change="e => handleChange(e.target.value, record.key, col)"
-            />
-            <template v-else>{{ text }}</template>
-          </template>
-          <template slot="operation" slot-scope="record">
-            <template v-if="record.editable">
-              <span v-if="record.isNew">
-                <a @click="saveRow(record.key)">添加</a>
-                <a-divider type="vertical" />
-                <a-popconfirm title="是否要删除此行？" @confirm="remove(record.key)">
-                  <a>删除</a>
-                </a-popconfirm>
-              </span>
-              <span v-else>
-                <a @click="saveRow(record.key)">保存</a>
-                <a-divider type="vertical" />
-                <a @click="cancel(record.key)">取消</a>
-              </span>
-            </template>
-            <span v-else>
-              <a @click="toggle(record.key)">编辑</a>
-              <a-divider type="vertical" />
-              <a-popconfirm title="是否要删除此行？" @confirm="remove(record.key)">
-                <a>删除</a>
-              </a-popconfirm>
-            </span>
-          </template>
-        </a-table>
-        <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus" @click="newMember">新增成员</a-button>
-      </form>
-    </a-card>
-
-    <!-- fixed footer toolbar -->
-    <footer-tool-bar :style="{ width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-      <a-button type="primary" @click="validate" :loading="loading">提交</a-button>
-    </footer-tool-bar>
+          <a-list :dataSource="data">
+            <a-list-item slot="renderItem" slot-scope="item" style="padding: 12px">
+              <a-list-item-meta :description="item.last" class="talk-item">
+                <a slot="title" :href="item.href">{{ item.name.last }}</a>
+                <a-avatar
+                  slot="avatar"
+                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                />
+              </a-list-item-meta>
+              <div class="talk-time">10:34</div>
+            </a-list-item>
+            <div v-if="loading && !busy" class="demo-loading-container">
+              <a-spin/>
+            </div>
+          </a-list>
+        </div>
+      </a-layout-sider>
+      <a-layout style="min-height: 100vh; height: 100%">
+        <a-layout-header class="talk-header">header</a-layout-header>
+        <a-layout-content style="margin: 24px 24px 0px; height: 100%; padding-top: 64px;"></a-layout-content>
+        <!-- <div class="talk-footer-toolbar" style="width: calc(100% - 360px);">111</div> -->
+        <a-layout-footer>foot</a-layout-footer>
+      </a-layout>
+    </a-layout>
   </div>
 </template>
 
 <script>
-import RepositoryForm from './RepositoryForm'
-import TaskForm from './TaskForm'
 import FooterToolBar from '@/components/FooterToolbar'
 import { mixin, mixinDevice } from '@/utils/mixin'
+import infiniteScroll from 'vue-infinite-scroll'
 
 export default {
+  directives: { infiniteScroll },
   name: 'AdvancedForm',
   mixins: [mixin, mixinDevice],
   components: {
-    FooterToolBar,
-    RepositoryForm,
-    TaskForm
+    FooterToolBar
   },
   data () {
     return {
-      description: '高级表单常见于一次性输入和提交大批量数据的场景。',
+      data: [],
       loading: false,
-
-      // table
-      columns: [
-        {
-          title: '成员姓名',
-          dataIndex: 'name',
-          key: 'name',
-          width: '20%',
-          scopedSlots: { customRender: 'name' }
-        },
-        {
-          title: '工号',
-          dataIndex: 'workId',
-          key: 'workId',
-          width: '20%',
-          scopedSlots: { customRender: 'workId' }
-        },
-        {
-          title: '所属部门',
-          dataIndex: 'department',
-          key: 'department',
-          width: '40%',
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: '操作',
-          key: 'action',
-          scopedSlots: { customRender: 'operation' }
-        }
-      ],
-      data: [
-        {
-          key: '1',
-          name: '小明',
-          workId: '001',
-          editable: false,
-          department: '行政部'
-        },
-        {
-          key: '2',
-          name: '李莉',
-          workId: '002',
-          editable: false,
-          department: 'IT部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        }
-      ]
+      busy: false
     }
   },
+  beforeMount () {
+    this.fetchData(res => {
+      console.log('这地方')
+      console.log(res.result.data)
+      this.data = res.result.data
+    })
+  },
+  created () {},
   methods: {
-    handleSubmit (e) {
-      e.preventDefault()
+    fetchData (callback) {
+      this.$http
+        .get('/talk/talk-boxs', {
+          // params: Object.assign(parameter, this.queryParam)
+        })
+        .then(res => {
+          callback(res)
+        })
     },
-    newMember () {
-      const length = this.data.length
-      this.data.push({
-        key: (parseInt(this.data[length - 1].key) + 1).toString(),
-        name: '',
-        workId: '',
-        department: '',
-        editable: true,
-        isNew: true
-      })
-    },
-    remove (key) {
-      const newData = this.data.filter(item => item.key !== key)
-      this.data = newData
-    },
-    saveRow (key) {
-      const target = this.data.filter(item => item.key === key)[0]
-      target.editable = false
-      target.isNew = false
-    },
-    toggle (key) {
-      const target = this.data.filter(item => item.key === key)[0]
-      target.editable = !target.editable
-    },
-    getRowByKey (key, newData) {
+    handleInfiniteOnLoad () {
       const data = this.data
-      return (newData || data).filter(item => item.key === key)[0]
-    },
-    cancel (key) {
-      const target = this.data.filter(item => item.key === key)[0]
-      target.editable = false
-    },
-    handleChange (value, key, column) {
-      const newData = [...this.data]
-      const target = newData.filter(item => key === item.key)[0]
-      if (target) {
-        target[column] = value
-        this.data = newData
+      this.loading = true
+      if (data.length > 14) {
+        this.$message.warning('Infinite List loaded all')
+        this.busy = true
+        this.loading = false
+        return
       }
-    },
-
-    // 最终全页面提交
-    validate () {
-      this.$refs.repository.form.validateFields((err, values) => {
-        if (!err) {
-          this.$notification['error']({
-            message: 'Received values of form:',
-            description: values
-          })
-        }
-      })
-      this.$refs.task.form.validateFields((err, values) => {
-        if (!err) {
-          this.$notification['error']({
-            message: 'Received values of form:',
-            description: values
-          })
-        }
+      this.fetchData(res => {
+        this.data = data.concat(res.results)
+        this.loading = false
       })
     }
   }
@@ -203,7 +94,44 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .card{
-    margin-bottom: 24px;
-  }
+// .card {
+//   margin-bottom: 24px;
+// }
+.talk-sider {
+  background: #fff;
+}
+.talk-header {
+  background: #fff;
+}
+// .talk-footer-toolbar{
+//     width: 100%;
+//     bottom: 0;
+//     right: 0;
+//     height: 56px;
+//     line-height: 56px;
+//     -webkit-box-shadow: 0 -1px 2px rgba(0,0,0,.03);
+//     box-shadow: 0 -1px 2px rgba(0,0,0,.03);
+//     background: #fff;
+//     border-top: 1px solid #e8e8e8;
+//     padding: 0 24px;
+//     z-index: 9;
+// }
+.talk-view {
+  height: calc(100% - 64px);
+  margin: -24px;
+}
+.ant-list-item-meta-description {
+  width: 120px;
+  word-wrap: break-word; /* 内容存在英语或数字时强制换行 */
+  overflow: hidden; /* 隐藏溢出部分 */
+  text-overflow: ellipsis; /* 显示省略符号来代表被隐藏的文本 */
+  display: -webkit-box; /* 将对象作为弹性伸缩盒子模型显示 */
+  -webkit-box-orient: vertical; /* 设置盒子内排列顺序为纵向 */
+  -webkit-line-clamp: 1; /* 限制块元素显示的文本的行数 */
+}
+.talk-time {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+  line-height: 22px;
+}
 </style>

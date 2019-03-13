@@ -192,6 +192,17 @@ export default {
           loginParams.password = md5(values.password)
           Login(loginParams)
             .then((res) => this.loginSuccess(res))
+            // 存储用户数据
+            .then(json => {
+              // 个人信息
+              self.$store.commit('setUser', json.me)
+              // 好友
+              self.$store.commit('setUserFriendList', json.contacts)
+              // 群
+              self.$store.commit('setChatGroupList', json.groups)
+              // 研讨列表
+              self.$store.commit('setChatBoxs', json.chatboxs)
+            })
             .catch(err => this.requestFailed(err))
             .finally(() => {
               state.loginBtn = false

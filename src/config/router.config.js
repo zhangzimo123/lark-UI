@@ -17,55 +17,28 @@ export const asyncRouterMap = [
         name: 'Workplace',
         component: () => import('@/views/dashboard/Workplace'),
         meta: { title: '主页', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] }
-        // children: [
-        //   {
-        //     path: '/dashboard/analysis',
-        //     name: 'Analysis',
-        //     component: () => import('@/views/dashboard/Analysis'),
-        //     meta: { title: '研发门户', keepAlive: false, permission: [ 'dashboard' ] }
-        //   },
-        //   {
-        //     path: '/dashboard/monitor',
-        //     name: 'Monitor',
-        //     hidden: true,
-        //     component: () => import('@/views/dashboard/Monitor'),
-        //     meta: { title: '监控页', keepAlive: true, permission: [ 'dashboard' ] }
-        //   },
-        //   {
-        //     path: '/dashboard/workplace',
-        //     name: 'Workplace',
-        //     component: () => import('@/views/dashboard/Workplace'),
-        //     meta: { title: '工作台', keepAlive: true, permission: [ 'dashboard' ] }
-        //   }
-        // ]
       },
 
-      // forms
+      // talk
       {
-        path: '/form',
-        redirect: '/form/base-form',
-        component: PageView,
-        meta: { title: '研讨', icon: 'form', permission: [ 'form' ] },
+        path: '/talk',
+        name: 'talk',
+        component: RouteView,
+        redirect: '/talk/ChatView',
+        meta: { title: '研讨', icon: 'form', hideHeader: true, keepAlive: true, permission: [ 'form' ] },
+        hideChildrenInMenu: true,
         children: [
           {
-            path: '/form/base-form',
-            name: 'BaseForm',
-            component: () => import('@/views/form/BasicForm'),
-            meta: { title: '基础表单', keepAlive: true, permission: [ 'form' ] }
-          },
-          {
-            path: '/form/step-form',
-            name: 'StepForm',
-            component: () => import('@/views/form/stepForm/StepForm'),
-            meta: { title: '分步表单', keepAlive: true, permission: [ 'form' ] }
-          },
-          {
-            path: '/form/advanced-form',
-            name: 'AdvanceForm',
-            component: () => import('@/views/form/advancedForm/AdvancedForm'),
-            meta: { title: '高级表单', keepAlive: true, permission: [ 'form' ] }
-          }
-        ]
+            path: '/talk/ChatView',
+            name: 'ChatView',
+            component: () => import('@/views/talk/ChatView'),
+            meta: { title: '研讨页', keepAlive: true, permission: ['form'], hidden: true }
+          }, {
+            path: '/talk/ChatPanel',
+            name: 'ChatPanel',
+            component: () => import('@/views/talk/ChatPanel'),
+            meta: { title: '研讨面板', keepAlive: true, permission: ['form'], hidden: true }
+          }]
       },
 
       // list

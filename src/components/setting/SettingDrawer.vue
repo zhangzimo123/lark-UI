@@ -8,6 +8,7 @@
       :visible="visible"
       :getContainer="() => $refs.settingDrawer"
       :style="{}"
+      wrapClassName="footer"
     >
       <div class="setting-drawer-index-content">
 

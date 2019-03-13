@@ -1,0 +1,280 @@
+<template>
+  <div class="talk-view">
+    <a-layout class="talk-layout">
+      <a-layout-sider
+        class="talk-sider"
+        style="flex: 0 0 300px; max-width: 300px; min-width: 300px; width: 300px"
+      >
+        <div class="search-bar">
+          <a-input-search
+            placeholder="消息/联系人/群组"
+            style="width:210px"
+          />
+          <a-button type="default" icon="plus" style="float: right;"/>
+        </div>
+        <a-tabs defaultActiveKey="1" :tabBarGutter="0" :tabBarStyle="tabStyle">
+          <a-tab-pane key="1" forceRender class="box-panel">
+            <span slot="tab">
+              <a-icon type="clock-circle" />
+              最近
+            </span>
+            <div class="talk-box-container">
+              <a-list :dataSource="chatList">
+                <a-list-item class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
+                  <a-list-item-meta :description="item.lastMessage" class="talk-item">
+                    <div slot="title" :href="item.href">{{ item.name }}</div>
+                    <a-avatar
+                      slot="avatar"
+                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                    />
+                  </a-list-item-meta>
+                  <div class="talk-time">10:34</div>
+                </a-list-item>
+                <div v-if="loading && !busy" class="demo-loading-container">
+                  <a-spin/>
+                </div>
+              </a-list>
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="2" style="height:100%">
+            <span slot="tab">
+              <a-icon type="team" />
+              群组
+            </span>
+            群组
+          </a-tab-pane>
+          <a-tab-pane key="3" style="height:100%">
+            <span slot="tab">
+              <a-icon type="user" />
+              联系人
+            </span>
+            联系人
+          </a-tab-pane>
+        </a-tabs>
+      </a-layout-sider>
+      <a-layout>
+        <user-chat :chat="currentChat" @showChat="showChat"/>
+      </a-layout>
+    </a-layout>
+  </div></template>
+<script>
+import infiniteScroll from 'vue-infinite-scroll'
+import UserChat from '@/components/Talk/Chat'
+// import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
+import {
+  ChatListUtils,
+  imageLoad
+  // MessageInfoType,
+  // MessageTargetType
+} from '../../utils/talk/chatUtils'
+import conf from '../../utils/talk/conf'
+export default {
+  directives: { infiniteScroll },
+  name: 'ChatPanel',
+  components: {
+    UserChat
+  },
+  data () {
+    return {
+      tabStyle: { marginLeft: '12px', marginRight: '12px', marginBottom: '0px' },
+      data: [],
+      loading: false,
+      busy: false,
+      host: conf.getHostUrl()
+    }
+  },
+  computed: {
+    currentChat: {
+      get: function () {
+        return this.$store.state.chat.currentChat
+      },
+      set: function (currentChat) {
+        this.$store.commit('setCurrentChat', currentChat)
+      }
+    },
+    chatList: {
+      get: function () {
+        return this.$store.state.user.chatList
+      },
+      set: function (chatList) {
+        this.$store.commit('setChatList', chatList)
+      }
+    }
+  },
+  methods: {
+    showChat: function (chat) {
+      this.$store.commit('resetUnRead')
+      this.currentChat = chat
+      // 每次滚动到最底部
+      this.$nextTick(() => {
+        imageLoad('message-box')
+      })
+    },
+    delChat (chat) {
+      this.$store.commit('delChat', chat)
+    }
+  },
+  activated: function () {
+    console.log('进入ChatPanel')
+    console.log(this.$route.query.chat)
+    const self = this
+    // 当前聊天室
+    if (self.$route.query.chat) {
+      self.$store.commit('setCurrentChat', this.$route.query.chat)
+    }
+    console.log('进一步ChatPanel')
+    console.log(self.$store.state.user.info.id)
+    // 重新设置chatList
+    self.$store.commit('setChatList', ChatListUtils.getChatList(self.$store.state.user.info.id))
+    // 每次滚动到最底部
+    this.$nextTick(() => {
+      imageLoad('message-box')
+    })
+  },
+  mounted: function () {
+    // const self = this
+    // const websocketHeartbeatJs = new WebsocketHeartbeatJs({
+    //   url: conf.getWsUrl()
+    // })
+    // websocketHeartbeatJs.onopen = function () {
+    //   websocketHeartbeatJs.send('{"code":' + MessageInfoType.MSG_READY + '}')
+    // }
+    // websocketHeartbeatJs.onmessage = function (event) {
+    //   const data = event.data
+    //   const sendInfo = JSON.parse(data)
+    //   // 真正的消息类型
+    //   if (sendInfo.code === MessageInfoType.MSG_MESSAGE) {
+    //     const message = sendInfo.message
+    //     if (message.avatar && message.avatar.indexOf('http') === -1) {
+    //       message.avatar = conf.getHostUrl() + message.avatar
+    //     }
+    //     message.timestamp = self.formatDateTime(new Date(message.timestamp))
+    //     // 发送给个人
+    //     if (message.type === MessageTargetType.FRIEND) {
+    //       // 接受人是当前的聊天窗口
+    //       if (String(message.fromid) === String(self.$store.state.currentChat.id)) {
+    //         self.$store.commit('addMessage', message)
+    //       } else {
+    //         self.$store.commit('setUnReadCount', message)
+    //         self.$store.commit('addUnreadMessage', message)
+    //       }
+    //     } else if (message.type === MessageTargetType.CHAT_GROUP) {
+    //       // message.avatar = self.$store.state.chatMap.get(message.id);
+    //       // 接受人是当前的聊天窗口
+    //       if (String(message.id) === String(self.$store.state.currentChat.id)) {
+    //         if (String(message.fromid) !== self.$store.state.user.id) {
+    //           self.$store.commit('addMessage', message)
+    //         }
+    //       } else {
+    //         self.$store.commit('setUnReadCount', message)
+    //         self.$store.commit('addUnreadMessage', message)
+    //       }
+    //     }
+    //     self.$store.commit('setLastMessage', message)
+    //     // 每次滚动到最底部
+    //     self.$nextTick(() => {
+    //       imageLoad('message-box')
+    //     })
+    //   }
+    // }
+
+    // websocketHeartbeatJs.onreconnect = function () {
+    //   console.log('reconnecting...')
+    // }
+
+    // let count = 0
+    // websocketHeartbeatJs.onerror = function (error) {
+    //   const param = new FormData()
+    //   param.set('client_id', 'v-client')
+    //   param.set('client_secret', 'v-client-ppp')
+    //   param.set('grant_type', 'refresh_token')
+    //   param.set('scope', 'select')
+    //   param.set('refresh_token', sessionStorage.getItem('refresh_token'))
+    //   timeoutFetch(
+    //     fetch(conf.getTokenUrl(), {
+    //       method: 'POST',
+    //       model: 'cros', // 跨域
+    //       headers: {
+    //         Accept: 'application/json'
+    //       },
+    //       body: param
+    //     }),
+    //     5000
+    //   )
+    //     .then(response => {
+    //       if (response.status === 200) {
+    //         return response.json()
+    //       } else {
+    //         return new Promise((resolve, reject) => {
+    //           reject(ErrorType.FLUSH_TOKEN_ERROR)
+    //         })
+    //       }
+    //     })
+    //     .then(json => {
+    //       count = 0
+    //       self.$store.commit('setToken', json)
+    //       self.$store.commit('setTokenStatus', json)
+
+    //       // 清除原先的刷新缓存的定时器
+    //       self.$store.commit('clearFlushTokenTimerId')
+    //       // 刷新token 定时器
+    //       const flushTokenTimerId = setTimeout(function () {
+    //         const api = new HttpApiUtils()
+    //         api.flushToken(self)
+    //       }, ((json.expires_in - 10) * 1000))
+    //       self.$store.commit('setFlushTokenTimerId', flushTokenTimerId)
+    //     })
+    //     .catch(error => {
+    //       count++
+    //       if (error.toString() === 'TypeError: Failed to fetch') {
+    //         self.$Message.error('网络断开，正在重连...')
+    //       } else if (ErrorType.FLUSH_TOKEN_ERROR === error) {
+    //         count = 25
+    //       }
+    //     })
+    //     // 重连次数大于24 退出登录
+    //   if (count > 24) {
+    //     count = 0
+    //     logout(self)
+    //   }
+    // }
+    // self.$store.commit('setWebsocket', websocketHeartbeatJs)
+  }
+}
+</script>
+<style lang="less" scoped>
+.talk-sider {
+  flex-direction: column;
+  background: #fff;
+  height: 100%;
+  border-right: 1px solid #ebebeb;
+}
+.talk-view {
+  // height: calc(100% - 64px);
+  height: 100%;
+  // margin: -24px;
+}
+.talk-layout{
+  height: 100%;
+}
+.search-bar{
+  margin: 12px 12px 6px 12px;
+}
+.talk-box-container{
+    flex: 1;
+    display: flex;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex-direction: column;
+    background-color: #f7f7f7;
+    height: 100%;
+    border-top: 1px solid #ebebeb;
+}
+.talk-list{
+  padding: 8px 12px 8px 12px;cursor: pointer;
+}
+.box-panel{
+  height: calc(100% - 50px);
+}
+</style>
