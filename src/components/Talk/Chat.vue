@@ -93,15 +93,15 @@
       </a-row>
     </a-layout-header>
     <a-layout-content class="talk-content">
-      <div class="talk-main-box">
-        <ul>
-          <li v-for="item in messageList" :class="{'im-chat-mine': item.mine}" :key="item">
-            <div class="im-chat-user">
-              <img :src="item.avatar" alt="头像">
-              <cite v-if="item.mine"><i>{{ item.timestamp }}</i>{{ item.username }}</cite>
-            </div>
-            <div class="im-chat-text">
-              <pre v-html="item.content" @click="openImageProxy($event)"></pre>
+      <div class="talk-main-box" v-scroll-bottom="session.messages">
+        <ul v-if="session">
+          <li v-for="item in session.messages" :key="item">
+            <p class="time">
+              <span>{{ item.date | time }}</span>
+            </p>
+            <div class="main" :class="{ self: item.self }">
+              <img class="avatar" width="30" height="30" :src="item.self ? user.img : session.user.img" />
+              <div class="text">{{ item.content }}</div>
             </div>
           </li>
         </ul>
@@ -153,13 +153,22 @@
             </a-tooltip>
           </li>
           <li class="tool-element">
-            <a-tooltip placement="topRight" >
+            <a-tooltip placement="top" >
               <template slot="title">
                 <span>文件上传</span>
               </template>
-              <a-icon type="file" :style="{ fontSize: '21px' }"/>
+              <a-icon type="paper-clip" :style="{ fontSize: '21px' }" />
             </a-tooltip>
           </li>
+          <li class="tool-element">
+            <a-tooltip placement="topRight" >
+              <template slot="title">
+                <span>发送名片到当前研讨中</span>
+              </template>
+              <a-icon type="idcard" :style="{ fontSize: '21px' }" />
+            </a-tooltip>
+          </li>
+
         </ul>
       </div>
       <div class="message-composer">
@@ -184,7 +193,6 @@
                   <a-menu-item key="2">标记为<strong>机密</strong>并发送</a-menu-item>
                 </a-menu>
               </a-dropdown-button>
-
             </div>
           </div>
         </div>
@@ -436,6 +444,14 @@ export default {
     this.$nextTick(() => {
       imageLoad('message-box')
     })
+  },
+  directives: {
+    // 发送消息后滚动到底部
+    'scroll-bottom' () {
+      this.vm.$nextTick(() => {
+        this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight
+      })
+    }
   }
 }
 </script>

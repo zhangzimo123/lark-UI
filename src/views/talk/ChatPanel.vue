@@ -6,11 +6,25 @@
         style="flex: 0 0 300px; max-width: 300px; min-width: 300px; width: 300px"
       >
         <div class="search-bar">
-          <a-input-search
-            placeholder="消息/联系人/群组"
-            style="width:210px"
-          />
-          <a-button type="default" icon="plus" style="float: right;"/>
+          <a-row>
+            <a-col :span="21">
+              <a-input-search
+                placeholder="消息/联系人/群组"
+                style="width:100%"
+                size="small"
+              />
+            </a-col>
+            <a-col :span="3">
+              <a-dropdown>
+                <a-menu slot="overlay">
+                  <a-menu-item key="1">发起研讨</a-menu-item>
+                  <a-menu-item key="2">发起会议</a-menu-item>
+                </a-menu>
+                <a-button type="default" size="small" icon="plus" style="margin-left:3px">
+                </a-button>
+              </a-dropdown>
+            </a-col>
+          </a-row>
         </div>
         <a-tabs defaultActiveKey="1" :tabBarGutter="0" :tabBarStyle="tabStyle">
           <a-tab-pane key="1" forceRender class="box-panel">
