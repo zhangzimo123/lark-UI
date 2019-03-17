@@ -93,9 +93,9 @@
       </a-row>
     </a-layout-header>
     <a-layout-content class="talk-content">
-      <div class="talk-main-box" v-scroll-bottom="session.messages">
-        <ul v-if="session">
-          <li v-for="item in session.messages" :key="item">
+      <div class="talk-main-box" v-scroll-bottom="messageList">
+        <ul v-if="messageList">
+          <li v-for="item in messageList" :key="item">
             <p class="time">
               <span>{{ item.date | time }}</span>
             </p>
