@@ -50,7 +50,7 @@ export function dateStr (date) {
 }
 
 /**
- * 聊天会话
+ * 研讨会话
  */
 export class Chat {
   constructor (id, name, avatar, unReadCount, lastMessage, mobile, email, type) {
@@ -91,7 +91,7 @@ function preloadImages (arr) {
 }
 
 /**
- * 图片加载完成，聊天对话框scroll拉到最下
+ * 图片加载完成，研讨对话框scroll拉到最下
  * @param id 容器id
  */
 export function imageLoad (id) {
@@ -205,7 +205,7 @@ export const faceUtils = {
     const self = this
     const arr = {}
     for (let i = 0; i < self.alt.length; i++) {
-      arr[self.alt[i]] = './static/face/' + i + '.gif'
+      arr[self.alt[i]] = '@/static/face/' + i + '.gif'
     }
     return arr
   }
@@ -278,7 +278,7 @@ export const ChatListUtils = {
     }
     return JSON.parse(str)
   },
-  // 删除聊天会话框
+  // 删除研讨会话框
   delChat: function (userId, chat) {
     const tempChatList = []
     for (const item of this.getChatList(userId)) {

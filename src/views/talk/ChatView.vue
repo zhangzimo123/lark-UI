@@ -17,11 +17,10 @@
             <a-col :span="3">
               <a-dropdown>
                 <a-menu slot="overlay">
-                  <a-menu-item key="1">1st item</a-menu-item>
-                  <a-menu-item key="2">2nd item</a-menu-item>
-                  <a-menu-item key="3">3rd item</a-menu-item>
+                  <a-menu-item key="1">发起研讨</a-menu-item>
+                  <a-menu-item key="2">发起会议</a-menu-item>
                 </a-menu>
-                <a-button type="default" size="small" icon="plus">
+                <a-button type="default" size="small" icon="plus" style="margin-left:3px">
                 </a-button>
               </a-dropdown>
             </a-col>

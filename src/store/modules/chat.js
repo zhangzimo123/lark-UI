@@ -11,12 +11,12 @@ const chat = {
     flushLocalStore: false,
     websocket: {},
     messageListMap: new Map(),
-    // 聊天群的图片映射
+    // 研讨群的图片映射
     chatMap: new Map(),
     messageList: [],
-    // 当前聊天窗口
+    // 当前研讨窗口
     currentChat: {},
-    // 所有的聊天窗口(最近)
+    // 所有的研讨窗口(最近)
     chatList: [],
     // 好友列表(联系人)
     userFriendList: [],
@@ -66,7 +66,7 @@ const chat = {
     resetUnRead: function (state) {
       state.currentChat.unReadCount = 0
     },
-    // 退出后清除内存中的聊天信息
+    // 退出后清除内存中的研讨信息
     clear: function (state) {
       state.messageList = []
       state.messageListMap = new Map()
@@ -101,7 +101,7 @@ const chat = {
     addUnreadMessage: function (state, message) {
       message.content = transform(message.content)
       if (message.type === '0') {
-        // 从内存中取聊天信息
+        // 从内存中取研讨信息
         let cacheMessages = state.messageListMap.get(message.fromid)
         if (cacheMessages) {
           cacheMessages.push(message)
@@ -111,7 +111,7 @@ const chat = {
           state.messageListMap.set(message.fromid, cacheMessages)
         }
       } else {
-        // 从内存中取聊天信息
+        // 从内存中取研讨信息
         let cacheMessages = state.messageListMap.get(message.id)
         if (cacheMessages) {
           cacheMessages.push(message)
@@ -153,7 +153,7 @@ const chat = {
       let tempChat = {}
 
       for (const chat of state.chatList) {
-        // 给接受消息的聊天室未读数量 +1
+        // 给接受消息的研讨室未读数量 +1
         if (String(chat.id) === String(message.fromid) && message.type === MessageTargetType.FRIEND) {
           if (!chat.unReadCount) {
             chat.unReadCount = 0
@@ -161,7 +161,7 @@ const chat = {
           chat.unReadCount = chat.unReadCount + 1
           tempChat = chat
         } else if (String(chat.id) === String(message.id) && message.type === MessageTargetType.CHAT_GROUP) {
-        // 群组聊天
+        // 群组研讨
           if (!chat.unReadCount) {
             chat.unReadCount = 0
           }
@@ -172,7 +172,7 @@ const chat = {
           tempChatList.push(chat)
         }
       }
-      // 聊天列表没有此人的chat
+      // 研讨列表没有此人的chat
       if (!tempChat.id && message.type === MessageTargetType.FRIEND) {
         tempChat = new Chat(message.fromid, message.username, message.avatar, 1, message.content, state.user.mobile, state.user.email, MessageTargetType.FRIEND)
       } else if (!tempChat.id && message.type === MessageTargetType.CHAT_GROUP) {
@@ -181,7 +181,7 @@ const chat = {
         tempChat = new Chat(message.id, groupChat.name, conf.getHostUrl() + groupChat.avatar, 1, message.content, state.user.mobile, state.user.email, MessageTargetType.CHAT_GROUP)
         console.log(tempChat)
       }
-      // 添加到聊天室列表的第一个
+      // 添加到研讨室列表的第一个
       tempChatList.unshift(tempChat)
       // 重新设置chatList
       state.chatList = tempChatList

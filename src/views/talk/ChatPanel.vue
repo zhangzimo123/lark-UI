@@ -121,7 +121,7 @@ export default {
       this.currentChat = chat
       // 每次滚动到最底部
       this.$nextTick(() => {
-        imageLoad('message-box')
+        // imageLoad('message-box')
       })
     },
     delChat (chat) {
@@ -132,7 +132,7 @@ export default {
     console.log('进入ChatPanel')
     console.log(this.$route.query.chat)
     const self = this
-    // 当前聊天室
+    // 当前研讨室
     if (self.$route.query.chat) {
       self.$store.commit('setCurrentChat', this.$route.query.chat)
     }
@@ -165,7 +165,7 @@ export default {
     //     message.timestamp = self.formatDateTime(new Date(message.timestamp))
     //     // 发送给个人
     //     if (message.type === MessageTargetType.FRIEND) {
-    //       // 接受人是当前的聊天窗口
+    //       // 接受人是当前的研讨窗口
     //       if (String(message.fromid) === String(self.$store.state.currentChat.id)) {
     //         self.$store.commit('addMessage', message)
     //       } else {
@@ -174,7 +174,7 @@ export default {
     //       }
     //     } else if (message.type === MessageTargetType.CHAT_GROUP) {
     //       // message.avatar = self.$store.state.chatMap.get(message.id);
-    //       // 接受人是当前的聊天窗口
+    //       // 接受人是当前的研讨窗口
     //       if (String(message.id) === String(self.$store.state.currentChat.id)) {
     //         if (String(message.fromid) !== self.$store.state.user.id) {
     //           self.$store.commit('addMessage', message)

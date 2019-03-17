@@ -74,7 +74,7 @@
               <li class="tool-element">
                 <a-tooltip placement="bottom" >
                   <template slot="title">
-                    <span>聊天记录</span>
+                    <span>研讨记录</span>
                   </template>
                   <a-icon type="profile" theme="twoTone" :style="{ fontSize: '18px' }" />
                 </a-tooltip>
@@ -93,7 +93,11 @@
       </a-row>
     </a-layout-header>
     <a-layout-content class="talk-content">
-      <div class="talk-main-box" v-scroll-bottom="messageList">
+      <div
+        class="talk-main-box"
+        v-infinite-scroll="handleInfiniteOnLoad"
+        :infinite-scroll-disabled="busy"
+        :infinite-scroll-distance="10">
         <ul v-if="messageList">
           <li v-for="item in messageList" :key="item">
             <p class="time">
@@ -109,8 +113,15 @@
     </a-layout-content>
     <a-layout-footer class="talk-footer message-box">
       <div class="message-box-toolbar">
+        <div :hidden="facesHidden" class="faces-box">
+          <VEmojiPicker
+            :pack="emojisNative"
+            labelSearch=""
+            @select="onSelectEmoji"
+          />
+        </div>
         <ul class="toolbar-left">
-          <li class="tool-element">
+          <li class="tool-element" @click="toogleDialogEmoji()">
             <a-tooltip placement="topLeft" >
               <template slot="title">
                 <span>添加表情</span>
@@ -168,7 +179,6 @@
               <a-icon type="idcard" :style="{ fontSize: '21px' }" />
             </a-tooltip>
           </li>
-
         </ul>
       </div>
       <div class="message-composer">
@@ -205,13 +215,20 @@
 import conf from '../../utils/talk/conf'
 import Faces from './Face.vue'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
+import infiniteScroll from 'vue-infinite-scroll'
+import VEmojiPicker from 'v-emoji-picker'
+import packData from 'v-emoji-picker/data/emojis.json'
 
 export default {
   components: {
+    VEmojiPicker,
     Faces
   },
   name: 'UserChat',
   computed: {
+    emojisNative () {
+      return packData
+    },
     messageList: {
       get: function () {
         return this.$store.state.chat.messageList
@@ -223,6 +240,8 @@ export default {
   },
   data () {
     return {
+      facesHidden: true,
+      pack: packData,
       wrapClass: 'talk-setting',
       wrapId: 'talkSetting',
       showMask: false,
@@ -232,8 +251,10 @@ export default {
       pageSize: 20,
       modal: false,
       showHistory: false,
+      loading: false,
+      busy: false,
       hisMessageList: [],
-      // 保存各个聊天记录的map
+      // 保存各个研讨记录的map
       messageListMap: new Map(),
       messageContent: '',
       showFace: false,
@@ -263,6 +284,13 @@ export default {
     }
   },
   methods: {
+    toogleDialogEmoji () {
+      console.log('caonima')
+      this.facesHidden = !this.facesHidden
+    },
+    onSelectEmoji (dataEmoji) {
+      this.valueInput += dataEmoji.emoji
+    },
     showDrawer () {
       this.visible = true
     },
@@ -294,7 +322,20 @@ export default {
         })
       })
     },
-
+    handleInfiniteOnLoad () {
+      const hisMessageList = this.hisMessageList
+      this.loading = true
+      if (hisMessageList.length > 14) {
+        this.$message.warning('没有了')
+        this.busy = true
+        this.loading = false
+        return
+      }
+      this.fetchData(res => {
+        this.hisMessageList = hisMessageList.concat(res.results)
+        this.loading = false
+      })
+    },
     // 错误提示
     openMessage (error) {
       this.$Message.error(error)
@@ -416,7 +457,7 @@ export default {
     chat: function () {
       const self = this
       self.messageList = []
-      // 从内存中取聊天信息
+      // 从内存中取研讨信息
       const cacheMessages = self.$store.state.chat.messageListMap.get(self.chat.id)
       if (cacheMessages) {
         self.messageList = cacheMessages
@@ -445,14 +486,15 @@ export default {
       imageLoad('message-box')
     })
   },
-  directives: {
-    // 发送消息后滚动到底部
-    'scroll-bottom' () {
-      this.vm.$nextTick(() => {
-        this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight
-      })
-    }
-  }
+  directives: { infiniteScroll }
+  // directives: {
+  //   // 发送消息后滚动到底部
+  //   'scroll-bottom' () {
+  //     this.$nextTick(() => {
+  //       this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight
+  //     })
+  //   }
+  // }
 }
 </script>
 <style lang="less" scoped>
@@ -534,6 +576,7 @@ export default {
   height: 100%
 }
 .message-box-toolbar{
+  position: relative;
   display: flex;
   .toolbar-left{
     margin: 0;
@@ -596,5 +639,9 @@ export default {
 .talk-setting{
 position: relative;
 }
+    .faces-box {
+      position: absolute;
+      bottom: 3.8rem;
+    }
 }
 </style>
