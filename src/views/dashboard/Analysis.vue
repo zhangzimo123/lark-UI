@@ -181,22 +181,22 @@ import Bar from '@/components/chart/Bar'
 import Trend from '@/components/Trend'
 const data = [
   {
-    title: 'Ant Design Title 1'
+    title: 'Title 1'
   },
   {
-    title: 'Ant Design Title 2'
+    title: 'Title 2'
   },
   {
-    title: 'Ant Design Title 3'
+    title: 'Title 3'
   },
   {
-    title: 'Ant Design Title 4'
+    title: 'Title 4'
   }
 ]
 const rankList = []
 for (let i = 0; i < 7; i++) {
   rankList.push({
-    name: '白鹭岛 ' + (i + 1) + ' 号店',
+    name: '云雀 ' + (i + 1) + ' 号',
     total: 1234.56 - i * 100
   })
 }

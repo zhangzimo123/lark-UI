@@ -16,11 +16,11 @@ const chat = {
     messageList: [],
     // 当前聊天窗口
     currentChat: {},
-    // 所有的聊天窗口
+    // 所有的聊天窗口(最近)
     chatList: [],
-    // 好友列表
+    // 好友列表(联系人)
     userFriendList: [],
-    // 群组列表
+    // 群组列表(群组)
     chatGroupList: [],
     // 刷新token 的定时器
     flushTokenTimerId: null
