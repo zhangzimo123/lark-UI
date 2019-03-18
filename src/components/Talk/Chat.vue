@@ -113,20 +113,22 @@
     </a-layout-content>
     <a-layout-footer class="talk-footer message-box">
       <div class="message-box-toolbar">
-        <div :hidden="facesHidden" class="faces-box">
-          <VEmojiPicker
-            :pack="emojisNative"
-            labelSearch=""
-            @select="onSelectEmoji"
-          />
-        </div>
         <ul class="toolbar-left">
-          <li class="tool-element" @click="toogleDialogEmoji()">
+          <li class="tool-element">
             <a-tooltip placement="topLeft" >
               <template slot="title">
                 <span>添加表情</span>
               </template>
-              <a-icon type="smile" :style="{ fontSize: '21px' }"/>
+              <a-popover trigger="click">
+                <template slot="content">
+                  <VEmojiPicker
+                    :pack="emojisNative"
+                    labelSearch=""
+                    @select="onSelectEmoji"
+                  />
+                </template>
+                <a-icon type="smile" :style="{ fontSize: '21px' }"/>
+              </a-popover>
             </a-tooltip>
           </li>
           <li class="tool-element">
@@ -183,7 +185,7 @@
       </div>
       <div class="message-composer">
         <div class="draft-input">
-          <textarea class="textarea-input" v-model="messageContent" @keyup.enter="mineSend()" placeholder="开始研讨..."></textarea>
+          <textarea size="large" class="textarea-input" v-model="messageContent" @keyup.enter="mineSend()" placeholder="开始研讨..."></textarea>
           <div class="send-toolbar">
             <div style="margin-left: auto">
               <a-tooltip placement="top" >
@@ -240,8 +242,9 @@ export default {
   },
   data () {
     return {
-      facesHidden: true,
+      facesVisible: false,
       pack: packData,
+
       wrapClass: 'talk-setting',
       wrapId: 'talkSetting',
       showMask: false,
@@ -284,12 +287,8 @@ export default {
     }
   },
   methods: {
-    toogleDialogEmoji () {
-      console.log('caonima')
-      this.facesHidden = !this.facesHidden
-    },
     onSelectEmoji (dataEmoji) {
-      this.valueInput += dataEmoji.emoji
+      this.messageContent += dataEmoji.emoji
     },
     showDrawer () {
       this.visible = true
