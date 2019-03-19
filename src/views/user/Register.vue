@@ -90,7 +90,6 @@
 
 <script>
 import { mixinDevice } from '@/utils/mixin.js'
-import { getSmsCaptcha } from '@/api/login'
 
 const levelNames = {
   0: '低',
@@ -207,44 +206,6 @@ export default {
           this.$router.push({ name: 'registerResult', params: { ...values } })
         }
       })
-    },
-
-    getCaptcha (e) {
-      e.preventDefault()
-      const that = this
-
-      this.form.validateFields(['mobile'], { force: true },
-        (err, values) => {
-          if (!err) {
-            this.state.smsSendBtn = true
-
-            const interval = window.setInterval(() => {
-              if (that.state.time-- <= 0) {
-                that.state.time = 60
-                that.state.smsSendBtn = false
-                window.clearInterval(interval)
-              }
-            }, 1000)
-
-            const hide = this.$message.loading('验证码发送中..', 0)
-
-            getSmsCaptcha({ mobile: values.mobile }).then(res => {
-              setTimeout(hide, 2500)
-              this.$notification['success']({
-                message: '提示',
-                description: '验证码获取成功，您的验证码为：' + res.result.captcha,
-                duration: 8
-              })
-            }).catch(err => {
-              setTimeout(hide, 1)
-              clearInterval(interval)
-              that.state.time = 60
-              that.state.smsSendBtn = false
-              this.requestFailed(err)
-            })
-          }
-        }
-      )
     },
     requestFailed (err) {
       this.$notification['error']({

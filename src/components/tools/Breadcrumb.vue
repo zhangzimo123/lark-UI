@@ -25,7 +25,7 @@ export default {
       console.log('this.$route.matched', this.$route.matched)
 
       this.breadList = []
-      this.breadList.push({ name: 'index', path: '/dashboard/', meta: { title: '首页' } })
+      // this.breadList.push({ name: 'index', path: '/dashboard/', meta: { title: '首页' } })
 
       this.name = this.$route.name
       this.$route.matched.forEach((item) => {

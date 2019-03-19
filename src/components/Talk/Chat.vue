@@ -214,7 +214,7 @@
 </template>
 
 <script>
-import conf from '../../utils/talk/conf'
+import conf from '@/api/index'
 import Faces from './Face.vue'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
 import infiniteScroll from 'vue-infinite-scroll'
