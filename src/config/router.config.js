@@ -24,7 +24,7 @@ export const asyncRouterMap = [
         path: '/talk',
         name: 'talk',
         component: RouteView,
-        redirect: '/talk/ChatView',
+        redirect: '/talk/ChatPanel',
         meta: { title: '研讨', icon: 'form', hideHeader: true, keepAlive: true, permission: [ 'form' ] },
         hideChildrenInMenu: true,
         children: [

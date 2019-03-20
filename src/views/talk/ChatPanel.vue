@@ -67,19 +67,22 @@
         </a-tabs>
       </a-layout-sider>
       <a-layout>
-        <user-chat :chat="currentChat" @showChat="showChat"/>
+        <div v-show="isShowWelcome">欢迎</div>
+        <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
       </a-layout>
     </a-layout>
-  </div></template>
+  </div>
+</template>
 <script>
 import infiniteScroll from 'vue-infinite-scroll'
 import UserChat from '@/components/Talk/Chat'
 // import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
 import {
   ChatListUtils,
-  imageLoad
+  Chat,
+  imageLoad,
   // MessageInfoType,
-  // MessageTargetType
+  MessageTargetType
 } from '../../utils/talk/chatUtils'
 import conf from '../../utils/talk/conf'
 export default {
@@ -94,7 +97,9 @@ export default {
       data: [],
       loading: false,
       busy: false,
-      host: conf.getHostUrl()
+      host: conf.getHostUrl(),
+      isShowPanel: false,
+      isShowWelcome: true
     }
   },
   computed: {
@@ -111,12 +116,27 @@ export default {
         return this.$store.state.user.chatList
       },
       set: function (chatList) {
-        this.$store.commit('setChatList', chatList)
+        this.$store.commit('SET_CHAT_LIST', chatList)
       }
     }
   },
   methods: {
     showChat: function (chat) {
+      const self = this
+      self.isShowWelcome = false
+      self.isShowPanel = true
+      const chatList = ChatListUtils.getChatList(self.$store.state.user.info.id)
+      // 删除当前用户已经有的会话
+      const newChatList = chatList.filter(function (element) {
+        return String(element.id) !== String(chat.id)
+      })
+      // 重新添加会话，放到第一个
+      const firstChat = new Chat(chat.id, chat.name, conf.getHostUrl() + chat.avatar, 0, '', '', '', MessageTargetType.CHAT_GROUP)
+      newChatList.unshift(firstChat)
+      // 存储到localStorage 的 chatList
+      ChatListUtils.setChatList(self.$store.state.user.info.id, chatList)
+      this.$store.commit('setChatList', newChatList)
+
       this.$store.commit('resetUnRead')
       this.currentChat = chat
       // 每次滚动到最底部
@@ -130,6 +150,10 @@ export default {
   },
   activated: function () {
     const self = this
+    if (this.$route.query.chat) {
+      self.isShowPanel = true
+      self.isShowWelcome = false
+    }
     // 当前研讨室
     if (self.$route.query.chat) {
       self.$store.commit('setCurrentChat', this.$route.query.chat)

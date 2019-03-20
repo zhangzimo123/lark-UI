@@ -67,9 +67,7 @@
         </a-tabs>
       </a-layout-sider>
       <a-layout>
-        <a-layout-header style="background: #fff; height: 50px">kaishi</a-layout-header>
-        <a-layout-content>talk</a-layout-content>
-        <a-layout-footer>lai</a-layout-footer>
+        欢迎
       </a-layout>
     </a-layout>
   </div>
