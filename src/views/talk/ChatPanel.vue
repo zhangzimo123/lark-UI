@@ -129,15 +129,11 @@ export default {
     }
   },
   activated: function () {
-    console.log('进入ChatPanel')
-    console.log(this.$route.query.chat)
     const self = this
     // 当前研讨室
     if (self.$route.query.chat) {
       self.$store.commit('setCurrentChat', this.$route.query.chat)
     }
-    console.log('进一步ChatPanel')
-    console.log(self.$store.state.user.info.id)
     // 重新设置chatList
     self.$store.commit('setChatList', ChatListUtils.getChatList(self.$store.state.user.info.id))
     // 每次滚动到最底部

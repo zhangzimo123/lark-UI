@@ -142,8 +142,6 @@ export default {
   },
   methods: {
     showChat (chatBox) {
-      console.log('这里被点了')
-      console.log(chatBox)
       const self = this
       const chatList = ChatListUtils.getChatList(self.$store.state.user.info.id)
       // 删除当前用户已经有的会话
@@ -152,8 +150,6 @@ export default {
       })
       // 重新添加会话，放到第一个
       const chat = new Chat(chatBox.id, chatBox.name, conf.getHostUrl() + chatBox.avatar, 0, '', '', '', MessageTargetType.CHAT_GROUP)
-      console.log('这个地方创建chat')
-      console.log(chat)
       newChatList.unshift(chat)
       // 存储到localStorage 的 chatList
       ChatListUtils.setChatList(self.$store.state.user.info.id, chatList)

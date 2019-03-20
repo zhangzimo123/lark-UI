@@ -123,8 +123,6 @@ const chat = {
       }
     },
     setCurrentChat: function (state, currentChat) {
-      console.log('进入setCurrentChat')
-      console.log(currentChat)
       state.currentChat = currentChat
       state.currentChat.unReadCount = 0
 
