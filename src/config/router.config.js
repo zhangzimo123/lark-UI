@@ -29,11 +29,6 @@ export const asyncRouterMap = [
         hideChildrenInMenu: true,
         children: [
           {
-            path: '/talk/ChatView',
-            name: 'ChatView',
-            component: () => import('@/views/talk/ChatView'),
-            meta: { title: '研讨页', keepAlive: true, permission: ['form'], hidden: true }
-          }, {
             path: '/talk/ChatPanel',
             name: 'ChatPanel',
             component: () => import('@/views/talk/ChatPanel'),

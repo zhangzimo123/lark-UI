@@ -1,6 +1,6 @@
 import modules from './conf'
 import { Chat, ChatListUtils, MessageInfoType, MessageTargetType, transform } from '../../utils/talk/chatUtils'
-import conf from '../../utils/talk/conf'
+import conf from '@/api/index'
 const chat = {
   state: {
     token: {},

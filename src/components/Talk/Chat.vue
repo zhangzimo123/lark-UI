@@ -23,13 +23,7 @@
           textAlign: 'right',
         }"
       >
-        <a-button
-          :style="{marginRight: '8px'}"
-          @click="onClose"
-        >
-          Cancel
-        </a-button>
-        <a-button @click="onClose" type="primary">Submit</a-button>
+        <a-button type="danger" @click="onClose" block>退出研讨组</a-button>
       </div>
     </a-drawer>
     <a-layout-header class="talk-header" v-if="chat">
@@ -84,7 +78,7 @@
                   <template slot="title">
                     <span>研讨设置</span>
                   </template>
-                  <a-icon type="setting" theme="twoTone" :style="{ fontSize: '18px' }" @click="showDrawer"/>
+                  <a-icon type="setting" theme="twoTone" :style="{ fontSize: '18px' }" @click="showSetting"/>
                 </a-tooltip>
               </li>
             </ul>
@@ -290,7 +284,7 @@ export default {
     onSelectEmoji (dataEmoji) {
       this.messageContent += dataEmoji.emoji
     },
-    showDrawer () {
+    showSetting () {
       this.visible = true
     },
     onClose () {
