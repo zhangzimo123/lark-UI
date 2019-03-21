@@ -2,7 +2,7 @@
   <a-layout v-if="chat.name" class="talk-setting" id="talkSetting">
     <a-drawer
       class="unpop-modal"
-      title="Create a new account"
+      title="研讨组设置"
       wrapClassName="talk-setting"
       :mask="showMask"
       :width="360"
@@ -11,6 +11,7 @@
       :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
       getContainer="#talkSetting"
     >
+      <talk-setting :talk="talkId"/>
       <div
         :style="{
           position: 'absolute',
@@ -168,12 +169,31 @@
             </a-tooltip>
           </li>
           <li class="tool-element">
-            <a-tooltip placement="topRight" >
+            <a-tooltip placement="top" >
               <template slot="title">
                 <span>发送名片到当前研讨中</span>
               </template>
               <a-icon type="idcard" :style="{ fontSize: '21px' }" />
             </a-tooltip>
+          </li>
+          <li class="tool-element">
+            <a-dropdown placement="topRight">
+              <a-menu slot="overlay">
+                <a-menu-item key="1">
+                  <a-icon type="bar-chart" />
+                  投票
+                </a-menu-item>
+                <a-menu-item key="2">
+                  <a-icon type="table" />
+                  填表
+                </a-menu-item>
+                <a-menu-item key="3">
+                  <a-icon type="calendar" />
+                  发起会议
+                </a-menu-item>
+              </a-menu>
+              <a-icon type="appstore" :style="{ fontSize: '21px' }" />
+            </a-dropdown>
           </li>
         </ul>
       </div>
@@ -210,6 +230,7 @@
 <script>
 import conf from '@/api/index'
 import Faces from './Face.vue'
+import TalkSetting from './setting/TalkSetting'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
 import infiniteScroll from 'vue-infinite-scroll'
 import VEmojiPicker from 'v-emoji-picker'
@@ -218,7 +239,8 @@ import packData from 'v-emoji-picker/data/emojis.json'
 export default {
   components: {
     VEmojiPicker,
-    Faces
+    Faces,
+    TalkSetting
   },
   name: 'UserChat',
   computed: {
@@ -231,6 +253,11 @@ export default {
       },
       set: function (messageList) {
         this.$store.commit('setMessageList', messageList)
+      }
+    },
+    talkId: {
+      get: function () {
+        return this.chat.id
       }
     }
   },
