@@ -4,7 +4,7 @@
       <a-col :span="6">
         <span class="group-setting-title">组名称:</span>
       </a-col>
-      <a-col :span="12">
+      <a-col :span="10">
         <span class="group-setting-content">
           <a-input
             v-if="editable"
@@ -15,7 +15,7 @@
           <template v-else>{{ text }}</template>
         </span>
       </a-col>
-      <a-col :span="6">
+      <a-col :span="8">
         <span v-if="editable">
           <a @click="() => save()">保存</a>
           <a-divider type="vertical" />
@@ -30,10 +30,10 @@
       <a-col :span="6">
         <span class="group-setting-title">管理员:</span>
       </a-col>
-      <a-col :span="12">
+      <a-col :span="10">
         第一
       </a-col>
-      <a-col :span="6">
+      <a-col :span="8">
         <span v-if="editable">
           <a @click="() => save()">保存</a>
           <a-divider type="vertical" />
@@ -57,25 +57,70 @@
       </a-col>
     </a-row>
     <a-row :gutter="8" class="group-setting-row">
-      <a-col :span="6">
-        <span class="group-setting-title">组类型:</span>
+      <a-col :span="16">
+        <span class="group-setting-title">消息免打扰:</span>
       </a-col>
-      <a-col :span="18">
-        <a-select defaultValue="研发" style="width: 160px">
-          <a-select-option value="研发">研发</a-select-option>
-          <a-select-option value="管理">管理</a-select-option>
-          <a-select-option value="生活">生活</a-select-option>
-        </a-select>
+      <a-col :span="8">
+        <a-switch defaultChecked/>
       </a-col>
     </a-row>
+    <a-row :gutter="8" class="group-setting-row">
+      <a-col :span="16">
+        <span class="group-setting-title">研讨组置顶:</span>
+      </a-col>
+      <a-col :span="8">
+        <a-switch defaultChecked/>
+      </a-col>
+    </a-row>
+    <a-row :gutter="8" class="group-setting-row">
+      <a-col :span="16">
+        <span class="group-setting-title">加入验证:</span>
+      </a-col>
+      <a-col :span="8">
+        <a-switch defaultChecked/>
+      </a-col>
+    </a-row>
+    <a-row :gutter="8" class="group-setting-row">
+      <a-col :span="16">
+        <span class="group-setting-title">新成员可查看研讨历史:</span>
+      </a-col>
+      <a-col :span="8">
+        <a-switch defaultChecked/>
+      </a-col>
+    </a-row>
+    <a-row :gutter="8" class="group-setting-row">
+      <a-col :span="10">
+        <span class="group-setting-title">组成员:{{ teamMembersNum }}人</span>
+      </a-col>
+      <a-col :span="10">
+        <a @click="() => addMember()">+添加新成员</a>
+      </a-col>
+      <a-col :span="4">
+
+      </a-col>
+    </a-row>
+    <div class="group-setting-person">
+      <a-list
+        :grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }"
+        :dataSource="data"
+      >
+        <a-list-item slot="renderItem" slot-scope="item" class="group-setting-people">
+          <a-avatar size="large" style="color: #f56a00; backgroundColor: #fde3cf">{{ item }}</a-avatar>
+          <div class="user-name">{{ item }}</div>
+        </a-list-item>
+      </a-list>
+    </div>
   </div>
 </template>
 <script>
+const data = ['1', '2', '1', '2', '1', '2']
 export default {
   data () {
     return {
       editable: false,
-      text: 'caonima'
+      text: 'caonima',
+      teamMembersNum: 12,
+      data
     }
   },
   methods: {
@@ -92,6 +137,9 @@ export default {
     },
     cancel () {
       this.editable = false
+    },
+    addMember () {
+
     }
   },
   props: {
@@ -112,7 +160,33 @@ export default {
 }
 .group-setting-row{
   position: relative;
-  padding: 16px 16px 0;
+  padding: 16px 0 0;
   min-height: 18px;
+}
+.group-setting-person{
+  clear: both;
+  padding: 20px 9.5px
+}
+.group-setting-people{
+  position: relative;
+    margin-right: 8px;
+    margin-left: 7px;
+    margin-bottom: 1em;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+    width: 48px;
+    height: 64px;
+    overflow: hidden;
+    .user-name{
+display: block;
+    max-width: 40px;
+    margin: 2px auto 0;
+    font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 16px;
+    }
 }
 </style>

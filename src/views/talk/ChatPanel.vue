@@ -17,7 +17,7 @@
             <a-col :span="3">
               <a-dropdown>
                 <a-menu slot="overlay">
-                  <a-menu-item key="1">发起研讨</a-menu-item>
+                  <a-menu-item key="1" @click="$refs.modal.beginTalk">发起研讨</a-menu-item>
                   <a-menu-item key="2">发起会议</a-menu-item>
                 </a-menu>
                 <a-button type="default" size="small" icon="plus" style="margin-left:3px">
@@ -70,6 +70,7 @@
         <div v-show="isShowWelcome">欢迎</div>
         <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
       </a-layout>
+      <members-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
     </a-layout>
   </div>
 </template>
@@ -77,6 +78,7 @@
 import infiniteScroll from 'vue-infinite-scroll'
 import UserChat from '@/components/Talk/Chat'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
+import MembersModel from '@/components/Talk/contacts/MemberBox'
 import {
   ChatListUtils,
   Chat,
@@ -92,7 +94,8 @@ export default {
   directives: { infiniteScroll },
   name: 'ChatPanel',
   components: {
-    UserChat
+    UserChat,
+    MembersModel
   },
   data () {
     return {
@@ -102,7 +105,8 @@ export default {
       busy: false,
       host: conf.getHostUrl(),
       isShowPanel: false,
-      isShowWelcome: true
+      isShowWelcome: true,
+      memberVisible: false
     }
   },
   computed: {
@@ -124,6 +128,15 @@ export default {
     }
   },
   methods: {
+    handleSaveOk () {
+
+    },
+    handleSaveClose () {
+
+    },
+    startTalk () {
+      this.memberVisible = true
+    },
     showChat: function (chat) {
       const self = this
       self.isShowWelcome = false
