@@ -55,7 +55,7 @@
               <a-icon type="team" />
               群组
             </span>
-            群组
+            <contacts-box/>
           </a-tab-pane>
           <a-tab-pane key="3" style="height:100%">
             <span slot="tab">
@@ -77,6 +77,7 @@
 <script>
 import infiniteScroll from 'vue-infinite-scroll'
 import UserChat from '@/components/Talk/Chat'
+import ContactsBox from '@/components/Talk/Contacts'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
 import MemberModel from '@/components/Talk/contacts/MemberBox'
 import {
@@ -94,6 +95,7 @@ export default {
   directives: { infiniteScroll },
   name: 'ChatPanel',
   components: {
+    ContactsBox,
     UserChat,
     MemberModel
   },
