@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="选择成员"
-    :memberVisible="memberVisible"
+    :visible="memberVisible"
     :confirmLoading="confirmLoading"
     @ok="handleOk"
     @cancel="handleCancel"
@@ -56,7 +56,7 @@ export default {
     }
   },
   methods: {
-    beginTalk () {
+    beginTalk: function () {
       this.memberVisible = true
     },
     close () {

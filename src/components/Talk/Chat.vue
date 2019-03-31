@@ -1,32 +1,6 @@
 <template>
   <a-layout v-if="chat.name" class="talk-setting" id="talkSetting">
-    <a-drawer
-      class="unpop-modal"
-      title="研讨组设置"
-      wrapClassName="talk-setting"
-      :mask="showMask"
-      :width="360"
-      @close="onClose"
-      :visible="visible"
-      :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
-      getContainer="#talkSetting"
-    >
-      <talk-setting :talk="talkId"/>
-      <div
-        :style="{
-          position: 'absolute',
-          left: 0,
-          bottom: 0,
-          width: '100%',
-          borderTop: '1px solid #e9e9e9',
-          padding: '10px 16px',
-          background: '#fff',
-          textAlign: 'right',
-        }"
-      >
-        <a-button type="danger" @click="onClose" block>退出研讨组</a-button>
-      </div>
-    </a-drawer>
+    <talk-setting ref="model" :talk="talkId"/>
     <a-layout-header class="talk-header" v-if="chat">
       <a-row type="flex" align="middle" style="height: 50px">
         <a-col :span="1">
@@ -79,7 +53,7 @@
                   <template slot="title">
                     <span>研讨设置</span>
                   </template>
-                  <a-icon type="setting" theme="twoTone" :style="{ fontSize: '18px' }" @click="showSetting"/>
+                  <a-icon type="setting" theme="twoTone" :style="{ fontSize: '18px' }" @click="$refs.model.showSetting(talkId)"/>
                 </a-tooltip>
               </li>
             </ul>
@@ -268,8 +242,6 @@ export default {
 
       wrapClass: 'talk-setting',
       wrapId: 'talkSetting',
-      showMask: false,
-      visible: false,
       host: conf.getHostUrl(),
       count: 0,
       pageSize: 20,
