@@ -35,7 +35,49 @@ export const asyncRouterMap = [
             meta: { title: '研讨面板', keepAlive: true, permission: ['form'], hidden: true }
           }]
       },
-
+      {
+        path: '/list',
+        name: 'list',
+        component: PageView,
+        redirect: '/list/user-list',
+        meta: {
+          title: '用户组织管理',
+          icon: 'table',
+          permission: ['table']
+        },
+        children: [
+          {
+            path: '/list/user-list',
+            name: 'UserList',
+            component: () => import('@/views/admin/UserList'),
+            meta: {
+              title: '用户管理',
+              keepAlive: true,
+              permission: ['table']
+            }
+          },
+          {
+            path: '/list/org-list',
+            name: 'OrgList',
+            component: () => import('@/views/admin/OrgList'),
+            meta: {
+              title: '组织管理',
+              keepAlive: true,
+              permission: ['table']
+            }
+          },
+          {
+            path: '/list/role-list',
+            name: 'RoleList',
+            component: () => import('@/views/admin/RoleList'),
+            meta: {
+              title: '角色管理',
+              keepAlive: true,
+              permission: ['table']
+            }
+          }
+        ]
+      },
       // result
       {
         path: '/result',
@@ -144,38 +186,6 @@ export const asyncRouterMap = [
           }
         ]
       }
-
-      // other
-      // {
-      //   path: '/other',
-      //   name: 'otherPage',
-      //   component: PageView,
-      //   meta: { title: '其他组件', icon: 'slack', permission: [ 'dashboard' ] },
-      //   redirect: '/other/icon-selector',
-      //   children: [
-      //     {
-      //       path: '/other/icon-selector',
-      //       name: 'TestIconSelect',
-      //       component: () => import('@/views/other/IconSelectorView'),
-      //       meta: { title: 'IconSelector', keepAlive: true, permission: [ 'dashboard' ] }
-      //     }
-      //   ]
-      // }
-      // {
-      //   path: '/talk',
-      //   name: 'Talk',
-      //   component: TalkView,
-      //   meta: { title: '其他组件', icon: 'slack', permission: [ 'dashboard' ] },
-      //   redirect: '/other/icon-selector',
-      //   children: [
-      //     {
-      //       path: '/other/icon-selector',
-      //       name: 'TestIconSelect',
-      //       component: () => import('@/views/other/IconSelectorView'),
-      //       meta: { title: 'IconSelector', keepAlive: true, permission: [ 'dashboard' ] }
-      //     }
-      //   ]
-      // }
     ]
   },
   {

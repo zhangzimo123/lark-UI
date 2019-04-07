@@ -38,7 +38,7 @@ export default {
     renderSearch () {
       return (
         <Search
-          placeholder="input search text"
+          placeholder="输入人员姓名"
           style="width: 100%; margin-bottom: 1rem"
         />
       )
