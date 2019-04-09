@@ -81,14 +81,12 @@ export default {
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
       loginType: 0,
-      stepCaptchaVisible: false,
       form: this.$form.createForm(this),
       state: {
         time: 60,
         loginBtn: false,
         // login type: 0 email, 1 username, 2 telephone
-        loginType: 0,
-        smsSendBtn: false
+        loginType: 0
       }
     }
   },

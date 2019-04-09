@@ -11,7 +11,6 @@ import TransferBar from '@/components/chart/TransferBar'
 
 // pro components
 import AvatarList from '@/components/AvatarList'
-import CountDown from '@/components/CountDown'
 import Ellipsis from '@/components/Ellipsis'
 import FooterToolbar from '@/components/FooterToolbar'
 import NumberInfo from '@/components/NumberInfo'
@@ -35,7 +34,6 @@ export {
   RankList,
   TransferBar,
   Trend,
-  CountDown,
   Ellipsis,
   FooterToolbar,
   NumberInfo,
