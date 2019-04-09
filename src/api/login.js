@@ -38,15 +38,3 @@ export function logout () {
     }
   })
 }
-
-/**
- * get user 2step code open?
- * @param parameter {*}
- */
-// export function get2step (parameter) {
-//   return axios({
-//     url: api.twoStepCode,
-//     method: 'post',
-//     data: parameter
-//   })
-// }
