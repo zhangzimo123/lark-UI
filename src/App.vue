@@ -29,7 +29,6 @@ export default {
           $store.dispatch('setSidebar', false)
           break
         case DEVICE_TYPE.MOBILE:
-        default:
           $store.commit('TOGGLE_DEVICE', 'mobile')
           $store.dispatch('setSidebar', true)
           break

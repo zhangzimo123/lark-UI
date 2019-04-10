@@ -54,7 +54,7 @@
         :menus="menus"
         :theme="navTheme"
         :collapsed="collapsed"
-        :device="device"
+        :deviceType="device"
         @toggle="toggle"
       />
 
@@ -106,7 +106,13 @@ export default {
         return '0'
       }
       if (this.sidebarOpened) {
-        return '256px'
+        // 根据页面宽度设置侧边栏宽度
+        if (this.isDesktop()) {
+          return '256px'
+        }
+        if (this.isTablet()) {
+          return '175px'
+        }
       }
       return '80px'
     }
@@ -139,6 +145,7 @@ export default {
       this.setSidebar(!this.collapsed)
       triggerWindowResizeEvent()
     },
+    // 未用到的方法
     paddingCalc () {
       let left = ''
       if (this.sidebarOpened) {
@@ -207,7 +214,9 @@ export default {
       .sidemenu {
         .ant-header-fixedHeader {
 
-          &.ant-header-side-opened, &.ant-header-side-closed  {
+          &.ant-header-side-desktop-opened,
+          &.ant-header-side-tablet-opened,
+          &.ant-header-side-closed  {
             width: 100%
           }
         }
@@ -238,7 +247,11 @@ export default {
         width: 100%;
         transition: width .2s;
 
-        &.ant-header-side-opened {
+        &.ant-header-side-desktop-opened {
+          width: 100%;
+        }
+
+        &.ant-header-side-tablet-opened {
           width: 100%;
         }
 
@@ -269,8 +282,12 @@ export default {
         width: 100%;
         transition: width .2s;
 
-        &.ant-header-side-opened {
+        &.ant-header-side-desktop-opened {
           width: calc(100% - 256px)
+        }
+
+        &.ant-header-side-tablet-opened {
+          width: calc(100% - 175px)
         }
 
         &.ant-header-side-closed {
