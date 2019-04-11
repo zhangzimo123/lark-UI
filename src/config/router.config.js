@@ -13,12 +13,26 @@ export const asyncRouterMap = [
     children: [
       // dashboard
       {
-        path: '/dashboard/workplace',
-        name: 'Workplace',
-        component: () => import('@/views/dashboard/Workplace'),
-        meta: { title: '主页', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] }
+        path: '/dashboard',
+        name: 'dashboard',
+        redirect: '/dashboard/workplace',
+        component: RouteView,
+        meta: { title: '工作舱', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
+        children: [
+          {
+            path: '/dashboard/workplace',
+            name: 'Workplace',
+            component: () => import('@/views/dashboard/Workplace'),
+            meta: { title: '工作台', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] }
+          },
+          {
+            path: '/dashboard/monitor',
+            name: 'Analysis',
+            component: () => import('@/views/dashboard/Monitor'),
+            meta: { title: '工作看板', keepAlive: false, permission: [ 'dashboard' ] }
+          }
+        ]
       },
-
       // talk
       {
         path: '/talk',
