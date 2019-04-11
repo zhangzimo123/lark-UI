@@ -1,4 +1,3 @@
-var instance
 const VueAxios = {
   vm: {},
   // eslint-disable-next-line no-unused-vars
