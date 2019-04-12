@@ -291,6 +291,7 @@ export default {
         // logout(self)
       }
     }
+    // 这地方不成功，消息将不能发送
     self.$store.commit('setWebsocket', websocketHeartbeatJs)
   }
 }

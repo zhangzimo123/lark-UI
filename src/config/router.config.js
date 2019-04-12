@@ -23,13 +23,13 @@ export const asyncRouterMap = [
             path: '/dashboard/workplace',
             name: 'Workplace',
             component: () => import('@/views/dashboard/Workplace'),
-            meta: { title: '工作台', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] }
+            meta: { title: '数据看板', keepAlive: true, permission: [ 'dashboard' ] }
           },
           {
             path: '/dashboard/monitor',
             name: 'Analysis',
             component: () => import('@/views/dashboard/Monitor'),
-            meta: { title: '工作看板', keepAlive: false, permission: [ 'dashboard' ] }
+            meta: { title: '工作台', keepAlive: false, permission: [ 'dashboard' ] }
           }
         ]
       },
