@@ -295,7 +295,7 @@ export default {
         }
       }
     }
-
+    // 头部样式
     .header {
       height: 64px;
       padding: 0 12px 0 0;
@@ -305,10 +305,21 @@ export default {
     }
 
     .header, .top-nav-header-index {
-
-      .user-wrapper {
-        float: right;
+      // 窗口右上方功能按钮区域的整体样式
+      .tools-wrapper  {
         height: 100%;
+        float: right;
+        display: flex;
+
+        // 分割线样式
+        .separation-line {
+          padding-right: 10px;
+          opacity: .3;
+        }
+      }
+
+      // user-menu, window-option样式
+      .user-wrapper, .option-wrapper {
 
         .action {
           cursor: pointer;
@@ -334,18 +345,17 @@ export default {
           }
         }
       }
-
+      // 调整头部导航模式下的字体颜色
       &.dark {
-        .user-wrapper {
 
-          .action {
-            color: rgba(255, 255, 255, 0.85);
+        .action {
+          color: rgba(255, 255, 255, 0.85);
 
-            &:hover {
-              background: rgba(255, 255, 255, 0.16);
-            }
+          &:hover {
+            background: rgba(255, 255, 255, 0.16);
           }
         }
+
       }
     }
 
