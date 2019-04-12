@@ -47,7 +47,7 @@
       </a-drawer>
     </template>
 
-    <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">
+    <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh', 'overflow-y': 'hidden' }">
       <!-- layout header -->
       <global-header
         :mode="layoutMode"

@@ -1,126 +1,139 @@
 <template>
-  <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''">
-    <a-row :gutter="24">
-      <a-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
-        <a-card
-          :headStyle="headStyle"
-          :loading="loading"
-          :bordered="true"
-          title="研讨消息"
-          :style="{ marginTop: '6px', minHeight: '240px' }">
-          <a href="#" slot="extra"><a-icon type="tool" /></a>
-          <div v-if="talkData.length!=0">
-            <a-list
-              bordered
-              :dataSource="talkData"
+  <div>
+    <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''">
+      <a-row :gutter="24">
+        <a-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <a-card
+            :headStyle="headStyle"
+            :loading="loading"
+            :bordered="true"
+            title="研讨消息"
+            :style="{ marginTop: '6px', minHeight: '296px' }">
+            <a-popover
             >
-              <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
-              <div slot="header">Header</div>
-              <div slot="footer">Footer</div>
-            </a-list>
-          </div>
-          <div v-else style="margin: 40px auto 0 auto;text-align: center;">
-            <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
-            <p class="description">卡片暂无内容</p>
-          </div>
-        </a-card>
-      </a-col>
-      <a-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
-        <a-card
-          :headStyle="headStyle"
-          class="antd-pro-pages-dashboard-analysis-salesCard"
-          :loading="loading"
-          :bordered="true"
-          title="待办事项"
-          :style="{ marginTop: '6px', minHeight: '240px' }">
-          <a href="#" slot="extra"><a-icon type="tool" /></a>
-          <div v-if="talkData.length!=0">
-            <a-list
-              bordered
-              :dataSource="talkData"
-            >
-              <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
-              <div slot="header">Header</div>
-              <div slot="footer">Footer</div>
-            </a-list>
-          </div>
-          <div v-else style="margin: 40px auto 0 auto;text-align: center;">
-            <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
-            <p class="description">卡片暂无内容</p>
-          </div>
-        </a-card>
-      </a-col>
-    </a-row>
-    <a-row :gutter="24">
-      <a-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
-        <a-card
-          :headStyle="headStyle"
-          :loading="loading"
-          :bordered="true"
-          title="会议室"
-          :style="{ marginTop: '6px', minHeight: '240px' }">
-          <a href="#" slot="extra"><a-icon type="tool" /></a>
-          <div v-if="talkData.length!=0">
-            <a-list
-              bordered
-              :dataSource="talkData"
-            >
-              <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
-              <div slot="header">Header</div>
-              <div slot="footer">Footer</div>
-            </a-list>
-          </div>
-          <div v-else style="margin: 40px auto 0 auto;text-align: center;">
-            <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
-            <p class="description">卡片暂无内容</p>
-          </div>
-        </a-card>
-      </a-col>
-      <a-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
-        <a-card
-          :headStyle="headStyle"
-          class="antd-pro-pages-dashboard-analysis-salesCard"
-          :loading="loading"
-          :bordered="true"
-          title="资源池"
-          :style="{ marginTop: '6px', minHeight: '240px' }">
-          <a href="#" slot="extra"><a-icon type="tool" /></a>
-          <div v-if="talkData.length!=0">
-            <a-list
-              bordered
-              :dataSource="talkData"
-            >
-              <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
-              <div slot="header">Header</div>
-              <div slot="footer">Footer</div>
-            </a-list>
-          </div>
-          <div v-else style="margin: 40px auto 0 auto;text-align: center;">
-            <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
-            <p class="description">卡片暂无内容</p>
-          </div>
-        </a-card>
-      </a-col>
-    </a-row>
+              <a href="#" slot="extra"><a-icon type="tool" /></a>
+            </a-popover>
+            <div v-if="talkData.length!=0">
+              <a-list
+                bordered
+                :dataSource="talkData"
+              >
+                <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
+                <div slot="header">Header</div>
+                <div slot="footer">Footer</div>
+              </a-list>
+            </div>
+            <div v-else style="margin: 40px auto 0 auto;text-align: center;">
+              <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
+              <p class="description">卡片暂无内容</p>
+            </div>
+          </a-card>
+        </a-col>
+        <a-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <a-card
+            :headStyle="headStyle"
+            class="antd-pro-pages-dashboard-analysis-salesCard"
+            :loading="loading"
+            :bordered="true"
+            title="待办事项"
+            :style="{ marginTop: '6px', minHeight: '296px' }">
+            <a href="#" slot="extra"><a-icon type="tool" /></a>
+            <div v-if="talkData.length!=0">
+              <a-list
+                bordered
+                :dataSource="talkData"
+              >
+                <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
+                <div slot="header">Header</div>
+                <div slot="footer">Footer</div>
+              </a-list>
+            </div>
+            <div v-else style="margin: 40px auto 0 auto;text-align: center;">
+              <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
+              <p class="description">卡片暂无内容</p>
+            </div>
+          </a-card>
+        </a-col>
+      </a-row>
+      <a-row :gutter="24">
+        <a-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <a-card
+            :headStyle="headStyle"
+            :loading="loading"
+            :bordered="true"
+            title="会议室"
+            :style="{ marginTop: '6px', minHeight: '296px' }">
+            <a href="#" slot="extra"><a-icon type="tool" /></a>
+            <div v-if="talkData.length!=0">
+              <a-list
+                bordered
+                :dataSource="talkData"
+              >
+                <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
+                <div slot="header">Header</div>
+                <div slot="footer">Footer</div>
+              </a-list>
+            </div>
+            <div v-else style="margin: 40px auto 0 auto;text-align: center;">
+              <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
+              <p class="description">卡片暂无内容</p>
+            </div>
+          </a-card>
+        </a-col>
+        <a-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <a-card
+            :headStyle="headStyle"
+            class="antd-pro-pages-dashboard-analysis-salesCard"
+            :loading="loading"
+            :bordered="true"
+            title="资源池"
+            :style="{ marginTop: '6px', minHeight: '296px' }">
+            <a href="#" slot="extra"><a-icon type="tool" /></a>
+            <div v-if="talkData.length!=0">
+              <a-list
+                bordered
+                :dataSource="talkData"
+              >
+                <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
+                <div slot="header">Header</div>
+                <div slot="footer">Footer</div>
+              </a-list>
+            </div>
+            <div v-else style="margin: 40px auto 0 auto;text-align: center;">
+              <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
+              <p class="description">卡片暂无内容</p>
+            </div>
+          </a-card>
+        </a-col>
+      </a-row>
+    </div>
+    <footer-tool-bar :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
+
+    </footer-tool-bar>
   </div>
 </template>
 
 <script>
-import { mixinDevice } from '@/utils/mixin'
+import { mixin, mixinDevice } from '@/utils/mixin'
+import FooterToolBar from '@/components/FooterToolbar'
 
 const talkData = [
 ]
 
 export default {
   name: 'Monitor',
-  mixins: [mixinDevice],
+  mixins: [mixin, mixinDevice],
   data () {
     return {
       loading: true,
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       fontSize: { fontSize: '52px' },
-      talkData: talkData
+      talkData: talkData,
+      visible: false
     }
+  },
+  components: {
+    FooterToolBar
   },
   created () {
     setTimeout(() => {
