@@ -2,6 +2,7 @@
   <!-- , width: fixedHeader ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'  -->
   <a-layout-header v-if="!headerBarFixed" :class="[fixedHeader && 'ant-header-fixedHeader', widthCalculate() ]" :style="{ padding: '0' }">
     <div v-if="mode === 'sidemenu'" class="header">
+      <!-- 侧边栏切换按钮 -->
       <a-icon
         v-if="deviceType==='mobile'"
         class="trigger"
@@ -12,8 +13,15 @@
         class="trigger"
         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
         @click="toggle"/>
+      <!-- 窗口右上角功能区域 -->
+      <div class="tools-wrapper">
+        <!-- user-wrapper -->
+        <user-menu></user-menu>
+        <span v-if="device=='tablet'" class="separation-line action">|</span>
+        <!-- option-wrapper -->
+        <window-option></window-option>
+      </div>
 
-      <user-menu></user-menu>
     </div>
     <div v-else :class="['top-nav-header-index', theme]">
       <div class="header-index-wide">
@@ -31,7 +39,11 @@
             :type="collapsed ? 'menu-fold' : 'menu-unfold'"
             @click="toggle"></a-icon>
         </div>
-        <user-menu class="header-index-right"></user-menu>
+        <div class="tools-wrapper">
+          <user-menu></user-menu>
+          <span class="separation-line action">|</span>
+          <window-option></window-option>
+        </div>
       </div>
     </div>
 
@@ -40,6 +52,7 @@
 
 <script>
 import UserMenu from '../tools/UserMenu'
+import WindowOption from '../tools/WindowOption'
 import SMenu from '../menu/'
 import Logo from '../tools/Logo'
 
@@ -49,6 +62,7 @@ export default {
   name: 'GlobalHeader',
   components: {
     UserMenu,
+    WindowOption,
     SMenu,
     Logo
   },
