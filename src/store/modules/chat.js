@@ -57,6 +57,7 @@ const chat = {
     },
     // 发送给服务器
     sendMessage: function (state, message) {
+      console.log('发送消息')
       const msg = {
         code: MessageInfoType.MSG_MESSAGE,
         message: message
