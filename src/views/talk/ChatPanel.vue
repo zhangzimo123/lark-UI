@@ -66,7 +66,7 @@
           </a-tab-pane>
         </a-tabs>
       </a-layout-sider>
-      <a-layout>
+      <a-layout style="z-index: 1">
         <div v-show="isShowWelcome">欢迎</div>
         <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
       </a-layout>
