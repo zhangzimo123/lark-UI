@@ -34,7 +34,7 @@
             </span>
             <div class="talk-box-container">
               <a-list :dataSource="chatList">
-                <a-list-item class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
+                <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
                   <a-list-item-meta :description="item.lastMessage" class="talk-item">
                     <div slot="title" :href="item.href">{{ item.name }}</div>
                     <a-avatar
@@ -67,7 +67,12 @@
         </a-tabs>
       </a-layout-sider>
       <a-layout style="z-index: 1">
-        <div v-show="isShowWelcome">欢迎</div>
+        <div v-show="isShowWelcome">
+          <div style="margin: 120px auto 0 auto;text-align: center;">
+            <a-icon type="rocket" theme="twoTone" twoToneColor="#52c41a" style="fontSize:108px" />
+            <p class="description">不要怂，一起上</p>
+          </div>
+        </div>
         <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
       </a-layout>
       <member-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
@@ -108,7 +113,8 @@ export default {
       host: conf.getHostUrl(),
       isShowPanel: false,
       isShowWelcome: true,
-      memberVisible: false
+      memberVisible: false,
+      active: ''
     }
   },
   computed: {
@@ -161,6 +167,7 @@ export default {
       this.$nextTick(() => {
         // imageLoad('message-box')
       })
+      this.active = chat.id
     },
     delChat (chat) {
       this.$store.commit('delChat', chat)
@@ -328,7 +335,19 @@ export default {
 .talk-list{
   padding: 8px 12px 8px 12px;cursor: pointer;
 }
+.active {
+   background: #e8e8e8;
+  //  border: 1px solid #e8e8e8;
+  //  color: #fff;
+ }
 .box-panel{
   height: calc(100% - 50px);
 }
+  .description{
+    margin-top: 24px;
+    color: gray;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+  }
 </style>
