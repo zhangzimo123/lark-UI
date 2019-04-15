@@ -7,7 +7,7 @@
     :width="360"
     @close="onClose"
     :visible="visible"
-    :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
+    :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px', marginTop: '64px' }"
     getContainer="#talkSetting"
   >
     <div class="talk-setting" ref="settingDrawer">

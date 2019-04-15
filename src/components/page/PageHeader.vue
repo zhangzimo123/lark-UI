@@ -1,7 +1,7 @@
 <template>
   <div class="page-header">
     <div class="page-header-index-wide">
-      <a-breadcrumb class="breadcrumb">
+      <!-- <a-breadcrumb class="breadcrumb">
         <a-breadcrumb-item v-for="(item, index) in breadList" :key="index">
           <router-link
             v-if="item.name != name && index != 1"
@@ -9,7 +9,7 @@
           >{{ item.meta.title }}</router-link>
           <span v-else>{{ item.meta.title }}</span>
         </a-breadcrumb-item>
-      </a-breadcrumb>
+      </a-breadcrumb> -->
 
       <div class="detail">
         <div class="main" v-if="!$route.meta.hiddenHeaderContent">

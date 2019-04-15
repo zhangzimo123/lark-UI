@@ -7,42 +7,34 @@
       :form="form"
       @submit="handleSubmit"
     >
-      <a-tabs
-        :activeKey="customActiveKey"
-        :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"
-        @change="handleTabClick"
-      >
-        <a-tab-pane key="tab1" tab="账号密码登陆">
-          <a-form-item>
-            <a-input
-              size="large"
-              type="text"
-              placeholder="admin"
-              v-decorator="[
-                'username',
-                {rules: [{ required: true, message: '请输入帐户名' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
-              ]"
-            >
-              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
+      <a-form-item>
+        <a-input
+          size="large"
+          type="text"
+          placeholder="admin"
+          v-decorator="[
+            'username',
+            {rules: [{ required: true, message: '请输入帐户名' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
+          ]"
+        >
+          <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+        </a-input>
+      </a-form-item>
 
-          <a-form-item>
-            <a-input
-              size="large"
-              type="password"
-              autocomplete="false"
-              placeholder="密码 / admin"
-              v-decorator="[
-                'password',
-                {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
-              ]"
-            >
-              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
-        </a-tab-pane>
-      </a-tabs>
+      <a-form-item>
+        <a-input
+          size="large"
+          type="password"
+          autocomplete="false"
+          placeholder="密码 / admin"
+          v-decorator="[
+            'password',
+            {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
+          ]"
+        >
+          <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+        </a-input>
+      </a-form-item>
 
       <a-form-item>
         <a-checkbox v-decorator="['rememberMe']">自动登陆</a-checkbox>
@@ -77,18 +69,15 @@ export default {
   },
   data () {
     return {
-      customActiveKey: 'tab1',
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
       loginType: 0,
-      stepCaptchaVisible: false,
       form: this.$form.createForm(this),
       state: {
         time: 60,
         loginBtn: false,
         // login type: 0 email, 1 username, 2 telephone
-        loginType: 0,
-        smsSendBtn: false
+        loginType: 0
       }
     }
   },
@@ -120,24 +109,17 @@ export default {
       }
       callback()
     },
-    handleTabClick (key) {
-      this.customActiveKey = key
-      // this.form.resetFields()
-    },
     handleSubmit (e) {
       e.preventDefault()
       const {
         form: { validateFields },
         state,
-        customActiveKey,
         Login
       } = this
 
       state.loginBtn = true
 
-      const validateFieldsKey = customActiveKey === 'tab1' ? ['username', 'password'] : ['mobile', 'captcha']
-
-      validateFields(validateFieldsKey, { force: true }, (err, values) => {
+      validateFields({ force: true }, (err, values) => {
         if (!err) {
           console.log('login form', values)
           const loginParams = { ...values }
@@ -148,6 +130,7 @@ export default {
             .then((res) => this.loginSuccess(res))
             // 存储用户数据
             .then(json => {
+              console.log('进来了')
               // 个人信息
               self.$store.commit('setUser', json.me)
               // 好友
@@ -156,6 +139,7 @@ export default {
               self.$store.commit('setChatGroupList', json.groups)
               // 研讨列表
               self.$store.commit('setChatBoxs', json.chatboxs)
+              console.log('出来了')
             })
             .catch(err => this.requestFailed(err), console.log('cacacacac' + err))
             .finally(() => {
@@ -168,17 +152,8 @@ export default {
         }
       })
     },
-    stepCaptchaSuccess () {
-      this.loginSuccess()
-    },
-    stepCaptchaCancel () {
-      this.Logout().then(() => {
-        this.loginBtn = false
-        this.stepCaptchaVisible = false
-      })
-    },
     loginSuccess (res) {
-      console.log(res)
+      console.log('进来了loginSuccess', res)
       this.$router.push({ name: 'Workplace' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
