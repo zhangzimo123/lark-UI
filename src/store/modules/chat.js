@@ -3,11 +3,11 @@ import { Chat, ChatListUtils, MessageInfoType, MessageTargetType, transform } fr
 import conf from '@/api/index'
 const chat = {
   state: {
-    token: {},
+    // token: {},
     // token 是否有效
-    tokenStatus: false,
+    // tokenStatus: false,
     // 当前的用户
-    user: {},
+    // user: {},
     flushLocalStore: false,
     websocket: {},
     messageListMap: new Map(),

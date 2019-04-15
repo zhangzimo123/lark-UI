@@ -69,6 +69,7 @@ export default {
   },
   data () {
     return {
+      host: '127.0.0.1',
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
       loginType: 0,
@@ -84,7 +85,7 @@ export default {
   created: function () {
     const self = this
     const host = localStorage.getItem('host')
-    if (host) {
+    if (host !== 'undefined') {
       self.host = host
     } else {
       localStorage.setItem('host', self.host)
