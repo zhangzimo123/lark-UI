@@ -13,12 +13,26 @@ export const asyncRouterMap = [
     children: [
       // dashboard
       {
-        path: '/dashboard/workplace',
-        name: 'Workplace',
-        component: () => import('@/views/dashboard/Workplace'),
-        meta: { title: '工作台', keepAlive: true, icon: 'home', permission: [ 'dashboard' ] }
+        path: '/dashboard',
+        name: 'dashboard',
+        redirect: '/dashboard/workplace',
+        component: RouteView,
+        meta: { title: '工作舱', keepAlive: true, icon: 'home', permission: [ 'dashboard' ] },
+        children: [
+          {
+            path: '/dashboard/workplace',
+            name: 'Workplace',
+            component: () => import('@/views/dashboard/Workplace'),
+            meta: { title: '数据看板', keepAlive: true, icon: 'fund', permission: [ 'dashboard' ] }
+          },
+          {
+            path: '/dashboard/monitor',
+            name: 'Analysis',
+            component: () => import('@/views/dashboard/Monitor'),
+            meta: { title: '工作台', keepAlive: false, icon: 'dashboard',  permission: [ 'dashboard' ] }
+          }
+        ]
       },
-
       // talk
       {
         path: '/talk',
@@ -213,33 +227,9 @@ export const constantRouterMap = [
         path: 'login',
         name: 'login',
         component: () => import(/* webpackChunkName: "user" */ '@/views/user/Login')
-      },
-      {
-        path: 'register',
-        name: 'register',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/Register')
-      },
-      {
-        path: 'register-result',
-        name: 'registerResult',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/RegisterResult')
       }
     ]
   },
-
-  {
-    path: '/test',
-    component: BlankLayout,
-    redirect: '/test/home',
-    children: [
-      {
-        path: 'home',
-        name: 'TestHome',
-        component: () => import('@/views/Home')
-      }
-    ]
-  },
-
   {
     path: '/404',
     component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')

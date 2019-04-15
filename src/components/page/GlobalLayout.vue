@@ -47,7 +47,7 @@
       </a-drawer>
     </template>
 
-    <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">
+    <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh', 'overflow-y': 'hidden' }">
       <!-- layout header -->
       <global-header
         :mode="layoutMode"
@@ -59,14 +59,14 @@
       />
 
       <!-- layout content -->
-      <a-layout-content :style="{ margin: $store.getters.multiTab ? '24px 24px 0' : '24px 24px 0', height: '100%', paddingTop: fixedHeader ? '64px' : '0' }">
+      <a-layout-content :style="{ margin: $store.getters.multiTab ? '0' : '0', height: '100%', paddingTop: fixedHeader ? '64px' : '0' }">
         <slot></slot>
       </a-layout-content>
 
       <!-- layout footer -->
-      <a-layout-footer style="padding: 0">
+      <!-- <a-layout-footer style="padding: 0">
         <global-footer />
-      </a-layout-footer>
+      </a-layout-footer> -->
       <setting-drawer></setting-drawer>
     </a-layout>
   </a-layout>
@@ -174,7 +174,6 @@ export default {
       filter: invert(80%);
     }
   }
-
   .layout.ant-layout {
     height: auto;
     overflow-x: hidden;

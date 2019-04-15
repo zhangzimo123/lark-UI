@@ -384,14 +384,17 @@ export default {
           self.openMessage('不能超过2000个字符')
         } else {
           const currentMessage = {
-            mine: true,
-            avatar: currentUser.avatar,
-            username: currentUser.name,
-            timestamp: time,
-            content: self.messageContent,
-            fromid: currentUser.id,
-            id: self.chat.id,
-            type: self.chat.type
+            mine: true, // 当前用户
+            avatar: currentUser.avatar, // 当前用户头像
+            username: currentUser.name, // 当前用户名称
+            timestamp: time, // 时间
+            content: self.messageContent, // 研讨内容
+            fromid: currentUser.id, // 消息来源id
+            id: self.chat.id, // 当前研讨间id
+            type: self.chat.type, // 消息类型
+            code: self.chat.code, // 消息编码
+            secret: self.chat.secret, // 消息密级
+            status: self.chat.status // 消息状态
           }
           self.send(currentMessage)
         }
