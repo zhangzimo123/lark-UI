@@ -389,12 +389,13 @@ export default {
             username: currentUser.name, // 当前用户名称
             timestamp: time, // 时间
             content: self.messageContent, // 研讨内容
+            toid: self.chat.id, // 消息目的id
             fromid: currentUser.id, // 消息来源id
             id: self.chat.id, // 当前研讨间id
             type: self.chat.type, // 消息类型
             code: self.chat.code, // 消息编码
             secret: self.chat.secret, // 消息密级
-            status: self.chat.status // 消息状态
+            status: self.chat.status // 消息状态 已读未读
           }
           self.send(currentMessage)
         }
