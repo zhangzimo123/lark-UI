@@ -289,7 +289,19 @@ export default {
 
     .header, .top-nav-header-index {
 
-      .user-wrapper {
+      // 窗口右上方功能按钮区域的整体样式
+      .tools-wrapper  {
+        height: 100%;
+        float: right;
+        display: flex;
+
+        // 分割线样式
+        .separation-line {
+          padding-right: 10px;
+          opacity: .3;
+        }
+      }
+      .user-wrapper, .option-wrapper {
         float: right;
         height: 100%;
 
@@ -319,7 +331,7 @@ export default {
       }
 
       &.dark {
-        .user-wrapper {
+        .user-wrapper, .option-wrapper {
 
           .action {
             color: rgba(255, 255, 255, 0.85);
@@ -328,6 +340,9 @@ export default {
               background: rgba(255, 255, 255, 0.16);
             }
           }
+        }
+        .separation-line {
+          color: rgba(255, 255, 255, 0.85);
         }
       }
     }
