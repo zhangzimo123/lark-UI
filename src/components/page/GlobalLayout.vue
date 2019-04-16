@@ -64,9 +64,9 @@
       </a-layout-content>
 
       <!-- layout footer -->
-      <a-layout-footer style="padding: 0">
+      <!-- <a-layout-footer style="padding: 0">
         <global-footer />
-      </a-layout-footer>
+      </a-layout-footer> -->
       <setting-drawer></setting-drawer>
     </a-layout>
   </a-layout>
