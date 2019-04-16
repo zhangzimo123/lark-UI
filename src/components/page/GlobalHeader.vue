@@ -15,10 +15,10 @@
 
       <!-- <user-menu></user-menu> -->
       <div class="tools-wrapper">
-          <user-menu></user-menu>
-          <span class="separation-line action" v-if="device=='tablet'">|</span>
-          <window-option></window-option>
-        </div>
+        <user-menu></user-menu>
+        <span class="separation-line action" v-if="device=='tablet'">|</span>
+        <window-option></window-option>
+      </div>
     </div>
     <div v-else :class="['top-nav-header-index', theme]">
       <div class="header-index-wide">
@@ -53,7 +53,6 @@ import UserMenu from '../tools/UserMenu'
 import WindowOption from '../tools/WindowOption'
 import SMenu from '../menu/'
 import Logo from '../tools/Logo'
-
 
 import { mixin, mixinDevice } from '@/utils/mixin.js'
 
