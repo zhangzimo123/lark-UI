@@ -1,6 +1,6 @@
 <template>
   <!-- , width: fixedHeader ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'  -->
-  <a-layout-header v-if="!headerBarFixed" :class="[fixedHeader && 'ant-header-fixedHeader', sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed', ]" :style="{ padding: '0' }">
+  <a-layout-header v-if="!headerBarFixed" :class="[fixedHeader && 'ant-header-fixedHeader', widthCalculate(), ]" :style="{ padding: '0' }">
     <div v-if="mode === 'sidemenu'" class="header">
       <a-icon
         v-if="deviceType==='mobile'"
@@ -114,6 +114,19 @@ export default {
     },
     toggle () {
       this.$emit('toggle')
+    },
+    // 动态计算头部宽度
+    widthCalculate () {
+      if (this.sidebarOpened) {
+        if (this.isDesktop()) {
+          return 'ant-header-side-desktop-opened'
+        }
+        if (this.isTablet()) {
+          return 'ant-header-side-tablet-opened'
+        }
+      } else {
+        return 'ant-header-side-closed'
+      }
     }
   }
 }
