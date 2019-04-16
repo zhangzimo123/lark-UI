@@ -133,11 +133,11 @@ export default {
             .then(json => {
               console.log('进来了')
               // 个人信息
-              self.$store.commit('setUser', json.me)
+              self.$store.commit('SET_USER', json.me)
               // 好友
-              self.$store.commit('setUserFriendList', json.contacts)
+              self.$store.commit('SET_USER_FRIEND_LIST', json.contacts)
               // 群
-              self.$store.commit('setChatGroupList', json.groups)
+              self.$store.commit('SET_CHAT_GROUP_LIST', json.groups)
               // 研讨列表
               self.$store.commit('setChatBoxs', json.chatboxs)
               console.log('出来了')
