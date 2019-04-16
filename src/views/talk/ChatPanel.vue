@@ -296,16 +296,16 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.talk-view {
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  margin: -24px -24px 0;
+}
 .talk-sider {
   flex-direction: column;
   background: #fff;
   height: 100%;
   border-right: 1px solid #ebebeb;
-}
-.talk-view {
-  // height: calc(100% - 64px);
-  height: 100%;
-  // margin: -24px;
 }
 .talk-layout{
   height: 100%;

@@ -41,10 +41,12 @@ export default {
 <style>
   #app {
     height: 100%;
+    overflow: hidden;
   }
 
   ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-thumb {
     background-color: #dddddd;
