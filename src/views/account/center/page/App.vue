@@ -1,6 +1,6 @@
 <template>
   <div class="app-list">
-    <a-list
+    <!-- <a-list
       :grid="{ gutter: 24, lg: 3, md: 2, sm: 1, xs: 1 }"
       :dataSource="dataSource">
       <a-list-item slot="renderItem" slot-scope="item">
@@ -52,7 +52,7 @@
           </template>
         </a-card>
       </a-list-item>
-    </a-list>
+    </a-list> -->
 
   </div>
 </template>

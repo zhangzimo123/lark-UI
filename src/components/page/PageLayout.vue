@@ -92,11 +92,11 @@ export default {
     overflow-x: hidden;
   }
   .content {
-    margin: 24px 24px 0;
-
+    // margin: 24px 24px 0;
+    margin: 6px 6px 0;
     .link {
-      margin-top: 16px;
-
+      // margin-top: 16px;
+      margin-top: 4px;
       &:not(:empty) {
         margin-bottom: 16px;
       }

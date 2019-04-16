@@ -1,7 +1,8 @@
 <template>
   <!-- , width: fixedHeader ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'  -->
-  <a-layout-header v-if="!headerBarFixed" :class="[fixedHeader && 'ant-header-fixedHeader', widthCalculate(), ]" :style="{ padding: '0' }">
+  <a-layout-header v-if="!headerBarFixed" :class="[fixedHeader && 'ant-header-fixedHeader', widthCalculate() ]" :style="{ padding: '0' }">
     <div v-if="mode === 'sidemenu'" class="header">
+      <!-- 侧边栏切换按钮 -->
       <a-icon
         v-if="deviceType==='mobile'"
         class="trigger"
@@ -12,13 +13,15 @@
         class="trigger"
         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
         @click="toggle"/>
-
-      <!-- <user-menu></user-menu> -->
+      <!-- 窗口右上角功能区域 -->
       <div class="tools-wrapper">
+        <!-- user-wrapper -->
         <user-menu></user-menu>
-        <span class="separation-line action" v-if="device=='tablet'">|</span>
+        <span v-if="device=='tablet'" class="separation-line action">|</span>
+        <!-- option-wrapper -->
         <window-option></window-option>
       </div>
+
     </div>
     <div v-else :class="['top-nav-header-index', theme]">
       <div class="header-index-wide">
