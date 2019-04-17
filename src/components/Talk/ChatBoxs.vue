@@ -69,7 +69,7 @@ export default {
       newChatList.unshift(chat)
       // 存储到localStorage 的 chatList
       ChatListUtils.setChatList(self.$store.state.user.id, chatList)
-      this.$store.commit('setChatList', newChatList)
+      this.$store.commit('SET_CHAT_LIST', newChatList)
       this.$router.push({ name: 'ChatPanel',
         query: { id: chatBox.id } })
     },

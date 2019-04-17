@@ -123,7 +123,7 @@ export default {
         return this.$store.state.chat.currentChat
       },
       set: function (currentChat) {
-        this.$store.commit('setCurrentChat', currentChat)
+        this.$store.commit('SET_CURRENT_CHAT', currentChat)
       }
     },
     chatList: {
@@ -159,9 +159,9 @@ export default {
       newChatList.unshift(firstChat)
       // 存储到localStorage 的 chatList
       ChatListUtils.setChatList(self.$store.state.user.info.id, chatList)
-      this.$store.commit('setChatList', newChatList)
+      this.$store.commit('SET_CHAT_LIST', newChatList)
 
-      this.$store.commit('resetUnRead')
+      this.$store.commit('RESET_UNREAD')
       this.currentChat = chat
       // 每次滚动到最底部
       this.$nextTick(() => {
@@ -170,7 +170,7 @@ export default {
       this.active = chat.id
     },
     delChat (chat) {
-      this.$store.commit('delChat', chat)
+      this.$store.commit('DEL_CHAT', chat)
     }
   },
   activated: function () {
@@ -181,10 +181,10 @@ export default {
     }
     // 当前研讨室
     if (self.$route.query.chat) {
-      self.$store.commit('setCurrentChat', this.$route.query.chat)
+      self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
     }
     // 重新设置chatList
-    self.$store.commit('setChatList', ChatListUtils.getChatList(self.$store.state.user.info.id))
+    self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
     // 每次滚动到最底部
     this.$nextTick(() => {
       imageLoad('message-box')
@@ -213,24 +213,24 @@ export default {
         if (message.type === MessageTargetType.FRIEND) {
           // 接受人是当前的研讨窗口
           if (String(message.fromid) === String(self.$store.state.currentChat.id)) {
-            self.$store.commit('addMessage', message)
+            self.$store.commit('ADD_MESSAGE', message)
           } else {
-            self.$store.commit('setUnReadCount', message)
-            self.$store.commit('addUnreadMessage', message)
+            self.$store.commit('SET_UNREAD_COUNT', message)
+            self.$store.commit('ADD_UNREAD_MESSAGE', message)
           }
         } else if (message.type === MessageTargetType.CHAT_GROUP) {
           // message.avatar = self.$store.state.chatMap.get(message.id);
           // 接受人是当前的研讨窗口
           if (String(message.id) === String(self.$store.state.currentChat.id)) {
             if (String(message.fromid) !== self.$store.state.user.id) {
-              self.$store.commit('addMessage', message)
+              self.$store.commit('ADD_MESSAGE', message)
             }
           } else {
-            self.$store.commit('setUnReadCount', message)
-            self.$store.commit('addUnreadMessage', message)
+            self.$store.commit('SET_UNREAD_COUNT', message)
+            self.$store.commit('ADD_UNREAD_MESSAGE', message)
           }
         }
-        self.$store.commit('setLastMessage', message)
+        self.$store.commit('SET_LAST_MESSAGE', message)
         // 每次滚动到最底部
         self.$nextTick(() => {
           imageLoad('message-box')
@@ -272,17 +272,17 @@ export default {
         })
         .then(json => {
           count = 0
-          self.$store.commit('setToken', json)
-          self.$store.commit('setTokenStatus', json)
+          self.$store.commit('SET_TOKEN', json)
+          self.$store.commit('SET_TOKEN_STATUS', json)
 
           // 清除原先的刷新缓存的定时器
-          self.$store.commit('clearFlushTokenTimerId')
+          self.$store.commit('CLEAR_FLUSH_TOKEN_TIME_ID')
           // 刷新token 定时器
           const flushTokenTimerId = setTimeout(function () {
             const api = new HttpApiUtils()
             api.flushToken(self)
           }, ((json.expires_in - 10) * 1000))
-          self.$store.commit('setFlushTokenTimerId', flushTokenTimerId)
+          self.$store.commit('SET_FLUSH_TOKEN_TIME_ID', flushTokenTimerId)
         })
         .catch(error => {
           count++
@@ -299,21 +299,21 @@ export default {
       }
     }
     // 这地方不成功，消息将不能发送
-    self.$store.commit('setWebsocket', websocketHeartbeatJs)
+    self.$store.commit('SET_WEBSOCKET', websocketHeartbeatJs)
   }
 }
 </script>
 <style lang="less" scoped>
+.talk-view {
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  margin: -24px -24px 0;
+}
 .talk-sider {
   flex-direction: column;
   background: #fff;
   height: 100%;
   border-right: 1px solid #ebebeb;
-}
-.talk-view {
-  // height: calc(100% - 64px);
-  height: 100%;
-  // margin: -24px;
 }
 .talk-layout{
   height: 100%;

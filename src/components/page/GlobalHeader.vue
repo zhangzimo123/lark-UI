@@ -39,9 +39,10 @@
             :type="collapsed ? 'menu-fold' : 'menu-unfold'"
             @click="toggle"></a-icon>
         </div>
+        <!-- <user-menu class="header-index-right"></user-menu> -->
         <div class="tools-wrapper">
           <user-menu></user-menu>
-          <span class="separation-line action">|</span>
+          <span class="separation-line action" v-if="device=='tablet'">|</span>
           <window-option></window-option>
         </div>
       </div>
