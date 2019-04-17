@@ -51,6 +51,10 @@
                 <div slot="footer">Footer</div>
               </a-list>
             </div>
+            <div v-else-if="grid.i==2">
+              <meeting></meeting>
+            </div>
+
             <div v-else style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
               <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
               <p class="description">卡片暂无内容</p>
@@ -71,7 +75,6 @@
     <div>
       <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" />
     </div>
-
   </div>
 </template>
 
@@ -84,6 +87,8 @@ import MyChatPanel from '@/components/ChatBox/MyChatPanel'
 import VueGridLayout from 'vue-grid-layout'
 import Discuss from './components/Discuss.vue'
 
+import meeting from './meeting'
+import todo from './todo'
 const talkData = [
 ]
 // 工作台看板模拟数据
@@ -93,6 +98,7 @@ var layoutCards = [
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'discuss' },
   { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'discuss' }
 ]
+// 工作台看板模拟数据
 export default {
   name: 'Monitor',
   mixins: [mixin, mixinDevice],
@@ -116,7 +122,9 @@ export default {
     // Container,
     // Draggable,
     GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem
+    GridItem: VueGridLayout.GridItem,
+    meeting,
+    todo
   },
   created () {
     setTimeout(() => {
