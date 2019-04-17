@@ -75,8 +75,6 @@ const user = {
 
           commit('SET_NAME', { name: result.name, welcome: welcome() })
           commit('SET_AVATAR', result.avatar)
-          console.log('SET_CHAT_LIST')
-          console.log(result.chat.chatList)
           commit('SET_CHAT_LIST', result.chat.chatList)
           resolve(response)
         }).catch(error => {
