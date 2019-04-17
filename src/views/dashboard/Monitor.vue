@@ -58,17 +58,27 @@
           </a-card>
         </grid-item>
       </grid-layout>
+      <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
+        <img class="myWorkShopIconImg" src="@/assets/sjs.jpg"/>
+        <span class="myWorkShopIconTitle">我的研讨厅</span>
+        <div class="myWorkShopIconInfoTip"></div>
+      </div>
     </div>
     <!--这个地方放置最近访问-->
     <footer-tool-bar :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
 
     </footer-tool-bar>
+    <div v-show="myChatPanelIsShow">
+      <my-chat-panel class="myChatPanel" />
+    </div>
+
   </div>
 </template>
 
 <script>
 import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
+import MyChatPanel from '@/components/ChatBox/MyChatPanel'
 // import { Container, Draggable } from 'vue-smooth-dnd'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
@@ -97,12 +107,14 @@ export default {
       talkData: talkData,
       visible: false,
       layout: layoutCards,
-      cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 }
+      cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
+      myChatPanelIsShow:false,
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
   components: {
     FooterToolBar,
+    MyChatPanel,
     // Container,
     // Draggable,
     GridLayout: VueGridLayout.GridLayout,
@@ -117,6 +129,10 @@ export default {
     // onDrop (dropResult) {
     //   this.items = applyDrag(this.items, dropResult)
     // }
+    openMyChatPanel(){
+      this.myChatPanelIsShow = true;
+      console.log("myChatPanelIsShow",this.myChatPanelIsShow )
+    }
   }
 }
 </script>
@@ -140,5 +156,42 @@ export default {
     font-size: 14px;
     line-height: 22px;
     text-align: center;
+  }
+  .myWorkShopIcon{
+    position: fixed;
+    bottom: 36px;
+    right: 100px;
+    z-index: 999;
+    background: rgba(105,105,105,0.75);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    padding: 5px 18px 5px 5px;
+  }
+  .myWorkShopIconImg{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+  .myWorkShopIconTitle{
+    font-size: 15px;
+    color: white;
+    margin-left: 8px;
+  }
+  .myWorkShopIconInfoTip{
+    background-color: red;
+    position: absolute;
+    z-index: 9999;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    top: 5px;
+    left: 35px;
+  }
+  .myChatPanel{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
   }
 </style>
