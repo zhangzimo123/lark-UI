@@ -308,7 +308,7 @@ export const ChatListUtils = {
     newChatList.unshift(chat)
     // 存储到localStorage 的 chatList
     this.setChatList(self.$store.state.user.id, chatList)
-    self.$store.commit('setChatList', newChatList)
+    self.$store.commit('SET_CHAT_LIST', newChatList)
     return chat
   }
 }
@@ -330,7 +330,7 @@ export const MessageTargetType = {
  */
 export function logout (self) {
   self.$store.commit('closeConnect')
-  self.$store.commit('clear')
+  self.$store.commit('CLEAR')
   self.$router.push({
     path: '/',
     params: {}
