@@ -47,7 +47,7 @@
       </a-drawer>
     </template>
 
-    <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh', 'overflow-y': 'hidden' }">
+    <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">
       <!-- layout header -->
       <global-header
         :mode="layoutMode"
@@ -59,7 +59,7 @@
       />
 
       <!-- layout content -->
-      <a-layout-content :style="{ margin: $store.getters.multiTab ? '0' : '0', height: '100%', paddingTop: fixedHeader ? '64px' : '0' }">
+      <a-layout-content :style="{ margin: $store.getters.multiTab ? '24px 24px 0' : '24px 24px 0', height: '100%', paddingTop: fixedHeader ? '64px' : '0' }">
         <slot></slot>
       </a-layout-content>
 
@@ -145,7 +145,6 @@ export default {
       this.setSidebar(!this.collapsed)
       triggerWindowResizeEvent()
     },
-    // 未用到的方法
     paddingCalc () {
       let left = ''
       if (this.sidebarOpened) {
@@ -174,6 +173,7 @@ export default {
       filter: invert(80%);
     }
   }
+
   .layout.ant-layout {
     height: auto;
     overflow-x: hidden;
@@ -249,7 +249,6 @@ export default {
         &.ant-header-side-desktop-opened {
           width: 100%;
         }
-
         &.ant-header-side-tablet-opened {
           width: 100%;
         }
@@ -294,7 +293,7 @@ export default {
         }
       }
     }
-    // 头部样式
+
     .header {
       height: 64px;
       padding: 0 12px 0 0;
@@ -320,18 +319,6 @@ export default {
       .user-wrapper, .option-wrapper {
         float: right;
         height: 100%;
-        float: right;
-        display: flex;
-
-        // 分割线样式
-        .separation-line {
-          padding-right: 10px;
-          opacity: .3;
-        }
-      }
-
-      // user-menu, window-option样式
-      .user-wrapper, .option-wrapper {
 
         .action {
           cursor: pointer;
@@ -357,18 +344,18 @@ export default {
           }
         }
       }
-      // 调整头部导航模式下的字体颜色
+
       &.dark {
         .user-wrapper, .option-wrapper {
 
-        .action {
-          color: rgba(255, 255, 255, 0.85);
+          .action {
+            color: rgba(255, 255, 255, 0.85);
 
-          &:hover {
-            background: rgba(255, 255, 255, 0.16);
+            &:hover {
+              background: rgba(255, 255, 255, 0.16);
+            }
           }
         }
-
         .separation-line {
           color: rgba(255, 255, 255, 0.85);
         }
