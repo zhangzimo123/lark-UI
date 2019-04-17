@@ -30,9 +30,6 @@ const user = {
     },
     SET_INFO: (state, info) => {
       state.info = info
-    },
-    SET_CHAT_LIST: function (state, chatList) {
-      state.chatList = chatList
     }
   },
 

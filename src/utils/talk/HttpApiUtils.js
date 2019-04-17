@@ -47,16 +47,16 @@ class HttpApiUtils {
         }
       })
       .then(json => {
-        self.$store.commit('setToken', json)
-        self.$store.commit('setTokenStatus', json)
+        self.$store.commit('SET_TOKEN', json)
+        self.$store.commit('SET_TOKEN_STATUS', json)
         // 清除原先的刷新缓存的定时器
-        self.$store.commit('clearFlushTokenTimerId')
+        self.$store.commit('CLEAR_FLUSH_TOKEN_TIME_ID')
         // 新的刷新token 定时器
         const flushTokenTimerId = setTimeout(function () {
           apiSelf.flushToken(self)
         }, ((json.expires_in - 10) * 1000))
         // 重新设置定时器
-        self.$store.commit('setFlushTokenTimerId', flushTokenTimerId)
+        self.$store.commit('SET_FLUSH_TOKEN_TIME_ID', flushTokenTimerId)
       })
       // 非常不幸，如果正好刷新token 时候网络中断，直接退出登录
       .catch(() => {
