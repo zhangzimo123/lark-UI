@@ -1,12 +1,12 @@
 <template>
-  <div class="talk-view">
+  <div class="talk-view" v-show="myChatPanelIsShow">
     <a-layout class="talk-layout">
       <a-layout-sider
         class="talk-sider"
         style="flex: 0 0 235px;max-width: 235px;min-width: 235px;width: 235px;"
       >
         <div class="talk-account-info-board">
-          <div class="talk-account-info-board-close">✖</div>
+          <div class="talk-account-info-board-close" @click="this.closeMyChatPanel">✖</div>
           <div>
             <img class="talk-account-info-board-head" src="@/assets/sjs.jpg"/>
             <div class="talk-account-info-board-online-icon"></div>
@@ -206,6 +206,9 @@ export default {
     },
     delChat (chat) {
       this.$store.commit('delChat', chat)
+    },
+    closeMyChatPanel(){
+      this.$parent.closeMyChatPanel();
     }
   },
   activated: function () {
@@ -224,6 +227,9 @@ export default {
     this.$nextTick(() => {
       imageLoad('message-box')
     })
+  },
+  props:{
+    myChatPanelIsShow: Boolean
   },
   mounted: function () {
     const self = this
@@ -350,7 +356,7 @@ export default {
   height: 524px;
   /*width: 209px;*/
   // margin: -24px;
-  /*box-shadow: 2px 2px 2px #919191;*/
+  box-shadow: -3px -1px 6px -3px #919191;
 }
 .talk-layout{
   height: 100%;

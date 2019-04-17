@@ -68,8 +68,8 @@
     <footer-tool-bar :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
 
     </footer-tool-bar>
-    <div v-show="myChatPanelIsShow">
-      <my-chat-panel class="myChatPanel" />
+    <div>
+      <my-chat-panel class="myChatPanel" v-bind:myChatPanelIsShow="myChatPanelIsShow" />
     </div>
 
   </div>
@@ -131,7 +131,9 @@ export default {
     // }
     openMyChatPanel(){
       this.myChatPanelIsShow = true;
-      console.log("myChatPanelIsShow",this.myChatPanelIsShow )
+    },
+    closeMyChatPanel(){
+      this.myChatPanelIsShow=false;
     }
   }
 }
