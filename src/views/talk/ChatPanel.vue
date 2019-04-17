@@ -1,84 +1,111 @@
 <template>
-  <div class="talk-view">
-    <a-layout class="talk-layout">
-      <a-layout-sider
-        class="talk-sider"
-        style="flex: 0 0 300px; max-width: 300px; min-width: 300px; width: 300px"
-      >
-        <div class="search-bar">
-          <a-row>
-            <a-col :span="21">
-              <a-input-search
-                placeholder="消息/联系人/群组"
-                style="width:100%"
-                size="small"
-              />
-            </a-col>
-            <a-col :span="3">
-              <a-dropdown>
-                <a-menu slot="overlay">
-                  <a-menu-item key="1" @click="$refs.model.beginTalk()">发起研讨</a-menu-item>
-                  <a-menu-item key="2">发起会议</a-menu-item>
-                </a-menu>
-                <a-button type="default" size="small" icon="plus" style="margin-left:3px">
-                </a-button>
-              </a-dropdown>
-            </a-col>
-          </a-row>
-        </div>
-        <a-tabs defaultActiveKey="1" :tabBarGutter="0" :tabBarStyle="tabStyle">
-          <a-tab-pane key="1" forceRender class="box-panel">
-            <span slot="tab">
-              <a-icon type="clock-circle" />
-              最近
-            </span>
-            <div class="talk-box-container">
-              <a-list :dataSource="chatList">
-                <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
-                  <a-list-item-meta :description="item.lastMessage" class="talk-item">
-                    <div slot="title" :href="item.href">{{ item.name }}</div>
-                    <a-avatar
-                      slot="avatar"
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    />
-                  </a-list-item-meta>
-                  <div class="talk-time">10:34</div>
-                </a-list-item>
-                <div v-if="loading && !busy" class="demo-loading-container">
-                  <a-spin/>
-                </div>
-              </a-list>
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="2" style="height:100%">
-            <span slot="tab">
-              <a-icon type="team" />
-              群组
-            </span>
-            <contacts-box/>
-          </a-tab-pane>
-          <a-tab-pane key="3" style="height:100%">
-            <span slot="tab">
-              <a-icon type="user" />
-              联系人
-            </span>
-            联系人
-          </a-tab-pane>
-        </a-tabs>
-      </a-layout-sider>
-      <a-layout style="z-index: 1">
-        <div v-show="isShowWelcome">
-          <div style="margin: 120px auto 0 auto;text-align: center;">
-            <a-icon type="rocket" theme="twoTone" twoToneColor="#52c41a" style="fontSize:108px" />
-            <p class="description">不要怂，一起上</p>
+  <!-- 研讨布局组件 -->
+  <a-layout class="talk-layout">
+    <a-layout-sider class="talk-layout-sider">
+
+      <div class="search-bar">
+        <a-input-search
+          placeholder="消息/联系人/群组"
+          size="small"
+        />
+
+        <a-dropdown>
+          <a-menu slot="overlay">
+            <a-menu-item key="1" @click="$refs.model.beginTalk()">发起研讨</a-menu-item>
+            <a-menu-item key="2">发起会议</a-menu-item>
+          </a-menu>
+          <a-button type="default" size="small" icon="plus" style="margin-left:3px">
+          </a-button>
+        </a-dropdown>
+
+      </div>
+
+      <a-tabs :activeKey="activeKey" @change="changePane" :tabBarGutter="0" :tabBarStyle="tabStyle" :animated="false">
+        <a-tab-pane key="1" forceRender>
+          <span slot="tab">
+            <a-icon type="clock-circle" style="fontSize: 20px" />
+            最近
+          </span>
+
+          <div class="recent-contacts-container tab-content-container">
+
+            <a-list :dataSource="chatList">
+              <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
+                <a-list-item-meta :description="item.lastMessage" class="talk-item">
+                  <div slot="title" :href="item.href">{{ item.name }}</div>
+                  <a-avatar
+                    slot="avatar"
+                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                  />
+                </a-list-item-meta>
+                <div class="talk-time">10:34</div>
+              </a-list-item>
+              <div v-if="loading && !busy" class="demo-loading-container">
+                <a-spin/>
+              </div>
+            </a-list>
+
+            <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+
           </div>
+        </a-tab-pane>
+
+        <a-tab-pane key="2">
+          <span slot="tab">
+            <a-icon type="team" style="fontSize: 16px" />
+            群组
+          </span>
+
+          <div class="group-contacts-container tab-content-container">
+
+            <contacts-box/>
+
+            <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+
+          </div>
+        </a-tab-pane>
+
+        <a-tab-pane key="3">
+          <span slot="tab">
+            <a-icon type="user" style="fontSize: 16px" />
+            联系人
+          </span>
+
+          <div class="contacts-container tab-content-container">
+
+            <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+
+          </div>
+        </a-tab-pane>
+      </a-tabs>
+    </a-layout-sider>
+
+    <a-layout style="z-index: 1">
+      <div v-show="isShowWelcome">
+        <div style="margin: 120px auto 0 auto;text-align: center;">
+          <a-icon type="rocket" theme="twoTone" twoToneColor="#52c41a" style="fontSize:108px" />
+          <p class="description">不要怂，一起上</p>
         </div>
-        <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
-      </a-layout>
-      <member-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
+      </div>
+      <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
     </a-layout>
-  </div>
+    <member-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
+  </a-layout>
 </template>
+
 <script>
 import infiniteScroll from 'vue-infinite-scroll'
 import UserChat from '@/components/Talk/Chat'
@@ -106,7 +133,8 @@ export default {
   },
   data () {
     return {
-      tabStyle: { marginLeft: '12px', marginRight: '12px', marginBottom: '0px' },
+      activeKey: '1',
+      tabStyle: { margin: '0 6px 0' },
       data: [],
       loading: false,
       busy: false,
@@ -136,6 +164,10 @@ export default {
     }
   },
   methods: {
+    /* 切换面板 */
+    changePane (activeKey) {
+      this.activeKey = activeKey
+    },
     handleSaveOk () {
 
     },
@@ -303,46 +335,74 @@ export default {
   }
 }
 </script>
+
 <style lang="less" scoped>
-.talk-view {
-  height: calc(100vh - 64px);
-  overflow-y: auto;
-  margin: -24px -24px 0;
-}
-.talk-sider {
-  flex-direction: column;
-  background: #fff;
-  height: 100%;
-  border-right: 1px solid #ebebeb;
-}
-.talk-layout{
-  height: 100%;
-}
-.search-bar{
-  margin: 12px 12px 6px 12px;
-}
-.talk-box-container{
-    flex: 1;
-    display: flex;
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
-    flex-direction: column;
-    background-color: #f7f7f7;
-    height: 100%;
-    border-top: 1px solid #ebebeb;
-}
-.talk-list{
-  padding: 8px 12px 8px 12px;cursor: pointer;
-}
-.active {
-   background: #e8e8e8;
-  //  border: 1px solid #e8e8e8;
-  //  color: #fff;
- }
-.box-panel{
-  height: calc(100% - 50px);
-}
+  .talk-layout{
+    // height: calc(100vh - 64px);
+    overflow-y: hidden;
+    margin: -24px -24px 0;
+  }
+
+  .talk-layout-sider {
+    // 覆盖默认样式
+    max-width: 300px !important;
+    flex: 0 0 300px !important;
+
+    background: #fff;
+    border-right: 1px solid #ebebeb;
+
+    // 聊天搜索栏样式 该部分高度为48px
+    .search-bar {
+      display: flex;
+      margin: 18px 12px 6px;
+    }
+
+    // 最近消息标签页样式
+    .recent-contacts-container {
+      flex: 1;
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      background-color: #f7f7f7;
+      border-top: 1px solid #ebebeb;
+    }
+
+    // 群组标签页样式
+    .group-contacts-container {
+
+    }
+
+    // 联系人标签页样式
+    .contacts-container {
+
+    }
+  }
+
+  // 让最近 群组 联系人tab页的内容可以滚动的样式
+  .tab-content-container {
+    overflow: hidden;
+
+    // 视窗高度-头部导航栏告诉-搜索框高度-tab页高度
+    height: calc(100vh - 64px - 48px - 46px);
+
+    &:hover {
+      overflow-y: overlay;
+    }
+
+  }
+
+  // ***************************旧样式***************
+  .talk-list{
+    padding: 8px 12px 8px 12px;cursor: pointer;
+  }
+  .active {
+     background: #e8e8e8;
+    //  border: 1px solid #e8e8e8;
+    //  color: #fff;
+   }
+  // .box-panel{
+  //   height: calc(100% - 50px);
+  // }
   .description{
     margin-top: 24px;
     color: gray;
