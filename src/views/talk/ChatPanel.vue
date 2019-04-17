@@ -29,31 +29,27 @@
 
           <div class="recent-contacts-container tab-content-container">
 
-            <!-- 这一层保证滚动条不占用内容宽度 -->
-            <div class="middle-layer-container">
+            <a-list :dataSource="chatList">
+              <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
+                <a-list-item-meta :description="item.lastMessage" class="talk-item">
+                  <div slot="title" :href="item.href">{{ item.name }}</div>
+                  <a-avatar
+                    slot="avatar"
+                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                  />
+                </a-list-item-meta>
+                <div class="talk-time">10:34</div>
+              </a-list-item>
+              <div v-if="loading && !busy" class="demo-loading-container">
+                <a-spin/>
+              </div>
+            </a-list>
 
-              <a-list :dataSource="chatList">
-                <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
-                  <a-list-item-meta :description="item.lastMessage" class="talk-item">
-                    <div slot="title" :href="item.href">{{ item.name }}</div>
-                    <a-avatar
-                      slot="avatar"
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    />
-                  </a-list-item-meta>
-                  <div class="talk-time">10:34</div>
-                </a-list-item>
-                <div v-if="loading && !busy" class="demo-loading-container">
-                  <a-spin/>
-                </div>
-              </a-list>
+            <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
 
-              <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-
-            </div>
           </div>
         </a-tab-pane>
 
@@ -65,18 +61,15 @@
 
           <div class="group-contacts-container tab-content-container">
 
-            <!-- 这一层保证滚动条不占用内容宽度 -->
-            <div class="middle-layer-container">
+            <contacts-box/>
 
-              <contacts-box/>
+            <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
 
-              <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            </div>
           </div>
         </a-tab-pane>
 
@@ -88,16 +81,13 @@
 
           <div class="contacts-container tab-content-container">
 
-            <!-- 这一层保证滚动条不占用内容宽度 -->
-            <div class="middle-layer-container">
+            <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
+            <h1>12</h1>
+            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
 
-              <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-              <h1>12</h1>
-              <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            </div>
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -396,13 +386,9 @@ export default {
     height: calc(100vh - 64px - 48px - 46px);
 
     &:hover {
-      overflow-y: auto;
+      overflow-y: overlay;
     }
 
-    // 保证滚动条不占用内容宽度
-    .middle-layer-container {
-      width: 300px;
-    }
   }
 
   // ***************************旧样式***************
