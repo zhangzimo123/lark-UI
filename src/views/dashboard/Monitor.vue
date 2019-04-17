@@ -40,8 +40,8 @@
               </template>
               <a href="#"><a-icon type="tool" /></a>
             </a-popover>
-
-            <div v-if="talkData.length!=0" class="card-content">
+            <discuss />
+            <!-- <div v-if="talkData.length!=0" class="card-content">
               <a-list
                 bordered
                 :dataSource="talkData"
@@ -54,7 +54,7 @@
             <div v-else style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
               <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
               <p class="description">卡片暂无内容</p>
-            </div>
+            </div> -->
           </a-card>
         </grid-item>
       </grid-layout>
@@ -69,7 +69,7 @@
 
     </footer-tool-bar>
     <div>
-      <my-chat-panel class="myChatPanel" v-bind:myChatPanelIsShow="myChatPanelIsShow" />
+      <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" />
     </div>
 
   </div>
@@ -82,19 +82,16 @@ import MyChatPanel from '@/components/ChatBox/MyChatPanel'
 // import { Container, Draggable } from 'vue-smooth-dnd'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
+import Discuss from './components/Discuss.vue'
 
 const talkData = [
 ]
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨信息' },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' }
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'discuss' },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'discuss' },
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'discuss' }
 ]
 export default {
   name: 'Monitor',
@@ -108,11 +105,12 @@ export default {
       visible: false,
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
-      myChatPanelIsShow:false,
+      myChatPanelIsShow: false
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
   components: {
+    Discuss,
     FooterToolBar,
     MyChatPanel,
     // Container,
@@ -129,11 +127,11 @@ export default {
     // onDrop (dropResult) {
     //   this.items = applyDrag(this.items, dropResult)
     // }
-    openMyChatPanel(){
-      this.myChatPanelIsShow = true;
+    openMyChatPanel () {
+      this.myChatPanelIsShow = true
     },
-    closeMyChatPanel(){
-      this.myChatPanelIsShow=false;
+    closeMyChatPanel () {
+      this.myChatPanelIsShow = false
     }
   }
 }
