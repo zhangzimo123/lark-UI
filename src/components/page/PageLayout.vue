@@ -1,5 +1,5 @@
 <template>
-  <div :style="!$route.meta.pageHeader ? 'margin: -6px;' : null">
+  <div :style="!$route.meta.pageHeader ? 'margin: -24px -24px 0px;' : null" class="page-layout-container">
     <!-- pageHeader , route meta hideHeader:true on hide -->
     <page-header v-if="!$route.meta.pageHeader" :title="title" :logo="logo" :avatar="avatar">
       <slot slot="action" name="action"></slot>
@@ -85,6 +85,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .page-layout-container {
+    // 使pageLayout的子组件可以正常滚动
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
   .content {
     // margin: 24px 24px 0;
     margin: 6px 6px 0;
