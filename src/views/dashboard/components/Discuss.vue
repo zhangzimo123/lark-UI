@@ -1,9 +1,9 @@
 <template>
   <div>
-    <a-row class="el-list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index">
+    <a-row class="list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index">
       <a-col :span="2" >
-        <a-badge :count="row.unreadCount">
-          <a-avatar class="discuss-avatar" :src="publicPath + 'images/index/read.png'" />
+        <a-badge :count="row.unread">
+          <a-avatar class="discuss-avatar" src="images/index/read.png" />
         </a-badge>
       </a-col>
       <a-col :span="20" class="min-width">
@@ -11,7 +11,7 @@
           <a-col :span="21">
             <span class="discuss-name">{{ row.user }}</span>
                   &nbsp;
-            <span class="discuss-msg">{{ row.content.length > 16 ? row.name.replace(/^(.{16})(.*)$/,'$1...') : row.content }}</span>
+            <span class="discuss-msg">{{ row.content.length > 16 ? row.content.replace(/^(.{16})(.*)$/,'$1...') : row.content }}</span>
           </a-col>
           <a-col :span="3">
             <span style="position: absolute;top: 10%;" class="datetime">
@@ -27,11 +27,12 @@
   </div>
 </template>
 <script>
-import { discussLatest } from '@/api/discuss'
+import { DiscussLatest } from '@/api/discuss'
 export default {
   data () {
     return {
-      unreadCount: 20,
+      size: 4,
+      unread: 20,
       list: []
     }
   },
@@ -40,10 +41,11 @@ export default {
   },
   methods: {
     fetchData () {
-      var vm = this
-      discussLatest().then(({ data, status }) => {
-        vm.list = data.content.splice(0, 4)
-        vm.unreadCount = data.total
+      const vm = this
+      // const paramter = 'size' + vm.size
+      DiscussLatest(vm.size).then((data) => {
+        vm.list = data.content
+        vm.unread = data.unread
       })
     },
     toDiscussPage () {

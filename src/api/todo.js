@@ -1,12 +1,12 @@
 import { axios } from '@/utils/request'
 
 const api = {
-  latest: '/discuss/latest'
+  latest: '/todo/latest'
 }
 
 export default api
 
-export function DiscussLatest (parameter) {
+export function TodoLatest (parameter) {
   return axios({
     url: api.latest,
     method: 'get',

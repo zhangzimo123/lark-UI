@@ -1,14 +1,14 @@
 import { axios } from '@/utils/request'
 
 const api = {
-  latest: '/discuss/latest'
+  list: '/link/list'
 }
 
 export default api
 
-export function DiscussLatest (parameter) {
+export function LinkList (parameter) {
   return axios({
-    url: api.latest,
+    url: api.list,
     method: 'get',
     params: parameter
   })
