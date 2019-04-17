@@ -40,19 +40,18 @@
               </template>
               <a href="#"><a-icon type="tool" /></a>
             </a-popover>
-
-            <!--<div v-if="talkData.length!=0" class="card-content">-->
-            <!--<a-list-->
-            <!--bordered-->
-            <!--:dataSource="talkData"-->
-            <!--&gt;-->
-            <!--<a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>-->
-            <!--<div slot="header">Header</div>-->
-            <!--<div slot="footer">Footer</div>-->
-            <!--</a-list>-->
-            <!--</div>-->
-            <div v-if="grid.i==1">
-              <todo></todo>
+            <discuss v-if="grid.is === 'discuss'" />
+            <todo v-else-if="grid.is === 'todo'" />
+            <resource v-else-if="grid.is === 'resource'" />
+            <!-- <div v-if="talkData.length!=0" class="card-content">
+              <a-list
+                bordered
+                :dataSource="talkData"
+              >
+                <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
+                <div slot="header">Header</div>
+                <div slot="footer">Footer</div>
+              </a-list>
             </div>
             <div v-else-if="grid.i==2">
               <meeting></meeting>
@@ -61,7 +60,7 @@
             <div v-else style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
               <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
               <p class="description">卡片暂无内容</p>
-            </div>
+            </div> -->
           </a-card>
         </grid-item>
       </grid-layout>
@@ -73,35 +72,34 @@
     </div>
     <!--这个地方放置最近访问-->
     <footer-tool-bar :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-
+      <link-footer />
     </footer-tool-bar>
     <div>
-      <my-chat-panel class="myChatPanel" v-bind:myChatPanelIsShow="myChatPanelIsShow" />
+      <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" />
     </div>
   </div>
 </template>
 
 <script>
+import './components/style.css'
 import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
 import MyChatPanel from '@/components/ChatBox/MyChatPanel'
 // import { Container, Draggable } from 'vue-smooth-dnd'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
-import meeting from './meeting'
-import todo from './todo'
-const talkData = []
+import Discuss from './components/Discuss.vue'
+import Todo from './components/Todo.vue'
+import Resource from './components/Resource.vue'
+import LinkFooter from './components/Link.vue'
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨信息' },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的会议' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' }
-  // { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  // { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' },
-  // { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  // { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' }
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo' },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting' },
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource' }
 ]
+// 工作台看板模拟数据
 export default {
   name: 'Monitor',
   mixins: [mixin, mixinDevice],
@@ -110,23 +108,24 @@ export default {
       loading: true,
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       fontSize: { fontSize: '52px' },
-      talkData: talkData,
       visible: false,
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
-      myChatPanelIsShow:false,
+      myChatPanelIsShow: false
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
   components: {
+    Discuss,
+    Todo,
+    Resource,
+    LinkFooter,
     FooterToolBar,
     MyChatPanel,
     // Container,
     // Draggable,
     GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem,
-    meeting,
-    todo
+    GridItem: VueGridLayout.GridItem
   },
   created () {
     setTimeout(() => {
@@ -137,11 +136,11 @@ export default {
     // onDrop (dropResult) {
     //   this.items = applyDrag(this.items, dropResult)
     // }
-    openMyChatPanel(){
-      this.myChatPanelIsShow = true;
+    openMyChatPanel () {
+      this.myChatPanelIsShow = true
     },
-    closeMyChatPanel(){
-      this.myChatPanelIsShow=false;
+    closeMyChatPanel () {
+      this.myChatPanelIsShow = false
     }
   }
 }

@@ -29,7 +29,7 @@ export const asyncRouterMap = [
             path: '/dashboard/monitor',
             name: 'Analysis',
             component: () => import('@/views/dashboard/Monitor'),
-            meta: { title: '工作台', keepAlive: false, icon: 'dashboard',  permission: [ 'dashboard' ] }
+            meta: { title: '工作台', keepAlive: false, icon: 'dashboard', permission: [ 'dashboard' ] }
           }
         ]
       },
