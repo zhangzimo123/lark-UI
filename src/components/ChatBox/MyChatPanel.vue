@@ -372,7 +372,7 @@ export default {
     overflow-y: auto;
     flex-direction: column;
     background-color: white;
-    height: 100%;
+    height: 89%;
     border-top: 1px solid #ebebeb;
 }
 .talk-list{
