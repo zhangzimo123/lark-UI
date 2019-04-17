@@ -1,14 +1,20 @@
 import { axios } from '@/utils/request'
 
 const api = {
-  meeting: '/index/meeting'
+  meeting: '/index/meeting',
+  todos: '/index/todos'
 }
 export default api
-export function getMeetings (parameter) {
+export function getMeetings () {
   return axios({
     url: api.meeting,
-    method: 'get',
-    params: parameter
+    method: 'get'
+  })
+}
+export function getTodos () {
+  return axios({
+    url: api.todos,
+    method: 'get'
   })
 }
 
