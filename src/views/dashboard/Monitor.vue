@@ -41,16 +41,23 @@
               <a href="#"><a-icon type="tool" /></a>
             </a-popover>
 
-            <div v-if="talkData.length!=0" class="card-content">
-              <a-list
-                bordered
-                :dataSource="talkData"
-              >
-                <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
-                <div slot="header">Header</div>
-                <div slot="footer">Footer</div>
-              </a-list>
+            <!--<div v-if="talkData.length!=0" class="card-content">-->
+            <!--<a-list-->
+            <!--bordered-->
+            <!--:dataSource="talkData"-->
+            <!--&gt;-->
+            <!--<a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>-->
+            <!--<div slot="header">Header</div>-->
+            <!--<div slot="footer">Footer</div>-->
+            <!--</a-list>-->
+            <!--</div>-->
+            <div v-if="grid.i==1">
+              <todo></todo>
             </div>
+            <div v-else-if="grid.i==2">
+              <meeting></meeting>
+            </div>
+
             <div v-else style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
               <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
               <p class="description">卡片暂无内容</p>
@@ -58,43 +65,33 @@
           </a-card>
         </grid-item>
       </grid-layout>
-      <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
-        <img class="myWorkShopIconImg" src="@/assets/sjs.jpg"/>
-        <span class="myWorkShopIconTitle">我的研讨厅</span>
-        <div class="myWorkShopIconInfoTip"></div>
-      </div>
     </div>
     <!--这个地方放置最近访问-->
     <footer-tool-bar :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
 
     </footer-tool-bar>
-    <div>
-      <my-chat-panel class="myChatPanel" v-bind:myChatPanelIsShow="myChatPanelIsShow" />
-    </div>
-
   </div>
 </template>
 
 <script>
 import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
-import MyChatPanel from '@/components/ChatBox/MyChatPanel'
 // import { Container, Draggable } from 'vue-smooth-dnd'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
-
-const talkData = [
-]
+import meeting from './meeting'
+import todo from './todo'
+const talkData = []
 // 工作台看板模拟数据
 var layoutCards = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨信息' },
   { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的会议' },
   { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' }
+  // { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
+  // { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' },
+  // { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
+  // { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' }
 ]
 export default {
   name: 'Monitor',
@@ -107,18 +104,18 @@ export default {
       talkData: talkData,
       visible: false,
       layout: layoutCards,
-      cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
-      myChatPanelIsShow:false,
+      cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 }
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
   components: {
     FooterToolBar,
-    MyChatPanel,
     // Container,
     // Draggable,
     GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem
+    GridItem: VueGridLayout.GridItem,
+    meeting,
+    todo
   },
   created () {
     setTimeout(() => {
@@ -129,12 +126,6 @@ export default {
     // onDrop (dropResult) {
     //   this.items = applyDrag(this.items, dropResult)
     // }
-    openMyChatPanel(){
-      this.myChatPanelIsShow = true;
-    },
-    closeMyChatPanel(){
-      this.myChatPanelIsShow=false;
-    }
   }
 }
 </script>
@@ -158,42 +149,5 @@ export default {
     font-size: 14px;
     line-height: 22px;
     text-align: center;
-  }
-  .myWorkShopIcon{
-    position: fixed;
-    bottom: 36px;
-    right: 100px;
-    z-index: 999;
-    background: rgba(105,105,105,0.75);
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    padding: 5px 18px 5px 5px;
-  }
-  .myWorkShopIconImg{
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-  }
-  .myWorkShopIconTitle{
-    font-size: 15px;
-    color: white;
-    margin-left: 8px;
-  }
-  .myWorkShopIconInfoTip{
-    background-color: red;
-    position: absolute;
-    z-index: 9999;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    top: 5px;
-    left: 35px;
-  }
-  .myChatPanel{
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 999;
   }
 </style>
