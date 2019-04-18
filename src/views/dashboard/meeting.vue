@@ -1,18 +1,48 @@
 <template>
   <div>
-    <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
-      <a-tag :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-      <span>{{ row.name.length> 24 ? row.content.replace(/^(.{22})(.*)$/,'$1...') : row.content }}</span>
-      <span class="right">{{ row.date }}</span>
-    </a-row>
+    <a-card
+      :headStyle="headStyle"
+      :bordered="true"
+      :style="{ minHeight: '300px'}">
+      <div slot="title">
+        <a-row>
+          <a-col>
+            {{ title }}
+            <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
+          </a-col>
+        </a-row>
+      </div>
+      <a-popover
+        placement="left"
+        slot="extra"
+        trigger="click">
+        <template slot="content">
+          <a>移除卡片</a>
+        </template>
+        <a href="#">
+          <a-icon type="tool"/>
+        </a>
+      </a-popover>
+      <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
+        <a-tag :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
+        <span>{{ row.name.length> 24 ? row.content.replace(/^(.{22})(.*)$/,'$1...') : row.content }}</span>
+        <span class="right">{{ row.date }}</span>
+      </a-row>
+      <div v-if="list.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
+        <a-icon type="file-exclamation" theme="twoTone" :style="fontSize"/>
+        <p class="description">卡片暂无内容</p>
+      </div>
+    </a-card>
   </div>
 </template>
 <script>
 import { getMeetings } from '../../api/dashboard'
+import categoryTools from './category-tools'
 
 export default {
   data () {
     return {
+      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       title: '会议室',
       showTableHeader: true,
       selectedType: 0,
@@ -53,20 +83,25 @@ export default {
     }
   },
   components: {
-    getMeetings
+    getMeetings,
+    categoryTools
   },
   created () {
     this.fetchData()
     this.setToolStatus()
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    fetchData () {
+    fetchData (type) {
+      if (type === undefined) {
+        type = 0
+      }
       var vm = this
-      getMeetings().then((data, status) => {
-        console.log(data)
-        vm.list = [].concat(data.content.splice(0, 6))
+      getMeetings(type).then((data, status) => {
+        vm.list = data.content.filter(item => {
+          return item.type === type || type === 0
+        })
+        // vm.list = [].concat(data.content.splice(0, 6))
       })
     },
     setToolStatus () {
@@ -88,11 +123,12 @@ export default {
 }
 </script>
 <style scoped>
- .right {
+  .right {
     float: right;
     margin-right: 3px;
   }
-  .row-magin{
+
+  .row-magin {
     margin-bottom: 12px;
   }
 </style>

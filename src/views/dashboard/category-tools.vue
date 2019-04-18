@@ -1,9 +1,15 @@
 <template>
   <span class="el-card-tools">
-    <a-radio-group v-if="!editing" v-model="selected" @on-change="selectedChanged" type="button" size="small">
-      <a-radio-button v-if="showAll" :label="0">全部</a-radio-button>
-      <a-radio-button v-for="type in showArray" :label="type.type" :key="'a-radio-button-'+type.type">{{ type.name }}</a-radio-button>
-      <a-radio-button v-if="editable" :label="-1">
+    <a-radio-group
+      v-if="!editing"
+      defaultValue="0"
+      v-model="selected"
+      @change="selectedChanged"
+      type="button"
+      size="small">
+      <a-radio-button v-if="showAll" :value="0">全部</a-radio-button>
+      <a-radio-button v-for="type in showArray" :value="type.type" :key="'a-radio-button-'+type.type">{{ type.name }}</a-radio-button>
+      <a-radio-button v-if="editable" :value="-1">
         <a-icon type="tool" />
       </a-radio-button>
     </a-radio-group>

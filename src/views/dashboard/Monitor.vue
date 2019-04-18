@@ -58,7 +58,7 @@ import SearchWindow from '@/components/ChatBox/SearchWindow'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
 import Discuss from './components/Discuss.vue'
-import Todo from './todo.vue'
+import Todo from './components/Todo.vue'
 import Resource from './components/Resource.vue'
 import LinkFooter from './components/Link.vue'
 import MeetingTest from './meeting.vue'
@@ -82,7 +82,7 @@ export default {
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
       myChatPanelIsShow: false,
-      searchWindowIsShow: false,
+      searchWindowIsShow: false
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
@@ -98,8 +98,8 @@ export default {
     // Draggable,
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
-//    meeting,
-//    todo,
+    //    meeting,
+    //    todo,
     SearchWindow
   },
   created () {

@@ -5,16 +5,18 @@ const api = {
   todos: '/index/todos'
 }
 export default api
-export function getMeetings () {
+export function getMeetings (parameter) {
   return axios({
     url: api.meeting,
-    method: 'get'
+    method: 'get',
+    params: parameter
   })
 }
-export function getTodos () {
+export function getTodos (parameter) {
   return axios({
     url: api.todos,
-    method: 'get'
+    method: 'get',
+    params: parameter
   })
 }
 
