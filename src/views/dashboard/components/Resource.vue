@@ -10,14 +10,14 @@
       </a-col>
       <a-col :span="10">
         <span class="ivu-content-row-font">计算资源列表</span>
-        <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in cardList" :key="'item'+index">
+        <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in list" :key="'item'+index">
           <i class="ivu-tag-dot-inner ivu-tag-dot-inner-resource" ></i>
-          <span class="resource-list">{{ row.content.length > 12 ? row.name.replace(/^(.{10})(.*)$/,'$1...') : row.content }}</span>
+          <span class="resource-list">{{ row.name }}</span>
         </a-row>
       </a-col>
     </a-row>
     <a-row :gutter="5" v-else>
-      <a-col :span="8" v-for="(item,index) in cardList" :key="'col-item-'+index">
+      <a-col :span="8" v-for="(item,index) in list" :key="'col-item-'+index">
         <a-card>
           <div style="height:60px;text-align:center;">
             <img :src="publicPath + 'images/index/expert1.jpg'" style="max-width:60%;max-height:60px;">
@@ -62,13 +62,6 @@ export default {
       }
     }
   },
-  computed: {
-    cardList () {
-      return this.list.filter((item, index) => {
-        return index < 6
-      })
-    }
-  },
   filters: {
     status (status) {
       switch (status) {
@@ -90,7 +83,7 @@ export default {
   },
   created () {
     this.fetchData()
-    this.fetchChartData()
+    this.fetchStat()
   },
   methods: {
     fetchData (type) {
@@ -103,12 +96,12 @@ export default {
         vm.total = data.total
       })
     },
-    fetchChartData (type) {
+    fetchStat (type) {
       if (type === undefined) {
         type = 1
       }
       var vm = this
-      ResourceStat(type).then(({ data, status }) => {
+      ResourceStat(type).then((data) => {
         vm.chartData.data = data.content
         /* ECharts图表 */
         var myChart = echarts.init(document.getElementById('myChartR'))

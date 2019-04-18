@@ -1,26 +1,22 @@
 <template>
-  <div>
-    <a-row class="list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index">
-      <a-col :span="2" >
+  <div class="ant-card-body-inner">
+    <a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index">
+      <a-col :span="2" class="discuss-avatar">
         <a-badge :count="row.unread">
-          <a-avatar class="discuss-avatar" src="images/index/read.png" />
+          <a-avatar src="~@/assets/logo.svg" />
         </a-badge>
       </a-col>
       <a-col :span="20" class="min-width">
         <a-row :gutter="5">
           <a-col :span="21">
             <span class="discuss-name">{{ row.user }}</span>
-                  &nbsp;
-            <span class="discuss-msg">{{ row.content.length > 16 ? row.content.replace(/^(.{16})(.*)$/,'$1...') : row.content }}</span>
           </a-col>
           <a-col :span="3">
-            <span style="position: absolute;top: 10%;" class="datetime">
-              <span>{{ row.time }}</span>
-            </span>
-            <!--<div>-->
-            <!--<i-button size="small">回复</i-button>-->
-            <!--</div>-->
+            <span class="datetime">{{ row.time }}</span>
           </a-col>
+        </a-row>
+        <a-row>
+          <span class="discuss-msg">{{ row.content }}</span>
         </a-row>
       </a-col>
     </a-row>
@@ -55,7 +51,13 @@ export default {
 }
 </script>
 <style scoped>
-.rightAngle {
-  border-radius: 0px 0px 0px 0px;
+.discuss-avatar{
+  padding: 5px;
+}
+.discuss-name{
+  font-weight: 500;
+}
+.discuss-msg{
+
 }
 </style>

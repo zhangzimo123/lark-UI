@@ -13,9 +13,12 @@
     overflow: hidden;
     display: inline-block;
   }
-  .list-item {
-    padding: 5px !important;
-    margin-left: 10px !important;
+  .ant-card-body-inner{
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .ant-card-list-item {
+    padding: 5px 0 5px 0 !important;
   }
 
   .row-title {

@@ -1,12 +1,15 @@
 <template>
   <a-row>
-    <a-col :span="1" v-for="(item,index) in list" :key="'link-'+index">
-      <a-card hoverable style="width:40px;">
-        <img slot="cover" :alt="item.name" :src="item.img"/>
-        <a-card-meta :title="item.title">
-          <template slot="description">{{ item.description }}</template>
-        </a-card-meta>
-      </a-card>
+    <a-col :span="2" v-for="(item,index) in list" :key="'link-'+index" @click="openLink(item)">
+      <a :href="item.link" target="_blank">
+        <a-card hoverable class="link-ant-card">
+          <img slot="cover" :title="item.name" src="~@/assets/logo.svg" style="height:40px;"/>
+          <span>{{ item.name }}</span>
+        <!-- <a-card-meta :title="item.name" :description="item.description" style="backgrounp:blue;"> -->
+        <!-- <template slot="description">{{ item.description }}</template> -->
+        <!-- </a-card-meta> -->
+        </a-card>
+      </a>
     </a-col>
   </a-row>
 </template>
@@ -31,7 +34,17 @@ export default {
           vm.list = [].concat(data.content)
           vm.total = data.total
         })
+    },
+    openLink (row) {
     }
   }
 }
 </script>
+<style>
+.link-ant-card >
+div.ant-card-body{
+  width:120px;
+  padding: 5px 3px 2px 5px !important;
+  text-align: center;
+}
+</style>
