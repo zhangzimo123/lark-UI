@@ -1,5 +1,5 @@
 <template>
-  <div class="search-window-style">
+  <div class="search-window-style" v-show="searchWindowIsShow">
     <div class="search-window-left-part">
       <div class="search-input-box">
         <a-input class="search-input" placeholder="搜索群成员" v-model="searchKeyWords" @change="searchValueChange">
@@ -33,7 +33,7 @@
       <!--<div class="sureBtn">确认</div>-->
       <div class="foot-btn-box">
         <a-button class="sureBtn">确认</a-button>
-        <a-button class="cancelBtn">取消</a-button>
+        <a-button class="cancelBtn" @click="closeSearchWindow">取消</a-button>
       </div>
     </div>
   </div>
@@ -119,6 +119,9 @@ export default {
       searchKeyWords:""
     }
   },
+  props:{
+    searchWindowIsShow:false,
+  },
   methods: {
     onSelect (selectedKeys, info) {
       console.log('selected', selectedKeys, info)
@@ -142,6 +145,9 @@ export default {
         }
       }
       console.log("arr",arr);
+    },
+    closeSearchWindow(){
+      this.$parent.closeSearchWindow();
     }
   }
 }
@@ -155,11 +161,16 @@ export default {
     color: #666666;
   }
   .search-window-style{
-    /*background-color: white;*/
+    background-color: white;
     box-shadow: -3px -1px 6px -3px #919191;
     padding: 0 7px 0px 7px;
     /*width: 406px;*/
     height: 481px;
+    float: left;
+    position: absolute;
+    z-index: 999;
+    top: 200px;
+    right: 500px;
   }
   .search-window-style .ant-input{
     background-color: #EEEEEE!important;

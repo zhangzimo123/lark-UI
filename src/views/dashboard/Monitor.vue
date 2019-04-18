@@ -25,44 +25,10 @@
           :w="grid.w"
           :h="grid.h"
           :i="grid.i">
-          <a-card
-            :headStyle="headStyle"
-            :loading="loading"
-            :bordered="true"
-            :title="grid.title"
-            :style="{ minHeight: '300px' }">
-            <a-popover
-              placement="left"
-              slot="extra"
-              trigger="click">
-              <template slot="content">
-                <a>移除卡片</a>
-              </template>
-              <a href="#"><a-icon type="tool" /></a>
-            </a-popover>
-            <discuss v-if="grid.is === 'discuss'" />
-            <todo v-else-if="grid.is === 'todo'" />
-            <resource v-else-if="grid.is === 'resource'" />
-            <meeting-test v-else-if="grid.is === 'meeting'" />
-            <!-- <div v-if="talkData.length!=0" class="card-content">
-              <a-list
-                bordered
-                :dataSource="talkData"
-              >
-                <a-list-item slot="renderItem" slot-scope="item">{{ item }}</a-list-item>
-                <div slot="header">Header</div>
-                <div slot="footer">Footer</div>
-              </a-list>
-            </div>
-            <div v-else-if="grid.i==2">
-              <meeting></meeting>
-            </div>
-
-            <div v-else style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
-              <a-icon type="file-exclamation" theme="twoTone" :style="fontSize" />
-              <p class="description">卡片暂无内容</p>
-            </div> -->
-          </a-card>
+          <discuss :headStyle="headStyle" :loading="loading" v-if="grid.is === 'discuss'" />
+          <todo :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'todo'" />
+          <resource :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'resource'" />
+          <meeting-test :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'meeting'" />
         </grid-item>
       </grid-layout>
       <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
@@ -77,6 +43,7 @@
     </footer-tool-bar>
     <div>
       <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" />
+      <search-window :searchWindowIsShow="searchWindowIsShow" />
     </div>
   </div>
 </template>
@@ -86,6 +53,7 @@ import './components/style.css'
 import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
 import MyChatPanel from '@/components/ChatBox/MyChatPanel'
+import SearchWindow from '@/components/ChatBox/SearchWindow'
 // import { Container, Draggable } from 'vue-smooth-dnd'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
@@ -113,7 +81,8 @@ export default {
       visible: false,
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
-      myChatPanelIsShow: false
+      myChatPanelIsShow: false,
+      searchWindowIsShow: false,
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
@@ -128,7 +97,10 @@ export default {
     // Container,
     // Draggable,
     GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem
+    GridItem: VueGridLayout.GridItem,
+//    meeting,
+//    todo,
+    SearchWindow
   },
   created () {
     setTimeout(() => {
@@ -144,6 +116,12 @@ export default {
     },
     closeMyChatPanel () {
       this.myChatPanelIsShow = false
+    },
+    openSearchWindow () {
+      this.searchWindowIsShow = true
+    },
+    closeSearchWindow () {
+      this.searchWindowIsShow = false
     }
   }
 }

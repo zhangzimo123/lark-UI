@@ -81,7 +81,7 @@
           </a-tab-pane>
         </a-tabs>
         <div class="talk-foot-background">
-          <img class="talk-foot-search" src="@/assets/search.png"/>
+          <img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow"  />
           <img class="talk-foot-add"src="@/assets/add.png"/>
         </div>
       </a-layout-sider>
@@ -209,6 +209,9 @@ export default {
     },
     closeMyChatPanel(){
       this.$parent.closeMyChatPanel();
+    },
+    openSearchWindow(){
+      this.$parent.openSearchWindow();
     }
   },
   activated: function () {
