@@ -43,6 +43,7 @@
             <discuss v-if="grid.is === 'discuss'" />
             <todo v-else-if="grid.is === 'todo'" />
             <resource v-else-if="grid.is === 'resource'" />
+            <meeting-test v-else-if="grid.is === 'meeting'" />
             <!-- <div v-if="talkData.length!=0" class="card-content">
               <a-list
                 bordered
@@ -89,9 +90,10 @@ import MyChatPanel from '@/components/ChatBox/MyChatPanel'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
 import Discuss from './components/Discuss.vue'
-import Todo from './components/Todo.vue'
+import Todo from './todo.vue'
 import Resource from './components/Resource.vue'
 import LinkFooter from './components/Link.vue'
+import MeetingTest from './meeting.vue'
 // 工作台看板模拟数据
 var layoutCards = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
@@ -120,6 +122,7 @@ export default {
     Todo,
     Resource,
     LinkFooter,
+    MeetingTest,
     FooterToolBar,
     MyChatPanel,
     // Container,
