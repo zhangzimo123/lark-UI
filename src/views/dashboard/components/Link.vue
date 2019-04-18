@@ -42,16 +42,16 @@ export default {
 </script>
 <style>
 .link-ant-card{
-  width:100px;
+  width:96px;
 }
 .link-ant-card >
 div.ant-card-body{
-  padding: 5px 3px 2px 5px !important;
+  background-color: royalblue;
+  padding: 0px 3px 3px 3px !important;
   text-align: center;
   font-weight: 600;
-  background-color: royalblue;
 }
 .link-ant-card-img{
-  height: 41px;
+  height: 48px;
 }
 </style>
