@@ -5,7 +5,7 @@
     :loading="loading"
     :bordered="true"
     :style="{ minHeight: '300px' }">
-    <a-row slot="extra" style="width:240px;">
+    <a-row slot="extra" style="width:450px;">
       <a-col :span="20">
         <a-radio-group v-model="selectedType" size="small" @change="fetchData">
           <a-radio-button :value="0">全部</a-radio-button>

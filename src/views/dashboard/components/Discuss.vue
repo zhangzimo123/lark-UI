@@ -5,28 +5,30 @@
     :loading="loading"
     :bordered="true"
     :style="{ minHeight: '300px' }">
-    <a-popover
-      placement="left"
-      slot="extra"
-      trigger="click">
-      <template slot="content">
-        <a>移除卡片</a>
-      </template>
-      <a href="#"><a-icon type="tool" /></a>
-    </a-popover>
+    <div slot="extra" style="width:450px;">
+      <span class="left">({{ unread }}条未读消息)</span>
+      <a-popover
+        placement="left"
+        trigger="click">
+        <template slot="content">
+          <a>移除卡片</a>
+        </template>
+        <a class="right" href="#"><a-icon type="tool" /></a>
+      </a-popover>
+    </div>
     <a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index">
-      <a-col :span="2" class="discuss-avatar">
+      <a-col :span="3" class="discuss-avatar">
         <a-badge :count="row.unread">
           <a-avatar :src="row.avatar" />
         </a-badge>
       </a-col>
-      <a-col :span="20" class="min-width">
+      <a-col :span="21" class="min-width">
         <a-row :gutter="5">
           <a-col :span="21">
             <span class="discuss-name">{{ row.user }}</span>
           </a-col>
           <a-col :span="3">
-            <span class="datetime">{{ row.time }}</span>
+            <span class="datetime right">{{ row.time }}</span>
           </a-col>
         </a-row>
         <a-row>

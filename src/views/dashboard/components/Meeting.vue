@@ -17,7 +17,7 @@
           <i class="ivu-tag-dot-inner"></i>
           <Tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</Tag>
           <span class="row-content as-link meeting-content" @click="visibleDetails">{{ row.name }}</span>
-          <span class="row-date right">{{ row.date }}</span>
+          <span class="datetime right">{{ row.date }}</span>
           <Modal title="详细信息" v-model="meetingDetails" :footer-hide="false" :styles="{top: '20%'}">
             <p>{{ row.name }}</p>
           </Modal>
