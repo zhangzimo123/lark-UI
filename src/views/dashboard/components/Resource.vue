@@ -48,6 +48,7 @@ export default {
         { type: 2, name: '人员资源', show: true },
         { type: 3, name: '其他', show: true }
       ],
+      size: 6,
       list: [],
       total: 0,
       chartData: {
@@ -91,7 +92,7 @@ export default {
         type = 1
       }
       var vm = this
-      ResourceLatest(type).then((data) => {
+      ResourceLatest([vm.size, type]).then((data) => {
         vm.list = [].concat(data.content)
         vm.total = data.total
       })
