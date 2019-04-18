@@ -1,6 +1,7 @@
 <template>
-  <!-- 研讨布局组件 -->
+  <!-- 研讨布局 -->
   <a-layout class="talk-layout">
+
     <a-layout-sider class="talk-layout-sider">
 
       <div class="search-bar">
@@ -23,12 +24,13 @@
       <a-tabs :activeKey="activeKey" @change="changePane" :tabBarGutter="0" :tabBarStyle="tabStyle" :animated="false">
         <a-tab-pane key="1" forceRender>
           <span slot="tab">
-            <a-icon type="clock-circle" style="fontSize: 20px" />
+            <a-icon type="clock-circle" style="fontSize: 18px" />
             最近
           </span>
 
           <div class="recent-contacts-container tab-content-container">
 
+            <!-- TODO: 待封装 -->
             <a-list :dataSource="chatList">
               <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
                 <a-list-item-meta :description="item.lastMessage" class="talk-item">
@@ -45,64 +47,68 @@
               </div>
             </a-list>
 
-            <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-
           </div>
         </a-tab-pane>
 
         <a-tab-pane key="2">
           <span slot="tab">
-            <a-icon type="team" style="fontSize: 16px" />
+            <a-icon type="team" style="fontSize: 18px" />
             群组
           </span>
 
           <div class="group-contacts-container tab-content-container">
-
             <contacts-box/>
-
-            <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-
           </div>
         </a-tab-pane>
 
         <a-tab-pane key="3">
           <span slot="tab">
-            <a-icon type="user" style="fontSize: 16px" />
+            <a-icon type="user" style="fontSize: 18px" />
             联系人
           </span>
 
           <div class="contacts-container tab-content-container">
-
-            <h1 style="text-align: center;">12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
-            <h1>12</h1>
-            <h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1><h1>12</h1>
 
           </div>
         </a-tab-pane>
       </a-tabs>
     </a-layout-sider>
 
-    <a-layout style="z-index: 1">
-      <div v-show="isShowWelcome">
+    <a-layout class="talk-layout-content">
+      <!--
+      根据左侧选择的tab页，右侧展示对应的组件内容
+      所以右侧也需要写三个组件 分别是：聊天组件， 群组信息组件， 联系人信息组件
+        1). 聊天组件： 直接进行聊天的界面
+        2). 群组信息组件： 展示群组信息，有直接跳转到聊天界面的按钮
+        3). 联系人信息组件： 展示联系人信息，有直接跳转到聊天界面的按钮
+      情景描述：
+        用户未选中查看左侧列表中的某一项时，右侧显示对应的欢迎页；
+        用户选中后直接展示对应的信息，并高亮选中项；
+        选中项的值可以统一记录在本组件中
+      -->
+      <!-- <div v-show="isShowWelcome">
         <div style="margin: 120px auto 0 auto;text-align: center;">
           <a-icon type="rocket" theme="twoTone" twoToneColor="#52c41a" style="fontSize:108px" />
           <p class="description">不要怂，一起上</p>
         </div>
+      </div> -->
+
+      <div v-show="activeKey == '1'" class="chat-area">
+        <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
       </div>
-      <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
+
+      <div v-show="activeKey == '2'" class="group-info-area">
+        <group-info :selected="selectedGroup"></group-info>
+      </div>
+
+      <div v-show="activeKey == '3'" class="contacts-info-area">
+        <contacts-info :selected="selectedContacts"></contacts-info>
+      </div>
+
     </a-layout>
+
     <member-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
+
   </a-layout>
 </template>
 
@@ -110,6 +116,8 @@
 import infiniteScroll from 'vue-infinite-scroll'
 import UserChat from '@/components/Talk/Chat'
 import ContactsBox from '@/components/Talk/Contacts'
+import ContactsInfo from '@/components/Talk/ContactsInfo'
+import GroupInfo from '@/components/Talk/GroupInfo'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
 import MemberModel from '@/components/Talk/contacts/MemberBox'
 import {
@@ -128,6 +136,8 @@ export default {
   name: 'ChatPanel',
   components: {
     ContactsBox,
+    ContactsInfo,
+    GroupInfo,
     UserChat,
     MemberModel
   },
@@ -142,7 +152,10 @@ export default {
       isShowPanel: false,
       isShowWelcome: true,
       memberVisible: false,
-      active: ''
+      active: '',
+      // record current contacts/group
+      selectedContacts: {},
+      selectedGroup: {}
     }
   },
   computed: {
@@ -376,19 +389,23 @@ export default {
     .contacts-container {
 
     }
+
+    // 让最近 群组 联系人tab页的内容可以滚动的样式
+    .tab-content-container {
+      overflow: hidden;
+
+      // 视窗高度-头部导航栏告诉-搜索框高度-tab页高度
+      height: calc(100vh - 64px - 48px - 46px);
+
+      &:hover {
+        overflow-y: overlay;
+      }
+
+    }
   }
 
-  // 让最近 群组 联系人tab页的内容可以滚动的样式
-  .tab-content-container {
+  .talk-layout-content {
     overflow: hidden;
-
-    // 视窗高度-头部导航栏告诉-搜索框高度-tab页高度
-    height: calc(100vh - 64px - 48px - 46px);
-
-    &:hover {
-      overflow-y: overlay;
-    }
-
   }
 
   // ***************************旧样式***************
