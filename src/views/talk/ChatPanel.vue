@@ -169,7 +169,7 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.user.chatList
+        return this.$store.state.chat.chatList
       },
       set: function (chatList) {
         this.$store.commit('SET_CHAT_LIST', chatList)
@@ -187,27 +187,30 @@ export default {
     handleSaveClose () {
 
     },
-    // startTalk: function () {
-    //   this.$refs.model.beginTalk()
-    // },
     showChat: function (chat) {
       const self = this
       self.isShowWelcome = false
       self.isShowPanel = true
       const chatList = ChatListUtils.getChatList(self.$store.state.user.info.id)
       // 删除当前用户已经有的会话
-      const newChatList = chatList.filter(function (element) {
-        return String(element.id) !== String(chat.id)
-      })
+      // const newChatList = chatList.filter(function (element) {
+      //   return String(element.id) !== String(chat.id)
+      // })
       // 重新添加会话，放到第一个
       const firstChat = new Chat(chat.id, chat.name, conf.getHostUrl() + chat.avatar, 0, '', '', '', MessageTargetType.CHAT_GROUP)
-      newChatList.unshift(firstChat)
+      // newChatList.unshift(firstChat)
       // 存储到localStorage 的 chatList
       ChatListUtils.setChatList(self.$store.state.user.info.id, chatList)
-      this.$store.commit('SET_CHAT_LIST', newChatList)
+      // this.$store.commit('SET_CHAT_LIST', newChatList)
 
       this.$store.commit('RESET_UNREAD')
       this.currentChat = chat
+      // 当前聊天室
+      if (firstChat) {
+        self.$store.commit('SET_CURRENT_CHAT', firstChat)
+      }
+      // 重新设置chatList
+      self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
       // 每次滚动到最底部
       this.$nextTick(() => {
         // imageLoad('message-box')
@@ -219,21 +222,21 @@ export default {
     }
   },
   activated: function () {
-    const self = this
-    if (this.$route.query.chat) {
-      self.isShowPanel = true
-      self.isShowWelcome = false
-    }
+    // const self = this
+    // if (this.$route.query.chat) {
+    //   self.isShowPanel = true
+    //   self.isShowWelcome = false
+    // }
     // 当前研讨室
-    if (self.$route.query.chat) {
-      self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
-    }
+    // if (self.$route.query.chat) {
+    //   self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
+    // }
     // 重新设置chatList
-    self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+    // self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
     // 每次滚动到最底部
-    this.$nextTick(() => {
-      imageLoad('message-box')
-    })
+    // this.$nextTick(() => {
+    //   imageLoad('message-box')
+    // })
   },
   mounted: function () {
     const self = this

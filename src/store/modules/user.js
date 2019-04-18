@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { login, getInfo, logout } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
+import { ChatListUtils } from '@/utils/talk/chatUtils'
 
 const user = {
   state: {
@@ -10,8 +11,7 @@ const user = {
     welcome: '',
     avatar: '',
     roles: [],
-    info: {},
-    chatList: []
+    info: {}
   },
 
   mutations: {
@@ -70,14 +70,13 @@ const user = {
             commit('SET_ROLES', result.role)
             commit('SET_INFO', result)
           } else {
-            reject(new Error('getInfo: roles must be a non-null array !'))
+            reject(new Error('getInfo: roles必须是非空数组!'))
           }
 
           commit('SET_NAME', { name: result.name, welcome: welcome() })
           commit('SET_AVATAR', result.avatar)
-          console.log('SET_CHAT_LIST')
-          console.log(result.chat.chatList)
           commit('SET_CHAT_LIST', result.chat.chatList)
+          ChatListUtils.setChatList(user.state.info.id, result.chat.chatList)
           resolve(response)
         }).catch(error => {
           reject(error)

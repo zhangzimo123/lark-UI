@@ -303,7 +303,7 @@ export const ChatListUtils = {
     const newChatList = chatList.filter(function (element) {
       return String(element.id) !== String(user.id)
     })
-    // 重新添加会话，放到第一个
+    // 重新添加会话
     const chat = new Chat(user.id, user.name, host + user.avatar, 0, '', user.mobile, user.email, MessageTargetType.FRIEND)
     newChatList.unshift(chat)
     // 存储到localStorage 的 chatList
