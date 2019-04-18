@@ -128,7 +128,7 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.user.chatList
+        return this.$store.state.chat.chatList
       },
       set: function (chatList) {
         this.$store.commit('SET_CHAT_LIST', chatList)
@@ -142,9 +142,6 @@ export default {
     handleSaveClose () {
 
     },
-    // startTalk: function () {
-    //   this.$refs.model.beginTalk()
-    // },
     showChat: function (chat) {
       const self = this
       self.isShowWelcome = false
@@ -174,21 +171,21 @@ export default {
     }
   },
   activated: function () {
-    const self = this
-    if (this.$route.query.chat) {
-      self.isShowPanel = true
-      self.isShowWelcome = false
-    }
+    // const self = this
+    // if (this.$route.query.chat) {
+    //   self.isShowPanel = true
+    //   self.isShowWelcome = false
+    // }
     // 当前研讨室
-    if (self.$route.query.chat) {
-      self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
-    }
+    // if (self.$route.query.chat) {
+    //   self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
+    // }
     // 重新设置chatList
-    self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+    // self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
     // 每次滚动到最底部
-    this.$nextTick(() => {
-      imageLoad('message-box')
-    })
+    // this.$nextTick(() => {
+    //   imageLoad('message-box')
+    // })
   },
   mounted: function () {
     const self = this
