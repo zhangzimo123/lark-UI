@@ -16,7 +16,6 @@ const getters = {
   currentChat: state => state.chat.currentChat,
   chatList: state => state.chat.chatList,
   userFriendList: state => state.chat.userFriendList,
-  chatGroupList: state => state.chat.chatGroupList,
   flushTokenTimerId: state => state.chat.flushTokenTimerId
 }
 
