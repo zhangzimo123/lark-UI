@@ -43,6 +43,7 @@
     </footer-tool-bar>
     <div>
       <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" />
+      <search-window :searchWindowIsShow="searchWindowIsShow" />
     </div>
   </div>
 </template>
@@ -52,6 +53,7 @@ import './components/style.css'
 import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
 import MyChatPanel from '@/components/ChatBox/MyChatPanel'
+import SearchWindow from '@/components/ChatBox/SearchWindow'
 // import { Container, Draggable } from 'vue-smooth-dnd'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
@@ -79,7 +81,8 @@ export default {
       visible: false,
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
-      myChatPanelIsShow: false
+      myChatPanelIsShow: false,
+      searchWindowIsShow: false,
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
@@ -94,7 +97,10 @@ export default {
     // Container,
     // Draggable,
     GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem
+    GridItem: VueGridLayout.GridItem,
+//    meeting,
+//    todo,
+    SearchWindow
   },
   created () {
     setTimeout(() => {
@@ -110,6 +116,12 @@ export default {
     },
     closeMyChatPanel () {
       this.myChatPanelIsShow = false
+    },
+    openSearchWindow () {
+      this.searchWindowIsShow = true
+    },
+    closeSearchWindow () {
+      this.searchWindowIsShow = false
     }
   }
 }
