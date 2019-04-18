@@ -1,15 +1,36 @@
 <template>
-  <div>
-    <a-row type="flex" :gutter="10" v-if="selectedType==1">
+  <a-card
+    title="资源池"
+    :headStyle="headStyle"
+    :loading="loading"
+    :bordered="true"
+    :style="{ minHeight: '300px' }">
+    <a-row slot="extra" style="width:240px;">
+      <a-col :span="20">
+        <a-radio-group v-model="selectedType" size="small" @change="fetchData">
+          <a-radio-button :value="0">全部</a-radio-button>
+          <a-radio-button :value="1">工具资源</a-radio-button>
+          <a-radio-button :value="2">人员资源</a-radio-button>
+          <a-radio-button :value="3">其他</a-radio-button>
+        </a-radio-group>
+      </a-col>
+      <a-col :span="4">
+        <a-popover
+          placement="left"
+          trigger="click">
+          <template slot="content">
+            <a>移除卡片</a>
+          </template>
+          <a href="#" class="right"><a-icon type="tool" /></a>
+        </a-popover>
+      </a-col>
+    </a-row>
+    <a-row type="flex" :gutter="10" v-if="selectedType === 0">
       <a-col :span="14">
-        <a-row type="flex">
-          <a-col :span="24">
-            <div id="myChartR" style="width: 100%;height: 222px"></div>
-          </a-col>
-        </a-row>
+        <resource-chart :chartStyle="chartStyle" />
       </a-col>
       <a-col :span="10">
-        <span class="ivu-content-row-font">计算资源列表</span>
+        <span class="ant-card-body-title">计算资源列表</span>
         <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in list" :key="'item'+index">
           <i class="ivu-tag-dot-inner ivu-tag-dot-inner-resource" ></i>
           <span class="resource-list">{{ row.name }}</span>
@@ -20,7 +41,7 @@
       <a-col :span="8" v-for="(item,index) in list" :key="'col-item-'+index">
         <a-card>
           <div style="height:60px;text-align:center;">
-            <img :src="publicPath + 'images/index/expert1.jpg'" style="max-width:60%;max-height:60px;">
+            <img :src="item.img" style="max-width:60%;max-height:60px;">
           </div>
           <div style="text-align:center;">
             <span>{{ item.name | omit }}</span>
@@ -28,39 +49,40 @@
         </a-card>
       </a-col>
     </a-row>
-  </div>
+  </a-card>
 </template>
 <script>
 
 import TypeBar from './TypeBar.vue'
-import echarts from 'echarts'
-import { ResourceLatest, ResourceStat } from '@/api/resource'
+import ResourceChart from './ResourceChart.vue'
+import { ResourceLatest } from '@/api/resource'
 export default {
+  props: {
+    headStyle: {
+      type: Object,
+      default: null
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    }
+  },
   components: {
     TypeBar,
-    echarts
+    ResourceChart
   },
   data () {
     return {
-      selectedType: 1,
+      chartStyle: { width: '100%', height: '202px' },
+      selectedType: 0,
       typeArray: [
         { type: 1, name: '计算资源', show: true },
         { type: 2, name: '人员资源', show: true },
         { type: 3, name: '其他', show: true }
       ],
-      size: 6,
+      size: 4,
       list: [],
-      total: 0,
-      chartData: {
-        data: [],
-        options: {
-          title: '资源占比统计',
-          bgColor: '#ffffff',
-          radius: 40,
-          innerRadius: 25,
-          legendTop: 125
-        }
-      }
+      total: 0
     }
   },
   filters: {
@@ -82,74 +104,15 @@ export default {
       return str.replace(/^(.{5})(.*)$/, '$1')
     }
   },
-  created () {
+  mounted () {
     this.fetchData()
-    this.fetchStat()
   },
   methods: {
-    fetchData (type) {
-      if (type === undefined) {
-        type = 1
-      }
-      var vm = this
-      ResourceLatest([vm.size, type]).then((data) => {
+    fetchData () {
+      const vm = this
+      ResourceLatest([vm.size, vm.selectedType]).then((data) => {
         vm.list = [].concat(data.content)
         vm.total = data.total
-      })
-    },
-    fetchStat (type) {
-      if (type === undefined) {
-        type = 1
-      }
-      var vm = this
-      ResourceStat(type).then((data) => {
-        vm.chartData.data = data.content
-        /* ECharts图表 */
-        var myChart = echarts.init(document.getElementById('myChartR'))
-        var bardata = vm.chartData.data
-        myChart.setOption({
-          title: {
-            text: '资源占比统计',
-            x: 'center',
-            textStyle: {
-              color: '#333333',
-              fontSize: '13',
-              fontWeight: '540'
-            }
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: '{b} :{d}%'
-          },
-          legend: {
-            type: 'scroll',
-            orient: 'horizontal',
-            bottom: 5,
-            data: bardata
-          },
-          grid: {
-            left: '5%',
-            right: '10%',
-            width: '70%',
-            containLabel: true
-          },
-          color: ['#01a5e2', '#e2e2e2', '#fe9846', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
-          series: [
-            {
-              type: 'pie',
-              radius: '55%',
-              center: ['50%', '50%'],
-              data: bardata,
-              itemStyle: {
-                emphasis: {
-                  shadowBlur: 10,
-                  shadowOffsetX: 0,
-                  shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-              }
-            }
-          ]
-        })
       })
     },
     totalResource () {
@@ -160,3 +123,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.ant-card-body-title{
+  font-size: 15px;
+  font-weight: 600;
+}
+</style>

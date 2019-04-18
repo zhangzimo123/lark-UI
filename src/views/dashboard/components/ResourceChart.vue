@@ -1,0 +1,76 @@
+<template>
+  <div>
+    <div id="chartDiv" :style="chartStyle"></div>
+  </div>
+</template>
+<script>
+import echarts from 'echarts'
+import { ResourceStat } from '@/api/resource'
+
+export default {
+  props: {
+    chartStyle: {
+      type: Object,
+      default: null
+    }
+  },
+  mounted () {
+    this.fetchData()
+  },
+  methods: {
+    fetchData (type) {
+      if (type === undefined) {
+        type = 1
+      }
+      ResourceStat(type).then((data) => {
+        /* ECharts图表 */
+        var bardata = data.content
+        var myChart = echarts.init(document.getElementById('chartDiv'))
+        myChart.setOption({
+          title: {
+            text: '资源占比统计',
+            x: 'center',
+            textStyle: {
+              color: '#333333',
+              fontSize: '13',
+              fontWeight: '540'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b} :{d}%'
+          },
+          legend: {
+            type: 'scroll',
+            orient: 'horizontal',
+            bottom: 5,
+            data: bardata
+          },
+          grid: {
+            left: '5%',
+            right: '10%',
+            width: '70%',
+            containLabel: true
+          },
+          color: ['#01a5e2', '#e2e2e2', '#fe9846', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
+          series: [
+            {
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '50%'],
+              data: bardata,
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        })
+      })
+    }
+  }
+}
+</script>
