@@ -87,7 +87,6 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        // target: 'https://mock.ihx.me/mock/5baf3052f7da7e07e04a5116/antd-pro',
         // target: 'http://10.12.97.30:7300/mock/5c7e346c4e202c2e806a149d/lark',
         target: 'https://www.easy-mock.com/mock/5cb52fb383745c2658d1c9a2/lark',
         // target: 'http://localhost:7300/mock/5c7f89e819c70b5181f60a0e/lark',
@@ -97,7 +96,6 @@ module.exports = {
         changeOrigin: true
       },
       '/gateway': {
-        // target: 'https://www.easy-mock.com/mock/5b7bce071f130e5b7fe8cd7d/antd-pro',
         // target: 'http://10.12.97.30:7300/mock/5c7e346c4e202c2e806a149d/lark',
         target: 'https://www.easy-mock.com/mock/5cb52fb383745c2658d1c9a2/lark',
         // target: 'http://localhost:7300/mock/5c7f89e819c70b5181f60a0e/lark',

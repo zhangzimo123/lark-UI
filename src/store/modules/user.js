@@ -2,21 +2,32 @@ import Vue from 'vue'
 import { login, getInfo, logout } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
+import { ChatListUtils } from '@/utils/talk/chatUtils'
 
 const user = {
   state: {
-    token: '',
+    token: {},
     name: '',
     welcome: '',
     avatar: '',
     roles: [],
-    info: {},
-    chatList: []
+    info: {}
   },
 
   mutations: {
+    SET_FLUSH_TOKEN_TIME_ID: function (state, flushTokenTimerId) {
+      state.flushTokenTimerId = flushTokenTimerId
+    },
+    CLEAR_FLUSH_TOKEN_TIME_ID: function (state) {
+      clearTimeout(state.flushTokenTimerId)
+    },
+    // token 是否有效
+    SET_TOKEN_STATUS: function (state, tokenStatus) {
+      state.tokenStatus = tokenStatus
+    },
     SET_TOKEN: (state, token) => {
-      state.token = token
+      sessionStorage.setItem('token', token.access_token)
+      sessionStorage.setItem('refresh_token', token.refresh_token)
     },
     SET_NAME: (state, { name, welcome }) => {
       state.name = name
@@ -36,16 +47,13 @@ const user = {
   actions: {
     // 登录
     Login ({ commit }, userInfo) {
-      console.log('进这里了', userInfo)
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
-          console.log('进login', userInfo)
           const result = response.result
-          Vue.ls.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
+          Vue.ls.set('Access-Token', result.token, 7 * 24 * 60 * 60 * 1000)
           commit('SET_TOKEN', result.token)
           resolve()
         }).catch(error => {
-          console.log('进error', error)
           reject(error)
         })
       })
@@ -70,12 +78,13 @@ const user = {
             commit('SET_ROLES', result.role)
             commit('SET_INFO', result)
           } else {
-            reject(new Error('getInfo: roles must be a non-null array !'))
+            reject(new Error('getInfo: roles必须是非空数组!'))
           }
 
           commit('SET_NAME', { name: result.name, welcome: welcome() })
           commit('SET_AVATAR', result.avatar)
           commit('SET_CHAT_LIST', result.chat.chatList)
+          ChatListUtils.setChatList(user.state.info.id, result.chat.chatList)
           resolve(response)
         }).catch(error => {
           reject(error)
