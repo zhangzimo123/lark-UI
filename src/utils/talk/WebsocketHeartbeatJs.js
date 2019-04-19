@@ -82,6 +82,7 @@ WebsocketHeartbeatJs.prototype.reconnect = function () {
     this.lockReconnect = false
   }, this.opts.reconnectTimeout)
 }
+// 消息发送
 WebsocketHeartbeatJs.prototype.send = function (msg) {
   this.ws.send(msg)
 }
@@ -106,8 +107,8 @@ WebsocketHeartbeatJs.prototype.heartReset = function () {
   clearTimeout(this.pingTimeoutId)
   clearTimeout(this.pongTimeoutId)
 }
+// 如果手动关闭连接，不再重连
 WebsocketHeartbeatJs.prototype.close = function () {
-  // 如果手动关闭连接，不再重连
   this.forbidReconnect = true
   this.ws.close()
 }

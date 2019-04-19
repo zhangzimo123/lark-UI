@@ -88,6 +88,7 @@
         >
           <article-page v-if="noTitleKey === 'article'"></article-page>
           <app-page v-else-if="noTitleKey === 'app'"></app-page>
+          <score-page v-else-if="noTitleKey === 'score'"></score-page>
           <project-page v-else-if="noTitleKey === 'project'"></project-page>
         </a-card>
       </a-col>
@@ -98,7 +99,7 @@
 <script>
 import PageLayout from '@/components/page/PageLayout'
 import RouteView from '@/components/layouts/RouteView'
-import { AppPage, ArticlePage, ProjectPage } from './page'
+import { AppPage, ArticlePage, ProjectPage, ScorePage } from './page'
 
 import { mapGetters } from 'vuex'
 
@@ -108,7 +109,8 @@ export default {
     PageLayout,
     AppPage,
     ArticlePage,
-    ProjectPage
+    ProjectPage,
+    ScorePage
   },
   data () {
     return {
