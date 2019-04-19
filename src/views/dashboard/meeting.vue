@@ -28,13 +28,13 @@
       <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
         <a-tag :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-        <span @click="modal = true">{{ row.name.length> 22 ? row.name.replace(/^(.{20})(.*)$/,'$1...') : row.name }}</span>
+        <span @click="visibleModal(row)" >{{ row.name.length> 22 ? row.name.replace(/^(.{20})(.*)$/,'$1...') : row.name }}</span>
         <span class="right">{{ row.date }}</span>
         <a-modal
           v-model="modal"
           footer=""
           title="会议详细">
-          <p>{{ row.name }}</p>
+          <p>{{ rowDetails.name }}</p>
         </a-modal>
       </a-row>
       <div v-if="list.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
@@ -59,6 +59,7 @@ export default {
       selectedType: 0,
       buttonEdit: false,
       modal: false,
+      rowDetails: {},
       typeArray: [
         // { type: 1, name: '未开始', show: true },
         // { type: 2, name: '进行中', show: true },
@@ -138,6 +139,10 @@ export default {
     },
     createMeeted (val) {
       this.createMeet = val
+    },
+    visibleModal (row) {
+      this.modal = true
+      this.rowDetails = row
     }
 
   }
