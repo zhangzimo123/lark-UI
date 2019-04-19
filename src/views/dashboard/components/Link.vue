@@ -34,8 +34,6 @@ export default {
           vm.list = [].concat(data.content)
           vm.total = data.total
         })
-    },
-    openLink (row) {
     }
   }
 }
