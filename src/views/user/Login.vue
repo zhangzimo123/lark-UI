@@ -122,7 +122,6 @@ export default {
 
       validateFields({ force: true }, (err, values) => {
         if (!err) {
-          console.log('login form', values)
           const loginParams = { ...values }
           delete loginParams.username
           loginParams[!state.loginType ? 'email' : 'username'] = values.username
@@ -141,7 +140,6 @@ export default {
       })
     },
     loginSuccess (res) {
-      console.log('进来了loginSuccess', res)
       this.$router.push({ name: 'Workplace' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {

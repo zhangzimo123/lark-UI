@@ -192,16 +192,12 @@ export default {
       self.isShowWelcome = false
       self.isShowPanel = true
       const chatList = ChatListUtils.getChatList(self.$store.state.user.info.id)
-      // 删除当前用户已经有的会话
-      // const newChatList = chatList.filter(function (element) {
-      //   return String(element.id) !== String(chat.id)
-      // })
+
       // 重新添加会话，放到第一个
       const firstChat = new Chat(chat.id, chat.name, conf.getHostUrl() + chat.avatar, 0, '', '', '', MessageTargetType.CHAT_GROUP)
-      // newChatList.unshift(firstChat)
+
       // 存储到localStorage 的 chatList
       ChatListUtils.setChatList(self.$store.state.user.info.id, chatList)
-      // this.$store.commit('SET_CHAT_LIST', newChatList)
 
       this.$store.commit('RESET_UNREAD')
       this.currentChat = chat
@@ -211,7 +207,7 @@ export default {
       }
       // 重新设置chatList
       self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
-      // 每次滚动到最底部
+      // Chat会话框中的研讨信息每次滚动到最底部
       this.$nextTick(() => {
         // imageLoad('message-box')
       })
@@ -247,7 +243,6 @@ export default {
       websocketHeartbeatJs.send('{"code":' + MessageInfoType.MSG_READY + '}')
     }
     websocketHeartbeatJs.onmessage = function (event) {
-      console.log('这地方被用了')
       const data = event.data
       const sendInfo = JSON.parse(data)
       // 真正的消息类型
