@@ -24,7 +24,6 @@
   </span>
 </template>
 <script>
-import { ToolSettingShow } from '@/api/setting'
 export default {
   data () {
     return {
@@ -56,7 +55,7 @@ export default {
   },
   methods: {
     editButtonClass (type) {
-      return { 'el-card-tools-button-editing': true, 'ivu-btn-primary': type.show }
+      return { 'ivu-btn-primary': type.show }
     },
     selectedChanged () {
       if (this.selected === -1) {
@@ -72,10 +71,15 @@ export default {
     },
     checkChanged (type) {
       const v = !type.show
-      ToolSettingShow(type.id, v).then(({ data, status }) => {
-        type.show = v
-      })
+      type.show = v
     }
   }
 }
 </script>
+<style scoped>
+  .ivu-btn-primary{
+    background-color: #2D8cF0;
+    border-color: #2D8cF0;
+    color: white;
+  }
+</style>
