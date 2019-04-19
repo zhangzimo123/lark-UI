@@ -26,19 +26,6 @@ const chat = {
     flushTokenTimerId: null
   },
   mutations: {
-    SET_FLUSH_TOKEN_TIME_ID: function (state, flushTokenTimerId) {
-      state.flushTokenTimerId = flushTokenTimerId
-    },
-    CLEAR_FLUSH_TOKEN_TIME_ID: function (state) {
-      clearTimeout(state.flushTokenTimerId)
-    },
-    // token 是否有效
-    SET_TOKEN_STATUS: function (state, tokenStatus) {
-      state.tokenStatus = tokenStatus
-    },
-    SET_USER: function (state, user) {
-      state.user = user
-    },
     SET_USER_FRIEND_LIST: function (state, userFriendList) {
       state.userFriendList = userFriendList
     },

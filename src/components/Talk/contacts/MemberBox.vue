@@ -37,14 +37,13 @@ export default {
   },
   mounted () {
     getTalkMembers(this.chat.id).then((res) => {
-      const members = res.result.data
-      console.log('this.roles', this.members)
+      const members = res.result
       const tempData = members
-      const targetKeys = tempData.filter(function (element) {
-        return element.chosen
-      })
+      // const targetKeys = tempData.filter(function (element) {
+      //   return element.chosen
+      // })
       this.mockData = tempData
-      this.targetKeys = targetKeys
+      // this.targetKeys = targetKeys
     })
   },
   props: {

@@ -410,7 +410,7 @@ export default {
       self.messageContent = ''
       // 每次滚动到最底部
       self.$nextTick(() => {
-        imageLoad('message-box')
+        // imageLoad('message-box')
       })
     },
     getHistoryMessage (pageNo) {
