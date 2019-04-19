@@ -23,7 +23,7 @@
     </a-popover>
     <div>
       <a-row v-for="(item,index) in list" :key="'item'+index" class="row-magin">
-        <i></i>
+        <i class="ivu-tag-dot-inner"></i>
         <span>{{ item.name.length> 24 ? item.name.replace(/^(.{22})(.*)$/,'$1...') : item.name }}</span>
         <a-tag class="right" color="#f50">{{ item.tag }}</a-tag>
       </a-row>
@@ -65,5 +65,32 @@ export default {
   }
   .row-magin{
     margin-bottom: 12px;
+  }
+  .ivu-tag-dot-inner {
+    height: 6px;
+    width: 6px;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgb(45, 140, 240);
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0% 0%;
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-size: auto;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    box-sizing: border-box;
+    color: rgb(81, 90, 110);
+    cursor: pointer;
+    display: inline-block;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;
+    font-size: 1px;
+    margin-right: 8px;
+    position: relative;
+    top: -2px;
   }
 </style>
