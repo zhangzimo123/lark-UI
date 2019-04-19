@@ -7,21 +7,17 @@
         </a-input>
       </div>
       <div>
-        <a-tree
-          :treeData="treeData"
-          :defaultSelectedKeys="['0-0-0']"
-          @select="this.onSelect"
-          @check="this.onCheck"
-        >
-          <!--<a-icon slot="smile" type="smile-o" />-->
-          <!--<a-icon slot="meh" type="smile-o" />-->
-          <!--<template slot="custom">-->
-          <!--<a-avatar size="small" icon="user"/>-->
-          <!--</template>-->
-        </a-tree>
+        <tree-custom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :id="tree.key" :depth="0" />
+        <!--<a-tree-->
+          <!--:treeData="treeData"-->
+          <!--:defaultSelectedKeys="['0-0-0']"-->
+          <!--@select="this.onSelect"-->
+          <!--@check="this.onCheck"-->
+        <!--&gt;-->
+        <!--</a-tree>-->
       </div>
     </div>
-    <div class="search-window-right-part" v-show="contactsData.length>0">
+    <div class="search-window-right-part">
       <div class="control-contacts-tip">请选择需要勾选的联系人</div>
       <div v-for="(item,index) in contactsData" :key="item.key">
         <div class="contacts-item" >
@@ -42,85 +38,37 @@
 <script>
 import AInput from "ant-design-vue/es/input/Input";
 import AButton from "ant-design-vue/es/button/button";
+import TreeCustom from '@/components/ChatBox/TreeCustom'
 const contactsData = [
   {
     key: '0-0-0',
     title: '旺仔研究员1',
     head: require('@/assets/sjs.jpg'),
-    msg:'今天一起去吃午饭吗？'
   },
   {
     title: '旺仔研究员2',
     key: '0-0-1',
     head: require('@/assets/sjs.jpg'),
-    msg:'今天一起去吃午饭吗？'
-  }
-];
-const treeData = [
-  {
-    title: '科工二院一部（20）',
-    key: '0-0',
-    children: [
-      {
-        key: '0-0-0',
-        title: '旺仔研究员1',
-        head:'@/assets/sjs.jpg',
-        msg:'今天一起去吃午饭吗？'
-      },
-      {
-        title: '旺仔研究员2',
-        key: '0-0-1',
-        head:'@/assets/sjs.jpg',
-        msg:'今天一起去吃午饭吗？'
-      }
-    ]
-  },
-  {
-    title: '科工二院二部（20）',
-    key: '0-1',
-    children: [
-      {
-        title: '策划部（20）',
-        key: '0-1-0' ,
-        children: [
-          {
-            title: '策划部一分部（10）',
-            key: '0-1-0-2',
-            children: [
-              {
-                title: '旺仔研究员1',
-                key: '0-1-0-2-0',
-                head:'@/assets/sjs.jpg',
-                msg:'今天一起去吃午饭吗？'
-              },
-              {
-                title: '旺仔研究员2',
-                key: '0-1-0-2-1',
-                head:'@/assets/sjs.jpg',
-                msg:'今天一起去吃午饭吗？'
-              }
-            ]
-          }
-        ]
-      },
-    ]
   }
 ];
 
 export default {
   components: {
     AButton,
-    AInput},
+    AInput,
+    TreeCustom
+  },
   name: 'SearchWindow',
   data () {
     return {
-      treeData,
+//      treeData,
       contactsData,
       searchKeyWords:""
     }
   },
   props:{
     searchWindowIsShow:false,
+    tree:{},
   },
   methods: {
     onSelect (selectedKeys, info) {

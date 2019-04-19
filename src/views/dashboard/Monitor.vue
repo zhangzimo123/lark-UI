@@ -1,5 +1,6 @@
 <template>
   <div style="margin-bottom: 64px">
+    <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
     <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''">
       <grid-layout
         :layout.sync="layout"
@@ -43,7 +44,7 @@
     </footer-tool-bar>
     <div>
       <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" />
-      <search-window :searchWindowIsShow="searchWindowIsShow" />
+      <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
     </div>
   </div>
 </template>
@@ -54,6 +55,7 @@ import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
 import MyChatPanel from '@/components/ChatBox/MyChatPanel'
 import SearchWindow from '@/components/ChatBox/SearchWindow'
+//import TreeCustom from '@/components/ChatBox/TreeCustom'
 // import { Container, Draggable } from 'vue-smooth-dnd'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
@@ -82,7 +84,62 @@ export default {
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
       myChatPanelIsShow: false,
-      searchWindowIsShow: false
+      searchWindowIsShow: false,
+      tree :{
+        title:'',
+        key: '0',
+        head:'',
+        children:[
+          {
+            title: '科工二院一部（20）',
+            key: '0-0',
+            head:'',
+            children: [
+              {
+                key: '0-0-0',
+                title: '旺仔研究员1',
+                head:require('@/assets/sjs.jpg'),
+              },
+              {
+                title: '旺仔研究员2',
+                key: '0-0-1',
+                head:require('@/assets/sjs.jpg'),
+              }
+            ]
+          },
+          {
+            title: '科工二院二部（20）',
+            key: '0-1',
+            head:'',
+            children: [
+            {
+              title: '策划部（20）',
+              key: '0-1-0' ,
+              head:'',
+              children: [
+                {
+                  title: '策划部一分部（10）',
+                  key: '0-1-0-2',
+                  head:'',
+                  children: [
+                    {
+                      title: '旺仔研究员1',
+                      key: '0-1-0-2-0',
+                      head:require('@/assets/sjs.jpg'),
+                    },
+                    {
+                      title: '旺仔研究员2',
+                      key: '0-1-0-2-1',
+                      head:require('@/assets/sjs.jpg'),
+                    }
+                  ]
+                }
+              ]
+            },
+          ]
+    }
+  ]
+  }
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
@@ -94,6 +151,7 @@ export default {
     MeetingTest,
     FooterToolBar,
     MyChatPanel,
+//    TreeCustom,
     // Container,
     // Draggable,
     GridLayout: VueGridLayout.GridLayout,
