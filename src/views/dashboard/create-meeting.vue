@@ -15,7 +15,7 @@
     <a-row class="marginTop" type="flex" justify="center">
       <div>
         会议时间：
-        <a-date-picker v-model="meeting.date" showTime placeholder="输入会议时间" style="width: 210px"></a-date-picker>
+        <a-date-picker v-model="meeting.date" showTime format="YYYY-MM-DD HH:mm:ss" placeholder="输入会议时间" style="width: 210px"></a-date-picker>
       </div>
     </a-row>
     <a-row class="marginTop" type="flex" justify="center">
