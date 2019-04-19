@@ -9,7 +9,8 @@
           <a-col>
             {{ title }}
             <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
-            <a-button class="creatMeeting" size="small">创建会议</a-button>
+            <a-button class="createMeetClass" size="small" @click="createMeeting">创建会议</a-button>
+            <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
           </a-col>
         </a-row>
       </div>
@@ -51,6 +52,7 @@
 <script>
 import { getMeetings } from '../../api/dashboard'
 import categoryTools from './category-tools'
+import createMeeting from './create-meeting'
 
 export default {
   data () {
@@ -98,7 +100,8 @@ export default {
   },
   components: {
     getMeetings,
-    categoryTools
+    categoryTools,
+    createMeeting
   },
   created () {
     this.fetchData()
@@ -132,7 +135,15 @@ export default {
     typeName (type) {
       const o = this.typeMap['type-' + type]
       return o ? o.name : ''
+    },
+    //  创建会议
+    createMeeting () {
+      this.createMeet = true
+    },
+    createMeeted (val) {
+      this.createMeet = val
     }
+
   }
 }
 </script>
@@ -145,7 +156,7 @@ export default {
   .row-magin {
     margin-bottom: 12px;
   }
-  .creatMeeting{
+  .createMeetClass{
     float: right;
     margin-right: 15px;
   }
