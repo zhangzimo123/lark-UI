@@ -1,17 +1,26 @@
 <template>
   <!-- recent contacts item -->
-  <!-- 始终显示 联系人头像、群组或联系人名称
-      如果有聊天记录：最新一条聊天记录、最新聊天时间
-      如果没有都为空
-      显示部分增加一个图标的预留位置 显示一些图标
-
-      操作相关：
-        1). 选中之后 背景颜色的变化
-        2). 置顶之后 背景颜色的变化
-      内容更新：
-        1). chatList 列表自动更新
-  -->
   <div class="chat-contacts">
+
+    <div class="avatar">
+      <img src="/avatar2.jpg">
+      <a-badge :count="100" :overflowCount="99" :offset="[0, -20]"
+      :numberStyle="{fontSize: '12px', padding: '0', boxShadow: 'none'}">
+        <a href="#"></a>
+      </a-badge>
+    </div>
+
+    <div class="extra">
+      <p class="attr">12:30</p>
+      <p class="attr">
+        <a-icon type="eye-invisible" theme="filled" />
+      </p>
+    </div>
+
+    <div class="info">
+      <p class="nickname">字太多就会被隐藏掉字太多就会被隐藏掉</p>
+      <p class="msg">字太多就会被自动隐藏字太多就会被自动隐藏</p>
+    </div>
 
   </div>
 </template>
@@ -24,14 +33,21 @@ export default {
     contactsInfo: {
       type: Object,
       default: () => ({}),
-      required: true
+      // required: true
+      required: false
     },
     activated: {
       type: Boolean,
       default: false,
-      required: true
+      // required: true
+      required: false
     },
-    istop: {
+    isTop: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    isMuted: {
       type: Boolean,
       default: false,
       required: false
@@ -45,4 +61,79 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+  .activated {
+    background-color: rgb(195, 197, 199);
+  }
+
+  .top {
+    background-color: rgb(220, 222, 224);
+  }
+
+  .chat-contacts {
+    width: 100%;
+    height: 64px;
+    min-height: 64px;
+    max-height: 64px;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 12px 18px 11px;
+    background-color: rgb(230, 232, 235);
+    border-bottom: 1px solid rgb(218, 220, 223);
+
+    &:hover {
+      background-color: rgb(215, 217, 219);
+    }
+  }
+
+  .avatar {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 2px;
+    }
+  }
+
+  .info {
+    height: 40px;
+    line-height: 20px;
+    word-wrap: normal;
+    white-space: nowrap;
+
+    .nickname {
+      margin: 0;
+      font-size:16px;
+      font-weight: 400;
+      color: rgb(0, 0, 0);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .msg {
+      margin: 0;
+      font-size: 14px;
+      color: rgb(140, 141, 143);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .extra {
+    float: right;
+    height: 40px;
+    width: 40px;
+    font-size: 14px;
+    text-align: right;
+    color: rgb(140, 141, 143);
+
+    .attr {
+      height: 20px;
+      margin: 0;
+    }
+  }
 </style>
