@@ -26,7 +26,7 @@
 <script>
 import infiniteScroll from 'vue-infinite-scroll'
 import { Chat, ChatListUtils, MessageTargetType } from '../../utils/talk/chatUtils'
-import conf from '../../utils/talk/conf'
+// import conf from '../../utils/talk/conf'
 export default {
   directives: { infiniteScroll },
   name: 'ChatBoxs',
