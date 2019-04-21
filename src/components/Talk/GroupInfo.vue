@@ -6,7 +6,7 @@
       <h1>未选中群组</h1>
     </div>
 
-    <div class="selected-info">
+    <div v-else class="selected-info">
       <h1>群组信息</h1>
     </div>
 

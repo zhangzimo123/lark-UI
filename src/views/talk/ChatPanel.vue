@@ -30,8 +30,7 @@
 
           <div class="recent-contacts-container tab-content-container">
 
-            <!-- TODO: 待封装 -->
-            <a-list :dataSource="chatList">
+            <!-- <a-list :dataSource="chatList">
               <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
                 <a-list-item-meta :description="item.lastMessage" class="talk-item">
                   <div slot="title" :href="item.href">{{ item.name }}</div>
@@ -45,7 +44,8 @@
               <div v-if="loading && !busy" class="demo-loading-container">
                 <a-spin/>
               </div>
-            </a-list>
+            </a-list> -->
+            <chat-contacts-item></chat-contacts-item>
 
           </div>
         </a-tab-pane>
@@ -114,12 +114,15 @@
 
 <script>
 import infiniteScroll from 'vue-infinite-scroll'
-import UserChat from '@/components/Talk/Chat'
-import ContactsBox from '@/components/Talk/Contacts'
-import ContactsInfo from '@/components/Talk/ContactsInfo'
-import GroupInfo from '@/components/Talk/GroupInfo'
+import {
+  Chat as UserChat,
+  Contacts as ContactsBox,
+  ContactsInfo,
+  GroupInfo,
+  ChatContactsItem,
+  MemberBox as MemberModel
+} from '@/components/Talk'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
-import MemberModel from '@/components/Talk/contacts/MemberBox'
 import {
   ChatListUtils,
   Chat,
@@ -139,7 +142,8 @@ export default {
     ContactsInfo,
     GroupInfo,
     UserChat,
-    MemberModel
+    MemberModel,
+    ChatContactsItem
   },
   data () {
     return {
@@ -359,7 +363,7 @@ export default {
     max-width: 300px !important;
     flex: 0 0 300px !important;
 
-    background: #fff;
+    background: rgb(230, 232, 235);
     border-right: 1px solid #ebebeb;
 
     // 聊天搜索栏样式 该部分高度为48px
@@ -374,7 +378,6 @@ export default {
       display: flex;
       position: relative;
       flex-direction: column;
-      background-color: #f7f7f7;
       border-top: 1px solid #ebebeb;
     }
 
