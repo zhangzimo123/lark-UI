@@ -6,7 +6,7 @@ import { ChatListUtils } from '@/utils/talk/chatUtils'
 
 const user = {
   state: {
-    token: '',
+    token: {},
     name: '',
     welcome: '',
     avatar: '',
@@ -15,8 +15,19 @@ const user = {
   },
 
   mutations: {
+    SET_FLUSH_TOKEN_TIME_ID: function (state, flushTokenTimerId) {
+      state.flushTokenTimerId = flushTokenTimerId
+    },
+    CLEAR_FLUSH_TOKEN_TIME_ID: function (state) {
+      clearTimeout(state.flushTokenTimerId)
+    },
+    // token 是否有效
+    SET_TOKEN_STATUS: function (state, tokenStatus) {
+      state.tokenStatus = tokenStatus
+    },
     SET_TOKEN: (state, token) => {
-      state.token = token
+      sessionStorage.setItem('token', token.access_token)
+      sessionStorage.setItem('refresh_token', token.refresh_token)
     },
     SET_NAME: (state, { name, welcome }) => {
       state.name = name
@@ -36,16 +47,13 @@ const user = {
   actions: {
     // 登录
     Login ({ commit }, userInfo) {
-      console.log('进这里了', userInfo)
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
-          console.log('进login', userInfo)
           const result = response.result
-          Vue.ls.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
+          Vue.ls.set('Access-Token', result.token, 7 * 24 * 60 * 60 * 1000)
           commit('SET_TOKEN', result.token)
           resolve()
         }).catch(error => {
-          console.log('进error', error)
           reject(error)
         })
       })
