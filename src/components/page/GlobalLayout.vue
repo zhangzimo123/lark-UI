@@ -54,7 +54,7 @@
         :menus="menus"
         :theme="navTheme"
         :collapsed="collapsed"
-        :device="device"
+        :deviceType="device"
         @toggle="toggle"
       />
 
@@ -64,9 +64,9 @@
       </a-layout-content>
 
       <!-- layout footer -->
-      <a-layout-footer style="padding: 0">
+      <!-- <a-layout-footer style="padding: 0">
         <global-footer />
-      </a-layout-footer>
+      </a-layout-footer> -->
       <setting-drawer></setting-drawer>
     </a-layout>
   </a-layout>
@@ -106,7 +106,13 @@ export default {
         return '0'
       }
       if (this.sidebarOpened) {
-        return '256px'
+        // 根据页面宽度设置侧边栏宽度
+        if (this.isDesktop()) {
+          return '256px'
+        }
+        if (this.isTablet()) {
+          return '175px'
+        }
       }
       return '80px'
     }
@@ -207,7 +213,9 @@ export default {
       .sidemenu {
         .ant-header-fixedHeader {
 
-          &.ant-header-side-opened, &.ant-header-side-closed  {
+          &.ant-header-side-desktop-opened,
+          &.ant-header-side-tablet-opened,
+          &.ant-header-side-closed  {
             width: 100%
           }
         }
@@ -238,7 +246,10 @@ export default {
         width: 100%;
         transition: width .2s;
 
-        &.ant-header-side-opened {
+        &.ant-header-side-desktop-opened {
+          width: 100%;
+        }
+        &.ant-header-side-tablet-opened {
           width: 100%;
         }
 
@@ -269,8 +280,12 @@ export default {
         width: 100%;
         transition: width .2s;
 
-        &.ant-header-side-opened {
+        &.ant-header-side-desktop-opened {
           width: calc(100% - 256px)
+        }
+
+        &.ant-header-side-tablet-opened {
+          width: calc(100% - 175px)
         }
 
         &.ant-header-side-closed {
@@ -289,7 +304,19 @@ export default {
 
     .header, .top-nav-header-index {
 
-      .user-wrapper {
+      // 窗口右上方功能按钮区域的整体样式
+      .tools-wrapper  {
+        height: 100%;
+        float: right;
+        display: flex;
+
+        // 分割线样式
+        .separation-line {
+          padding-right: 10px;
+          opacity: .3;
+        }
+      }
+      .user-wrapper, .option-wrapper {
         float: right;
         height: 100%;
 
@@ -319,7 +346,7 @@ export default {
       }
 
       &.dark {
-        .user-wrapper {
+        .user-wrapper, .option-wrapper {
 
           .action {
             color: rgba(255, 255, 255, 0.85);
@@ -328,6 +355,9 @@ export default {
               background: rgba(255, 255, 255, 0.16);
             }
           }
+        }
+        .separation-line {
+          color: rgba(255, 255, 255, 0.85);
         }
       }
     }

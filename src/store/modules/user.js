@@ -30,22 +30,22 @@ const user = {
     },
     SET_INFO: (state, info) => {
       state.info = info
-    },
-    SET_CHAT_LIST: function (state, chatList) {
-      state.chatList = chatList
     }
   },
 
   actions: {
     // 登录
     Login ({ commit }, userInfo) {
+      console.log('进这里了', userInfo)
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
+          console.log('进login', userInfo)
           const result = response.result
           Vue.ls.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
           commit('SET_TOKEN', result.token)
           resolve()
         }).catch(error => {
+          console.log('进error', error)
           reject(error)
         })
       })

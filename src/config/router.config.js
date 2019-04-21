@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/components/layouts'
-import { bxAnaalyse } from '@/core/icons'
+// import { bxAnaalyse } from '@/core/icons'
 
 export const asyncRouterMap = [
 
@@ -13,19 +13,33 @@ export const asyncRouterMap = [
     children: [
       // dashboard
       {
-        path: '/dashboard/workplace',
-        name: 'Workplace',
-        component: () => import('@/views/dashboard/Workplace'),
-        meta: { title: '主页', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] }
+        path: '/dashboard',
+        name: 'dashboard',
+        redirect: '/dashboard/workplace',
+        component: RouteView,
+        meta: { title: '工作舱', keepAlive: true, icon: 'home', permission: [ 'dashboard' ] },
+        children: [
+          {
+            path: '/dashboard/workplace',
+            name: 'Workplace',
+            component: () => import('@/views/dashboard/Workplace'),
+            meta: { title: '数据看板', keepAlive: true, icon: 'fund', permission: [ 'dashboard' ] }
+          },
+          {
+            path: '/dashboard/monitor',
+            name: 'Analysis',
+            component: () => import('@/views/dashboard/Monitor'),
+            meta: { title: '工作台', keepAlive: false, icon: 'dashboard', permission: [ 'dashboard' ] }
+          }
+        ]
       },
-
       // talk
       {
         path: '/talk',
         name: 'talk',
         component: RouteView,
         redirect: '/talk/ChatPanel',
-        meta: { title: '研讨', icon: 'form', hideHeader: true, keepAlive: true, permission: [ 'form' ] },
+        meta: { title: '研讨', icon: 'message', hideHeader: true, keepAlive: true, permission: [ 'form' ] },
         hideChildrenInMenu: true,
         children: [
           {
@@ -41,8 +55,8 @@ export const asyncRouterMap = [
         component: PageView,
         redirect: '/list/user-list',
         meta: {
-          title: '用户组织管理',
-          icon: 'table',
+          title: '系统管理',
+          icon: 'appstore',
           permission: ['table']
         },
         children: [
@@ -52,6 +66,7 @@ export const asyncRouterMap = [
             component: () => import('@/views/admin/UserList'),
             meta: {
               title: '用户管理',
+              icon: 'team',
               keepAlive: true,
               permission: ['table']
             }
@@ -62,6 +77,7 @@ export const asyncRouterMap = [
             component: () => import('@/views/admin/OrgList'),
             meta: {
               title: '组织管理',
+              icon: 'cluster',
               keepAlive: true,
               permission: ['table']
             }
@@ -72,6 +88,7 @@ export const asyncRouterMap = [
             component: () => import('@/views/admin/RoleList'),
             meta: {
               title: '角色管理',
+              icon: 'switcher',
               keepAlive: true,
               permission: ['table']
             }
@@ -136,6 +153,8 @@ export const asyncRouterMap = [
         component: RouteView,
         redirect: '/account/center',
         name: 'account',
+        // 在侧导航中隐藏
+        hidden: true,
         meta: { title: '个人页', icon: 'user', keepAlive: true, permission: [ 'user' ] },
         children: [
           {
@@ -208,33 +227,9 @@ export const constantRouterMap = [
         path: 'login',
         name: 'login',
         component: () => import(/* webpackChunkName: "user" */ '@/views/user/Login')
-      },
-      {
-        path: 'register',
-        name: 'register',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/Register')
-      },
-      {
-        path: 'register-result',
-        name: 'registerResult',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/RegisterResult')
       }
     ]
   },
-
-  {
-    path: '/test',
-    component: BlankLayout,
-    redirect: '/test/home',
-    children: [
-      {
-        path: 'home',
-        name: 'TestHome',
-        component: () => import('@/views/Home')
-      }
-    ]
-  },
-
   {
     path: '/404',
     component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')

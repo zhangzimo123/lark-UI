@@ -26,7 +26,7 @@
 <script>
 import infiniteScroll from 'vue-infinite-scroll'
 import { Chat, ChatListUtils, MessageTargetType } from '../../utils/talk/chatUtils'
-import conf from '../../utils/talk/conf'
+// import conf from '../../utils/talk/conf'
 export default {
   directives: { infiniteScroll },
   name: 'ChatBoxs',
@@ -69,7 +69,7 @@ export default {
       newChatList.unshift(chat)
       // 存储到localStorage 的 chatList
       ChatListUtils.setChatList(self.$store.state.user.id, chatList)
-      this.$store.commit('setChatList', newChatList)
+      this.$store.commit('SET_CHAT_LIST', newChatList)
       this.$router.push({ name: 'ChatPanel',
         query: { id: chatBox.id } })
     },

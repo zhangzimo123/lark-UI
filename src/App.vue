@@ -29,7 +29,6 @@ export default {
           $store.dispatch('setSidebar', false)
           break
         case DEVICE_TYPE.MOBILE:
-        default:
           $store.commit('TOGGLE_DEVICE', 'mobile')
           $store.dispatch('setSidebar', true)
           break
@@ -42,5 +41,27 @@ export default {
 <style>
   #app {
     height: 100%;
+    overflow: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #dddddd;
+    background-clip: padding-box;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #c3c3c3;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-track:hover {
+    background-color: #f0f2f5;
   }
 </style>

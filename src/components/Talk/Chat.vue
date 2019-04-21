@@ -226,7 +226,7 @@ export default {
         return this.$store.state.chat.messageList
       },
       set: function (messageList) {
-        this.$store.commit('setMessageList', messageList)
+        this.$store.commit('SET_MESSAGE_LIST', messageList)
       }
     },
     talkId: {
@@ -293,7 +293,7 @@ export default {
       const self = this
       if (user.id !== self.$store.state.user.info.id) {
         const chat = ChatListUtils.resetChatList(self, user, conf.getHostUrl())
-        self.$store.commit('setCurrentChat', chat)
+        self.$store.commit('SET_CURRENT_CHAT', chat)
       } else {
         self.$Message.warning('不能给自己说话哦')
       }
@@ -384,14 +384,18 @@ export default {
           self.openMessage('不能超过2000个字符')
         } else {
           const currentMessage = {
-            mine: true,
-            avatar: currentUser.avatar,
-            username: currentUser.name,
-            timestamp: time,
-            content: self.messageContent,
-            fromid: currentUser.id,
-            id: self.chat.id,
-            type: self.chat.type
+            mine: true, // 当前用户
+            avatar: currentUser.avatar, // 当前用户头像
+            username: currentUser.name, // 当前用户名称
+            timestamp: time, // 时间
+            content: self.messageContent, // 研讨内容
+            toid: self.chat.id, // 消息目的id
+            fromid: currentUser.id, // 消息来源id
+            id: self.chat.id, // 当前研讨间id
+            type: self.chat.type, // 消息类型
+            code: self.chat.code, // 消息编码
+            secret: self.chat.secret, // 消息密级
+            status: self.chat.status // 消息状态 已读未读
           }
           self.send(currentMessage)
         }
@@ -400,9 +404,9 @@ export default {
     // 发送消息的基础方法
     send (message) {
       const self = this
-      self.$store.commit('sendMessage', message)
+      self.$store.commit('SEND_MESSAGE', message)
       message.timestamp = self.formatDateTime(new Date(message.timestamp))
-      self.$store.commit('addMessage', message)
+      self.$store.commit('ADD_MESSAGE', message)
       self.messageContent = ''
       // 每次滚动到最底部
       self.$nextTick(() => {
