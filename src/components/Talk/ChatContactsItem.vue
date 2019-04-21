@@ -4,8 +4,11 @@
 
     <div class="avatar">
       <img src="/avatar2.jpg">
-      <a-badge :count="100" :overflowCount="99" :offset="[0, -20]"
-      :numberStyle="{fontSize: '12px', padding: '0', boxShadow: 'none'}">
+      <a-badge
+        :count="100"
+        :overflowCount="99"
+        :offset="[0, -20]"
+        :numberStyle="{fontSize: '12px', padding: '0', boxShadow: 'none'}">
         <a href="#"></a>
       </a-badge>
     </div>
