@@ -7,7 +7,14 @@
         </a-input>
       </div>
       <div>
-        <tree-custom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :id="tree.key" :depth="0" />
+        <tree-custom
+          :label="tree.title"
+          :headImg="tree.head"
+          :treeData="tree.children"
+          :pkid="tree.key"
+          :depth="0"
+          @addSelectedData="addSelectedData"
+          @deleteSelectedData="deleteSelectedData" />
       </div>
     </div>
     <div class="search-window-right-part">
@@ -32,19 +39,6 @@
 import AInput from 'ant-design-vue/es/input/Input'
 import AButton from 'ant-design-vue/es/button/button'
 import TreeCustom from '@/components/ChatBox/TreeCustom'
-const contactsData = [
-  {
-    key: '0-0-0',
-    title: '旺仔研究员1',
-    head: require('@/assets/sjs.jpg')
-  },
-  {
-    title: '旺仔研究员2',
-    key: '0-0-1',
-    head: require('@/assets/sjs.jpg')
-  }
-]
-
 export default {
   components: {
     AButton,
@@ -54,7 +48,7 @@ export default {
   name: 'SearchWindow',
   data () {
     return {
-      contactsData,
+      contactsData: [],
       searchKeyWords: ''
     }
   },
@@ -78,7 +72,7 @@ export default {
     deleteContactsItem (index) {
       console.log('删除 contactsData', this.contactsData)
       console.log('删除 Index', index)
-      contactsData.splice(index, 1)
+      this.contactsData.splice(index, 1)
     },
     searchValueChange () {
       console.log('searchKeyWords', this.searchKeyWords)
@@ -94,6 +88,17 @@ export default {
     },
     closeSearchWindow () {
       this.$parent.closeSearchWindow()
+    },
+    addSelectedData (item) {
+      this.contactsData.push(item)
+    },
+    deleteSelectedData (item) {
+      for (let i = 0; i < this.contactsData.length; i++) {
+        if (item.key === this.contactsData[i].key) {
+          this.contactsData.splice(i, 1)
+        }
+      }
+      console.log('contactsData', this.contactsData)
     }
   }
 }
