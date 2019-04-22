@@ -4,21 +4,22 @@
       <div :style="indent" @click="toggleChildren">
         <div v-if="!headImg && label" style="display: flex;align-items: center">
           <img class="tree-list-arrow" :src="showChildren ? require('@/assets/arrow-down.png') : require('@/assets/arrow-right.png')" alt="">
-          <span class="tree-list-group-label">{{label}}</span>
+          <span class="tree-list-group-label">{{ label }}</span>
         </div>
-        <div v-if="headImg" class="tree-list-contacts-item" @click="getCurrentInfo(label,headImg,id)">
+        <div v-if="headImg" class="tree-list-contacts-item" @click="getCurrentInfo(label,headImg,pkid)">
           <img class="tree-list-head-image" :src="headImg" />
-          <span class="tree-list-label" >{{label}}</span>
-          <a-checkbox class="tree-list-checkbox"  @change="checkBoxSelectChange"></a-checkbox>
+          <span class="tree-list-label" >{{ label }}</span>
+          <a-checkbox class="tree-list-checkbox" @change="checkBoxSelectChange"></a-checkbox>
         </div>
       </div>
       <tree-custom
+        :key="children.key"
         v-for="children in treeData"
         v-if="showChildren"
         :treeData="children.children"
         :label="children.title"
         :headImg="children.head"
-        :id="children.key"
+        :pkid="children.key"
         :depth="depth+1"
       >
       </tree-custom>
@@ -31,36 +32,51 @@ export default {
   data () {
     return {
       showChildren: true,
-      currentInfoData:{},
+      currentInfoData: {}
     }
   },
-  props:{
-    treeData:{},
-    label:'',
-    depth:0,
-    headImg:'',
-    id:''
+  props: {
+    treeData: {
+      type: Object,
+      default: () => {}
+    },
+    label: {
+      type: String,
+      default: () => ''
+    },
+    depth: {
+      type: Number,
+      default: () => 0
+    },
+    headImg: {
+      type: String,
+      default: () => ''
+    },
+    pkid: {
+      type: String,
+      default: () => ''
+    }
   },
   computed: {
-    indent() {
-      return {transform: `translate(${(this.depth-1) * 15}px)`}
+    indent () {
+      return { transform: `translate(${(this.depth - 1) * 15}px)` }
     }
   },
   methods: {
-    toggleChildren() {
-      this.showChildren = !this.showChildren;
+    toggleChildren () {
+      this.showChildren = !this.showChildren
     },
-    checkBoxSelectChange(e){
-      console.log("checkBox e:",e);
-      console.log("currentInfoData",this.currentInfoData);
-      console.log("this",this);
+    checkBoxSelectChange (e) {
+      console.log('checkBox e:', e)
+      console.log('currentInfoData', this.currentInfoData)
+      console.log('this', this)
     },
-    getCurrentInfo(label,headImg,id){
-      console.log("label:",label)
+    getCurrentInfo (label, headImg, pkid) {
+      console.log('label:', label)
       this.currentInfoData = {
-        title:label,
-        key: id,
-        head:headImg,
+        title: label,
+        key: pkid,
+        head: headImg
       }
     }
   }

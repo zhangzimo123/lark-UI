@@ -8,13 +8,6 @@
       </div>
       <div>
         <tree-custom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :id="tree.key" :depth="0" />
-        <!--<a-tree-->
-          <!--:treeData="treeData"-->
-          <!--:defaultSelectedKeys="['0-0-0']"-->
-          <!--@select="this.onSelect"-->
-          <!--@check="this.onCheck"-->
-        <!--&gt;-->
-        <!--</a-tree>-->
       </div>
     </div>
     <div class="search-window-right-part">
@@ -22,7 +15,7 @@
       <div v-for="(item,index) in contactsData" :key="item.key">
         <div class="contacts-item" >
           <img class="contacts-item-img" :src="item.head"/>
-          <div class="contacts-item-name">{{item.title}}</div>
+          <div class="contacts-item-name">{{ item.title }}</div>
           <div class="contacts-item-delete" @click="deleteContactsItem(index)">✖</div>
         </div>
       </div>
@@ -36,21 +29,21 @@
 
 </template>
 <script>
-import AInput from "ant-design-vue/es/input/Input";
-import AButton from "ant-design-vue/es/button/button";
+import AInput from 'ant-design-vue/es/input/Input'
+import AButton from 'ant-design-vue/es/button/button'
 import TreeCustom from '@/components/ChatBox/TreeCustom'
 const contactsData = [
   {
     key: '0-0-0',
     title: '旺仔研究员1',
-    head: require('@/assets/sjs.jpg'),
+    head: require('@/assets/sjs.jpg')
   },
   {
     title: '旺仔研究员2',
     key: '0-0-1',
-    head: require('@/assets/sjs.jpg'),
+    head: require('@/assets/sjs.jpg')
   }
-];
+]
 
 export default {
   components: {
@@ -61,14 +54,19 @@ export default {
   name: 'SearchWindow',
   data () {
     return {
-//      treeData,
       contactsData,
-      searchKeyWords:""
+      searchKeyWords: ''
     }
   },
-  props:{
-    searchWindowIsShow:false,
-    tree:{},
+  props: {
+    searchWindowIsShow: {
+      type: Boolean,
+      default: () => false
+    },
+    tree: {
+      type: Object,
+      default: () => {}
+    }
   },
   methods: {
     onSelect (selectedKeys, info) {
@@ -77,25 +75,25 @@ export default {
     onCheck (checkedKeys, info) {
       console.log('onCheck', checkedKeys, info)
     },
-    deleteContactsItem(index) {
-      console.log("删除 contactsData",this.contactsData);
-      console.log("删除 Index",index);
-      contactsData.splice(index,1);
+    deleteContactsItem (index) {
+      console.log('删除 contactsData', this.contactsData)
+      console.log('删除 Index', index)
+      contactsData.splice(index, 1)
     },
-    searchValueChange(){
-      console.log("searchKeyWords",this.searchKeyWords);
-      var len = treeData.length;
-      var arr = [];
-      for(var i=0;i<len;i++){
-        //如果字符串中不包含目标字符会返回-1
-        if(treeData[i].title.indexOf(this.searchKeyWords)>=0){
-          arr.push(treeData[i]);
+    searchValueChange () {
+      console.log('searchKeyWords', this.searchKeyWords)
+      var len = this.treeData.length
+      var arr = []
+      for (var i = 0; i < len; i++) {
+        // 如果字符串中不包含目标字符会返回-1
+        if (this.treeData[i].title.indexOf(this.searchKeyWords) >= 0) {
+          arr.push(this.treeData[i])
         }
       }
-      console.log("arr",arr);
+      console.log('arr', arr)
     },
-    closeSearchWindow(){
-      this.$parent.closeSearchWindow();
+    closeSearchWindow () {
+      this.$parent.closeSearchWindow()
     }
   }
 }
