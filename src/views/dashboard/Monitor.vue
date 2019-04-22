@@ -29,7 +29,7 @@
           <discuss :headStyle="headStyle" :loading="loading" v-if="grid.is === 'discuss'" />
           <todo :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'todo'" />
           <resource :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'resource'" />
-          <meeting-test :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'meeting'" />
+          <Meeting :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'meeting'" />
         </grid-item>
       </grid-layout>
       <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
@@ -63,7 +63,7 @@ import Discuss from './components/Discuss.vue'
 import Todo from './components/Todo.vue'
 import Resource from './components/Resource.vue'
 import LinkFooter from './components/Link.vue'
-import MeetingTest from './meeting.vue'
+import Meeting from './components/Meeting'
 // 工作台看板模拟数据
 var layoutCards = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
@@ -148,7 +148,7 @@ export default {
     Todo,
     Resource,
     LinkFooter,
-    MeetingTest,
+    Meeting,
     FooterToolBar,
     MyChatPanel,
     // TreeCustom,
