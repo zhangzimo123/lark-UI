@@ -45,8 +45,8 @@
                 <a-spin/>
               </div>
             </a-list> -->
-            <chat-contacts-item></chat-contacts-item>
-
+            <recent-contacts-item></recent-contacts-item>
+            <!-- <contacts-item></contacts-item> -->
           </div>
         </a-tab-pane>
 
@@ -57,7 +57,8 @@
           </span>
 
           <div class="group-contacts-container tab-content-container">
-            <contacts-box/>
+            <!-- <contacts-box/> -->
+            <contacts-item></contacts-item>
           </div>
         </a-tab-pane>
 
@@ -119,7 +120,8 @@ import {
   Contacts as ContactsBox,
   ContactsInfo,
   GroupInfo,
-  ChatContactsItem,
+  RecentContactsItem,
+  ContactsItem,
   MemberBox as MemberModel
 } from '@/components/Talk'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
@@ -143,7 +145,8 @@ export default {
     GroupInfo,
     UserChat,
     MemberModel,
-    ChatContactsItem
+    RecentContactsItem,
+    ContactsItem
   },
   data () {
     return {

@@ -1,6 +1,6 @@
 <template>
   <!-- recent contacts item -->
-  <div class="chat-contacts">
+  <div class="recent-contacts">
 
     <div class="avatar">
       <img src="/avatar2.jpg">
@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: 'ChatContactsItem',
+  name: 'RecentContactsItem',
   props: {
     // contacts information object
     contactsInfo: {
@@ -73,7 +73,7 @@ export default {
     background-color: rgb(220, 222, 224);
   }
 
-  .chat-contacts {
+  .recent-contacts {
     width: 100%;
     height: 64px;
     min-height: 64px;

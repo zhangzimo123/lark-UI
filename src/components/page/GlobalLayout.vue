@@ -86,7 +86,7 @@ export default {
   components: {
     SideMenu,
     GlobalHeader,
-    GlobalFooter,
+    GlobalFooter
     // SettingDrawer
   },
   mixins: [mixin, mixinDevice],

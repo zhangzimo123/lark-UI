@@ -2,7 +2,8 @@ import MemberBox from './contacts/MemberBox'
 import TalkSetting from './setting/TalkSetting'
 import Chat from './Chat'
 import ChatBoxs from './ChatBoxs'
-import ChatContactsItem from './ChatContactsItem'
+import RecentContactsItem from './RecentContactsItem'
+import ContactsItem from './ContactsItem'
 import Contacts from './Contacts'
 import ContactsInfo from './ContactsInfo'
 import Face from './Face'
@@ -14,7 +15,8 @@ export {
   TalkSetting,
   Chat,
   ChatBoxs,
-  ChatContactsItem,
+  RecentContactsItem,
+  ContactsItem,
   Contacts,
   ContactsInfo,
   Face,
