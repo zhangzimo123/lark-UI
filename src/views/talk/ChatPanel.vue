@@ -9,7 +9,6 @@
           placeholder="消息/联系人/群组"
           size="small"
         />
-
         <a-dropdown>
           <a-menu slot="overlay">
             <a-menu-item key="1" @click="$refs.model.beginTalk()">发起研讨</a-menu-item>
@@ -18,7 +17,6 @@
           <a-button type="default" size="small" icon="plus" style="margin-left:3px">
           </a-button>
         </a-dropdown>
-
       </div>
 
       <a-tabs :activeKey="activeKey" @change="changePane" :tabBarGutter="0" :tabBarStyle="tabStyle" :animated="false">

@@ -14,25 +14,25 @@
           </div>
         </div>
         <!--<div class="search-bar">-->
-          <!--<a-row>-->
-            <!--<a-col :span="21">-->
-              <!--<a-input-search-->
-                <!--placeholder="消息/联系人/群组"-->
-                <!--style="width:100%"-->
-                <!--size="small"-->
-              <!--/>-->
-            <!--</a-col>-->
-            <!--<a-col :span="3">-->
-              <!--<a-dropdown>-->
-                <!--<a-menu slot="overlay">-->
-                  <!--<a-menu-item key="1" @click="$refs.model.beginTalk()">发起研讨</a-menu-item>-->
-                  <!--<a-menu-item key="2">发起会议</a-menu-item>-->
-                <!--</a-menu>-->
-                <!--<a-button type="default" size="small" icon="plus" style="margin-left:3px">-->
-                <!--</a-button>-->
-              <!--</a-dropdown>-->
-            <!--</a-col>-->
-          <!--</a-row>-->
+        <!--<a-row>-->
+        <!--<a-col :span="21">-->
+        <!--<a-input-search-->
+        <!--placeholder="消息/联系人/群组"-->
+        <!--style="width:100%"-->
+        <!--size="small"-->
+        <!--/>-->
+        <!--</a-col>-->
+        <!--<a-col :span="3">-->
+        <!--<a-dropdown>-->
+        <!--<a-menu slot="overlay">-->
+        <!--<a-menu-item key="1" @click="$refs.model.beginTalk()">发起研讨</a-menu-item>-->
+        <!--<a-menu-item key="2">发起会议</a-menu-item>-->
+        <!--</a-menu>-->
+        <!--<a-button type="default" size="small" icon="plus" style="margin-left:3px">-->
+        <!--</a-button>-->
+        <!--</a-dropdown>-->
+        <!--</a-col>-->
+        <!--</a-row>-->
         <!--</div>-->
         <a-tabs defaultActiveKey="1" :tabBarGutter="0" :tabBarStyle="tabStyle">
           <a-tab-pane key="1" forceRender class="box-panel">
@@ -71,27 +71,27 @@
               群组
             </span>
             <div v-for="(item,index) in groupData" class="talk-group-list-item" :key="index">
-              <img class="talk-group-list-head" :src="item.head"/>
+              <img class="talk-group-list-head" :src="item.head" />
               <span class="talk-group-list-name" >{{ item.title }}</span>
             </div>
             <div class="talk-group-list-add-box">
-              <img class="talk-group-list-add" src="@/assets/add-group.png"/>
+              <img class="talk-group-list-add" src="@/assets/add-group.png" />
               <span class="talk-group-list-add-font">添加群组</span>
             </div>
           </a-tab-pane>
         </a-tabs>
         <div class="talk-foot-background">
-          <img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow"  />
-          <img class="talk-foot-add"src="@/assets/add.png"/>
+          <img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />
+          <img class="talk-foot-add"src="@/assets/add.png" />
         </div>
       </a-layout-sider>
 
       <a-layout style="z-index: 1">
         <!--<div v-show="isShowWelcome">-->
-          <!--<div style="margin: 120px auto 0 auto;text-align: center;">-->
-            <!--<a-icon type="rocket" theme="twoTone" twoToneColor="#52c41a" style="fontSize:108px" />-->
-            <!--<p class="description">不要怂，一起上</p>-->
-          <!--</div>-->
+        <!--<div style="margin: 120px auto 0 auto;text-align: center;">-->
+        <!--<a-icon type="rocket" theme="twoTone" twoToneColor="#52c41a" style="fontSize:108px" />-->
+        <!--<p class="description">不要怂，一起上</p>-->
+        <!--</div>-->
         <!--</div>-->
         <a-layout>
           <!--<div v-show="isShowWelcome">欢迎</div>-->
@@ -121,7 +121,7 @@ import conf from '@/api/index'
 import HttpApiUtils from '../../utils/talk/HttpApiUtils'
 export default {
   directives: { infiniteScroll },
-  name:'MyChatPanel',
+  name: 'MyChatPanel',
   components: {
     ContactList,
     UserChat,
@@ -207,11 +207,11 @@ export default {
     delChat (chat) {
       this.$store.commit('delChat', chat)
     },
-    closeMyChatPanel(){
-      this.$parent.closeMyChatPanel();
+    closeMyChatPanel () {
+      this.$parent.closeMyChatPanel()
     },
-    openSearchWindow(){
-      this.$parent.openSearchWindow();
+    openSearchWindow () {
+      this.$parent.openSearchWindow()
     }
   },
   activated: function () {
@@ -231,7 +231,7 @@ export default {
       imageLoad('message-box')
     })
   },
-  props:{
+  props: {
     myChatPanelIsShow: Boolean
   },
   mounted: function () {
