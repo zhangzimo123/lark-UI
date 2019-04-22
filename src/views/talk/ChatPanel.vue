@@ -292,7 +292,7 @@ export default {
       param.set('client_secret', 'v-client-ppp')
       param.set('grant_type', 'refresh_token')
       param.set('scope', 'select')
-      param.set('refresh_token', sessionStorage.getItem('refresh_token'))
+      // param.set('refresh_token', localStorage.getItem('Refresh-Token'))
       timeoutFetch(
         fetch(conf.getTokenUrl(), {
           method: 'POST',

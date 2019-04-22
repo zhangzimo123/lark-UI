@@ -1,3 +1,4 @@
+import Vue from 'vue'
 // 格式化时间
 export function formatDateTime (date) {
   const y = date.getFullYear()
@@ -268,11 +269,13 @@ export function transform (content) {
 export const ChatListUtils = {
   listKey: '_chatList',
   setChatList: function (userId, chatList) {
-    localStorage.setItem(userId + this.listKey, JSON.stringify(chatList))
+    Vue.ls.set(userId + this.listKey, JSON.stringify(chatList))
+    // localStorage.setItem(userId + this.listKey, JSON.stringify(chatList))
   },
   // 从缓存中获取已经保存的会话
   getChatList: function (userId) {
-    const str = localStorage.getItem(userId + this.listKey)
+    const str = Vue.ls.get(userId + this.listKey)
+    // const str = localStorage.getItem(userId + this.listKey)
     if (!str) {
       return []
     }
@@ -410,7 +413,8 @@ export function fetchPost (url, formData, resultFun, self) {
  * @returns {Promise<any | never>}
  */
 export function tokenFetch (url, formData) {
-  const token = sessionStorage.getItem('token')
+  const token = Vue.ls.get('Access-Token')
+  // const token = localStorage.getItem('Access-Token')
   formData.set('access_token', token)
   return fetch(url, {
     method: 'POST',

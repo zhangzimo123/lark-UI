@@ -11,6 +11,7 @@
  * }
  * @api public
  */
+import Vue from 'vue'
 const { MessageInfoType } = require('./chatUtils')
 
 function WebsocketHeartbeatJs ({
@@ -42,7 +43,7 @@ function WebsocketHeartbeatJs ({
 
 WebsocketHeartbeatJs.prototype.createWebSocket = function () {
   try {
-    this.ws = new WebSocket(this.opts.url + '?token=' + sessionStorage.getItem('token'))
+    this.ws = new WebSocket(this.opts.url + '?token=' + Vue.ls.get('Access-Token'))
     this.initEventHandle()
   } catch (e) {
     this.reconnect()

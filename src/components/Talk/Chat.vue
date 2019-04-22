@@ -257,14 +257,14 @@ export default {
       userList: [],
       imgFormat: ['jpg', 'jpeg', 'png', 'gif'],
       fileFormat: ['doc', 'docx', 'jpg', 'jpeg', 'png', 'gif', 'xls', 'xlsx', 'pdf', 'gif', 'exe', 'msi', 'swf', 'sql', 'apk', 'psd'],
-      tokenImg: {
-        access_token: sessionStorage.getItem('token'),
-        type: 'image'
-      },
-      tokenFile: {
-        access_token: sessionStorage.getItem('token'),
-        type: 'file'
-      },
+      // tokenImg: {
+      //   access_token: Vue.ls.get('Access-Token'),
+      //   type: 'image'
+      // },
+      // tokenFile: {
+      //   access_token: localStorage.getItem('Access-Token'),
+      //   type: 'file'
+      // },
       action: conf.getHostUrl() + '/api/upload',
       headers: {
         'Access-Control-Allow-Origin': '*'
@@ -301,11 +301,11 @@ export default {
     showUser: function () {},
     beforeUpload () {
       this.tokenImg = {
-        access_token: sessionStorage.getItem('token'),
+        // access_token: localStorage.getItem('Access-Token'),
         type: 'image'
       }
       this.tokenFile = {
-        access_token: sessionStorage.getItem('token'),
+        // access_token: localStorage.getItem('Access-Token'),
         type: 'file'
       }
       return new Promise(resolve => {

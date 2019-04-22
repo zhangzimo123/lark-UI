@@ -26,8 +26,11 @@ const user = {
       state.tokenStatus = tokenStatus
     },
     SET_TOKEN: (state, token) => {
-      sessionStorage.setItem('token', token.access_token)
-      sessionStorage.setItem('refresh_token', token.refresh_token)
+      state.token = token
+      // Vue.ls.set('Access-Token', token.access_token, 7 * 24 * 60 * 60 * 1000)
+      // Vue.ls.set('Refresh-Token', token.refresh_token, 7 * 24 * 60 * 60 * 1000)
+      // localStorage.setItem('Access-Token', token.access_token)
+      // localStorage.setItem('Refresh-Token', token.refresh_token)
     },
     SET_NAME: (state, { name, welcome }) => {
       state.name = name
@@ -50,7 +53,7 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const result = response.result
-          Vue.ls.set('Access-Token', result.token, 7 * 24 * 60 * 60 * 1000)
+          Vue.ls.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
           commit('SET_TOKEN', result.token)
           resolve()
         }).catch(error => {
