@@ -69,7 +69,7 @@ export default {
   },
   data () {
     return {
-      host: '127.0.0.1',
+      // host: '127.0.0.1',
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
       loginType: 0,
@@ -83,22 +83,16 @@ export default {
     }
   },
   created: function () {
-    const self = this
-    const host = localStorage.getItem('host')
-    if (host !== 'undefined') {
-      self.host = host
-    } else {
-      localStorage.setItem('host', self.host)
-    }
+    // const self = this
+    // const host = localStorage.getItem('host')
+    // if (host !== 'undefined') {
+    //   self.host = host
+    // } else {
+    //   localStorage.setItem('host', self.host)
+    // }
   },
   methods: {
     ...mapActions(['Login', 'Logout']),
-    saveSetting () {
-      const self = this
-      localStorage.setItem('host', self.host)
-      self.$Message.success('保存成功！')
-      self.showSetting = false
-    },
     // handler
     handleUsernameOrEmail (rule, value, callback) {
       const { state } = this
