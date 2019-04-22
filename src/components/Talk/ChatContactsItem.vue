@@ -5,10 +5,10 @@
     <div class="avatar">
       <img src="/avatar2.jpg">
       <a-badge
-        :count="100"
+        :count="10"
         :overflowCount="99"
-        :offset="[0, -20]"
-        :numberStyle="{fontSize: '12px', padding: '0', boxShadow: 'none'}">
+        :offset="[-5, -20]"
+        :numberStyle="{padding: '0', boxShadow: 'none', height: '16px', minWidth: '16px', lineHeight: '16px'}">
         <a href="#"></a>
       </a-badge>
     </div>
