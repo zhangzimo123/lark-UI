@@ -37,8 +37,8 @@ export default {
   },
   props: {
     treeData: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => []
     },
     label: {
       type: String,
