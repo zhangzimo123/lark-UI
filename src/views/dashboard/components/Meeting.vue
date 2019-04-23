@@ -27,7 +27,7 @@
       </a-popover>
       <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
-        <a-tag :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
+        <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
         <span @click="visibleModal(row)" >{{ row.name.length> 22 ? row.name.replace(/^(.{20})(.*)$/,'$1...') : row.name }}</span>
         <span class="right">{{ row.date }}</span>
         <a-modal
@@ -187,5 +187,8 @@ export default {
     margin-right: 8px;
     position: relative;
     top: -2px;
+  }
+  .row-tag{
+    font-size: 12px;
   }
 </style>
