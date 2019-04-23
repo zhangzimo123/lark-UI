@@ -92,21 +92,25 @@ export default {
         title: '',
         key: '0',
         head: '',
+        selectStatus: false,
         children: [
           {
             title: '科工二院一部（20）',
             key: '0-0',
             head: '',
+            selectStatus: false,
             children: [
               {
                 key: '0-0-0',
                 title: '旺仔研究员1',
-                head: require('@/assets/sjs.jpg')
+                head: require('@/assets/sjs.jpg'),
+                selectStatus: false
               },
               {
                 title: '旺仔研究员2',
                 key: '0-0-1',
-                head: require('@/assets/sjs.jpg')
+                head: require('@/assets/sjs.jpg'),
+                selectStatus: false
               }
             ]
           },
@@ -114,26 +118,31 @@ export default {
             title: '科工二院二部（20）',
             key: '0-1',
             head: '',
+            selectStatus: false,
             children: [
               {
                 title: '策划部（20）',
                 key: '0-1-0',
                 head: '',
+                selectStatus: false,
                 children: [
                   {
                     title: '策划部一分部（10）',
                     key: '0-1-0-2',
                     head: '',
+                    selectStatus: false,
                     children: [
                       {
-                        title: '旺仔研究员1',
+                        title: '旺仔研究员3',
                         key: '0-1-0-2-0',
-                        head: require('@/assets/sjs.jpg')
+                        head: require('@/assets/sjs.jpg'),
+                        selectStatus: false
                       },
                       {
-                        title: '旺仔研究员2',
+                        title: '旺仔研究员4',
                         key: '0-1-0-2-1',
-                        head: require('@/assets/sjs.jpg')
+                        head: require('@/assets/sjs.jpg'),
+                        selectStatus: false
                       }
                     ]
                   }
@@ -185,6 +194,20 @@ export default {
     },
     closeSearchWindow () {
       this.searchWindowIsShow = false
+    },
+    searchAndChangeSelectStatus (obj, key, status) {
+      const keyValue = key
+      const statusValue = status
+      if (obj && obj.key === key) {
+        obj.selectStatus = status
+      }
+      if (obj && obj.key !== key) {
+        if (obj.children) {
+          obj.children.forEach(item => {
+            this.searchAndChangeSelectStatus(item, keyValue, statusValue)
+          })
+        }
+      }
     }
   }
 }

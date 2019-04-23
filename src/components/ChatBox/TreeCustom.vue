@@ -9,7 +9,7 @@
         <div v-if="headImg" class="tree-list-contacts-item" @click="getCurrentInfo(label,headImg,pkid)">
           <img class="tree-list-head-image" :src="headImg" />
           <span class="tree-list-label" >{{ label }}</span>
-          <a-checkbox class="tree-list-checkbox" @change="checkBoxSelectChange" ></a-checkbox>
+          <a-checkbox class="tree-list-checkbox" @change="checkBoxSelectChange" :checked="selectStatus" ></a-checkbox>
         </div>
       </div>
       <tree-custom
@@ -21,6 +21,7 @@
         :headImg="children.head"
         :pkid="children.key"
         :depth="depth+1"
+        :selectStatus="children.selectStatus"
         v-bind="$attrs"
         v-on="$listeners"
       >
@@ -57,6 +58,10 @@ export default {
     pkid: {
       type: String,
       default: () => ''
+    },
+    selectStatus: {
+      type: Boolean,
+      default: () => null
     }
   },
   computed: {
@@ -69,21 +74,15 @@ export default {
       this.showChildren = !this.showChildren
     },
     checkBoxSelectChange (e) {
-      console.log('checkBox e:', e)
-      console.log('currentInfoData', this.currentInfoData)
-      console.log('this', this)
       const checked = e.target.checked
       if (checked) {
         this.$listeners.addSelectedData(this.currentInfoData)
-        this.selected = true
       }
       if (!checked) {
         this.$listeners.deleteSelectedData(this.currentInfoData)
-        this.selected = false
       }
     },
     getCurrentInfo (label, headImg, pkid) {
-      console.log('label:', label)
       this.currentInfoData = {
         key: pkid,
         title: label,
