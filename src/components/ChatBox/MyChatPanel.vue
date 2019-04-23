@@ -3,7 +3,7 @@
     <a-layout class="talk-layout">
       <a-layout-sider
         class="talk-sider"
-        style="flex: 0 0 235px;max-width: 235px;min-width: 235px;width: 235px;"
+        style="flex: 0 0 300px;max-width: 300px;min-width: 300px;width: 300px;"
       >
         <div class="talk-account-info-board">
           <div class="talk-account-info-board-close" @click="this.closeMyChatPanel">✖</div>
@@ -356,7 +356,7 @@ export default {
 }
 .talk-view {
   // height: calc(100% - 64px);
-  height: 524px;
+  height: 596px;
   /*width: 209px;*/
   // margin: -24px;
   box-shadow: -3px -1px 6px -3px #919191;
