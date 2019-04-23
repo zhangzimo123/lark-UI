@@ -13,6 +13,7 @@
           :treeData="tree.children"
           :pkid="tree.key"
           :depth="0"
+          :selectStatus="tree.selectStatus"
           @addSelectedData="addSelectedData"
           @deleteSelectedData="deleteSelectedData" />
       </div>
@@ -23,7 +24,7 @@
         <div class="contacts-item" >
           <img class="contacts-item-img" :src="item.head"/>
           <div class="contacts-item-name">{{ item.title }}</div>
-          <div class="contacts-item-delete" @click="deleteContactsItem(index)">✖</div>
+          <div class="contacts-item-delete" @click="deleteContactsItem(item,index)">✖</div>
         </div>
       </div>
       <!--<div class="sureBtn">确认</div>-->
@@ -69,10 +70,9 @@ export default {
     onCheck (checkedKeys, info) {
       console.log('onCheck', checkedKeys, info)
     },
-    deleteContactsItem (index) {
-      console.log('删除 contactsData', this.contactsData)
-      console.log('删除 Index', index)
+    deleteContactsItem (item, index) {
       this.contactsData.splice(index, 1)
+      this.$parent.searchAndChangeSelectStatus(this.tree, item.key, false)
     },
     searchValueChange () {
       console.log('searchKeyWords', this.searchKeyWords)
@@ -91,11 +91,13 @@ export default {
     },
     addSelectedData (item) {
       this.contactsData.push(item)
+      this.$parent.searchAndChangeSelectStatus(this.tree, item.key, true)
     },
     deleteSelectedData (item) {
       for (let i = 0; i < this.contactsData.length; i++) {
         if (item.key === this.contactsData[i].key) {
           this.contactsData.splice(i, 1)
+          this.$parent.searchAndChangeSelectStatus(this.tree, item.key, false)
         }
       }
       console.log('contactsData', this.contactsData)
