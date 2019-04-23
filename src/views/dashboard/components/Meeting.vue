@@ -27,14 +27,28 @@
       </a-popover>
       <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
-        <a-tag :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
+        <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
         <span @click="visibleModal(row)" >{{ row.name.length> 22 ? row.name.replace(/^(.{20})(.*)$/,'$1...') : row.name }}</span>
         <span class="right">{{ row.date }}</span>
         <a-modal
           v-model="modal"
           footer=""
           title="会议详细">
-          <p>{{ rowDetails.name }}</p>
+          <a-row class="row-magin">
+            <a-col>会议名称:&nbsp;{{ rowDetails.name }}</a-col>
+          </a-row>
+          <a-row class="row-magin">
+            <a-col>会议时间:&nbsp;{{ rowDetails.date }}</a-col>
+          </a-row>
+          <a-row class="row-magin">
+            <a-col>会议地点:&nbsp;{{ rowDetails.locale }}</a-col>
+          </a-row>
+          <a-row class="row-magin">
+            <a-col>会议人员:&nbsp;{{ rowDetails.member }}</a-col>
+          </a-row>
+          <a-row class="row-magin">
+            <a-col>会议说明:&nbsp;{{ rowDetails.description }}</a-col>
+          </a-row>
         </a-modal>
       </a-row>
       <div v-if="list.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
@@ -59,7 +73,7 @@ export default {
       selectedType: 0,
       buttonEdit: false,
       modal: false,
-      rowDetails: {},
+      rowDetails: '',
       typeArray: [
         // { type: 1, name: '未开始', show: true },
         // { type: 2, name: '进行中', show: true },
@@ -187,5 +201,8 @@ export default {
     margin-right: 8px;
     position: relative;
     top: -2px;
+  }
+  .row-tag{
+    font-size: 12px;
   }
 </style>

@@ -27,9 +27,10 @@
           :h="grid.h"
           :i="grid.i">
           <discuss :headStyle="headStyle" :loading="loading" v-if="grid.is === 'discuss'" />
-          <todo :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'todo'" />
+          <todo-plan-task :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'todoPlanTask'" />
           <resource :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'resource'" />
           <Meeting :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'meeting'" />
+
         </grid-item>
       </grid-layout>
       <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
@@ -60,14 +61,16 @@ import SearchWindow from '@/components/ChatBox/SearchWindow'
 // import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
 import Discuss from './components/Discuss.vue'
-import Todo from './components/Todo.vue'
 import Resource from './components/Resource.vue'
 import LinkFooter from './components/Link.vue'
 import Meeting from './components/Meeting'
+// import plan from './components/Plan'
+// import task from './components/Task'
+import todoPlanTask from './components/TodoPlanTask'
 // 工作台看板模拟数据
 var layoutCards = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo' },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todoPlanTask' },
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting' },
   { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource' }
 ]
@@ -89,21 +92,25 @@ export default {
         title: '',
         key: '0',
         head: '',
+        selectStatus: false,
         children: [
           {
             title: '科工二院一部（20）',
             key: '0-0',
             head: '',
+            selectStatus: false,
             children: [
               {
                 key: '0-0-0',
                 title: '旺仔研究员1',
-                head: require('@/assets/sjs.jpg')
+                head: require('@/assets/sjs.jpg'),
+                selectStatus: false
               },
               {
                 title: '旺仔研究员2',
                 key: '0-0-1',
-                head: require('@/assets/sjs.jpg')
+                head: require('@/assets/sjs.jpg'),
+                selectStatus: false
               }
             ]
           },
@@ -111,26 +118,31 @@ export default {
             title: '科工二院二部（20）',
             key: '0-1',
             head: '',
+            selectStatus: false,
             children: [
               {
                 title: '策划部（20）',
                 key: '0-1-0',
                 head: '',
+                selectStatus: false,
                 children: [
                   {
                     title: '策划部一分部（10）',
                     key: '0-1-0-2',
                     head: '',
+                    selectStatus: false,
                     children: [
                       {
-                        title: '旺仔研究员1',
+                        title: '旺仔研究员3',
                         key: '0-1-0-2-0',
-                        head: require('@/assets/sjs.jpg')
+                        head: require('@/assets/sjs.jpg'),
+                        selectStatus: false
                       },
                       {
-                        title: '旺仔研究员2',
+                        title: '旺仔研究员4',
                         key: '0-1-0-2-1',
-                        head: require('@/assets/sjs.jpg')
+                        head: require('@/assets/sjs.jpg'),
+                        selectStatus: false
                       }
                     ]
                   }
@@ -145,12 +157,14 @@ export default {
   },
   components: {
     Discuss,
-    Todo,
     Resource,
     LinkFooter,
     Meeting,
     FooterToolBar,
     MyChatPanel,
+    // plan,
+    // task,
+    todoPlanTask,
     // TreeCustom,
     // Container,
     // Draggable,
@@ -180,6 +194,20 @@ export default {
     },
     closeSearchWindow () {
       this.searchWindowIsShow = false
+    },
+    searchAndChangeSelectStatus (obj, key, status) {
+      const keyValue = key
+      const statusValue = status
+      if (obj && obj.key === key) {
+        obj.selectStatus = status
+      }
+      if (obj && obj.key !== key) {
+        if (obj.children) {
+          obj.children.forEach(item => {
+            this.searchAndChangeSelectStatus(item, keyValue, statusValue)
+          })
+        }
+      }
     }
   }
 }
