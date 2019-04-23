@@ -74,9 +74,6 @@ export default {
       this.showChildren = !this.showChildren
     },
     checkBoxSelectChange (e) {
-      console.log('checkBox e:', e)
-      console.log('currentInfoData', this.currentInfoData)
-      console.log('this', this)
       const checked = e.target.checked
       if (checked) {
         this.$listeners.addSelectedData(this.currentInfoData)
@@ -86,7 +83,6 @@ export default {
       }
     },
     getCurrentInfo (label, headImg, pkid) {
-      console.log('label:', label)
       this.currentInfoData = {
         key: pkid,
         title: label,

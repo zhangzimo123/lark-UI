@@ -208,7 +208,6 @@ export default {
           })
         }
       }
-      console.log('tree', this.tree)
     }
   }
 }

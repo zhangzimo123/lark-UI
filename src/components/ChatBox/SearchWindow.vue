@@ -27,7 +27,6 @@
           <div class="contacts-item-delete" @click="deleteContactsItem(item,index)">✖</div>
         </div>
       </div>
-      <!--<div class="sureBtn">确认</div>-->
       <div class="foot-btn-box">
         <a-button class="sureBtn">确认</a-button>
         <a-button class="cancelBtn" @click="closeSearchWindow">取消</a-button>
