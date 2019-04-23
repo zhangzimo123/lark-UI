@@ -5,7 +5,8 @@
     :mask="false"
     v-model="createMeeted"
     @on-visible-change="visibleChange"
-    :footer-hide="false">
+    @ok="save"
+  >
     <a-row class="marginTop" type="flex" justify="center">
       <div>
         会议名称：
@@ -14,8 +15,14 @@
     </a-row>
     <a-row class="marginTop" type="flex" justify="center">
       <div>
-        会议时间：
-        <a-date-picker v-model="meeting.date" showTime format="YYYY-MM-DD HH:mm:ss" placeholder="输入会议时间" style="width: 210px"></a-date-picker>
+        开始时间：
+        <a-date-picker v-model="meeting.terminalTime" showTime format="YYYY-MM-DD HH:mm" placeholder="输入会议时间" style="width: 210px"></a-date-picker>
+      </div>
+    </a-row>
+    <a-row class="marginTop" type="flex" justify="center">
+      <div>
+        结束时间：
+        <a-date-picker v-model="meeting.date" showTime format="YYYY-MM-DD HH:mm" placeholder="输入会议结束时间" style="width: 210px"></a-date-picker>
       </div>
     </a-row>
     <a-row class="marginTop" type="flex" justify="center">
@@ -40,6 +47,7 @@
 
 </template>
 <script>
+// import { saveMeetings } from './../../api/dashboard'
 export default {
   data () {
     return {
@@ -62,6 +70,15 @@ export default {
     visibleChange () {
       // alert(this.createMeeted);
       // console.log(this.createMeeted)
+    },
+    save () {
+    //   var vm = this
+    //   saveMeeting().then((data, status) => {
+    //     vm.list = data.content.filter(item => {
+    //       return item.type === type || type === 0
+    //     })
+    //     // vm.list = [].concat(data.content.splice(0, 6))
+    //   })
     }
   },
   watch: {

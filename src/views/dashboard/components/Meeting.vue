@@ -28,7 +28,7 @@
       <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
         <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-        <span @click="visibleModal(row)" >{{ row.name.length> 22 ? row.name.replace(/^(.{20})(.*)$/,'$1...') : row.name }}</span>
+        <span @click="visibleModal(row)" >{{ row.name.length> 20 ? row.name.replace(/^(.{18})(.*)$/,'$1...') : row.name }}</span>
         <span class="right">{{ row.date }}</span>
         <a-modal
           v-model="modal"
@@ -38,7 +38,10 @@
             <a-col>会议名称:&nbsp;{{ rowDetails.name }}</a-col>
           </a-row>
           <a-row class="row-magin">
-            <a-col>会议时间:&nbsp;{{ rowDetails.date }}</a-col>
+            <a-col>开始时间:&nbsp;{{ rowDetails.date }}</a-col>
+          </a-row>
+          <a-row class="row-magin">
+            <a-col>结束时间:&nbsp;{{ rowDetails.terminalTime }}</a-col>
           </a-row>
           <a-row class="row-magin">
             <a-col>会议地点:&nbsp;{{ rowDetails.locale }}</a-col>

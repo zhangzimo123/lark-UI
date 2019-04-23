@@ -28,7 +28,8 @@
           :i="grid.i">
           <discuss :headStyle="headStyle" :loading="loading" v-if="grid.is === 'discuss'" />
           <todo-plan-task :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'todoPlanTask'" />
-          <resource :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'resource'" />
+          <!--<resource :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'resource'" />-->
+          <resourceKnowledgeModel :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'resourceKnowledgeModel'" />
           <Meeting :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'meeting'" />
 
         </grid-item>
@@ -67,12 +68,13 @@ import Meeting from './components/Meeting'
 // import plan from './components/Plan'
 // import task from './components/Task'
 import todoPlanTask from './components/TodoPlanTask'
+import resourceKnowledgeModel from './components/ResourceKnowledgeModel.vue'
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 8, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
-  { 'x': 8, 'y': 0, 'w': 4, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todoPlanTask' },
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todoPlanTask' },
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource' }
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resourceKnowledgeModel' }
 ]
 // 工作台看板模拟数据
 export default {
@@ -165,6 +167,7 @@ export default {
     // plan,
     // task,
     todoPlanTask,
+    resourceKnowledgeModel,
     // TreeCustom,
     // Container,
     // Draggable,

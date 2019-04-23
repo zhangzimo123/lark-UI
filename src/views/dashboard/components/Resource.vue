@@ -1,55 +1,55 @@
 <template>
-  <a-card
-    title="资源池"
-    :headStyle="headStyle"
-    :loading="loading"
-    :bordered="true"
-    :style="{ minHeight: '300px' }">
-    <a-row slot="extra" style="width:450px;">
-      <a-col :span="20">
-        <a-radio-group v-model="selectedType" size="small" @change="fetchData">
-          <a-radio-button :value="0">全部</a-radio-button>
-          <a-radio-button :value="1">工具资源</a-radio-button>
-          <a-radio-button :value="2">人员资源</a-radio-button>
-          <a-radio-button :value="3">其他</a-radio-button>
-        </a-radio-group>
-      </a-col>
-      <a-col :span="4">
-        <a-popover
-          placement="left"
-          trigger="click">
-          <template slot="content">
-            <a>移除卡片</a>
-          </template>
-          <a href="#" class="right"><a-icon type="tool" /></a>
-        </a-popover>
-      </a-col>
-    </a-row>
-    <a-row type="flex" :gutter="10" v-if="selectedType === 0">
-      <a-col :span="14">
-        <resource-chart :chartStyle="chartStyle" />
-      </a-col>
-      <a-col :span="10">
-        <span class="ant-card-body-title">计算资源列表</span>
-        <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in list" :key="'item'+index">
-          <i class="ivu-tag-dot-inner ivu-tag-dot-inner-resource" ></i>
-          <span class="resource-list">{{ row.name }}</span>
-        </a-row>
-      </a-col>
-    </a-row>
-    <a-row :gutter="5" v-else>
-      <a-col :span="8" v-for="(item,index) in list" :key="'col-item-'+index">
-        <a-card>
-          <div style="height:60px;text-align:center;">
-            <img :src="item.img" style="max-width:60%;max-height:60px;">
-          </div>
-          <div style="text-align:center;">
-            <span>{{ item.name | omit }}</span>
-          </div>
-        </a-card>
-      </a-col>
-    </a-row>
-  </a-card>
+  <!--<a-card-->
+  <!--title="资源池"-->
+  <!--:headStyle="headStyle"-->
+  <!--:loading="loading"-->
+  <!--:bordered="true"-->
+  <!--:style="{ minHeight: '300px' }">-->
+  <!--<a-row slot="extra" style="width:450px;">-->
+  <!--<a-col :span="20">-->
+  <!--<a-radio-group v-model="selectedType" size="small" @change="fetchData">-->
+  <!--<a-radio-button :value="0">全部</a-radio-button>-->
+  <!--<a-radio-button :value="1">工具资源</a-radio-button>-->
+  <!--<a-radio-button :value="2">人员资源</a-radio-button>-->
+  <!--<a-radio-button :value="3">其他</a-radio-button>-->
+  <!--</a-radio-group>-->
+  <!--</a-col>-->
+  <!--<a-col :span="4">-->
+  <!--<a-popover-->
+  <!--placement="left"-->
+  <!--trigger="click">-->
+  <!--<template slot="content">-->
+  <!--<a>移除卡片</a>-->
+  <!--</template>-->
+  <!--<a href="#" class="right"><a-icon type="tool" /></a>-->
+  <!--</a-popover>-->
+  <!--</a-col>-->
+  <!--</a-row>-->
+  <a-row type="flex" :gutter="10" v-if="selectedType === 0">
+    <a-col :span="14">
+      <resource-chart :chartStyle="chartStyle" />
+    </a-col>
+    <a-col :span="10">
+      <span class="ant-card-body-title">计算资源列表</span>
+      <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in list" :key="'item'+index">
+        <i class="ivu-tag-dot-inner ivu-tag-dot-inner-resource" ></i>
+        <span class="resource-list">{{ row.name }}</span>
+      </a-row>
+    </a-col>
+  </a-row>
+  <a-row :gutter="5" v-else>
+    <a-col :span="8" v-for="(item,index) in list" :key="'col-item-'+index">
+      <a-card>
+        <div style="height:60px;text-align:center;">
+          <img :src="item.img" style="max-width:60%;max-height:60px;">
+        </div>
+        <div style="text-align:center;">
+          <span>{{ item.name | omit }}</span>
+        </div>
+      </a-card>
+    </a-col>
+  </a-row>
+  <!--</a-card>-->
 </template>
 <script>
 
