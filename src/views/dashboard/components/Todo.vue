@@ -24,8 +24,16 @@
   <div>
     <a-row v-for="(item,index) in list" :key="'item'+index" class="row-magin">
       <i class="ivu-tag-dot-inner"></i>
-      <span>{{ item.name.length> 24 ? item.name.replace(/^(.{22})(.*)$/,'$1...') : item.name }}</span>
+      <span @click="visibleModal(item)">{{ item.name.length> 24 ? item.name.replace(/^(.{22})(.*)$/,'$1...') : item.name }}</span>
       <a-tag class="right" color="#f50">{{ item.tag }}</a-tag>
+      <a-modal
+        v-model="modal"
+        footer=""
+        title="待办详细">
+        <a-row class="row-magin">
+          <a-col>{{ rowDetails.name }}</a-col>
+        </a-row>
+      </a-modal>
     </a-row>
   </div>
   <!--</a-card>-->
@@ -40,7 +48,9 @@ export default {
       size: 10,
       total: 10,
       title: '待办事项',
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' }
+      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      modal: false,
+      rowDetails: ''
     }
   },
   created () {
@@ -54,6 +64,10 @@ export default {
           vm.list = [].concat(data.content.slice(0, 6))
           vm.total = data.total
         })
+    },
+    visibleModal (row) {
+      this.modal = true
+      this.rowDetails = row
     }
   }
 }

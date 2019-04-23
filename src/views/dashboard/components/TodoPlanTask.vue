@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
-      title: '待办事项',
+      title: '待办',
       rowDetails: {},
       selectedType: 0,
       typeMap: 0,
@@ -64,9 +64,12 @@ export default {
     fetchData (event) {
       if (event.target.value === 0) {
         this.typeMap = 0
+        this.title = '待办'
       } else if (event.target.value === 1) {
         this.typeMap = 1
+        this.title = '计划'
       } else if (event.target.value === 2) {
+        this.title = '任务'
         this.typeMap = 2
       }
     }

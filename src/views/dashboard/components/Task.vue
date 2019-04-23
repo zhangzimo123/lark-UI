@@ -25,8 +25,16 @@
     <a-row class="row-magin" v-for="(row,index) in list" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-      <span>{{ row.name.length> 22 ? row.name.replace(/^(.{20})(.*)$/,'$1...') : row.name }}</span>
+      <span @click="visibleModal(row)">{{ row.name.length> 22 ? row.name.replace(/^(.{20})(.*)$/,'$1...') : row.name }}</span>
       <span class="right" color="#f50">{{ row.date }}</span>
+      <a-modal
+        v-model="modal"
+        footer=""
+        title="任务单详细">
+        <a-row class="row-magin">
+          <a-col>{{ rowDetails.name }}</a-col>
+        </a-row>
+      </a-modal>
     </a-row>
     <!--</a-card>-->
   </div>
@@ -49,7 +57,9 @@ export default {
         { type: 4, name: '已完成', show: true }
       ],
       typeMap: { 'type-1': {} },
-      list: []
+      list: [],
+      modal: false,
+      rowDetails: ''
     }
   },
   created () {
@@ -99,6 +109,10 @@ export default {
       this.buttonEdit = false
       this.selectedType = 0
       this.fetchData()
+    },
+    visibleModal (row) {
+      this.modal = true
+      this.rowDetails = row
     }
   }
 }

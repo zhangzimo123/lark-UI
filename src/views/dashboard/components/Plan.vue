@@ -24,8 +24,16 @@
     <!--</a-popover>-->
     <a-row class="row-magin" v-for="(row,index) in tableData" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
-      <span>{{ row.name.length> 24 ? row.name.replace(/^(.{22})(.*)$/,'$1...') : row.name }}</span>
+      <span @click="visibleModal(row)">{{ row.name.length> 24 ? row.name.replace(/^(.{22})(.*)$/,'$1...') : row.name }}</span>
       <span class="right" color="#f50">{{ row.date }}</span>
+      <a-modal
+        v-model="modal"
+        footer=""
+        title="计划表详细">
+        <a-row class="row-magin">
+          <a-col>{{ rowDetails.name }}</a-col>
+        </a-row>
+      </a-modal>
     </a-row>
     <!--</a-card>-->
   </div>
@@ -38,7 +46,9 @@ export default {
     return {
       title: '计划表',
       showTableHeader: true,
-      tableData: []
+      tableData: [],
+      modal: false,
+      rowDetails: ''
     }
   },
   created () {
@@ -51,6 +61,10 @@ export default {
         .then((data) => {
           vm.tableData = [].concat(data.content).slice(0, 6)
         })
+    },
+    visibleModal (row) {
+      this.modal = true
+      this.rowDetails = row
     }
   }
 }
