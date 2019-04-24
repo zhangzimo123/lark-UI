@@ -3,7 +3,8 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ minHeight: '300px'}">
+      :style="{ height: '300px'}"
+      >
       <div slot="title">
         <a-row>
           <a-col>

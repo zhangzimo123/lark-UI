@@ -13,6 +13,7 @@
         :vertical-compact="true"
         :margin="[10, 10]"
         :use-css-transforms="true"
+
       >
         <grid-item
           v-for="grid in layout"
@@ -25,7 +26,8 @@
           :y="grid.y"
           :w="grid.w"
           :h="grid.h"
-          :i="grid.i">
+          :i="grid.i"
+           >
           <discuss :headStyle="headStyle" :loading="loading" v-if="grid.is === 'discuss'" />
           <todo-plan-task :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'todoPlanTask'" />
           <!--<resource :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'resource'" />-->

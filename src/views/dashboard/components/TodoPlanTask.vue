@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ minHeight: '300px'}">
+      :style="{ height: '300px'}">
       <div slot="title">
         <a-row>
           <a-col>
@@ -13,7 +13,8 @@
               type="button"
               v-model="selectedType"
               @change="fetchData"
-              size="small">
+              size="small"
+              style="float: right;margin-right: 60%">
               <a-radio-button :value="0" >{{ "代办事项" }}</a-radio-button>
               <a-radio-button :value="1">{{ "计划表" }}</a-radio-button>
               <a-radio-button :value="2">{{ "任务单" }}</a-radio-button>
@@ -47,7 +48,7 @@ export default {
   data () {
     return {
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
-      title: '待办',
+      title: '待办事项',
       rowDetails: {},
       selectedType: 0,
       typeMap: 0,
@@ -64,12 +65,12 @@ export default {
     fetchData (event) {
       if (event.target.value === 0) {
         this.typeMap = 0
-        this.title = '待办'
+        this.title = '待办事项'
       } else if (event.target.value === 1) {
         this.typeMap = 1
-        this.title = '计划'
+        this.title = '计划表 ' + '\xa0\xa0\xa0'
       } else if (event.target.value === 2) {
-        this.title = '任务'
+        this.title = '任务单' + '\xa0\xa0\xa0'
         this.typeMap = 2
       }
     }

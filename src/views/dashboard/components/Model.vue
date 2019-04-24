@@ -1,16 +1,15 @@
 <template>
   <div >
-    <a-collapse defaultActiveKey="1" v-for="(item,index) in list" :key="index">
-      <a-collapse-panel :key="index" :header="item.name">
-        {{ item.name }}
-        <a-row>
+    <a-collapse defaultActiveKey="1" accordion="true">
+      <a-collapse-panel v-for="(item,index) in list" :key="index" :header="item.name" style="font-size: 12px" >
+        <a-row gutter="16">
           <a-col :span="12">
-            <!--<img :src="publicPath + 'public/model.png'" style="max-width:100%;height:150px;">-->
+            <img src="../../../../public/model.png" style="max-width:100%;height:110px;">
           </a-col>
           <a-col >
             <div>
               <div>
-                <span>{{ item.name }}</span>
+                <span >{{ item.name }}</span>
               </div>
               <div >
                 <span>{{ item.a }}</span>
@@ -30,7 +29,6 @@
             </div>
           </a-col>
         </a-row>
-
       </a-collapse-panel>
     </a-collapse>
   </div>

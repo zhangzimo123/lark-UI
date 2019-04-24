@@ -37,18 +37,18 @@
       </a-row>
     </a-col>
   </a-row>
-  <a-row :gutter="5" v-else>
-    <a-col :span="8" v-for="(item,index) in list" :key="'col-item-'+index">
-      <a-card>
-        <div style="height:60px;text-align:center;">
-          <img :src="item.img" style="max-width:60%;max-height:60px;">
-        </div>
-        <div style="text-align:center;">
-          <span>{{ item.name | omit }}</span>
-        </div>
-      </a-card>
-    </a-col>
-  </a-row>
+  <!--<a-row :gutter="5" v-else>-->
+  <!--<a-col :span="8" v-for="(item,index) in list" :key="'col-item-'+index">-->
+  <!--<a-card>-->
+  <!--<div style="height:60px;text-align:center;">-->
+  <!--<img :src="item.img" style="max-width:60%;max-height:60px;">-->
+  <!--</div>-->
+  <!--<div style="text-align:center;">-->
+  <!--<span>{{ item.name | omit }}</span>-->
+  <!--</div>-->
+  <!--</a-card>-->
+  <!--</a-col>-->
+  <!--</a-row>-->
   <!--</a-card>-->
 </template>
 <script>
