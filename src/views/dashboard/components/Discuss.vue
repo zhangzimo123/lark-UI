@@ -16,7 +16,7 @@
         <a class="right" href="#"><a-icon type="tool" /></a>
       </a-popover>
     </div>
-    <a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index">
+    <a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index" >
       <a-col :span="2" class="discuss-avatar">
         <a-badge :count="row.unread">
           <a-avatar :src="row.avatar" />
@@ -25,7 +25,7 @@
       <a-col :span="22" class="min-width">
         <a-row :gutter="5">
           <a-col :span="21">
-            <span class="discuss-name">{{ row.user }}</span>
+            <span class="discuss-name" @click="showChat(currentChat)">{{ row.user }}</span>
           </a-col>
           <a-col :span="3">
             <span class="datetime right">{{ row.time }}</span>
@@ -40,6 +40,7 @@
 </template>
 <script>
 import { DiscussLatest } from '@/api/discuss'
+import UserChat from '@/components/Talk/Chat'
 export default {
   props: {
     headStyle: {
@@ -51,11 +52,21 @@ export default {
       default: true
     }
   },
+  components: {
+    UserChat
+  },
   data () {
     return {
       size: 4,
       unread: 20,
-      list: []
+      list: [],
+      showChatVisible: true,
+      currentChat: {
+        id: '001',
+        name: 'AAA',
+        time: '10:20',
+        lastMessage: '123'
+      }
     }
   },
   created () {
@@ -72,6 +83,11 @@ export default {
     },
     toDiscussPage () {
       // this.$router.push({ path: '/discuss' })
+    },
+    showChat (currentChat) {
+      // this.showChatVisible = true
+      console.log('this:', this)
+      this.$emit('showChatPanel', {})
     }
   }
 }

@@ -13,7 +13,6 @@
         :vertical-compact="true"
         :margin="[10, 10]"
         :use-css-transforms="true"
-
       >
         <grid-item
           v-for="grid in layout"
@@ -28,7 +27,7 @@
           :h="grid.h"
           :i="grid.i"
         >
-          <discuss :headStyle="headStyle" :loading="loading" v-if="grid.is === 'discuss'" />
+          <discuss :headStyle="headStyle" :loading="loading" v-if="grid.is === 'discuss'" @showChatPanel="showChatPanel" />
           <todo-plan-task :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'todoPlanTask'" />
           <!--<resource :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'resource'" />-->
           <resourceKnowledgeModel :headStyle="headStyle" :loading="loading" v-else-if="grid.is === 'resourceKnowledgeModel'" />
@@ -47,7 +46,7 @@
       <link-footer />
     </footer-tool-bar>
     <div>
-      <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" />
+      <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
       <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
     </div>
   </div>
@@ -213,6 +212,10 @@ export default {
           })
         }
       }
+    },
+    showChatPanel (param) {
+      this.$refs.chatPanel.showChat(param);
+      console.log('param:',param)
     }
   }
 }

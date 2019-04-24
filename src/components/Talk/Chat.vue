@@ -481,6 +481,7 @@ export default {
     this.$nextTick(() => {
       imageLoad('message-box')
     })
+    console.log('this.chat', this.chat)
   },
   directives: { infiniteScroll }
   // directives: {
