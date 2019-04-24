@@ -4,7 +4,8 @@
 
     <!-- tips without contacts selected -->
     <div v-if="Object.keys(selected).length == 0" class="unselected-tip">
-      <h1>未选中联系人</h1>
+      <a-icon type="user" style="fontSize: 160px; color: #d7d9db" />
+      <p>未选中联系人</p>
     </div>
 
     <!-- selected contacts info -->
@@ -34,4 +35,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .contacts-info {
+    height: 100%;
+    text-align: center;
+  }
+
+  .unselected-tip {
+    padding-top: 20%;
+    color: #a5a7a9;
+    font-size: 16px;
+  }
 </style>
