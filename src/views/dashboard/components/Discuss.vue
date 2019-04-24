@@ -4,7 +4,7 @@
     :headStyle="headStyle"
     :loading="loading"
     :bordered="true"
-    :style="{ height: '300px' }">
+    :style="{ height: '305px' }">
     <div slot="extra" style="width:450px;">
       <span class="left">({{ unread }}条未读消息)</span>
       <a-popover

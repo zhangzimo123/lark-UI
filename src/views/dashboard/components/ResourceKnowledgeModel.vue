@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px'}"
+      :style="{ height: '305px'}"
       style="overflow-y:auto">
       <div slot="title">
         <a-row>
