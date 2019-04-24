@@ -181,6 +181,7 @@ export default {
     //   this.$refs.model.beginTalk()
     // },
     showChat: function (chat) {
+      console.log('调用成功')
       const self = this
       self.isShowWelcome = false
       self.isShowPanel = true
