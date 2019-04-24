@@ -32,7 +32,7 @@
     <a-col :span="10">
       <span class="ant-card-body-title">计算资源列表</span>
       <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in list" :key="'item'+index">
-        <i class="ivu-tag-dot-inner ivu-tag-dot-inner-resource" ></i>
+        <i class="ivu-tag-dot-inner" ></i>
         <span class="resource-list">{{ row.name }}</span>
       </a-row>
     </a-col>
@@ -127,5 +127,17 @@ export default {
 .ant-card-body-title{
   font-size: 15px;
   font-weight: 600;
+}
+.ivu-tag-dot-inner {
+  height: 6px;
+  width: 6px;
+  box-sizing: border-box;
+  color: rgb(81, 90, 110);
+  cursor: pointer;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;
+  font-size: 1px;
+  margin-right: 8px;
+  position: relative;
+  top: 9px;
 }
 </style>
