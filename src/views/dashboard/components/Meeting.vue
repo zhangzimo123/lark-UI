@@ -4,7 +4,8 @@
       :headStyle="headStyle"
       :bordered="true"
       :style="{ height: '300px'}"
-      >
+      style="overflow-y: auto"
+    >
       <div slot="title">
         <a-row>
           <a-col>

@@ -1,5 +1,6 @@
 <template>
-  <div >
+  <div
+    style="height:205px;overflow-y:auto">
     <a-collapse defaultActiveKey="1" accordion="true">
       <a-collapse-panel v-for="(item,index) in list" :key="index" :header="item.name" style="font-size: 12px" >
         <a-row gutter="16">

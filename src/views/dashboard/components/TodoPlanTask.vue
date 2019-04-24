@@ -3,7 +3,8 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px'}">
+      :style="{ height: '300px'}"
+      style="overflow-y: auto">
       <div slot="title">
         <a-row>
           <a-col>
@@ -68,9 +69,9 @@ export default {
         this.title = '待办事项'
       } else if (event.target.value === 1) {
         this.typeMap = 1
-        this.title = '计划表 ' + '\xa0\xa0\xa0'
+        this.title = '计划表 '
       } else if (event.target.value === 2) {
-        this.title = '任务单' + '\xa0\xa0\xa0'
+        this.title = '任务单'
         this.typeMap = 2
       }
     }
