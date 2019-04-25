@@ -46,6 +46,15 @@
               </div>
             </a-list> -->
             <recent-contacts-item></recent-contacts-item>
+            <recent-contacts-item></recent-contacts-item>
+            <recent-contacts-item></recent-contacts-item>
+            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
+            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
+            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
+            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
+            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
+            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
+            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
             <!-- <contacts-item></contacts-item> -->
           </div>
         </a-tab-pane>
@@ -57,7 +66,7 @@
           </span>
 
           <div class="group-contacts-container tab-content-container">
-            <!-- <contacts-box/> -->
+
             <contacts-item></contacts-item>
           </div>
         </a-tab-pane>
@@ -69,7 +78,7 @@
           </span>
 
           <div class="contacts-container tab-content-container">
-
+            <contacts-box/>
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -98,11 +107,11 @@
         <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
       </div>
 
-      <div v-show="activeKey == '2'" class="group-info-area">
+      <div v-show="activeKey == '2'" class="info-area">
         <group-info :selected="selectedGroup"></group-info>
       </div>
 
-      <div v-show="activeKey == '3'" class="contacts-info-area">
+      <div v-show="activeKey == '3'" class="info-area">
         <contacts-info :selected="selectedContacts"></contacts-info>
       </div>
 
@@ -412,14 +421,18 @@ export default {
 
   .talk-layout-content {
     overflow: hidden;
+
+    .info-area {
+      height: 100%;
+    }
   }
 
   // ***************************旧样式***************
   .talk-list{
-    padding: 8px 12px 8px 12px;cursor: pointer;
+    // padding: 8px 12px 8px 12px;cursor: pointer;
   }
   .active {
-     background: #e8e8e8;
+     // background: #e8e8e8;
     //  border: 1px solid #e8e8e8;
     //  color: #fff;
    }
@@ -427,10 +440,10 @@ export default {
   //   height: calc(100% - 50px);
   // }
   .description{
-    margin-top: 24px;
-    color: gray;
-    font-size: 14px;
-    line-height: 22px;
-    text-align: center;
+    // margin-top: 24px;
+    // color: gray;
+    // font-size: 14px;
+    // line-height: 22px;
+    // text-align: center;
   }
 </style>

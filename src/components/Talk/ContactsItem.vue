@@ -85,7 +85,7 @@ export default {
     float: right;
     height: 30px;
     width: 30px;
-    font-size: 14px;
+    font-size: 12px;
     text-align: right;
     color: rgb(140, 141, 143);
 
