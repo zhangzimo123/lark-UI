@@ -51,9 +51,6 @@
       <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
       <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
     </div>
-    <a-affix :offsetTop="30">
-      <a-button>add</a-button>
-    </a-affix>
     <setting-drawer :layout="layout" />
   </div>
 </template>

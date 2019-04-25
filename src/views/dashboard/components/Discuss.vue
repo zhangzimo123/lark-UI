@@ -11,7 +11,7 @@
         placement="left"
         trigger="click">
         <template slot="content">
-          <a>移除卡片</a>
+          <a @click="$emit('remove')">移除卡片</a>
         </template>
         <a class="right" href="#"><a-icon type="tool" /></a>
       </a-popover>
