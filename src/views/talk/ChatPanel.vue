@@ -45,8 +45,9 @@
                 <a-spin/>
               </div>
             </a-list> -->
-            <chat-contacts-item></chat-contacts-item>
-
+            <div v-for="(item, index) in chatList" :key="item.id">
+              <chat-contacts-item :contactsInfo="item[index]" @click="showChat(item)"></chat-contacts-item>
+            </div>
           </div>
         </a-tab-pane>
 
