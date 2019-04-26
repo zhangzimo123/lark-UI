@@ -1,5 +1,5 @@
 <template>
-  <a-layout v-if="chat.name" class="talk-setting" id="talkSetting">
+  <a-layout v-if="chat.name" id="talkSetting" style="height: 100%">
     <talk-setting ref="model" :talk="talkId"/>
     <a-layout-header class="talk-header" v-if="chat">
       <a-row type="flex" align="middle" style="height: 50px">
@@ -254,7 +254,7 @@ export default {
       messageListMap: new Map(),
       messageContent: '',
       showFace: false,
-      userList: [],
+      // userList: [],
       imgFormat: ['jpg', 'jpeg', 'png', 'gif'],
       fileFormat: ['doc', 'docx', 'jpg', 'jpeg', 'png', 'gif', 'xls', 'xlsx', 'pdf', 'gif', 'exe', 'msi', 'swf', 'sql', 'apk', 'psd'],
       // tokenImg: {
@@ -377,7 +377,7 @@ export default {
     mineSend () {
       const self = this
       const currentUser = self.$store.state.user
-      const time = new Date().getTime()
+      // const time = new Date().getTime()
       const content = self.messageContent
       if (content !== '' && content !== '\n') {
         if (content.length > 2000) {
@@ -387,7 +387,7 @@ export default {
             mine: true, // 当前用户
             avatar: currentUser.avatar, // 当前用户头像
             username: currentUser.name, // 当前用户名称
-            timestamp: time, // 时间
+            time: new Date(), // 时间
             content: self.messageContent, // 研讨内容
             toid: self.chat.id, // 消息目的id
             fromid: currentUser.id, // 消息来源id
@@ -404,8 +404,8 @@ export default {
     // 发送消息的基础方法
     send (message) {
       const self = this
-      self.$store.commit('SEND_MESSAGE', message)
-      message.timestamp = self.formatDateTime(new Date(message.timestamp))
+      // self.$store.commit('SEND_MESSAGE', message)
+      // message.timestamp = self.formatDateTime(new Date(message.timestamp))
       self.$store.commit('ADD_MESSAGE', message)
       self.messageContent = ''
       // 每次滚动到最底部
@@ -462,18 +462,28 @@ export default {
       this.$nextTick(() => {
         imageLoad('message-box')
       })
-      if (self.chat.type === '1') {
-        const param = new FormData()
-        param.set('chatId', self.chat.id)
-        fetchPost(
-          conf.getChatUsersUrl(),
-          param,
-          function (json) {
-            self.userList = json
-          },
-          self
-        )
-      }
+      // if (self.chat.type === '1') {
+      //   const param = new FormData()
+      //   param.set('chatId', self.chat.id)
+      //   fetchPost(
+      //     conf.getChatUsersUrl(),
+      //     param,
+      //     function (json) {
+      //       self.userList = json
+      //     },
+      //     self
+      //   )
+      // }
+    }
+  },
+  filters: {
+    // 将日期过滤为 hour:minutes
+    time (date) {
+      // if (typeof date === 'string') {
+      //   date = new Date(date)
+      // }
+      date = new Date(date)
+      return date.getHours() + ':' + date.getMinutes()
     }
   },
   mounted: function () {
@@ -631,9 +641,6 @@ export default {
   .user-guide {
     font-size: 12px;
     color: #bdbebf;
-}
-.talk-setting{
-position: relative;
 }
     .faces-box {
       position: absolute;
