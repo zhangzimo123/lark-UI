@@ -4,14 +4,13 @@
       :headStyle="headStyle"
       :bordered="true"
       :style="{ height: '305px'}"
-      style="overflow-y: auto"
     >
       <div slot="title">
         <a-row>
           <a-col>
             {{ title }}
             <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
-            <a-button class="createMeetClass" size="small" @click="createMeeting"><a-icon type="plus-circle" @click="createMeeting"/></a-button>
+            <a href="#"><a-icon type="plus-circle" class="createMeetClass" @click="createMeeting"/></a>
             <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
           </a-col>
         </a-row>
@@ -27,35 +26,37 @@
           <a-icon type="tool"/>
         </a>
       </a-popover>
-      <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
-        <i class="ivu-tag-dot-inner"></i>
-        <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-        <span @click="visibleModal(row)" >{{ row.name.length> 20 ? row.name.replace(/^(.{18})(.*)$/,'$1...') : row.name }}</span>
-        <span class="right">{{ row.date }}</span>
-        <a-modal
-          v-model="modal"
-          footer=""
-          title="会议详细">
-          <a-row class="row-magin">
-            <a-col>会议名称:&nbsp;{{ rowDetails.name }}</a-col>
-          </a-row>
-          <a-row class="row-magin">
-            <a-col>开始时间:&nbsp;{{ rowDetails.date }}</a-col>
-          </a-row>
-          <a-row class="row-magin">
-            <a-col>结束时间:&nbsp;{{ rowDetails.terminalTime }}</a-col>
-          </a-row>
-          <a-row class="row-magin">
-            <a-col>会议地点:&nbsp;{{ rowDetails.locale }}</a-col>
-          </a-row>
-          <a-row class="row-magin">
-            <a-col>会议人员:&nbsp;{{ rowDetails.member }}</a-col>
-          </a-row>
-          <a-row class="row-magin">
-            <a-col>会议说明:&nbsp;{{ rowDetails.description }}</a-col>
-          </a-row>
-        </a-modal>
-      </a-row>
+      <div style="height:205px;overflow-y:auto;overflow-x: hidden">
+        <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
+          <i class="ivu-tag-dot-inner"></i>
+          <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
+          <span @click="visibleModal(row)" >{{ row.name.length> 20 ? row.name.replace(/^(.{18})(.*)$/,'$1...') : row.name }}</span>
+          <span class="right">{{ row.date }}</span>
+          <a-modal
+            v-model="modal"
+            footer=""
+            title="会议详细">
+            <a-row class="row-magin">
+              <a-col>会议名称:&nbsp;{{ rowDetails.name }}</a-col>
+            </a-row>
+            <a-row class="row-magin">
+              <a-col>开始时间:&nbsp;{{ rowDetails.date }}</a-col>
+            </a-row>
+            <a-row class="row-magin">
+              <a-col>结束时间:&nbsp;{{ rowDetails.terminalTime }}</a-col>
+            </a-row>
+            <a-row class="row-magin">
+              <a-col>会议地点:&nbsp;{{ rowDetails.locale }}</a-col>
+            </a-row>
+            <a-row class="row-magin">
+              <a-col>会议人员:&nbsp;{{ rowDetails.member }}</a-col>
+            </a-row>
+            <a-row class="row-magin">
+              <a-col>会议说明:&nbsp;{{ rowDetails.description }}</a-col>
+            </a-row>
+          </a-modal>
+        </a-row>
+      </div>
       <div v-if="list.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
         <a-icon type="file-exclamation" theme="twoTone" :style="fontSize"/>
         <p class="description">卡片暂无内容</p>
@@ -177,6 +178,7 @@ export default {
     margin-bottom: 12px;
   }
   .createMeetClass{
+    margin-top: 5px;
     float: right;
     margin-right: 15px;
   }

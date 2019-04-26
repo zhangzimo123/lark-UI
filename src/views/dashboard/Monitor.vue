@@ -102,7 +102,8 @@ export default {
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
       myChatPanelIsShow: false,
       searchWindowIsShow: false,
-      hisGridI: 1,
+      hisGridI: -1,
+      curBox: '',
       tree: {
         title: '',
         key: '0',
@@ -232,29 +233,43 @@ export default {
     /*
     * 移动方法
     * */
+    watchitem: function (item) {
+      if (this.curBox !== item.i) {
+        for (let j = 0; historyLayout[j] !== undefined; j++) {
+          if (historyLayout[j].i === item.i) {
+            item.x = historyLayout[j].x
+            item.y = historyLayout[j].y
+          }
+        }
+      }
+      return item
+    },
     toChangePosition: function (i) {
       const layout = this.layout
       const hisLayout = historyLayout
       for (let j = 0; j < layout.length; j++) {
         if (layout[j].i === i) {
-          const item = layout[j]
+          const item = layout[j] // 最新数组
           for (let k = 0; k < hisLayout.length; k++) {
             if (hisLayout[k].i === i) {
               const hisItem = hisLayout[k]
-
+              const beforeX = hisItem.x
+              const beforeY = hisItem.y
+              for (let n = 0; n < hisLayout.length; n++) {
+                if (item.x === hisLayout[n].x && item.y === hisLayout[n].y) {
+                  this.hisGridI = hisLayout[n].i
+                  layout[this.hisGridI].x = beforeX
+                  layout[this.hisGridI].y = beforeY
+                  hisLayout[n].x = layout[this.hisGridI].x
+                  hisLayout[n].y = layout[this.hisGridI].y
+                }
+              }
               // const beforeX = hisItem.x
               // const beforeY = hisItem.y
               // const afterX = item.x
               // const afterY = item.y
               hisItem.x = item.x
               hisItem.y = item.y
-            }
-            if (item.x === hisLayout[k].x && item.y === hisLayout[k].y) {
-              this.hisGridI = hisLayout[k].i
-              layout[this.hisGridI].x = 6
-              layout[this.hisGridI].y = 5
-
-              // for(let i=0; i<layout)
             }
           }
         }
@@ -263,12 +278,12 @@ export default {
     moveEvent: function (i, newX, newY, e) {
       // this.curBox = i
       // console.log(e)
-      // console.log('MOVE i=' + i + ', X=' + newX + ', Y=' + newY)
+      console.log('MOVE i=' + i + ', X=' + newX + ', Y=' + newY)
     },
     movedEvent: function (i, newX, newY, e) {
       this.toChangePosition(i)
       // console.log(e)
-      // console.log('MOVED i=' + i + ', X=' + newX + ', Y=' + newY)
+      console.log('MOVED i=' + i + ', X=' + newX + ', Y=' + newY)
     }
   }
 }
