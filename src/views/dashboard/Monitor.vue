@@ -102,7 +102,7 @@ export default {
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
       myChatPanelIsShow: false,
       searchWindowIsShow: false,
-      hisGridI: '',
+      hisGridI: 1,
       tree: {
         title: '',
         key: '0',
@@ -239,10 +239,6 @@ export default {
         if (layout[j].i === i) {
           const item = layout[j]
           for (let k = 0; k < hisLayout.length; k++) {
-            if (item.x === hisLayout[k].x && item.y === hisLayout[k].y) {
-              this.hisGridI = hisLayout[k].i
-              // for(let i=0; i<layout)
-            }
             if (hisLayout[k].i === i) {
               const hisItem = hisLayout[k]
 
@@ -253,6 +249,13 @@ export default {
               hisItem.x = item.x
               hisItem.y = item.y
             }
+            if (item.x === hisLayout[k].x && item.y === hisLayout[k].y) {
+              this.hisGridI = hisLayout[k].i
+              layout[this.hisGridI].x = 6
+              layout[this.hisGridI].y = 5
+
+              // for(let i=0; i<layout)
+            }
           }
         }
       }
@@ -260,12 +263,12 @@ export default {
     moveEvent: function (i, newX, newY, e) {
       // this.curBox = i
       // console.log(e)
-      console.log('MOVE i=' + i + ', X=' + newX + ', Y=' + newY)
+      // console.log('MOVE i=' + i + ', X=' + newX + ', Y=' + newY)
     },
     movedEvent: function (i, newX, newY, e) {
       this.toChangePosition(i)
       // console.log(e)
-      console.log('MOVED i=' + i + ', X=' + newX + ', Y=' + newY)
+      // console.log('MOVED i=' + i + ', X=' + newX + ', Y=' + newY)
     }
   }
 }

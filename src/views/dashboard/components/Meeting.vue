@@ -11,7 +11,7 @@
           <a-col>
             {{ title }}
             <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
-            <a-button class="createMeetClass" size="small" @click="createMeeting">创建会议</a-button>
+            <a-button class="createMeetClass" size="small" @click="createMeeting"><a-icon type="plus-circle" @click="createMeeting"/></a-button>
             <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
           </a-col>
         </a-row>
