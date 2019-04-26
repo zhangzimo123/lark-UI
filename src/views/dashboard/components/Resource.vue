@@ -25,18 +25,20 @@
   <!--</a-popover>-->
   <!--</a-col>-->
   <!--</a-row>-->
-  <a-row type="flex" :gutter="10" v-if="selectedType === 0">
-    <a-col :span="14">
-      <resource-chart :chartStyle="chartStyle" />
-    </a-col>
-    <a-col :span="10">
-      <span class="ant-card-body-title">计算资源列表</span>
-      <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in list" :key="'item'+index">
-        <i class="ivu-tag-dot-inner" ></i>
-        <span class="resource-list">{{ row.name }}</span>
-      </a-row>
-    </a-col>
-  </a-row>
+  <div style="height:205px;overflow-y:auto">
+    <a-row type="flex" :gutter="10" v-if="selectedType === 0">
+      <a-col :span="14">
+        <resource-chart :chartStyle="chartStyle" />
+      </a-col>
+      <a-col :span="10">
+        <span class="ant-card-body-title">计算资源列表</span>
+        <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in list" :key="'item'+index">
+          <i class="ivu-tag-dot-inner" ></i>
+          <span class="resource-list">{{ row.name }}</span>
+        </a-row>
+      </a-col>
+    </a-row>
+  </div>
   <!--<a-row :gutter="5" v-else>-->
   <!--<a-col :span="8" v-for="(item,index) in list" :key="'col-item-'+index">-->
   <!--<a-card>-->

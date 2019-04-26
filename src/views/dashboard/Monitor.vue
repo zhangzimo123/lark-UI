@@ -27,6 +27,8 @@
           :w="grid.w"
           :h="grid.h"
           :i="grid.i"
+          @move="moveEvent"
+          @moved="movedEvent"
         >
           <div
             :is="grid.is"
@@ -34,7 +36,6 @@
             :loading="loading"
             @showChatPanel="showChatPanel"
             @remove="grid.show=false" />
-
         </grid-item>
       </grid-layout>
       <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
@@ -81,6 +82,12 @@ var layoutCards = [
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true },
   { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true }
 ]
+var historyLayout = [
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todoPlanTask' },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting' },
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resourceKnowledgeModel' }
+]
 // 工作台看板模拟数据
 export default {
   name: 'Monitor',
@@ -95,6 +102,7 @@ export default {
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
       myChatPanelIsShow: false,
       searchWindowIsShow: false,
+      hisGridI: '',
       tree: {
         title: '',
         key: '0',
@@ -220,6 +228,44 @@ export default {
     showChatPanel (param) {
       this.$refs.chatPanel.showChat(param)
       console.log('param:', param)
+    },
+    /*
+    * 移动方法
+    * */
+    toChangePosition: function (i) {
+      const layout = this.layout
+      const hisLayout = historyLayout
+      for (let j = 0; j < layout.length; j++) {
+        if (layout[j].i === i) {
+          const item = layout[j]
+          for (let k = 0; k < hisLayout.length; k++) {
+            if (item.x === hisLayout[k].x && item.y === hisLayout[k].y) {
+              this.hisGridI = hisLayout[k].i
+              // for(let i=0; i<layout)
+            }
+            if (hisLayout[k].i === i) {
+              const hisItem = hisLayout[k]
+
+              // const beforeX = hisItem.x
+              // const beforeY = hisItem.y
+              // const afterX = item.x
+              // const afterY = item.y
+              hisItem.x = item.x
+              hisItem.y = item.y
+            }
+          }
+        }
+      }
+    },
+    moveEvent: function (i, newX, newY, e) {
+      // this.curBox = i
+      // console.log(e)
+      console.log('MOVE i=' + i + ', X=' + newX + ', Y=' + newY)
+    },
+    movedEvent: function (i, newX, newY, e) {
+      this.toChangePosition(i)
+      // console.log(e)
+      console.log('MOVED i=' + i + ', X=' + newX + ', Y=' + newY)
     }
   }
 }
