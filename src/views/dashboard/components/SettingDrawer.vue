@@ -89,10 +89,10 @@ export default {
 <style lang="less" scoped>
   .setting-drawer-index-handle {
     position: absolute;
-    bottom: 120px;
-    background: #8b8d2c;
-    width: 28px;
-    height: 28px;
+    bottom: 380px;
+    background: #322aff;
+    width: 48px;
+    height: 48px;
     right: 300px;
     display: flex;
     justify-content: center;
