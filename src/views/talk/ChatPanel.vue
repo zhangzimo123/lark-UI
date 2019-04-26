@@ -45,8 +45,8 @@
                 <a-spin/>
               </div>
             </a-list> -->
-            <div v-for="(item, index) in chatList" :key="item.id">
-              <chat-contacts-item :contactsInfo="item[index]" @click="showChat(item)"></chat-contacts-item>
+            <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
+              <chat-contacts-item :contactsInfo="item[index]"></chat-contacts-item>
             </div>
           </div>
         </a-tab-pane>
@@ -408,6 +408,10 @@ export default {
 
   .talk-layout-content {
     overflow: hidden;
+    z-index: 8;
+    .chat-area, .group-info-area, .contacts-info-area{
+      height: 100%;
+    }
   }
 
   // ***************************旧样式***************
