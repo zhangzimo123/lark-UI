@@ -25,7 +25,7 @@
   <!--</a-popover>-->
   <!--</a-col>-->
   <!--</a-row>-->
-  <div style="height:205px;overflow-y:auto">
+  <div style="height:205px;overflow-y:auto;overflow-x: hidden">
     <a-row type="flex" :gutter="10" v-if="selectedType === 0">
       <a-col :span="14">
         <resource-chart :chartStyle="chartStyle" />
