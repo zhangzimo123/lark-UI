@@ -67,17 +67,25 @@
         v-infinite-scroll="handleInfiniteOnLoad"
         :infinite-scroll-disabled="busy"
         :infinite-scroll-distance="10">
-        <ul v-if="messageList">
-          <li v-for="item in messageList" :key="item">
-            <p class="time">
-              <span>{{ item.date | time }}</span>
-            </p>
-            <div class="main" :class="{ self: item.self }">
-              <img class="avatar" width="30" height="30" :src="item.self ? user.img : session.user.img" />
+        <div v-if="messageList" class="talk-main">
+          <div v-for="item in messageList" :key="item" class="talk-item" @mouseenter="talkItemEnter" @mouseleave="talkItemLeave">
+            <div class="item-avatar" :class="{ me: item.isself }">
+              <a-avatar shape="square" size="large" style="color: #f56a00; backgroundColor: #fde3cf">{{ item.username }}</a-avatar>
+            </div>
+            <div class="say" :class="{ reply: item.isself }">
               <div class="text">{{ item.content }}</div>
             </div>
-          </li>
-        </ul>
+            <div v-show="activeItemHandle" style="float: right; marginTop: 0px">
+              <a-button-group size="small">
+                <a-button>标记</a-button>
+                <a-button>回复</a-button>
+                <a-button>转发</a-button>
+                <a-button>撤回</a-button>
+                <a-button>删除</a-button>
+              </a-button-group>
+            </div>
+          </div>
+        </div>
       </div>
     </a-layout-content>
     <a-layout-footer class="talk-footer message-box">
@@ -254,6 +262,7 @@ export default {
       messageListMap: new Map(),
       messageContent: '',
       showFace: false,
+      activeItemHandle: false,
       // userList: [],
       imgFormat: ['jpg', 'jpeg', 'png', 'gif'],
       fileFormat: ['doc', 'docx', 'jpg', 'jpeg', 'png', 'gif', 'xls', 'xlsx', 'pdf', 'gif', 'exe', 'msi', 'swf', 'sql', 'apk', 'psd'],
@@ -280,6 +289,12 @@ export default {
     }
   },
   methods: {
+    talkItemEnter () {
+      this.activeItemHandle = true
+    },
+    talkItemLeave () {
+      this.activeItemHandle = false
+    },
     onSelectEmoji (dataEmoji) {
       this.messageContent += dataEmoji.emoji
     },
@@ -395,7 +410,8 @@ export default {
             type: self.chat.type, // 消息类型
             code: self.chat.code, // 消息编码
             secret: self.chat.secret, // 消息密级
-            status: self.chat.status // 消息状态 已读未读
+            status: self.chat.status, // 消息状态 已读未读
+            isself: true
           }
           self.send(currentMessage)
         }
@@ -504,6 +520,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+
 .talk-header{
     width: 100%;
     height: 50px;
@@ -560,10 +577,83 @@ export default {
 }
 .talk-main-box{
   position: relative;
-  overflow: auto;
   flex-grow: 1;
-  overflow-x: hidden;
+  overflow: hidden;
+  background-color: #f3f3f3;
+  .talk-main{
+    position: absolute;
+    box-sizing: border-box;
+    min-height: 100%;
+    min-width: 360px;
+    width: 100%;
+    padding: 4px 16px 16px;
+    background: rgba(255, 255, 255, 0);
+    overflow-x: hidden;
+    overflow-y: auto;
+    .talk-item{
+      display: flex;
+      flex-direction: row-reverse;
+      margin-top: 20px;
+      margin-bottom: 22px;
+      .item-avatar{
+        float: left;
+        margin-left: 0;
+        margin-right: 7px;
+        cursor: pointer;
+      }
+      .item-avatar.me {
+        float: right;
+        margin-right: 0;
+        margin-left: 7px;
+        cursor: pointer;
+      }
+      .say {
+          color: #212121;
+          background: rgba(207 , 232, 252, 0.84);
+          padding: 8px 16px;
+          border-radius: 1px 18px 18px 18px;
+          font-weight: 400;
+          text-transform: none;
+          text-align: left;
+          font-size: 16px;
+          letter-spacing: .5px;
+          margin: 0 0 2px 0;
+          max-width: 65%;
+          float: none;
+          clear: both;
+          line-height: 1.5em;
+          word-break: break-word;
+          transform-origin: left top;
+          transition: all 200ms;
+          box-sizing: content-box;
+          // border: 1px solid rgb(182, 182, 182);
+          box-shadow: 1px 1px 1px #c2c2c2;
+      }
+      .reply {
+          color: #212121;
+          background: rgba(255, 255, 255, 0.84);
+          padding: 8px 16px !important;
+          border-radius: 18px 1px 18px 18px;
+          font-weight: 400;
+          text-transform: none;
+          text-align: left;
+          font-size: 16px;
+          letter-spacing: .5px;
+          margin: 0 0 2px 0 !important;
+          max-width: 65%;
+          float: right;
+          position: relative;
+          transform-origin: right top;
+          margin: 8px 0 10px;
+          padding: 0;
+          max-width: 65%;
+          // border: 1px solid red;
+          box-shadow: -1px 1px 1px #c2c2c2;
+      }
+    }
+  }
 }
+
 .talk-footer{
   flex: none;
   position: relative;
