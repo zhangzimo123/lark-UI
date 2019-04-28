@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 64px">
+  <div class="work-surface">
     <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''">
       <grid-layout
         :layout.sync="layout"
@@ -122,6 +122,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .work-surface {
+    margin: -24px -24px 0px;
+    height: calc(100vh - 136px);
+    overflow-y: overlay;
+    overflow-x: hidden;
+  }
   .antd-pro-pages-dashboard-analysis-twoColLayout {
     position: relative;
     display: flex;

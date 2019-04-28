@@ -88,7 +88,7 @@ export default {
   .page-layout-container {
     // 使pageLayout的子组件可以正常滚动
     height: calc(100vh - 64px);
-    overflow-y: auto;
+    overflow-y: overlay;
     overflow-x: hidden;
   }
   .content {
