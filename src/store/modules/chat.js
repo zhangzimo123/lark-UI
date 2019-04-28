@@ -26,19 +26,6 @@ const chat = {
     flushTokenTimerId: null
   },
   mutations: {
-    SET_FLUSH_TOKEN_TIME_ID: function (state, flushTokenTimerId) {
-      state.flushTokenTimerId = flushTokenTimerId
-    },
-    CLEAR_FLUSH_TOKEN_TIME_ID: function (state) {
-      clearTimeout(state.flushTokenTimerId)
-    },
-    // token 是否有效
-    SET_TOKEN_STATUS: function (state, tokenStatus) {
-      state.tokenStatus = tokenStatus
-    },
-    SET_USER: function (state, user) {
-      state.user = user
-    },
     SET_USER_FRIEND_LIST: function (state, userFriendList) {
       state.userFriendList = userFriendList
     },
@@ -53,7 +40,6 @@ const chat = {
     },
     // 发送给服务器
     SEND_MESSAGE: function (state, message) {
-      console.log('发送消息')
       const msg = {
         code: MessageInfoType.MSG_MESSAGE,
         message: message

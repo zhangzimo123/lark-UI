@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import conf from '@/api/index'
 import { ErrorType, logout, timeoutFetch, tokenFetch } from './chatUtils'
 
@@ -25,7 +26,8 @@ class HttpApiUtils {
     param.set('client_secret', 'v-client-ppp')
     param.set('grant_type', 'refresh_token')
     param.set('scope', 'select')
-    param.set('refresh_token', sessionStorage.getItem('refresh_token'))
+    // param.set('refresh_token', localStorage.getItem('Refresh-Token'))
+    param.set('refresh_token', Vue.ls.get('Refresh-Token'))
     return timeoutFetch(
       fetch(conf.getTokenUrl(), {
         method: 'POST',
