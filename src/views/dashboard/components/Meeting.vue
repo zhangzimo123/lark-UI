@@ -9,7 +9,7 @@
         <a-row>
           <a-col>
             {{ title }}
-            <categoryTools  :array="typeArray" @changed="fetchData"></categoryTools>
+            <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
             <a href="#"><a-icon type="plus-circle" class="createMeetClass" @click="createMeeting"/></a>
             <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
           </a-col>
