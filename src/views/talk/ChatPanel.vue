@@ -45,23 +45,9 @@
                 <a-spin/>
               </div>
             </a-list> -->
-<<<<<<< HEAD
             <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
               <chat-contacts-item :contactsInfo="item[index]"></chat-contacts-item>
             </div>
-=======
-            <recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <!-- <contacts-item></contacts-item> -->
->>>>>>> 1b959ccc6efbcec24894a449e5216ebb126c2015
           </div>
         </a-tab-pane>
 
@@ -425,13 +411,8 @@ export default {
 
   .talk-layout-content {
     overflow: hidden;
-<<<<<<< HEAD
     z-index: 8;
     .chat-area, .group-info-area, .contacts-info-area{
-=======
-
-    .info-area {
->>>>>>> 1b959ccc6efbcec24894a449e5216ebb126c2015
       height: 100%;
     }
   }
