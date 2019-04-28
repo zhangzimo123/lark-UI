@@ -101,3 +101,72 @@
     position: relative;
     top: 1px;
   }
+  /*
+   研讨厅徽标数
+   */
+  /*.ant-badge-count {*/
+    /*top: -6px;*/
+    /*height: 12px;*/
+    /*border-radius: 10px;*/
+    /*min-width: 1px;*/
+    /*margin-right: 6px;*/
+    /*width: 8px;*/
+    /*background: #f5222d;*/
+    /*color: #fff;*/
+    /*line-height: 10px;*/
+    /*!*text-align: center;*!*/
+    /*!* padding: 0 6px; *!*/
+    /*font-size: 8px;*/
+    /*font-weight: normal;*/
+    /*white-space: nowrap;*/
+    /*-webkit-box-shadow: 0 0 0 1px #fff;*/
+    /*box-shadow: 0 0 0 1px #fff;*/
+    /*z-index: 10;*/
+  /*}*/
+  .ant-badge-count {
+    top: -10px;
+    height: 15px;
+    border-radius: 10px;
+    min-width: 15px;
+    background: #f5222d;
+    color: #fff;
+    line-height: 15px;
+    text-align: center;
+    padding: 0 0 0 0;
+    font-size: 12px;
+    font-weight: normal;
+    white-space: nowrap;
+    -webkit-box-shadow: 0 0 0 1px #fff;
+    box-shadow: 0 0 0 1px #fff;
+    z-index: 10;
+  }
+  .ant-card-head {
+    /* background: transparent; */
+    /* border-bottom: 1px solid #e8e8e8; */
+    padding: 0 12px;
+    /* border-radius: 2px 2px 0 0; */
+    zoom: 1;
+    margin-bottom: -1px;
+    min-height: 48px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+  }
+  .ant-radio-group {
+    font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 12px;
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.65);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+    line-height: unset;
+  }
+  .ant-card-body {
+    padding: 16px;
+    zoom: 1;
+  }

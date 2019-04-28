@@ -9,7 +9,7 @@
         <a-row>
           <a-col>
             {{ title }}
-            <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
+            <categoryTools  :array="typeArray" @changed="fetchData"></categoryTools>
             <a href="#"><a-icon type="plus-circle" class="createMeetClass" @click="createMeeting"/></a>
             <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
           </a-col>
@@ -30,7 +30,7 @@
         <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
           <i class="ivu-tag-dot-inner"></i>
           <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-          <span @click="visibleModal(row)" >{{ row.name.length> 20 ? row.name.replace(/^(.{18})(.*)$/,'$1...') : row.name }}</span>
+          <span @click="visibleModal(row)" >{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
           <span class="right">{{ row.date }}</span>
           <a-modal
             v-model="modal"
