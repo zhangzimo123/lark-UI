@@ -368,12 +368,13 @@ export default {
     flex: 0 0 300px !important;
 
     background: rgb(230, 232, 235);
-    border-right: 1px solid #ebebeb;
+    border-right: 1px solid #dcdee0;
 
     // 聊天搜索栏样式 该部分高度为48px
     .search-bar {
       display: flex;
-      margin: 18px 12px 6px;
+      // margin: 18px 12px 6px;
+      margin: 24px 12px 16px
     }
 
     // 最近消息标签页样式
@@ -399,8 +400,8 @@ export default {
     .tab-content-container {
       overflow: hidden;
 
-      // 视窗高度-头部导航栏告诉-搜索框高度-tab页高度
-      height: calc(100vh - 64px - 48px - 46px);
+      // 视窗高度-头部导航栏高度-搜索框高度-tab页高度
+      height: calc(100vh - 64px - 64px - 46px);
 
       &:hover {
         overflow-y: overlay;
