@@ -45,17 +45,9 @@
                 <a-spin/>
               </div>
             </a-list> -->
-            <recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item><recent-contacts-item></recent-contacts-item>
-            <!-- <contacts-item></contacts-item> -->
+            <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
+              <chat-contacts-item :contactsInfo="item[index]"></chat-contacts-item>
+            </div>
           </div>
         </a-tab-pane>
 
@@ -185,7 +177,7 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.user.chatList
+        return this.$store.state.chat.chatList
       },
       set: function (chatList) {
         this.$store.commit('SET_CHAT_LIST', chatList)
@@ -203,28 +195,27 @@ export default {
     handleSaveClose () {
 
     },
-    // startTalk: function () {
-    //   this.$refs.model.beginTalk()
-    // },
     showChat: function (chat) {
       const self = this
       self.isShowWelcome = false
       self.isShowPanel = true
       const chatList = ChatListUtils.getChatList(self.$store.state.user.info.id)
-      // 删除当前用户已经有的会话
-      const newChatList = chatList.filter(function (element) {
-        return String(element.id) !== String(chat.id)
-      })
+
       // 重新添加会话，放到第一个
       const firstChat = new Chat(chat.id, chat.name, conf.getHostUrl() + chat.avatar, 0, '', '', '', MessageTargetType.CHAT_GROUP)
-      newChatList.unshift(firstChat)
+
       // 存储到localStorage 的 chatList
       ChatListUtils.setChatList(self.$store.state.user.info.id, chatList)
-      this.$store.commit('SET_CHAT_LIST', newChatList)
 
       this.$store.commit('RESET_UNREAD')
       this.currentChat = chat
-      // 每次滚动到最底部
+      // 当前聊天室
+      if (firstChat) {
+        self.$store.commit('SET_CURRENT_CHAT', firstChat)
+      }
+      // 重新设置chatList
+      self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+      // Chat会话框中的研讨信息每次滚动到最底部
       this.$nextTick(() => {
         // imageLoad('message-box')
       })
@@ -235,21 +226,21 @@ export default {
     }
   },
   activated: function () {
-    const self = this
-    if (this.$route.query.chat) {
-      self.isShowPanel = true
-      self.isShowWelcome = false
-    }
+    // const self = this
+    // if (this.$route.query.chat) {
+    //   self.isShowPanel = true
+    //   self.isShowWelcome = false
+    // }
     // 当前研讨室
-    if (self.$route.query.chat) {
-      self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
-    }
+    // if (self.$route.query.chat) {
+    //   self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
+    // }
     // 重新设置chatList
-    self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+    // self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
     // 每次滚动到最底部
-    this.$nextTick(() => {
-      imageLoad('message-box')
-    })
+    // this.$nextTick(() => {
+    //   imageLoad('message-box')
+    // })
   },
   mounted: function () {
     const self = this
@@ -260,7 +251,6 @@ export default {
       websocketHeartbeatJs.send('{"code":' + MessageInfoType.MSG_READY + '}')
     }
     websocketHeartbeatJs.onmessage = function (event) {
-      console.log('这地方被用了')
       const data = event.data
       const sendInfo = JSON.parse(data)
       // 真正的消息类型
@@ -310,7 +300,7 @@ export default {
       param.set('client_secret', 'v-client-ppp')
       param.set('grant_type', 'refresh_token')
       param.set('scope', 'select')
-      param.set('refresh_token', sessionStorage.getItem('refresh_token'))
+      // param.set('refresh_token', localStorage.getItem('Refresh-Token'))
       timeoutFetch(
         fetch(conf.getTokenUrl(), {
           method: 'POST',
@@ -421,8 +411,8 @@ export default {
 
   .talk-layout-content {
     overflow: hidden;
-
-    .info-area {
+    z-index: 8;
+    .chat-area, .group-info-area, .contacts-info-area{
       height: 100%;
     }
   }

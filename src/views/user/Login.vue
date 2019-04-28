@@ -69,7 +69,7 @@ export default {
   },
   data () {
     return {
-      host: '127.0.0.1',
+      // host: '127.0.0.1',
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
       loginType: 0,
@@ -83,22 +83,16 @@ export default {
     }
   },
   created: function () {
-    const self = this
-    const host = localStorage.getItem('host')
-    if (host !== 'undefined') {
-      self.host = host
-    } else {
-      localStorage.setItem('host', self.host)
-    }
+    // const self = this
+    // const host = localStorage.getItem('host')
+    // if (host !== 'undefined') {
+    //   self.host = host
+    // } else {
+    //   localStorage.setItem('host', self.host)
+    // }
   },
   methods: {
     ...mapActions(['Login', 'Logout']),
-    saveSetting () {
-      const self = this
-      localStorage.setItem('host', self.host)
-      self.$Message.success('保存成功！')
-      self.showSetting = false
-    },
     // handler
     handleUsernameOrEmail (rule, value, callback) {
       const { state } = this
@@ -122,27 +116,13 @@ export default {
 
       validateFields({ force: true }, (err, values) => {
         if (!err) {
-          console.log('login form', values)
           const loginParams = { ...values }
           delete loginParams.username
           loginParams[!state.loginType ? 'email' : 'username'] = values.username
           loginParams.password = md5(values.password)
           Login(loginParams)
             .then((res) => this.loginSuccess(res))
-            // 存储用户数据
-            .then(json => {
-              console.log('进来了')
-              // 个人信息
-              self.$store.commit('SET_USER', json.me)
-              // 好友
-              self.$store.commit('SET_USER_FRIEND_LIST', json.contacts)
-              // 群
-              self.$store.commit('SET_CHAT_GROUP_LIST', json.groups)
-              // 研讨列表
-              self.$store.commit('setChatBoxs', json.chatboxs)
-              console.log('出来了')
-            })
-            .catch(err => this.requestFailed(err), console.log('cacacacac' + err))
+            .catch(err => this.requestFailed(err))
             .finally(() => {
               state.loginBtn = false
             })
@@ -154,7 +134,6 @@ export default {
       })
     },
     loginSuccess (res) {
-      console.log('进来了loginSuccess', res)
       this.$router.push({ name: 'Workplace' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {

@@ -39,7 +39,7 @@ const api = {
     return this.getHostUrl() + this.RegisterUrl
   },
   getWsUrl: function () {
-    return this.WsProtocol + '://' + localStorage.getItem('host') + ':' + this.WsPort
+    return this.WsProtocol + '://localhost:' + this.WsPort
   }
 }
 export default api

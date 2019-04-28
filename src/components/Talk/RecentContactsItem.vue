@@ -1,7 +1,11 @@
 <template>
   <!-- recent contacts item -->
+<<<<<<< HEAD:src/components/Talk/ChatContactsItem.vue
+  <div class="chat-contacts">
+=======
   <div class="recent-contacts">
 
+>>>>>>> 1b959ccc6efbcec24894a449e5216ebb126c2015:src/components/Talk/RecentContactsItem.vue
     <div class="avatar">
       <img src="/avatar2.jpg">
       <a-badge
@@ -12,19 +16,16 @@
         <a href="#"></a>
       </a-badge>
     </div>
-
     <div class="extra">
       <p class="attr">12:30</p>
       <p class="attr">
         <a-icon type="eye-invisible" theme="filled" />
       </p>
     </div>
-
     <div class="info">
       <p class="nickname">字太多就会被隐藏掉字太多就会被隐藏掉</p>
       <p class="msg">字太多就会被自动隐藏字太多就会被自动隐藏</p>
     </div>
-
   </div>
 </template>
 

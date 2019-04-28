@@ -7,7 +7,7 @@ const chat = {
     // token 是否有效
     // tokenStatus: false,
     // 当前的用户
-    // user: {},
+    user: {},
     flushLocalStore: false,
     websocket: {},
     messageListMap: new Map(),
@@ -21,28 +21,15 @@ const chat = {
     // 好友列表(联系人)
     userFriendList: [],
     // 群组列表(群组)
-    chatGroupList: [],
+    groupList: [],
     // 刷新token 的定时器
     flushTokenTimerId: null
   },
   mutations: {
-    SET_FLUSH_TOKEN_TIME_ID: function (state, flushTokenTimerId) {
-      state.flushTokenTimerId = flushTokenTimerId
-    },
-    CLEAR_FLUSH_TOKEN_TIME_ID: function (state) {
-      clearTimeout(state.flushTokenTimerId)
-    },
-    // token 是否有效
-    SET_TOKEN_STATUS: function (state, tokenStatus) {
-      state.tokenStatus = tokenStatus
-    },
-    SET_USER: function (state, user) {
-      state.user = user
-    },
     SET_USER_FRIEND_LIST: function (state, userFriendList) {
       state.userFriendList = userFriendList
     },
-    SET_CHAT_GROUP_LIST: function (state, chatGroupList) {
+    SET_GROUP_LIST: function (state, chatGroupList) {
       state.chatGroupList = chatGroupList
     },
     SET_CHAT_MAP: function (state, chatMap) {
@@ -53,7 +40,6 @@ const chat = {
     },
     // 发送给服务器
     SEND_MESSAGE: function (state, message) {
-      console.log('发送消息')
       const msg = {
         code: MessageInfoType.MSG_MESSAGE,
         message: message
@@ -86,7 +72,7 @@ const chat = {
         return chat
       })
       // 放入缓存
-      ChatListUtils.setChatList(state.user.id, tempChatList)
+      ChatListUtils.setMessageList(state.user.id, tempChatList)
       state.chatList = tempChatList
     },
     SET_MESSAGE_LIST: function (state, messageList) {
@@ -130,7 +116,7 @@ const chat = {
         return chat
       })
       // 放入缓存
-      ChatListUtils.setChatList(state.user.id, tempChatList)
+      ChatListUtils.setChatList(this.getters.userInfo.id, tempChatList)
     },
     SET_CHAT_LIST: function (state, chatList) {
       state.chatList = chatList
@@ -181,11 +167,10 @@ const chat = {
       // 重新设置chatList
       state.chatList = tempChatList
       // 放入缓存
-      ChatListUtils.setChatList(state.user.id, tempChatList)
+      ChatListUtils.setMessageList(state.user.id, tempChatList)
     }
   },
   actions: {
-
   },
   modules,
   strict: process.env.NODE_ENV !== 'production'

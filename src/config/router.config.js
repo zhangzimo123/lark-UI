@@ -92,6 +92,17 @@ export const asyncRouterMap = [
               keepAlive: true,
               permission: ['table']
             }
+          },
+          {
+            path: '/list/service-list',
+            name: 'ServiceList',
+            component: () => import('@/views/admin/ServiceList'),
+            meta: {
+              title: '服务管理',
+              icon: 'switcher',
+              keepAlive: true,
+              permission: ['jj']
+            }
           }
         ]
       },
