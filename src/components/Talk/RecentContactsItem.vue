@@ -1,13 +1,18 @@
 <template>
   <!-- recent contacts item -->
+<<<<<<< HEAD:src/components/Talk/ChatContactsItem.vue
   <div class="chat-contacts">
+=======
+  <div class="recent-contacts">
+
+>>>>>>> 1b959ccc6efbcec24894a449e5216ebb126c2015:src/components/Talk/RecentContactsItem.vue
     <div class="avatar">
       <img src="/avatar2.jpg">
       <a-badge
-        :count="100"
+        :count="10"
         :overflowCount="99"
-        :offset="[0, -20]"
-        :numberStyle="{fontSize: '12px', padding: '0', boxShadow: 'none'}">
+        :offset="[-5, -20]"
+        :numberStyle="{padding: '0', boxShadow: 'none', height: '16px', minWidth: '16px', lineHeight: '16px'}">
         <a href="#"></a>
       </a-badge>
     </div>
@@ -26,7 +31,7 @@
 
 <script>
 export default {
-  name: 'ChatContactsItem',
+  name: 'RecentContactsItem',
   props: {
     // contacts information object
     contactsInfo: {
@@ -69,7 +74,7 @@ export default {
     background-color: rgb(220, 222, 224);
   }
 
-  .chat-contacts {
+  .recent-contacts {
     width: 100%;
     height: 64px;
     min-height: 64px;
