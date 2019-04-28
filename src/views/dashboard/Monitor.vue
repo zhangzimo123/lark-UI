@@ -1,7 +1,7 @@
 <template>
-  <div style="margin-bottom: 64px">
+  <div style="margin-bottom: 64px; height: 100%;overflow-y: auto" >
     <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
-    <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''">
+    <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" >
       <grid-layout
         :layout.sync="layout"
         :col-num="12"
@@ -70,6 +70,8 @@ import Discuss from './components/Discuss.vue'
 import Meeting from './components/Meeting'
 import TodoPlanTask from './components/TodoPlanTask'
 import ResourceKnowledgeModel from './components/ResourceKnowledgeModel.vue'
+import Simulation from './components/Simulation.vue'
+import Datas from './components/Datas.vue'
 // import plan from './components/Plan'
 // import task from './components/Task'
 import LinkFooter from './components/Link.vue'
@@ -80,13 +82,17 @@ var layoutCards = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true },
   { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true },
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true }
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true },
+  { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: true },
+  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: true }
 ]
 var historyLayout = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
   { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todoPlanTask' },
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resourceKnowledgeModel' }
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resourceKnowledgeModel' },
+  { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation' },
+  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas' }
 ]
 // 工作台看板模拟数据
 export default {
@@ -178,9 +184,11 @@ export default {
     LinkFooter,
     FooterToolBar,
     MyChatPanel,
+    Simulation,
     // plan,
     // task,
     TodoPlanTask,
+    Datas,
     // TreeCustom,
     // Container,
     // Draggable,
