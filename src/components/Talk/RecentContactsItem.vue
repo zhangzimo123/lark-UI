@@ -1,11 +1,6 @@
 <template>
   <!-- recent contacts item -->
-<<<<<<< HEAD:src/components/Talk/ChatContactsItem.vue
-  <div class="chat-contacts">
-=======
   <div class="recent-contacts">
-
->>>>>>> 1b959ccc6efbcec24894a449e5216ebb126c2015:src/components/Talk/RecentContactsItem.vue
     <div class="avatar">
       <img src="/avatar2.jpg">
       <a-badge

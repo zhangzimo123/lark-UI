@@ -46,7 +46,7 @@
               </div>
             </a-list> -->
             <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
-              <chat-contacts-item :contactsInfo="item[index]"></chat-contacts-item>
+              <recent-contacts-item :contactsInfo="item[index]"></recent-contacts-item>
             </div>
           </div>
         </a-tab-pane>
@@ -412,28 +412,10 @@ export default {
   .talk-layout-content {
     overflow: hidden;
     z-index: 8;
-    .chat-area, .group-info-area, .contacts-info-area{
+    background-color: rgb(242, 243, 245);
+    .chat-area, .info-area {
       height: 100%;
     }
   }
 
-  // ***************************旧样式***************
-  .talk-list{
-    // padding: 8px 12px 8px 12px;cursor: pointer;
-  }
-  .active {
-     // background: #e8e8e8;
-    //  border: 1px solid #e8e8e8;
-    //  color: #fff;
-   }
-  // .box-panel{
-  //   height: calc(100% - 50px);
-  // }
-  .description{
-    // margin-top: 24px;
-    // color: gray;
-    // font-size: 14px;
-    // line-height: 22px;
-    // text-align: center;
-  }
 </style>

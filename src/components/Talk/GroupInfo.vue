@@ -92,7 +92,7 @@ export default {
           overflow: hidden;
 
           &:first-child {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 400;
             color: black;
             wordWrap: normal;
