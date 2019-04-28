@@ -1,7 +1,7 @@
 <template>
   <div class="setting-drawer" ref="plusDrawer">
     <a-drawer
-      width="300"
+      width="367"
       placement="right"
       :closable="false"
       @close="onClose"
@@ -11,9 +11,8 @@
       wrapClassName="footer"
     >
       <div class="setting-drawer-index-content">
-
         <div :style="{ marginBottom: '24px' }">
-          <h3 class="setting-drawer-index-title">添加面板</h3>
+          <div class="setting-drawer-title">添加面板</div>
           <grid-layout
             :layout.sync="layout"
             :col-num="12"
@@ -39,8 +38,9 @@
               :w="grid.w"
               :h="grid.h"
               :i="grid.i"
-            ><a-button @click="grid.show=true"><a-icon type="plus"/>{{ grid.title }}</a-button></grid-item>
+            ><a-button @click="grid.show=true" class="title"><span class="plus-icon" >+</span>{{ grid.title }}</a-button></grid-item>
           </grid-layout>
+          <!--<div class="bottom-line"></div>-->
         </div>
       </div>
       <div class="setting-drawer-index-handle" @click="toggle">
@@ -86,14 +86,14 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   .setting-drawer-index-handle {
     position: absolute;
     bottom: 380px;
     background: #322aff;
     width: 48px;
     height: 48px;
-    right: 300px;
+    right: 367px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -107,6 +107,51 @@ export default {
     i {
       color: rgb(255, 255, 255);
       font-size: 20px;
+    }
+  }
+
+  .setting-drawer-title {
+    line-height: 35px;
+    margin-bottom: 12px;
+    font-size:20px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(8,8,8,1);
+    margin-left: 29px;
+    margin-top: 10px;
+  }
+
+  .setting-drawer-index-content {
+    .vue-grid-item>.vue-resizable-handle{
+      display: none;
+    }
+
+    .title{
+      width:135px;
+      height:43px;
+      background:rgba(24,144,255,1);
+      border-radius:4px;
+      font-size:18px;
+      font-family:PingFang-SC-Medium;
+      font-weight:500;
+      color:rgba(255,255,255,1);
+      margin: 0 17px 0 17px;
+    }
+
+    .plus-icon{
+      font-size:24px;
+      margin-right: 10px;
+    }
+
+    .ant-drawer-body{
+      padding: 0!important;
+    }
+
+    .bottom-line{
+      width:299px;
+      height:2px;
+      background:rgba(234,245,255,1);
+      margin-left: 25px;
     }
   }
 </style>
