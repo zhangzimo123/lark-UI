@@ -2,7 +2,7 @@
   <a-layout v-if="chat.name" id="talkSetting" style="height: 100%">
     <talk-setting ref="model" :talk="talkId"/>
     <a-layout-header class="talk-header" v-if="chat">
-      <a-row type="flex" align="middle" style="height: 50px">
+      <a-row type="flex" align="middle" style="height: 64px">
         <a-col :span="1">
           <a-avatar style="color: #f56a00; backgroundColor: #fde3cf">{{ chat.name }}</a-avatar>
         </a-col>
@@ -523,17 +523,17 @@ export default {
 
 .talk-header{
     width: 100%;
-    height: 50px;
+    height: 64px;
     z-index: 100;
     position: relative;
     border-bottom: 1px solid #ebebeb;
-    background-color: #FFFFFF;
+    background-color: #f2f3f5;
     padding: 0 12px 0 12px;
     align-items: center!important;
-    background: #fff;
-    height: 50px;
+    background: #f2f3f5;
+    height: 64px;
     line-height: 0px;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #dcdee0;
     .header-content{
       height: 100%;
        display: -moz-box;/*兼容Firefox*/
@@ -573,13 +573,18 @@ export default {
     position: relative;
     overflow: hidden;
     flex-grow: 1;
-    background-color: #f7f7f7;
+    background-color: #f2f3f5;
 }
 .talk-main-box{
   position: relative;
   flex-grow: 1;
   overflow: hidden;
-  background-color: #f3f3f3;
+  background-color: #f2f3f5;
+
+  // 聊天内容区滚动
+  &:hover {
+    overflow: overlay;
+  }
   .talk-main{
     position: absolute;
     box-sizing: border-box;
@@ -664,7 +669,7 @@ export default {
   padding: 6px 12px;
   display: flex;
   position: relative;
-  border-top: 1px solid #ebebeb;
+  border-top: 1px solid #dcdee0;
   flex-direction: column;
   background-color: #FFFFFF;
 }
