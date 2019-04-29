@@ -104,6 +104,12 @@ export default {
   .tree-list-label{
     font-size: 11px;
     color: #444444;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    width: 100px;
   }
   .tree-custom .ant-checkbox-inner {
     border-radius: 50%!important;
@@ -112,6 +118,8 @@ export default {
     position: relative;
     width: 175px;
     margin: 7px 0 7px 0;
+    display: flex;
+    align-items: center;
   }
   .tree-list-checkbox{
     position: absolute;

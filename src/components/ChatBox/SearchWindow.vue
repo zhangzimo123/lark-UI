@@ -123,7 +123,7 @@ export default {
     float: left;
     position: fixed;
     z-index: 999;
-    top: 150px;
+    top: 160px;
     right: 500px;
   }
   .search-window-style .ant-input{
@@ -175,6 +175,12 @@ export default {
     font-size: 13px;
     color: #666666;
     float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    width: 130px;
   }
   .contacts-item-delete{
     background-color: #D7D7D7;
