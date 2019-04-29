@@ -12,7 +12,7 @@
 
         <a-dropdown>
           <a-menu slot="overlay">
-            <a-menu-item key="1" @click="$refs.model.beginTalk()">发起研讨</a-menu-item>
+            <a-menu-item key="1">发起研讨</a-menu-item>
             <a-menu-item key="2">发起会议</a-menu-item>
           </a-menu>
           <a-button type="default" size="small" icon="plus" style="margin-left:3px">
