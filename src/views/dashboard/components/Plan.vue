@@ -22,7 +22,7 @@
     <!--<a-icon type="tool"/>-->
     <!--</a>-->
     <!--</a-popover>-->
-    <a-row class="row-magin" v-for="(row,index) in tableData" :key="'item'+index">
+    <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <span @click="visibleModal(row)">{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
       <span class="right" color="#f50">{{ row.date }}</span>
@@ -42,6 +42,12 @@
 import { PlanLatest } from '@/api/plan'
 
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       title: '计划表',
@@ -52,7 +58,7 @@ export default {
     }
   },
   created () {
-    this.fetchData()
+    // this.fetchData()
   },
   methods: {
     fetchData () {

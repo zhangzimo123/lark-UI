@@ -2,7 +2,7 @@
   <div
     style="height:205px;overflow-y:auto">
     <a-collapse defaultActiveKey="1" accordion="true">
-      <a-collapse-panel v-for="(item,index) in list" :key="index" :header="item.name" style="font-size: 12px" >
+      <a-collapse-panel v-for="(item,index) in data.content" :key="index" :header="item.name" style="font-size: 12px" >
         <a-row gutter="16">
           <a-col :span="12">
             <img src="../../../../public/model.png" style="max-width:100%;height:110px;">
@@ -37,6 +37,12 @@
 <script>
 import { getModels } from '@/api/model'
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       title: '模型库',
@@ -45,7 +51,7 @@ export default {
     }
   },
   created () {
-    this.fetchData()
+    // this.fetchData()
   },
   methods: {
     fetchData (callback) {

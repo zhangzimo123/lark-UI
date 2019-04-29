@@ -8,7 +8,7 @@
         <a-row>
           <a-col>
             {{ title }}
-            <span style="font-size: 12px;font-weight: 200">({{ unread }}条未读消息)</span>
+            <span style="font-size: 12px;font-weight: 200">({{ data.unread }}条未读消息)</span>
           </a-col>
         </a-row>
       </div>
@@ -23,7 +23,7 @@
         </a-popover>
       </div>
       <div style="height:205px;overflow-y:auto;overflow-x: hidden">
-        <a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index" >
+        <a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in data.content" :key="'item'+index" >
           <a-col :span="2" class="discuss-avatar">
             <a-badge :count="row.unread">
               <a-avatar :src="row.avatar" />
@@ -53,13 +53,9 @@ import { DiscussLatest } from '@/api/discuss'
 import UserChat from '@/components/Talk/Chat'
 export default {
   props: {
-    // headStyle: {
-    //   type: Object,
-    //   default: null
-    // },
-    loading: {
-      type: Boolean,
-      default: true
+    data: {
+      type: Object,
+      required: true
     }
   },
   components: {
@@ -82,7 +78,7 @@ export default {
     }
   },
   created () {
-    this.fetchData()
+    // this.fetchData()
   },
   methods: {
     fetchData () {

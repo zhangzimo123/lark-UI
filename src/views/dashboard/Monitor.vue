@@ -1,63 +1,66 @@
 <template>
   <div style="margin-bottom: 64px; height: 100%;overflow-y: auto" >
-    <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
-    <div class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" >
-      <grid-layout
-        :layout.sync="layout"
-        :col-num="12"
-        :row-height="52"
-        :max-rows="12"
-        :is-draggable="true"
-        :is-resizable="true"
-        :is-mirrored="false"
-        :vertical-compact="true"
-        :margin="[10, 10]"
-        :use-css-transforms="true"
-      >
-        <grid-item
-          v-for="grid in layout"
-          v-if="grid.show"
-          dragIgnoreFrom=".card-content"
-          :minH="cardSize.minH"
-          :maxH="cardSize.maxH"
-          :minW="cardSize.minW"
-          :key="grid.id"
-          :x="grid.x"
-          :y="grid.y"
-          :w="grid.w"
-          :h="grid.h"
-          :i="grid.i"
-          @move="moveEvent"
-          @moved="movedEvent"
+    <a-spin :spinning="loaded === false" size="large">
+      <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
+      <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" >
+        <grid-layout
+          :layout.sync="layout"
+          :col-num="12"
+          :row-height="52"
+          :max-rows="12"
+          :is-draggable="true"
+          :is-resizable="true"
+          :is-mirrored="false"
+          :vertical-compact="true"
+          :margin="[10, 10]"
+          :use-css-transforms="true"
         >
-          <div
-            :is="grid.is"
-            :headStyle="headStyle"
-            :loading="loading"
-            @showChatPanel="showChatPanel"
-            @remove="grid.show=false" />
-        </grid-item>
-      </grid-layout>
-      <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
-        <img class="myWorkShopIconImg" src="@/assets/sjs.jpg"/>
-        <span class="myWorkShopIconTitle">我的研讨厅</span>
-        <div class="myWorkShopIconInfoTip"></div>
+          <grid-item
+            v-for="grid in layout"
+            v-if="grid.show"
+            dragIgnoreFrom=".card-content"
+            :minH="cardSize.minH"
+            :maxH="cardSize.maxH"
+            :minW="cardSize.minW"
+            :key="grid.id"
+            :x="grid.x"
+            :y="grid.y"
+            :w="grid.w"
+            :h="grid.h"
+            :i="grid.i"
+            @move="moveEvent"
+            @moved="movedEvent"
+          >
+            <div
+              :is="grid.is"
+              :headStyle="headStyle"
+              :data="monitor[grid.is]"
+              @showChatPanel="showChatPanel"
+              @remove="grid.show=false" />
+          </grid-item>
+        </grid-layout>
+        <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
+          <img class="myWorkShopIconImg" src="@/assets/sjs.jpg"/>
+          <span class="myWorkShopIconTitle">我的研讨厅</span>
+          <div class="myWorkShopIconInfoTip"></div>
+        </div>
       </div>
-    </div>
-    <!--这个地方放置最近访问-->
-    <footer-tool-bar :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-      <link-footer />
-    </footer-tool-bar>
-    <div>
-      <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
-      <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
-    </div>
-    <setting-drawer :layout="layout" />
+      <!--这个地方放置最近访问-->
+      <footer-tool-bar v-if="loaded" :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
+        <link-footer :data="monitor.link" />
+      </footer-tool-bar>
+      <div>
+        <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
+        <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
+      </div>
+      <setting-drawer :layout="layout" />
+    </a-spin>
   </div>
 </template>
 
 <script>
 import './components/style.css'
+import { axios } from '@/utils/request'
 import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
 import MyChatPanel from '@/components/ChatBox/MyChatPanel'
@@ -90,7 +93,7 @@ var historyLayout = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
   { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todoPlanTask' },
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resourceKnowledgeModel' },
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model' },
   { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation' },
   { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas' }
 ]
@@ -100,7 +103,7 @@ export default {
   mixins: [mixin, mixinDevice],
   data () {
     return {
-      loading: true,
+      loaded: false,
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       fontSize: { fontSize: '52px' },
       visible: false,
@@ -173,7 +176,8 @@ export default {
             ]
           }
         ]
-      }
+      },
+      monitor: {}
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
@@ -200,11 +204,21 @@ export default {
     SettingDrawer
   },
   created () {
-    setTimeout(() => {
-      this.loading = !this.loading
-    }, 1000)
+    this.fetchMonitor()
   },
   methods: {
+    fetchMonitor () {
+      const vm = this
+      const params = []
+      axios({
+        url: '/monitor',
+        method: 'get',
+        params: params
+      }).then(data => {
+        vm.monitor = Object.assign({}, data.data)
+        vm.loaded = true
+      })
+    },
     // onDrop (dropResult) {
     //   this.items = applyDrag(this.items, dropResult)
     // }

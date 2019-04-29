@@ -32,9 +32,9 @@
           <a-icon type="tool"/>
         </a>
       </a-popover>
-      <div v-if="this.typeMap==0"><resource></resource></div>
-      <div v-if="this.typeMap==1"><model></model></div>
-      <div v-if="this.typeMap==2"><knowledge></knowledge></div>
+      <div v-if="this.typeMap==0"><resource :data="data.resource"></resource></div>
+      <div v-if="this.typeMap==1"><model :data="data.model"></model></div>
+      <div v-if="this.typeMap==2"><knowledge :data="data.knowledge"></knowledge></div>
     </a-card>
   </div>
 </template>
@@ -44,6 +44,12 @@ import model from './Model'
 import knowledge from './Knowledge'
 
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },

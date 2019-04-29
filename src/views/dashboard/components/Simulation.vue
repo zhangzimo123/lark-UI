@@ -9,7 +9,7 @@
         <a-row>
           <a-col>
             {{ title }}
-            <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
+            <categoryTools v-model="selectedType" :array="typeArray" @changed="fetchData"></categoryTools>
           </a-col>
         </a-row>
       </div>
@@ -25,7 +25,7 @@
         </a>
       </a-popover>
       <div style="height:205px;overflow-y:auto;overflow-x: hidden">
-        <a-row type="flex" v-for="(row,index) in list" :key="'item'+index" class="row-magin">
+        <a-row type="flex" v-for="(row,index) in showList" :key="'item'+index" class="row-magin">
           <a-col :span="15">
             <i class="ivu-tag-dot-inner"></i>
             <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
@@ -46,6 +46,12 @@
 import CategoryTools from '../category-tools'
 import { getSimulations } from '../../../api/simulation'
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
     CategoryTools
   },
@@ -59,14 +65,23 @@ export default {
         { type: 3, name: '已完成', show: true, color: '#e8e8e8' }
       ],
       typeMap: {},
+      selectedType: 0,
       list: [],
       selectedRow: {},
       showDetails: false
     }
   },
   created () {
-    this.fetchData()
+    // this.fetchData()
     this.fetchToolStatus()
+  },
+  computed: {
+    showList () {
+      const vm = this
+      return this.data.content.filter(item => {
+        return vm.selectedType === 0 || vm.selectedType === item.type
+      })
+    }
   },
   methods: {
     fetchData (type) {

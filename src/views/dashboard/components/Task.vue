@@ -22,7 +22,7 @@
     <!--<a-icon type="tool"/>-->
     <!--</a>-->
     <!--</a-popover>-->
-    <a-row class="row-magin" v-for="(row,index) in list" :key="'item'+index">
+    <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
       <span @click="visibleModal(row)">{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
@@ -43,6 +43,12 @@
 import { TaskLatest } from '@/api/task'
 
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   components: {},
   data () {
     return {
@@ -64,7 +70,7 @@ export default {
   },
   created () {
     this.setStatusMap()
-    this.fetchData()
+    // this.fetchData()
   },
   computed: {
     showTypeArray () {

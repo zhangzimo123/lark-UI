@@ -1,6 +1,6 @@
 <template>
   <div style="height:205px;overflow-y:auto">
-    <a-row class="row-magin" v-for="(row,index) in list" :key="'item'+index">
+    <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <!--<a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>-->
       <span >{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
@@ -11,6 +11,12 @@
 <script>
 import { getKnowledges } from '@/api/knowledge'
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
   },
   data () {
@@ -28,7 +34,7 @@ export default {
     }
   },
   created () {
-    this.fetchData()
+    // this.fetchData()
   },
   filters: {
   },

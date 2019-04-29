@@ -25,11 +25,9 @@
 </template>
 <script>
 export default {
-  data () {
-    return {
-      selected: 0,
-      editing: false
-    }
+  model: {
+    prop: 'selected',
+    event: 'changed'
   },
   props: {
     showAll: {
@@ -43,6 +41,12 @@ export default {
     array: {
       type: Array,
       required: true
+    }
+  },
+  data () {
+    return {
+      selected: 0,
+      editing: false
     }
   },
   created () {

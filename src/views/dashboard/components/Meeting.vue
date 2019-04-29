@@ -27,7 +27,7 @@
         </a>
       </a-popover>
       <div style="height:205px;overflow-y:auto;overflow-x: hidden">
-        <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
+        <a-row v-for="(row,index) in showList" :key="'item'+index" class="row-magin">
           <i class="ivu-tag-dot-inner"></i>
           <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
           <span @click="visibleModal(row)" >{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
@@ -57,8 +57,8 @@
           </a-modal>
         </a-row>
       </div>
-      <div v-if="list.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
-        <a-icon type="file-exclamation" theme="twoTone" :style="fontSize"/>
+      <div v-if="data.content.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
+        <a-icon type="file-exclamation" theme="twoTone"/>
         <p class="description">卡片暂无内容</p>
       </div>
     </a-card>
@@ -71,6 +71,12 @@ import createMeeting from '../create-meeting'
 import '../modal-mask.css'
 
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
@@ -79,7 +85,7 @@ export default {
       selectedType: 0,
       buttonEdit: false,
       modal: false,
-      rowDetails: '',
+      rowDetails: {},
       typeArray: [
         // { type: 1, name: '未开始', show: true },
         // { type: 2, name: '进行中', show: true },
@@ -121,10 +127,17 @@ export default {
     createMeeting
   },
   created () {
-    this.fetchData()
+    // this.fetchData()
     this.setToolStatus()
   },
-  computed: {},
+  computed: {
+    showList () {
+      const vm = this
+      return this.data.content.filter(item => {
+        return vm.selectedType === 0 || vm.selectedType === item.type
+      })
+    }
+  },
   methods: {
     fetchData (type) {
       if (type === undefined) {

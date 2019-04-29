@@ -23,7 +23,7 @@
           <a-icon type="tool"/>
         </a>
       </a-popover>
-      <a-row v-for="(row,index) in tableData" :key="'item'+index" class="row-magin">
+      <a-row v-for="(row,index) in data.content" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
         <span>{{ row.name }}</span>
         <span class="right">{{ row.date }}</span>
@@ -34,6 +34,12 @@
 <script>
 import { getDatas } from '../../../api/datas'
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       title: '数据板',
@@ -43,7 +49,7 @@ export default {
     }
   },
   created () {
-    this.fetchData()
+    // this.fetchData()
   },
   methods: {
     fetchData () {

@@ -22,7 +22,7 @@
   <!--</a>-->
   <!--</a-popover>-->
   <div style="height:205px;overflow-y:auto">
-    <a-row v-for="(item,index) in list" :key="'item'+index" class="row-magin">
+    <a-row v-for="(item,index) in data.content" :key="'item'+index" class="row-magin">
       <i class="ivu-tag-dot-inner"></i>
       <span @click="visibleModal(item)">{{ item.name.length> 28 ? item.name.replace(/^(.{26})(.*)$/,'$1...') : item.name }}</span>
       <a-tag class="right" color="#f50">{{ item.tag }}</a-tag>
@@ -42,6 +42,12 @@
 import { TodoLatest } from '@/api/todo'
 
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       list: [],
@@ -54,7 +60,7 @@ export default {
     }
   },
   created () {
-    this.fetchData()
+    // this.fetchData()
   },
   methods: {
     fetchData () {

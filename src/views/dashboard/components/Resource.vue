@@ -28,11 +28,11 @@
   <div style="height:205px;overflow-y:auto;overflow-x: hidden">
     <a-row type="flex" :gutter="10" v-if="selectedType === 0">
       <a-col :span="14">
-        <resource-chart :chartStyle="chartStyle" />
+        <resource-chart :data="data.stat" :chartStyle="chartStyle" />
       </a-col>
       <a-col :span="10">
         <span class="ant-card-body-title">计算资源列表</span>
-        <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in list" :key="'item'+index">
+        <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in data.list.content" :key="'item'+index">
           <i class="ivu-tag-dot-inner" ></i>
           <span class="resource-list">{{ row.name }}</span>
         </a-row>
@@ -67,6 +67,10 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    },
+    data: {
+      type: Object,
+      required: true
     }
   },
   components: {
@@ -107,7 +111,7 @@ export default {
     }
   },
   mounted () {
-    this.fetchData()
+    // this.fetchData()
   },
   methods: {
     fetchData () {
