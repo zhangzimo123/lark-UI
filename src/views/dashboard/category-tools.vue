@@ -50,7 +50,7 @@ export default {
     }
   },
   created () {
-    this.selected = this.showAll ? 0 : this.showArray[0].type
+    this.$emit('changed', this.showAll ? 0 : this.showArray[0].type)
   },
   computed: {
     showArray () {
@@ -70,8 +70,7 @@ export default {
     },
     completeEdit () {
       this.editing = false
-      this.selected = this.showAll ? 0 : this.showArray[0].type
-      this.$emit('changed', this.selected)
+      this.$emit('changed', this.showAll ? 0 : this.showArray[0].type)
     },
     checkChanged (type) {
       const v = !type.show
