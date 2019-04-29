@@ -71,7 +71,7 @@ export default {
     },
     deleteContactsItem (item, index) {
       this.contactsData.splice(index, 1)
-      this.$parent.searchAndChangeSelectStatus(this.tree, item.key, false)
+      this.$parent.$parent.searchAndChangeSelectStatus(this.tree, item.key, false)
     },
     searchValueChange () {
       console.log('searchKeyWords', this.searchKeyWords)
@@ -90,13 +90,13 @@ export default {
     },
     addSelectedData (item) {
       this.contactsData.push(item)
-      this.$parent.searchAndChangeSelectStatus(this.tree, item.key, true)
+      this.$parent.$parent.searchAndChangeSelectStatus(this.tree, item.key, true)
     },
     deleteSelectedData (item) {
       for (let i = 0; i < this.contactsData.length; i++) {
         if (item.key === this.contactsData[i].key) {
           this.contactsData.splice(i, 1)
-          this.$parent.searchAndChangeSelectStatus(this.tree, item.key, false)
+          this.$parent.$parent.searchAndChangeSelectStatus(this.tree, item.key, false)
         }
       }
       console.log('contactsData', this.contactsData)
