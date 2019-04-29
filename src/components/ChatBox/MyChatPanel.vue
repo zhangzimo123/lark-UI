@@ -81,11 +81,23 @@
         <!--<p class="description">不要怂，一起上</p>-->
         <!--</div>-->
         <!--</div>-->
-        <a-layout>
-          <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
-        </a-layout>
+        <!--<a-layout>-->
+        <!--<user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>-->
+        <!--</a-layout>-->
         <member-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
       </a-layout>
+      <a-modal
+        class="discuss-block"
+        title=""
+        :visible="isShowPanel"
+        @cancel="handleCancel"
+        :mask="false"
+        centered
+        :footer="null"
+        :closable="false"
+      >
+        <user-chat :chat="currentChat" @showChat="showChat"/>
+      </a-modal>
     </a-layout>
   </div>
 </template>
@@ -205,6 +217,10 @@ export default {
     },
     openSearchWindow () {
       this.$parent.$parent.openSearchWindow()
+    },
+    handleCancel: function () {
+      const self = this
+      self.isShowPanel = false
     }
   },
   activated: function () {
@@ -513,6 +529,12 @@ export default {
     justify-content: center;
     align-items: center;
     margin-top: 45px;
+  }
+  .discuss-block .ant-modal-body{
+    padding: 0!important;
+  }
+  .discuss-block .ant-layout-content {
+    height: 300px;
   }
 
 </style>

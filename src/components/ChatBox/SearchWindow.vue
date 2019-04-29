@@ -6,7 +6,7 @@
           <a-icon slot="prefix" type="search" />
         </a-input>
       </div>
-      <div>
+      <div class="tree-scroll">
         <tree-custom
           :label="tree.title"
           :headImg="tree.head"
@@ -20,11 +20,13 @@
     </div>
     <div class="search-window-right-part">
       <div class="control-contacts-tip">请选择需要勾选的联系人</div>
-      <div v-for="(item,index) in contactsData" :key="item.key">
-        <div class="contacts-item" >
-          <img class="contacts-item-img" :src="item.head"/>
-          <div class="contacts-item-name">{{ item.title }}</div>
-          <div class="contacts-item-delete" @click="deleteContactsItem(item,index)">✖</div>
+      <div class="contacts-scroll">
+        <div v-for="(item,index) in contactsData" :key="item.key">
+          <div class="contacts-item" >
+            <img class="contacts-item-img" :src="item.head"/>
+            <div class="contacts-item-name">{{ item.title }}</div>
+            <div class="contacts-item-delete" @click="deleteContactsItem(item,index)">✖</div>
+          </div>
         </div>
       </div>
       <div class="foot-btn-box">
@@ -108,7 +110,7 @@ export default {
 
 <style lang="less">
   .search-input{
-    width: 188px;
+    width: 210px;
     font-size: 9px;
     color: #666666;
   }
@@ -119,9 +121,9 @@ export default {
     /*width: 406px;*/
     height: 481px;
     float: left;
-    position: absolute;
+    position: fixed;
     z-index: 999;
-    top: 200px;
+    top: 150px;
     right: 500px;
   }
   .search-window-style .ant-input{
@@ -130,10 +132,15 @@ export default {
   .search-window-left-part{
     /*border-right: 1px solid #EEEEEE;*/
     height: 100%;
-    width: 200px;
+    width: 250px;
     float: left;
-    overflow: auto;
+    /*overflow: auto;*/
     background-color: white;
+    margin-left: 10px;
+  }
+  .tree-scroll{
+    height: 420px;
+    overflow: auto;
   }
   .search-input-box{
     padding: 15px 0 10px 0;
@@ -143,31 +150,36 @@ export default {
     float: left;
     position: relative;
     height: 100%;
-    width: 192px;
+    width: 240px;
     border-left: 1px solid #EEEEEE;
     background-color: white;
   }
+  .contacts-scroll{
+    height: 380px;
+    overflow: auto;
+    margin: 10px 0 10px 0;
+  }
   .control-contacts-tip{
     margin-left: 21px;
-    font-size: 11px;
+    font-size: 13px;
     color: #666666;
   }
   .contacts-item-img{
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     margin-right: 20px;
     float: left;
   }
   .contacts-item-name{
-    font-size: 11px;
+    font-size: 13px;
     color: #666666;
     float: left;
   }
   .contacts-item-delete{
     background-color: #D7D7D7;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     color: white;
     display: flex;
@@ -175,7 +187,7 @@ export default {
     justify-content: center;
     font-size: 11px;
     position: absolute;
-    right: -6px;
+    right: 0px;
     top: 7px;
   }
   .contacts-item{

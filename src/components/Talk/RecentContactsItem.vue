@@ -3,23 +3,26 @@
   <div class="recent-contacts">
     <div class="avatar">
       <img src="/avatar2.jpg">
-      <a-badge
-        :count="10"
-        :overflowCount="99"
-        :offset="[-5, -20]"
-        :numberStyle="{padding: '0', boxShadow: 'none', height: '16px', minWidth: '16px', lineHeight: '16px'}">
-        <a href="#"></a>
-      </a-badge>
     </div>
     <div class="extra">
       <p class="attr">12:30</p>
-      <p class="attr">
-        <a-icon type="eye-invisible" theme="filled" />
-      </p>
+      <!--<p class="attr">-->
+      <!--<a-icon type="eye-invisible" theme="filled" />-->
+      <!--</p>-->
     </div>
     <div class="info">
-      <p class="nickname">字太多就会被隐藏掉字太多就会被隐藏掉</p>
-      <p class="msg">字太多就会被自动隐藏字太多就会被自动隐藏</p>
+      <div class="nameInfo">
+        <p class="nickname">字太多就会被自动隐藏字太多就会被自动隐藏</p>
+        <p class="unreadTip">1</p>
+      </div>
+      <!--<a-badge-->
+      <!--:count="10"-->
+      <!--:overflowCount="99"-->
+      <!--:offset="[-5, -20]"-->
+      <!--:numberStyle="{padding: '0', boxShadow: 'none', height: '16px', minWidth: '16px', lineHeight: '16px'}">-->
+      <!--<a href="#"></a>-->
+      <!--</a-badge>-->
+      <div class="msg">字太多就会被自动隐藏字太多就会被自动隐藏</div>
     </div>
   </div>
 </template>
@@ -78,7 +81,7 @@ export default {
     overflow: hidden;
     padding: 12px 18px 11px;
     background-color: #fff;
-    border-bottom: 1px solid rgb(218, 220, 223);
+    /*border-bottom: 1px solid rgb(218, 220, 223);*/
 
     &:hover {
       background-color: rgb(215, 217, 219);
@@ -87,14 +90,14 @@ export default {
 
   .avatar {
     float: left;
-    width: 40px;
-    height: 40px;
+    width: 43px;
+    height: 43px;
     margin-right: 10px;
 
     img {
-      width: 40px;
-      height: 40px;
-      border-radius: 2px;
+      width: 43px;
+      height: 43px;
+      margin-top: 4px;
     }
   }
 
@@ -108,15 +111,18 @@ export default {
       margin: 0;
       font-size:16px;
       font-weight: 400;
-      color: rgb(0, 0, 0);
+      color:rgba(68,68,68,1);
       overflow: hidden;
       text-overflow: ellipsis;
+      width: 140px;
     }
 
     .msg {
-      margin: 0;
-      font-size: 14px;
-      color: rgb(140, 141, 143);
+      margin-top: 8px;
+      font-size:14px;
+      font-family:MicrosoftYaHei;
+      font-weight:400;
+      color:rgba(153,153,153,1);
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -133,6 +139,31 @@ export default {
     .attr {
       height: 20px;
       margin: 0;
+      font-size:14px;
+      font-family:MicrosoftYaHei;
+      font-weight:400;
+      color:rgba(153,153,153,1);
     }
+  }
+
+  .unreadTip{
+    position: absolute;
+    top: 0px;
+    right: 46px;
+    width:20px;
+    height:20px;
+    background:rgba(232,0,0,1);
+    border-radius:50%;
+    font-size:14px;
+    font-family:MicrosoftYaHei;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nameInfo{
+    position: relative;
   }
 </style>

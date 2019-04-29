@@ -168,6 +168,12 @@ export default {
                         key: '0-1-0-2-1',
                         head: require('@/assets/sjs.jpg'),
                         selectStatus: false
+                      },
+                      {
+                        title: '旺仔研究员5',
+                        key: '0-1-0-2-2',
+                        head: require('@/assets/sjs.jpg'),
+                        selectStatus: false
                       }
                     ]
                   }

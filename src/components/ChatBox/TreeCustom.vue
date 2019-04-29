@@ -110,7 +110,7 @@ export default {
   }
   .tree-list-contacts-item{
     position: relative;
-    width: 160px;
+    width: 175px;
     margin: 7px 0 7px 0;
   }
   .tree-list-checkbox{
@@ -119,9 +119,9 @@ export default {
     top: 2px;
   }
   .tree-list-arrow{
-    height: 12px;
+    height: 15px;
   }
-  .tree-list-group-label{
-    margin-left: 10px;
+  .tree-list-group-label {
+    margin: 5px 0 5px 15px;
   }
 </style>
