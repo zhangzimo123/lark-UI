@@ -86,7 +86,7 @@ export default {
       console.log('arr', arr)
     },
     closeSearchWindow () {
-      this.$parent.closeSearchWindow()
+      this.$parent.$parent.closeSearchWindow()
     },
     addSelectedData (item) {
       this.contactsData.push(item)

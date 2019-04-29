@@ -5,7 +5,7 @@
 </template>
 <script>
 import echarts from 'echarts'
-import { ResourceStat } from '@/api/resource'
+// import { ResourceStat } from '@/api/resource'
 
 export default {
   props: {

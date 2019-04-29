@@ -41,21 +41,9 @@
               消息
             </span>
             <div class="talk-box-container">
-              <a-list :dataSource="chatList">
-                <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
-                  <a-list-item-meta :description="item.lastMessage" class="talk-item">
-                    <div slot="title" :href="item.href">{{ item.name }}</div>
-                    <a-avatar
-                      slot="avatar"
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    />
-                  </a-list-item-meta>
-                  <div class="talk-time">10:34</div>
-                </a-list-item>
-                <div v-if="loading && !busy" class="demo-loading-container">
-                  <a-spin/>
-                </div>
-              </a-list>
+              <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
+                <recent-contacts-item :contactsInfo="item[index]"></recent-contacts-item>
+              </div>
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" class="box-panel">
@@ -94,7 +82,6 @@
         <!--</div>-->
         <!--</div>-->
         <a-layout>
-          <!--<div v-show="isShowWelcome">欢迎</div>-->
           <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
         </a-layout>
         <member-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
@@ -117,6 +104,9 @@ import {
   ErrorType,
   timeoutFetch
 } from '../../utils/talk/chatUtils'
+import {
+  RecentContactsItem
+} from '@/components/Talk'
 import conf from '@/api/index'
 import HttpApiUtils from '../../utils/talk/HttpApiUtils'
 export default {
@@ -125,7 +115,8 @@ export default {
   components: {
     ContactList,
     UserChat,
-    MemberModel
+    MemberModel,
+    RecentContactsItem
   },
   data () {
     return {
@@ -158,12 +149,12 @@ export default {
         return this.$store.state.chat.currentChat
       },
       set: function (currentChat) {
-        this.$store.commit('setCurrentChat', currentChat)
+        this.$store.commit('SET_CURRENT_CHAT', currentChat)
       }
     },
     chatList: {
       get: function () {
-        return this.$store.state.user.chatList
+        return this.$store.state.chat.chatList
       },
       set: function (chatList) {
         this.$store.commit('SET_CHAT_LIST', chatList)
@@ -181,25 +172,26 @@ export default {
     //   this.$refs.model.beginTalk()
     // },
     showChat: function (chat) {
-      console.log('调用成功')
       const self = this
       self.isShowWelcome = false
       self.isShowPanel = true
       const chatList = ChatListUtils.getChatList(self.$store.state.user.info.id)
-      // 删除当前用户已经有的会话
-      const newChatList = chatList.filter(function (element) {
-        return String(element.id) !== String(chat.id)
-      })
+
       // 重新添加会话，放到第一个
       const firstChat = new Chat(chat.id, chat.name, conf.getHostUrl() + chat.avatar, 0, '', '', '', MessageTargetType.CHAT_GROUP)
-      newChatList.unshift(firstChat)
+
       // 存储到localStorage 的 chatList
       ChatListUtils.setChatList(self.$store.state.user.info.id, chatList)
-      this.$store.commit('setChatList', newChatList)
 
-      this.$store.commit('resetUnRead')
+      this.$store.commit('RESET_UNREAD')
       this.currentChat = chat
-      // 每次滚动到最底部
+      // 当前聊天室
+      if (firstChat) {
+        self.$store.commit('SET_CURRENT_CHAT', firstChat)
+      }
+      // 重新设置chatList
+      self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+      // Chat会话框中的研讨信息每次滚动到最底部
       this.$nextTick(() => {
         // imageLoad('message-box')
       })
@@ -209,10 +201,10 @@ export default {
       this.$store.commit('delChat', chat)
     },
     closeMyChatPanel () {
-      this.$parent.closeMyChatPanel()
+      this.$parent.$parent.closeMyChatPanel()
     },
     openSearchWindow () {
-      this.$parent.openSearchWindow()
+      this.$parent.$parent.openSearchWindow()
     }
   },
   activated: function () {
