@@ -11,7 +11,7 @@
         />
         <a-dropdown>
           <a-menu slot="overlay">
-            <a-menu-item key="1" @click="$refs.model.beginTalk()">发起研讨</a-menu-item>
+            <a-menu-item key="1">发起研讨</a-menu-item>
             <a-menu-item key="2">发起会议</a-menu-item>
           </a-menu>
           <a-button type="default" size="small" icon="plus" style="margin-left:3px">
@@ -43,8 +43,9 @@
                 <a-spin/>
               </div>
             </a-list> -->
-            <chat-contacts-item></chat-contacts-item>
-
+            <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
+              <recent-contacts-item :contactsInfo="item[index]"></recent-contacts-item>
+            </div>
           </div>
         </a-tab-pane>
 
@@ -55,7 +56,8 @@
           </span>
 
           <div class="group-contacts-container tab-content-container">
-            <contacts-box/>
+
+            <contacts-item></contacts-item>
           </div>
         </a-tab-pane>
 
@@ -66,7 +68,7 @@
           </span>
 
           <div class="contacts-container tab-content-container">
-
+            <contacts-box/>
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -95,11 +97,11 @@
         <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
       </div>
 
-      <div v-show="activeKey == '2'" class="group-info-area">
+      <div v-show="activeKey == '2'" class="info-area">
         <group-info :selected="selectedGroup"></group-info>
       </div>
 
-      <div v-show="activeKey == '3'" class="contacts-info-area">
+      <div v-show="activeKey == '3'" class="info-area">
         <contacts-info :selected="selectedContacts"></contacts-info>
       </div>
 
@@ -117,7 +119,8 @@ import {
   Contacts as ContactsBox,
   ContactsInfo,
   GroupInfo,
-  ChatContactsItem,
+  RecentContactsItem,
+  ContactsItem,
   MemberBox as MemberModel
 } from '@/components/Talk'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
@@ -141,7 +144,8 @@ export default {
     GroupInfo,
     UserChat,
     MemberModel,
-    ChatContactsItem
+    RecentContactsItem,
+    ContactsItem
   },
   data () {
     return {
@@ -362,12 +366,13 @@ export default {
     flex: 0 0 300px !important;
 
     background: rgb(230, 232, 235);
-    border-right: 1px solid #ebebeb;
+    border-right: 1px solid #dcdee0;
 
     // 聊天搜索栏样式 该部分高度为48px
     .search-bar {
       display: flex;
-      margin: 18px 12px 6px;
+      // margin: 18px 12px 6px;
+      margin: 24px 12px 16px
     }
 
     // 最近消息标签页样式
@@ -393,8 +398,8 @@ export default {
     .tab-content-container {
       overflow: hidden;
 
-      // 视窗高度-头部导航栏告诉-搜索框高度-tab页高度
-      height: calc(100vh - 64px - 48px - 46px);
+      // 视窗高度-头部导航栏高度-搜索框高度-tab页高度
+      height: calc(100vh - 64px - 64px - 46px);
 
       &:hover {
         overflow-y: overlay;
@@ -405,25 +410,11 @@ export default {
 
   .talk-layout-content {
     overflow: hidden;
+    z-index: 8;
+    background-color: rgb(242, 243, 245);
+    .chat-area, .info-area {
+      height: 100%;
+    }
   }
 
-  // ***************************旧样式***************
-  .talk-list{
-    padding: 8px 12px 8px 12px;cursor: pointer;
-  }
-  .active {
-     background: #e8e8e8;
-    //  border: 1px solid #e8e8e8;
-    //  color: #fff;
-   }
-  // .box-panel{
-  //   height: calc(100% - 50px);
-  // }
-  .description{
-    margin-top: 24px;
-    color: gray;
-    font-size: 14px;
-    line-height: 22px;
-    text-align: center;
-  }
 </style>
