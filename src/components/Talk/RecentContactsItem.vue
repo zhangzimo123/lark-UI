@@ -77,7 +77,7 @@ export default {
     cursor: pointer;
     overflow: hidden;
     padding: 12px 18px 11px;
-    background-color: rgb(230, 232, 235);
+    background-color: #fff;
     border-bottom: 1px solid rgb(218, 220, 223);
 
     &:hover {
