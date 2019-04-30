@@ -507,6 +507,7 @@ export default {
     this.$nextTick(() => {
       imageLoad('message-box')
     })
+    console.log('this.chat', this.chat)
   },
   directives: { infiniteScroll }
   // directives: {
@@ -519,7 +520,7 @@ export default {
   // }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 
 .talk-header{
     width: 100%;
@@ -550,7 +551,7 @@ export default {
       word-wrap: normal!important;
       .talk-name{
         color: #404040;
-        margin: 0;
+        margin: 2px 0 0 10px;
         cursor: pointer;
         overflow: hidden !important;
         font-size: 14px;
@@ -560,7 +561,6 @@ export default {
         line-height: 1.1;
         user-select: text;
         white-space: nowrap !important;
-        margin-bottom: 6px;
         text-overflow: ellipsis !important;
       }
     }
@@ -728,18 +728,21 @@ export default {
       border: none;
     }
     .send-toolbar{
-          height: 24px;
-    display: flex;
-    align-items: flex-end;
+      height: 24px;
+      display: flex;
+      align-items: flex-end;
+      .ant-btn-primary{
+        letter-spacing: 3px;
+      }
     }
   }
   .user-guide {
     font-size: 12px;
     color: #bdbebf;
-}
-    .faces-box {
-      position: absolute;
-      bottom: 3.8rem;
-    }
+  }
+  .faces-box {
+    position: absolute;
+    bottom: 3.8rem;
+  }
 }
 </style>
