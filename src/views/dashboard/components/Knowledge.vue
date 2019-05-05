@@ -9,7 +9,6 @@
   </div>
 </template>
 <script>
-import { getKnowledges } from '@/api/knowledge'
 export default {
   props: {
     data: {
@@ -17,37 +16,19 @@ export default {
       required: true
     }
   },
-  components: {
-  },
   data () {
     return {
       title: '知识角',
-      showTableHeader: true,
       selectedType: 0,
       typeArray: [
         { type: 1, name: '最新', show: true },
         { type: 2, name: '最热', show: true }
       ],
-      list: [],
       knowledgeDetails: false,
       knowledgeDetailsContent: ''
     }
   },
-  created () {
-    // this.fetchData()
-  },
-  filters: {
-  },
   methods: {
-    fetchData (type) {
-      if (type === undefined) {
-        type = 0
-      }
-      var vm = this
-      getKnowledges(type).then((data) => {
-        vm.list = data.content.slice(0, 6)
-      })
-    },
     typeName (type) {
       const o = this.typeMap['type-' + type]
       return o ? o.name : ''

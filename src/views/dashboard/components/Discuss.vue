@@ -66,8 +66,6 @@
   </div>
 </template>
 <script>
-import './style.css'
-import { DiscussLatest } from '@/api/discuss'
 import UserChat from '@/components/Talk/Chat'
 import WebsocketHeartbeatJs from '../../../utils/talk/WebsocketHeartbeatJs'
 import conf from '@/api/index'
@@ -96,16 +94,11 @@ export default {
       title: '研讨厅',
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       size: 4,
-      unread: 20,
-      list: [],
       showChatVisible: true,
       isShowPanel: false,
       isShowWelcome: true,
       active: ''
     }
-  },
-  created () {
-    // this.fetchData()
   },
   computed: {
     currentChat: {
@@ -126,14 +119,6 @@ export default {
     }
   },
   methods: {
-    fetchData () {
-      const vm = this
-      // const paramter = 'size' + vm.size
-      DiscussLatest(vm.size).then((data) => {
-        vm.list = data.content
-        vm.unread = data.unread
-      })
-    },
     toDiscussPage () {
       // this.$router.push({ path: '/discuss' })
     },

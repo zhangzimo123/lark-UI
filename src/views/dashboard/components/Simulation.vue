@@ -44,7 +44,6 @@
 </template>
 <script>
 import CategoryTools from '../category-tools'
-import { getSimulations } from '../../../api/simulation'
 export default {
   props: {
     data: {
@@ -66,13 +65,11 @@ export default {
       ],
       typeMap: {},
       selectedType: 0,
-      list: [],
       selectedRow: {},
       showDetails: false
     }
   },
   created () {
-    // this.fetchData()
     this.fetchToolStatus()
   },
   computed: {
@@ -84,17 +81,6 @@ export default {
     }
   },
   methods: {
-    fetchData (type) {
-      if (type === undefined) {
-        type = 0
-      }
-      var vm = this
-      getSimulations(type).then((data) => {
-        vm.list = data.content.filter(item => {
-          return item.type === type || type === 0
-        })
-      })
-    },
     fetchToolStatus () {
       const vm = this
       // getMyToolSetting('simulation').then(({ data, status }) => {

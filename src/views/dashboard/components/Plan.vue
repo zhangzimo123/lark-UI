@@ -39,7 +39,6 @@
   </div>
 </template>
 <script>
-import { PlanLatest } from '@/api/plan'
 
 export default {
   props: {
@@ -51,23 +50,11 @@ export default {
   data () {
     return {
       title: '计划表',
-      showTableHeader: true,
-      tableData: [],
       modal: false,
       rowDetails: ''
     }
   },
-  created () {
-    // this.fetchData()
-  },
   methods: {
-    fetchData () {
-      var vm = this
-      PlanLatest()
-        .then((data) => {
-          vm.tableData = [].concat(data.content).slice(0, 6)
-        })
-    },
     visibleModal (row) {
       this.modal = true
       this.rowDetails = row

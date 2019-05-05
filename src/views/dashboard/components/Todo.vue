@@ -39,7 +39,6 @@
   <!--</a-card>-->
 </template>
 <script>
-import { TodoLatest } from '@/api/todo'
 
 export default {
   props: {
@@ -50,27 +49,13 @@ export default {
   },
   data () {
     return {
-      list: [],
-      size: 10,
-      total: 10,
       title: '待办事项',
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       modal: false,
       rowDetails: ''
     }
   },
-  created () {
-    // this.fetchData()
-  },
   methods: {
-    fetchData () {
-      var vm = this
-      TodoLatest(vm.size)
-        .then((data) => {
-          vm.list = [].concat(data.content.slice(0, 6))
-          vm.total = data.total
-        })
-    },
     visibleModal (row) {
       this.modal = true
       this.rowDetails = row

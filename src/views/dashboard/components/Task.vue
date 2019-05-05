@@ -40,7 +40,6 @@
   </div>
 </template>
 <script>
-import { TaskLatest } from '@/api/task'
 
 export default {
   props: {
@@ -53,7 +52,6 @@ export default {
   data () {
     return {
       title: '任务单',
-      showTableHeader: true,
       selectedType: 0,
       buttonEdit: false,
       typeArray: [
@@ -63,14 +61,12 @@ export default {
         { type: 4, name: '已完成', show: true }
       ],
       typeMap: { 'type-1': {} },
-      list: [],
       modal: false,
       rowDetails: ''
     }
   },
   created () {
     this.setStatusMap()
-    // this.fetchData()
   },
   computed: {
     showTypeArray () {
@@ -80,15 +76,6 @@ export default {
     }
   },
   methods: {
-    fetchData (type) {
-      if (type === undefined) {
-        type = 0
-      }
-      var vm = this
-      TaskLatest(type).then((data) => {
-        vm.list = data.content.slice(0, 6)
-      })
-    },
     setStatusMap () {
       const m = {}
       this.typeArray.forEach(item => {
