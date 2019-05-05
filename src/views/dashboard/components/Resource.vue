@@ -57,7 +57,6 @@
 
 import TypeBar from './TypeBar.vue'
 import ResourceChart from './ResourceChart.vue'
-import { ResourceLatest } from '@/api/resource'
 export default {
   props: {
     headStyle: {
@@ -86,9 +85,7 @@ export default {
         { type: 2, name: '人员资源', show: true },
         { type: 3, name: '其他', show: true }
       ],
-      size: 4,
-      list: [],
-      total: 0
+      size: 4
     }
   },
   filters: {
@@ -110,17 +107,7 @@ export default {
       return str.replace(/^(.{5})(.*)$/, '$1')
     }
   },
-  mounted () {
-    // this.fetchData()
-  },
   methods: {
-    fetchData () {
-      const vm = this
-      ResourceLatest([vm.size, vm.selectedType]).then((data) => {
-        vm.list = [].concat(data.content)
-        vm.total = data.total
-      })
-    },
     totalResource () {
       this.$router.push({
         path: '/total-resource'

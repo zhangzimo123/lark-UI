@@ -35,7 +35,6 @@
   </div>
 </template>
 <script>
-import { getModels } from '@/api/model'
 export default {
   props: {
     data: {
@@ -46,19 +45,7 @@ export default {
   data () {
     return {
       title: '模型库',
-      list: [],
       selectedName: 'index-0'
-    }
-  },
-  created () {
-    // this.fetchData()
-  },
-  methods: {
-    fetchData (callback) {
-      var vm = this
-      getModels().then((data) => {
-        vm.list = data.content.slice(0, 6)
-      })
     }
   }
 }

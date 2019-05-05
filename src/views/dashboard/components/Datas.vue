@@ -32,7 +32,6 @@
   </div>
 </template>
 <script>
-import { getDatas } from '../../../api/datas'
 export default {
   props: {
     data: {
@@ -43,20 +42,7 @@ export default {
   data () {
     return {
       title: '数据板',
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
-      showTableHeader: true,
-      tableData: []
-    }
-  },
-  created () {
-    // this.fetchData()
-  },
-  methods: {
-    fetchData () {
-      var vm = this
-      getDatas().then((data) => {
-        vm.tableData = data.content
-      })
+      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' }
     }
   }
 }

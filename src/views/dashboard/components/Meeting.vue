@@ -9,7 +9,7 @@
         <a-row>
           <a-col>
             {{ title }}
-            <categoryTools v-model="selectedType" :array="typeArray" @changed="fetchData"></categoryTools>
+            <categoryTools v-model="selectedType" :array="typeArray"></categoryTools>
             <a href="#"><a-icon type="plus-circle" class="createMeetClass" @click="createMeeting"/></a>
             <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
           </a-col>
@@ -65,7 +65,6 @@
   </div>
 </template>
 <script>
-import { getMeetings } from '../../../api/dashboard'
 import categoryTools from '../category-tools'
 import createMeeting from '../create-meeting'
 import '../modal-mask.css'
@@ -81,7 +80,6 @@ export default {
     return {
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       title: '会议室',
-      showTableHeader: true,
       selectedType: 0,
       buttonEdit: false,
       modal: false,
@@ -116,18 +114,15 @@ export default {
         }
       ],
       typeMap: {},
-      list: [],
       createMeet: false,
       meetingDetails: false
     }
   },
   components: {
-    getMeetings,
     categoryTools,
     createMeeting
   },
   created () {
-    // this.fetchData()
     this.setToolStatus()
   },
   computed: {
@@ -139,18 +134,6 @@ export default {
     }
   },
   methods: {
-    fetchData (type) {
-      if (type === undefined) {
-        type = 0
-      }
-      var vm = this
-      getMeetings(type).then((data, status) => {
-        vm.list = data.content.filter(item => {
-          return item.type === type || type === 0
-        })
-        // vm.list = [].concat(data.content.splice(0, 6))
-      })
-    },
     setToolStatus () {
       const m = {}
       this.typeArray.forEach(item => {
