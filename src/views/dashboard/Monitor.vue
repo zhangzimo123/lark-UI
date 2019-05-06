@@ -85,10 +85,10 @@ import LinkFooter from './components/Link.vue'
 import SettingDrawer from './components/SettingDrawer.vue'
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: false },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: false },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: false },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: false },
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true },
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true },
   { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false },
   { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false },
   { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '6', 'title': '统计板', is: 'stat', show: false },
