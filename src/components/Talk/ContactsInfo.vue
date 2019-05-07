@@ -4,7 +4,7 @@
 
     <div v-if="Object.keys(selected).length == 0" class="unselected-tip">
       <a-icon type="user" style="fontSize: 160px; color: #d7d9db" />
-      <p>未选中联系人</p>
+      <p>未选择联系人</p>
     </div>
 
     <div v-else class="selected-info">

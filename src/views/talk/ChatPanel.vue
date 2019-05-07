@@ -30,7 +30,7 @@
 
           <div class="recent-contacts-container tab-content-container">
             <div v-for="(item, index) in chatList" :key="index" @click="showChat(item)">
-              <recent-contacts-item :contactsInfo="item"></recent-contacts-item>
+              <recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat"></recent-contacts-item>
             </div>
           </div>
         </a-tab-pane>
@@ -42,7 +42,7 @@
           </span>
 
           <div class="group-contacts-container tab-content-container">
-            <div v-for="(item, index) in chatList" :key="index" @click="showChat(item)">
+            <div v-for="(item, index) in chatList" :key="index">
               <group-item :contactsInfo="item"></group-item>
             </div>
           </div>
@@ -64,15 +64,15 @@
     <a-layout class="talk-layout-content">
 
       <div v-show="activeKey == '1'" class="chat-area">
-        <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
+        <user-chat :chat="currentChat" @showChat="showChat"/>
       </div>
 
       <div v-show="activeKey == '2'" class="info-area">
-        <group-info :selected="selectedGroup"></group-info>
+        <group-info :selected="activeGroup"></group-info>
       </div>
 
       <div v-show="activeKey == '3'" class="info-area">
-        <contacts-info :selected="selectedContacts"></contacts-info>
+        <contacts-info :selected="activeContacts"></contacts-info>
       </div>
 
     </a-layout>
@@ -130,8 +130,9 @@ export default {
       memberVisible: false,
       active: '',
       // record current contacts/group
-      selectedContacts: {},
-      selectedGroup: {}
+      activeContacts: {},
+      activeGroup: {},
+      activeChat: ''
     }
   },
   computed: {
@@ -187,7 +188,7 @@ export default {
       this.$nextTick(() => {
         // imageLoad('message-box')
       })
-      this.active = chat.id
+      this.activeChat = chat.id
     },
     delChat (chat) {
       this.$store.commit('DEL_CHAT', chat)
