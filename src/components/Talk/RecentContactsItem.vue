@@ -1,6 +1,6 @@
 <template>
   <!-- recent contacts item -->
-  <div class="recent-contacts">
+  <div :class="recentContactsClasses">
     <div class="avatar">
       <img src="/avatar2.jpg">
       <a-badge
@@ -19,7 +19,9 @@
     </div>
     <div class="info">
       <p class="nickname">字太多就会被隐藏掉字太多就会被隐藏掉</p>
-      <p class="msg">字太多就会被自动隐藏字太多就会被自动隐藏</p>
+      <p class="msg">
+        <span v-show="true" style="color: red">[有人@我]</span>字太多就会被自动隐藏字太多就会被自动隐藏
+      </p>
     </div>
   </div>
 </template>
@@ -32,8 +34,7 @@ export default {
     contactsInfo: {
       type: Object,
       default: () => ({}),
-      // required: true
-      required: false
+      required: true
     },
     activated: {
       type: Boolean,
@@ -46,7 +47,7 @@ export default {
       default: false,
       required: false
     },
-    isMuted: {
+    isMute: {
       type: Boolean,
       default: false,
       required: false
@@ -55,6 +56,18 @@ export default {
   data () {
     return {}
   },
+  computed: {
+    recentContactsClasses () {
+      return {
+        'recent-contacts': true,
+        'activated': this.activated,
+        'top': this.isTop
+      }
+    }
+  },
+  created () {
+    console.log(this.contactsInfo)
+  },
   methods: {}
 }
 </script>
@@ -62,11 +75,11 @@ export default {
 <style lang="less" scoped>
 
   .activated {
-    background-color: rgb(195, 197, 199);
+    background-color: rgb(195, 197, 199)!important;
   }
 
   .top {
-    background-color: rgb(220, 222, 224);
+    background-color: rgb(220, 222, 224)!important;
   }
 
   .recent-contacts {

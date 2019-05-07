@@ -207,6 +207,13 @@
       </div>
     </a-layout-footer>
   </a-layout>
+
+  <a-layout v-else style="height: 100%; textAlign: center;">
+    <div class="unselected-tip">
+    <a-icon type="message" style="fontSize: 140px; color: #d7d9db" />
+    <p>未选择聊天</p>
+  </div>
+  </a-layout>
 </template>
 
 <script>
@@ -520,6 +527,12 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+
+.unselected-tip {
+  padding-top: 20%;
+  color: #a5a7a9;
+  font-size: 16px;
+}
 
 .talk-header{
     width: 100%;
