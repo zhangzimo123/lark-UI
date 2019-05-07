@@ -1,22 +1,22 @@
 <!--<template>-->
-  <!--<Card class=" rightAngle" style="height: 400px">-->
+  <!--<a-card class=" rightAngle" style="height: 400px">-->
     <!--<div class="panel-card-header" slot="title">-->
       <!--<span class="panel-card-title panel-card-title-position">{{ title }}</span>-->
       <!--<span class="panel-card-extra">-->
-        <!--<i-button-->
+        <!--<a-button-->
           <!--type="text"-->
           <!--class="card-all"-->
-        <!--&gt;全部</i-button>-->
+        <!--&gt;全部</a-button>-->
       <!--</span>-->
       <!--<span v-show="eventIconRow" class="cal-icon-row">-->
-        <!--<img v-show="editIconRow" class="cal-icon" src="@/assets/images/icon/edit.jpg" @click="editItem" />-->
-        <!--<img class="cal-icon" src="@/assets/images/icon/delete.jpg" @click="deleteItem" />-->
-        <!--<img class="cal-icon" src="@/assets/images/icon/add.jpg" @click="addItem" />-->
+        <!--&lt;!&ndash;<img v-show="editIconRow" class="cal-icon" src="@/assets/images/icon/edit.jpg" @click="editItem" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<img class="cal-icon" src="@/assets/images/icon/delete.jpg" @click="deleteItem" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<img class="cal-icon" src="@/assets/images/icon/add.jpg" @click="addItem" />&ndash;&gt;-->
       <!--</span>-->
-      <!--<Modal v-model="addOrEditItemModal" class="cal-item-modal" :styles="{top: '30%',width:'720px'}" >-->
+      <!--<a-modal v-model="addOrEditItemModal" class="cal-item-modal" :styles="{top: '30%',width:'720px'}" >-->
         <!--<div slot="header" class="cal-item-modal-header">-->
           <!--<span class="cal-item-modal-title">-->
-            <!--<img class="cal-item-modal-clock-icon" src="@/assets/images/icon/clock.png"/>-->
+            <!--&lt;!&ndash;<img class="cal-item-modal-clock-icon" src="@/assets/images/icon/clock.png"/>&ndash;&gt;-->
             <!--{{ calModalTitle }}-->
           <!--</span>-->
         <!--</div>-->
@@ -44,13 +44,13 @@
           <!--<Button class="cal-item-modal-cancel" @click="cancelBtn">取消</Button>-->
           <!--<Button class="cal-item-modal-save" @click="saveBtn">保存</Button>-->
         <!--</div>-->
-      <!--</Modal>-->
-      <!--<Modal-->
+      <!--</a-modal>-->
+      <!--<a-modal-->
         <!--title="提示"-->
         <!--v-model="deleteModal"-->
         <!--:styles="{top: '30%'}">-->
         <!--<div class="cal-delete-modal-text">是否确认删除{{ deleteData }}待办事项？</div>-->
-      <!--</Modal>-->
+      <!--</a-modal>-->
     <!--</div>-->
     <!--<div style="height:220px;">-->
       <!--<div style="height:220px;">-->
@@ -71,18 +71,16 @@
         <!--</vue-cal>-->
       <!--</div>-->
     <!--</div>-->
-  <!--</Card>-->
+  <!--</a-card>-->
 <!--</template>-->
 <!--<script>-->
 <!--// 需要配置webpack的externals，而且需要引入［https://github.com/xiaobinwu/calendar.js］-->
 <!--// import { calendar } from 'calendar'-->
-<!--import VueCal from 'vue-cal'-->
-<!--import 'vue-cal/dist/vuecal.css'-->
-<!--import Scroll from 'iview/src/components/scroll/scroll.vue'-->
+
+<!--// import 'vue-cal/dist/vuecal.css'-->
+
 <!--export default {-->
-  <!--components: {-->
-    <!--Scroll,-->
-    <!--VueCal },-->
+  <!--components: {},-->
   <!--data () {-->
     <!--return {-->
       <!--title: '日历墙',-->

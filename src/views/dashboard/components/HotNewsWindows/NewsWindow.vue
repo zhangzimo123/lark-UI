@@ -36,11 +36,12 @@
   </a-card>
 </template>
 <script>
-import { getNews } from '../../../api/news'
+import { getNews } from '../../../../api/news'
 export default {
   data () {
     return {
       title: '咨讯窗',
+      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       list: [],
       detailsModal: false,
       detailsNews: {}

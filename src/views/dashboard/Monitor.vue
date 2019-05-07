@@ -78,6 +78,9 @@ import Stat from './components/Stat.vue'
 import Calendar from './components/Calendar.vue'
 import PDMTDM from './components/PDM-TDM.vue'
 import Tool from './components/Tool.vue'
+import HotNewsWindows from './components/HotNewsWindows'
+import HotNews from './components/HotNewsWindows/HotNews'
+import NewsWindow from './components/HotNewsWindows/NewsWindow'
 // import plan from './components/Plan'
 // import task from './components/Task'
 import LinkFooter from './components/Link.vue'
@@ -93,7 +96,12 @@ var layoutCards = [
   { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false },
   { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '6', 'title': '统计板', is: 'stat', show: false },
   { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: false },
-  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'Tool', show: false }
+  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'Tool', show: false },
+  // { 'x': 0, 'y': 25, 'w': 6, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNews', show: false },
+  // { 'x': 6, 'y': 25, 'w': 6, 'h': 5, 'i': '10', 'title': '咨讯窗', is: 'NewsWindow', show: false }
+  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false },
+  { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
+
 ]
 var historyLayout = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
@@ -209,6 +217,9 @@ export default {
     Calendar,
     PDMTDM,
     Tool,
+    HotNewsWindows,
+    HotNews,
+    NewsWindow,
     // TreeCustom,
     // Container,
     // Draggable,
