@@ -29,24 +29,8 @@
           </span>
 
           <div class="recent-contacts-container tab-content-container">
-
-            <!-- <a-list :dataSource="chatList">
-              <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
-                <a-list-item-meta :description="item.lastMessage" class="talk-item">
-                  <div slot="title" :href="item.href">{{ item.name }}</div>
-                  <a-avatar
-                    slot="avatar"
-                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                  />
-                </a-list-item-meta>
-                <div class="talk-time">10:34</div>
-              </a-list-item>
-              <div v-if="loading && !busy" class="demo-loading-container">
-                <a-spin/>
-              </div>
-            </a-list> -->
-            <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
-              <recent-contacts-item :contactsInfo="item[index]"></recent-contacts-item>
+            <div v-for="(item, index) in chatList" :key="index" @click="showChat(item)">
+              <recent-contacts-item :contactsInfo="item"></recent-contacts-item>
             </div>
           </div>
         </a-tab-pane>
@@ -58,8 +42,9 @@
           </span>
 
           <div class="group-contacts-container tab-content-container">
-
-            <contacts-item></contacts-item>
+            <div v-for="(item, index) in chatList" :key="index" @click="showChat(item)">
+              <group-item :contactsInfo="item"></group-item>
+            </div>
           </div>
         </a-tab-pane>
 
@@ -70,30 +55,13 @@
           </span>
 
           <div class="contacts-container tab-content-container">
-            <contacts-box/>
+            <contacts-box style="paddingLeft: 18px;"/>
           </div>
         </a-tab-pane>
       </a-tabs>
     </a-layout-sider>
 
     <a-layout class="talk-layout-content">
-      <!--
-      根据左侧选择的tab页，右侧展示对应的组件内容
-      所以右侧也需要写三个组件 分别是：聊天组件， 群组信息组件， 联系人信息组件
-        1). 聊天组件： 直接进行聊天的界面
-        2). 群组信息组件： 展示群组信息，有直接跳转到聊天界面的按钮
-        3). 联系人信息组件： 展示联系人信息，有直接跳转到聊天界面的按钮
-      情景描述：
-        用户未选中查看左侧列表中的某一项时，右侧显示对应的欢迎页；
-        用户选中后直接展示对应的信息，并高亮选中项；
-        选中项的值可以统一记录在本组件中
-      -->
-      <!-- <div v-show="isShowWelcome">
-        <div style="margin: 120px auto 0 auto;text-align: center;">
-          <a-icon type="rocket" theme="twoTone" twoToneColor="#52c41a" style="fontSize:108px" />
-          <p class="description">不要怂，一起上</p>
-        </div>
-      </div> -->
 
       <div v-show="activeKey == '1'" class="chat-area">
         <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
@@ -122,8 +90,8 @@ import {
   ContactsInfo,
   GroupInfo,
   RecentContactsItem,
-  ContactsItem,
-  MemberBox as MemberModel
+  MemberBox as MemberModel,
+  GroupItem
 } from '@/components/Talk'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
 import {
@@ -147,7 +115,7 @@ export default {
     UserChat,
     MemberModel,
     RecentContactsItem,
-    ContactsItem
+    GroupItem
   },
   data () {
     return {
