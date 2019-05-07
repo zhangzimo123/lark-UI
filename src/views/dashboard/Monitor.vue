@@ -99,8 +99,8 @@ var layoutCards = [
   { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'Tool', show: false },
   // { 'x': 0, 'y': 25, 'w': 6, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNews', show: false },
   // { 'x': 6, 'y': 25, 'w': 6, 'h': 5, 'i': '10', 'title': '咨讯窗', is: 'NewsWindow', show: false }
-  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false },
-  { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
+  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false }
+  // { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
 
 ]
 var historyLayout = [
