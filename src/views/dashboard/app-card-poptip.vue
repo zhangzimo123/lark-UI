@@ -31,7 +31,9 @@ export default {
   props: {
     file: {
       type: Object,
-      require: true
+      require: true,
+      default: function () {
+      }
     },
     column: {
       type: Number,
