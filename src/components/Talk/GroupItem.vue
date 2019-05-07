@@ -1,6 +1,6 @@
 <template>
-  <!-- groups and contacts item -->
-  <div class="contacts-item">
+  <!-- groups item -->
+  <div class="group-item">
 
     <div class="avatar">
       <img src="/avatar2.jpg">
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'ContactsItem',
+  name: 'GroupItem',
   props: {
   },
   data () {
@@ -35,7 +35,7 @@ export default {
   .on-line {
     color: rgba(43, 162, 69, 1);
   }
-  .contacts-item {
+  .group-item {
     width: 100%;
     height: 50px;
     min-height: 50px;
