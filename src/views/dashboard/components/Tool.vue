@@ -4,6 +4,7 @@
       :headStyle="headStyle"
       :bordered="true"
       :style="{ height: '305px'}"
+      style="overflow-y:auto"
     >
       <div slot="title">
         <a-row>
@@ -91,7 +92,7 @@ export default {
   .tool-icon {
     width: 112px;
     height: 112px;
-    margin: 0px 12px 0px 12px;
+    margin: 0px 10px 0px 10px;
     float: left;
   }
 </style>

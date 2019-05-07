@@ -58,13 +58,13 @@ export default {
   }
   .app-card-tools {
     width: 90%;
-    height: 70px;
+    height: 90px;
     margin: 5px 0 5px 0;
     padding: 8px 0 8px 0;
   }
   .tool-download-image {
-    width: 30px;
-    height: 16px;
+    width: 22px;
+    height: 14px;
     cursor: pointer;
     position: absolute;
     top: 0;
