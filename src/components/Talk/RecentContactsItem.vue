@@ -30,24 +30,25 @@
 export default {
   name: 'RecentContactsItem',
   props: {
-    // contacts information object
+    /* contacts information object
+      contactsInfo = {
+        id: 唯一标识符 String
+        lastMessage: 最后一条消息 String
+        name: 联系人/群组名称 String
+        avatar: 头像 String
+        time: 时间 String
+        atMe: 是否有人@我 Boolean
+        isTop: 是否置顶 Boolean
+        isMute: 是否免打扰 Boolean
+        isGroup: 是否群组 Boolean
+      }
+    */
     contactsInfo: {
       type: Object,
       default: () => ({}),
       required: true
     },
     activated: {
-      type: Boolean,
-      default: false,
-      // required: true
-      required: false
-    },
-    isTop: {
-      type: Boolean,
-      default: false,
-      required: false
-    },
-    isMute: {
       type: Boolean,
       default: false,
       required: false
