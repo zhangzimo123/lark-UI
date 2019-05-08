@@ -27,7 +27,12 @@
     <div class="info">
       <p class="nickname">{{ contactsInfo.name }}</p>
       <p class="msg">
-        <span v-show="contactsInfo.atMe" class="at-me">[有人@我]</span>
+        <span v-show="contactsInfo.atMe && contactsInfo.isGroup" class="at-me">[有人@我]</span>
+        <!-- 群组被静音后提示未读消息条数 -->
+        <span v-show="contactsInfo.isGroup && contactsInfo.isMute && contactsInfo.unreadNum">[{{ contactsInfo.unreadNum }}条]</span>
+        <!-- 群组提示消息发送者姓名 -->
+        <span v-show="contactsInfo.sender && contactsInfo.isGroup">{{ contactsInfo.sender }}:</span>
+
         {{ contactsInfo.lastMessage }}
       </p>
     </div>
@@ -44,6 +49,7 @@ export default {
         id: 唯一标识符 String
         lastMessage: 最后一条消息 String
         name: 联系人/群组名称 String
+        sender: 发送者姓名 String
         avatar: 头像 String
         time: 时间 String
         atMe: 是否有人@我 Boolean
