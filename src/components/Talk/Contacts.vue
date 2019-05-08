@@ -1,143 +1,62 @@
 <template>
-  <a-tree :treeData="treeData" defaultExpandAll>
+  <a-tree class="contacts-tree" :treeData="contactsTree" @select="handleSelect" defaultExpandAll>
 
     <!-- 组织节点 -->
-    <template slot="orgNode" slot-scope="{title, icon}">
-      <a-icon :type="icon" style="fontSize: 16px; marginRight: 3px;"></a-icon>
-      <span style="fontSize: 16px;">{{ title }}</span>
+    <template slot="orgNode" slot-scope="{title}">
+      <a-icon type="folder" class="org-node-icon"></a-icon>
+      <span class="org-node-title">{{ title }}</span>
     </template>
 
     <!-- 用户节点 -->
-    <template slot="userNode" slot-scope="{title, icon}">
-      <!-- <span> -->
-      <img :src="icon" alt="Avatar" style="height: 24px; width: 24px; borderRadius: 2px; margin:0 5px 4px 0px;">
-      <!-- </span> -->
+    <template slot="userNode" slot-scope="{title, icon, online}">
 
-      <span style="color: black; fontSize: 14px; lineHeight: 24px;">{{ title }}</span>
+      <a-avatar :class="['user-node-avatar', online ? '' : 'off-line']" shape="square" :src="icon" :size="24">
+        <span>{{ title.slice(0, 1) }}</span>
+      </a-avatar>
+
+      <span class="user-node-title">{{ title }}</span>
     </template>
 
   </a-tree>
 </template>
 
 <script>
-/**
- * 拿到联系人的list后，先对list进行遍历
- * 对组织节点和非组织节点分别处理，
- * 组织节点添加<pre>scopedSlots: { icon: 'orgAvatar', title: 'orgName' }</pre>
- * 人员节点添加<pre>scopedSlots: { icon: 'userAvatar', title: 'userName' }</pre>
- * （以上工作也可以在服务端直接进行，节省前端渲染时间）
- * 然后对数据用本组件统一渲染
- */
-const treeData = [
-  {
-    title: '中国航天科工第二研究院',
-    icon: 'folder',
-    key: '0',
-    scopedSlots: {
-      title: 'orgNode'
-    },
-    children: [
-      {
-        title: '第二总体设计部',
-        icon: 'folder',
-        key: '0-1',
-        scopedSlots: {
-          title: 'orgNode'
-        },
-        children: [
-          {
-            title: '十一室',
-            icon: 'folder',
-            key: '0-1-1',
-            scopedSlots: {
-              title: 'orgNode'
-            },
-            children: [
-              {
-                title: '三块五',
-                icon: '/avatar2.jpg',
-                key: '0-1-1-1',
-                scopedSlots: {
-                  title: 'userNode'
-                }
-              },{
-                title: '两块八',
-                icon: '/avatar2.jpg',
-                key: '0-1-1-2',
-                scopedSlots: {
-                  title: 'userNode'
-                }
-              },{
-                title: '四块三',
-                icon: '/avatar2.jpg',
-                key: '0-1-1-3',
-                scopedSlots: {
-                  title: 'userNode'
-                }
-              }
-            ]
-          },{
-            title: '发展计划处',
-            icon: 'folder',
-            key: '0-1-2',
-            scopedSlots: {
-              title: 'orgNode'
-            },
-            children: []
-          }
-        ]
-      },{
-        title: '二十三所',
-        icon: 'folder',
-        key: '0-2',
-        scopedSlots: {
-          title: 'orgNode'
-        },
-        children: [
-          {
-            title: '市场处',
-            icon: 'folder',
-            key: '0-2-1',
-            scopedSlots: {
-              title: 'orgNode'
-            },
-            children: []
-          },{
-            title: '三室',
-            icon: 'folder',
-            key: '0-2-2',
-            scopedSlots: {
-              title: 'orgNode'
-            },
-            children: []
-          }
-        ]
-      },{
-        title: '二〇八所',
-        icon: 'folder',
-        key: '0-3',
-        scopedSlots: {
-          title: 'orgNode'
-        },
-        children: []
-      }
-    ]
-  }
-]
 export default {
   name: 'Contacts',
-  props: {},
-  data () {
-    return {
-      treeData
+  props: {
+    /**
+     * 联系人结构树
+        {
+          title: '十一室',
+          icon: 'folder',
+          key: '0-1-1',
+          scopedSlots: {
+            title: 'orgNode'
+          },
+          children: [
+            {
+              title: '三块五',
+              icon: '/avatar2.jpg',
+              key: '0-1-1-1',
+              online: true,
+              scopedSlots: {
+                title: 'userNode'
+              }
+            }
+          ]
+        }
+     */
+    contactsTree: {
+      type: Array,
+      required: true
     }
   },
+  data () {
+    return {}
+  },
   methods: {
-    onSelect (selectedKeys, info) {
-      console.log('selected', selectedKeys, info)
-    },
-    onCheck (checkedKeys, info) {
-      console.log('onCheck', checkedKeys, info)
+    handleSelect (selectedKeys, info) {
+      this.$emit('SelectContacts', info.selected ? selectedKeys[0] : '')
     }
   }
 }
@@ -145,8 +64,31 @@ export default {
 </script>
 
 <style lang="less" scoped>
- .org-node-border {
-   border-top: #d7d9db;
- }
-</style>
+  .off-line {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+  }
+  .contacts-tree {
+    .org-node-icon {
+      font-size: 16px;
+      margin-right: 3px;
+    }
+    .org-node-title {
+      font-size: 16px;
+    }
 
+    .user-node-avatar {
+      border-radius: 2px;
+      margin:0 5px 4px 0px;
+      background-color: rgb(0, 162, 174);
+      span {
+        color: #fff;
+      }
+    }
+    .user-node-title {
+      color: black;
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
+</style>
