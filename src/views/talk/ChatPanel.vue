@@ -42,8 +42,8 @@
           </span>
 
           <div class="group-contacts-container tab-content-container">
-            <div v-for="(item, index) in chatList" :key="index">
-              <group-item :contactsInfo="item"></group-item>
+            <div v-for="(item, index) in groupList" :key="index" @click="showGroup(item)">
+              <group-item :groupInfo="item" :activated="item.id === activeGroup"></group-item>
             </div>
           </div>
         </a-tab-pane>
@@ -55,7 +55,7 @@
           </span>
 
           <div class="contacts-container tab-content-container">
-            <contacts-box style="paddingLeft: 18px;"/>
+            <contacts-box :contactsTree="treeData" @SelectContacts="showContacts" style="paddingLeft: 18px;"/>
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -130,9 +130,121 @@ export default {
       memberVisible: false,
       active: '',
       // record current contacts/group
-      activeContacts: {},
-      activeGroup: {},
-      activeChat: ''
+      activeContacts: '',
+      activeGroup: '',
+      activeChat: '',
+
+      // 临时数据
+      groupList: [
+        {
+          id: '123',
+          name: '二十五年前的今天',
+          avatar: '/avatar2.jpg'
+        }, {
+          id: '124',
+          name: '白色的玫瑰花',
+          avatar: './avatar2.jpg'
+        }
+      ],
+      treeData: [
+        {
+          title: '中国航天科工第二研究院',
+          icon: 'folder',
+          key: '0',
+          scopedSlots: {
+            title: 'orgNode'
+          },
+          children: [
+            {
+              title: '第二总体设计部',
+              icon: 'folder',
+              key: '0-1',
+              scopedSlots: {
+                title: 'orgNode'
+              },
+              children: [
+                {
+                  title: '十一室',
+                  icon: 'folder',
+                  key: '0-1-1',
+                  scopedSlots: {
+                    title: 'orgNode'
+                  },
+                  children: [
+                    {
+                      title: '三块五',
+                      icon: './avatar2.jpg',
+                      key: '0-1-1-1',
+                      online: false,
+                      scopedSlots: {
+                        title: 'userNode'
+                      }
+                    }, {
+                      title: '两块八',
+                      icon: '/avatar2.jpg',
+                      key: '0-1-1-2',
+                      online: true,
+                      scopedSlots: {
+                        title: 'userNode'
+                      }
+                    }, {
+                      title: '四块三',
+                      icon: '/avatar2.jpg',
+                      key: '0-1-1-3',
+                      online: false,
+                      scopedSlots: {
+                        title: 'userNode'
+                      }
+                    }
+                  ]
+                }, {
+                  title: '发展计划处',
+                  icon: 'folder',
+                  key: '0-1-2',
+                  scopedSlots: {
+                    title: 'orgNode'
+                  },
+                  children: []
+                }
+              ]
+            }, {
+              title: '二十三所',
+              icon: 'folder',
+              key: '0-2',
+              scopedSlots: {
+                title: 'orgNode'
+              },
+              children: [
+                {
+                  title: '市场处',
+                  icon: 'folder',
+                  key: '0-2-1',
+                  scopedSlots: {
+                    title: 'orgNode'
+                  },
+                  children: []
+                }, {
+                  title: '三室',
+                  icon: 'folder',
+                  key: '0-2-2',
+                  scopedSlots: {
+                    title: 'orgNode'
+                  },
+                  children: []
+                }
+              ]
+            }, {
+              title: '二〇八所',
+              icon: 'folder',
+              key: '0-3',
+              scopedSlots: {
+                title: 'orgNode'
+              },
+              children: []
+            }
+          ]
+        }
+      ]
     }
   },
   computed: {
@@ -192,6 +304,13 @@ export default {
     },
     delChat (chat) {
       this.$store.commit('DEL_CHAT', chat)
+    },
+    showGroup (group) {
+      this.activeGroup = group.id
+    },
+    showContacts (key) {
+      console.log(key)
+      this.activeContacts = key
     }
   },
   activated: function () {
