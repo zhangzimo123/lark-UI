@@ -1,61 +1,103 @@
 <template>
   <!-- group info component -->
   <div class="group-info">
+    <a-spin :spinning="loadingState" :delay="500" tip="加载中···">
 
-    <div v-if="Object.keys(selected).length == 0" class="unselected-tip">
-      <a-icon type="team" style="fontSize: 160px; color: #d7d9db" />
-      <p>未选择群组</p>
-    </div>
-
-    <div v-else class="selected-info">
-      <div class="info-wrapper">
-        <div class="name-and-org">
-          <p>我是一个螺丝钉</p>
-          <p>二部五百二十室(add chat limit)</p>
-        </div>
-
-        <img src="/avatar2.jpg">
-
+      <div v-if="!selected.length" class="unselected-tip">
+        <a-icon type="team" style="fontSize: 160px; color: #d7d9db" />
+        <p>未选择群组</p>
       </div>
 
-      <div class="info-wrapper">
-        <div class="info-list">
-          <div v-for="(item, index) in data" :key="index">
-            <p class="attr">{{ item.attribute }}</p>
+      <!-- 重新加载 -->
+      <div v-else-if="!Object.keys(groupInfo).length " class="reload-tip">
+        <p>重新加载</p>
+      </div>
 
-            <span class="val">{{ item.value }}</span>
+      <div v-else class="selected-info">
+        <div class="info-wrapper">
+          <div class="name-and-org">
+            <p>{{ groupInfo.name }}</p>
+            <p>{{ groupInfo.description }}</p>
+          </div>
+
+          <a-avatar class="avatar-img" shape="square" :src="groupInfo.avatar" :size="70">
+            <span>{{ groupInfo.name }}</span>
+          </a-avatar>
+
+        </div>
+
+        <div class="info-wrapper">
+          <div class="info-list">
+            <div>
+              <p class="attr">密级</p>
+              <span class="val">{{ groupInfo.securityClass }}</span>
+            </div>
+            <div>
+              <p class="attr">主题</p>
+              <span class="val">{{ groupInfo.subject }}</span>
+            </div>
+            <div>
+              <p class="attr">创建人</p>
+              <span class="val">{{ groupInfo.creator }}</span>
+            </div>
+            <div>
+              <p class="attr">创建时间</p>
+              <span class="val">{{ groupInfo.createTime }}</span>
+            </div>
           </div>
         </div>
+
+        <a-button class="send-msg-btn" type="primary" @click="sendMessage">发消息</a-button>
       </div>
-
-      <a-button class="send-msg-btn">发消息</a-button>
-    </div>
-
+    </a-spin>
   </div>
 </template>
 
 <script>
+import { getGroupInfo } from '@/api/chat'
+
 export default {
   name: 'GroupInfo',
   props: {
     // the selected group
     selected: {
-      type: Object,
-      default: () => ({}),
+      type: String,
+      default: '',
       required: true
     }
   },
   data () {
     return {
-      data: [
-        { key: '1', attribute: '主题', value: '测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的测试的' },
-        { key: '2', attribute: '创建时间', value: '2018-12-20' },
-        { key: '3', attribute: '创建人', value: '谁家的小谁' },
-        { key: '4', attribute: '其他', value: '其他的内容' }
-      ]
+      /** 群组信息 */
+      groupInfo: {},
+      /** 加载状态 */
+      loadingState: false
     }
   },
-  methods: {}
+  watch: {
+    selected: function(newValue) {
+      this.getData(newValue)
+    }
+  },
+  methods: {
+    /** 通过id获取联系人信息 */
+    getData (groupId) {
+      [ this.groupInfo, this.loadingState ] = [ {}, true ]
+
+      getGroupInfo(groupId).then(res => {
+        if (res.status === 200) {
+          this.groupInfo = res.result.data
+        }
+
+        this.loadingState = false
+      }, () => {
+        this.loadingState = false
+      })
+    },
+    sendMessage (event) {
+      console.log('这里应该跳转到聊天页')
+    }
+  }
 }
 </script>
 
@@ -95,7 +137,7 @@ export default {
             font-size: 22px;
             font-weight: 400;
             color: black;
-            wordWrap: normal;
+            word-wrap: normal;
             white-space: nowrap;
             text-overflow: ellipsis;
 
@@ -109,13 +151,16 @@ export default {
 
       }
 
-      img {
+      .avatar-img {
         position: absolute;
         right: 0;
         top: 0;
-        width: 70px;
-        height: 70px;
         border-radius: 2px;
+        background-color: rgb(0, 162, 174);
+
+        span {
+          color: #fff;
+        }
       }
 
       .info-list {
@@ -138,9 +183,6 @@ export default {
     .send-msg-btn {
       margin-top: 40px;
       padding: 10px 28px 28px 28px;
-      background-color: #2ba245;
-      border-color: #2ba245;
-      color: #fff;
     }
   }
 </style>

@@ -2,7 +2,7 @@
   <!-- contacts info component -->
   <div class="contacts-info">
 
-    <div v-if="Object.keys(selected).length == 0" class="unselected-tip">
+    <div v-if="!selected.length" class="unselected-tip">
       <a-icon type="user" style="fontSize: 160px; color: #d7d9db" />
       <p>未选择联系人</p>
     </div>
@@ -40,8 +40,8 @@ export default {
   props: {
     // the selected group
     selected: {
-      type: Object,
-      default: () => ({}),
+      type: String,
+      default: '',
       required: true
     }
   },
@@ -95,7 +95,7 @@ export default {
             font-size: 22px;
             font-weight: 400;
             color: black;
-            wordWrap: normal;
+            word-wrap: normal;
             white-space: nowrap;
             text-overflow: ellipsis;
 
