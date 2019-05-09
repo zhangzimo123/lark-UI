@@ -309,7 +309,6 @@ export default {
       this.activeGroup = group.id
     },
     showContacts (key) {
-      console.log(key)
       this.activeContacts = key
     }
   },
@@ -330,116 +329,116 @@ export default {
     //   imageLoad('message-box')
     // })
   },
-  mounted: function () {
-    const self = this
-    const websocketHeartbeatJs = new WebsocketHeartbeatJs({
-      url: conf.getWsUrl()
-    })
-    websocketHeartbeatJs.onopen = function () {
-      websocketHeartbeatJs.send('{"code":' + MessageInfoType.MSG_READY + '}')
-    }
-    websocketHeartbeatJs.onmessage = function (event) {
-      const data = event.data
-      const sendInfo = JSON.parse(data)
-      // 真正的消息类型
-      if (sendInfo.code === MessageInfoType.MSG_MESSAGE) {
-        const message = sendInfo.message
-        if (message.avatar && message.avatar.indexOf('http') === -1) {
-          message.avatar = conf.getHostUrl() + message.avatar
-        }
-        message.timestamp = self.formatDateTime(new Date(message.timestamp))
-        // 发送给个人
-        if (message.type === MessageTargetType.FRIEND) {
-          // 接受人是当前的研讨窗口
-          if (String(message.fromid) === String(self.$store.state.currentChat.id)) {
-            self.$store.commit('ADD_MESSAGE', message)
-          } else {
-            self.$store.commit('SET_UNREAD_COUNT', message)
-            self.$store.commit('ADD_UNREAD_MESSAGE', message)
-          }
-        } else if (message.type === MessageTargetType.CHAT_GROUP) {
-          // message.avatar = self.$store.state.chatMap.get(message.id);
-          // 接受人是当前的研讨窗口
-          if (String(message.id) === String(self.$store.state.currentChat.id)) {
-            if (String(message.fromid) !== self.$store.state.user.id) {
-              self.$store.commit('ADD_MESSAGE', message)
-            }
-          } else {
-            self.$store.commit('SET_UNREAD_COUNT', message)
-            self.$store.commit('ADD_UNREAD_MESSAGE', message)
-          }
-        }
-        self.$store.commit('SET_LAST_MESSAGE', message)
-        // 每次滚动到最底部
-        self.$nextTick(() => {
-          imageLoad('message-box')
-        })
-      }
-    }
+  // mounted: function () {
+  //   const self = this
+  //   const websocketHeartbeatJs = new WebsocketHeartbeatJs({
+  //     url: conf.getWsUrl()
+  //   })
+  //   websocketHeartbeatJs.onopen = function () {
+  //     websocketHeartbeatJs.send('{"code":' + MessageInfoType.MSG_READY + '}')
+  //   }
+  //   websocketHeartbeatJs.onmessage = function (event) {
+  //     const data = event.data
+  //     const sendInfo = JSON.parse(data)
+  //     // 真正的消息类型
+  //     if (sendInfo.code === MessageInfoType.MSG_MESSAGE) {
+  //       const message = sendInfo.message
+  //       if (message.avatar && message.avatar.indexOf('http') === -1) {
+  //         message.avatar = conf.getHostUrl() + message.avatar
+  //       }
+  //       message.timestamp = self.formatDateTime(new Date(message.timestamp))
+  //       // 发送给个人
+  //       if (message.type === MessageTargetType.FRIEND) {
+  //         // 接受人是当前的研讨窗口
+  //         if (String(message.fromid) === String(self.$store.state.currentChat.id)) {
+  //           self.$store.commit('ADD_MESSAGE', message)
+  //         } else {
+  //           self.$store.commit('SET_UNREAD_COUNT', message)
+  //           self.$store.commit('ADD_UNREAD_MESSAGE', message)
+  //         }
+  //       } else if (message.type === MessageTargetType.CHAT_GROUP) {
+  //         // message.avatar = self.$store.state.chatMap.get(message.id);
+  //         // 接受人是当前的研讨窗口
+  //         if (String(message.id) === String(self.$store.state.currentChat.id)) {
+  //           if (String(message.fromid) !== self.$store.state.user.id) {
+  //             self.$store.commit('ADD_MESSAGE', message)
+  //           }
+  //         } else {
+  //           self.$store.commit('SET_UNREAD_COUNT', message)
+  //           self.$store.commit('ADD_UNREAD_MESSAGE', message)
+  //         }
+  //       }
+  //       self.$store.commit('SET_LAST_MESSAGE', message)
+  //       // 每次滚动到最底部
+  //       self.$nextTick(() => {
+  //         imageLoad('message-box')
+  //       })
+  //     }
+  //   }
 
-    websocketHeartbeatJs.onreconnect = function () {
-      console.log('重连中...')
-    }
+  //   websocketHeartbeatJs.onreconnect = function () {
+  //     console.log('重连中...')
+  //   }
 
-    let count = 0
-    websocketHeartbeatJs.onerror = function () {
-      const param = new FormData()
-      param.set('client_id', 'v-client')
-      param.set('client_secret', 'v-client-ppp')
-      param.set('grant_type', 'refresh_token')
-      param.set('scope', 'select')
-      // param.set('refresh_token', localStorage.getItem('Refresh-Token'))
-      timeoutFetch(
-        fetch(conf.getTokenUrl(), {
-          method: 'POST',
-          model: 'cros', // 跨域
-          headers: {
-            Accept: 'application/json'
-          },
-          body: param
-        }),
-        5000
-      )
-        .then(response => {
-          if (response.status === 200) {
-            return response.json()
-          } else {
-            return new Promise((resolve, reject) => {
-              reject(ErrorType.FLUSH_TOKEN_ERROR)
-            })
-          }
-        })
-        .then(json => {
-          count = 0
-          self.$store.commit('SET_TOKEN', json)
-          self.$store.commit('SET_TOKEN_STATUS', json)
+  //   let count = 0
+  //   websocketHeartbeatJs.onerror = function () {
+  //     const param = new FormData()
+  //     param.set('client_id', 'v-client')
+  //     param.set('client_secret', 'v-client-ppp')
+  //     param.set('grant_type', 'refresh_token')
+  //     param.set('scope', 'select')
+  //     // param.set('refresh_token', localStorage.getItem('Refresh-Token'))
+  //     timeoutFetch(
+  //       fetch(conf.getTokenUrl(), {
+  //         method: 'POST',
+  //         model: 'cros', // 跨域
+  //         headers: {
+  //           Accept: 'application/json'
+  //         },
+  //         body: param
+  //       }),
+  //       5000
+  //     )
+  //       .then(response => {
+  //         if (response.status === 200) {
+  //           return response.json()
+  //         } else {
+  //           return new Promise((resolve, reject) => {
+  //             reject(ErrorType.FLUSH_TOKEN_ERROR)
+  //           })
+  //         }
+  //       })
+  //       .then(json => {
+  //         count = 0
+  //         self.$store.commit('SET_TOKEN', json)
+  //         self.$store.commit('SET_TOKEN_STATUS', json)
 
-          // 清除原先的刷新缓存的定时器
-          self.$store.commit('CLEAR_FLUSH_TOKEN_TIME_ID')
-          // 刷新token 定时器
-          const flushTokenTimerId = setTimeout(function () {
-            const api = new HttpApiUtils()
-            api.flushToken(self)
-          }, ((json.expires_in - 10) * 1000))
-          self.$store.commit('SET_FLUSH_TOKEN_TIME_ID', flushTokenTimerId)
-        })
-        .catch(error => {
-          count++
-          if (error.toString() === 'TypeError: Failed to fetch') {
-            self.$Message.error('网络断开，正在重连...')
-          } else if (ErrorType.FLUSH_TOKEN_ERROR === error) {
-            count = 25
-          }
-        })
-        // 重连次数大于24 退出登录
-      if (count > 24) {
-        count = 0
-        // logout(self)
-      }
-    }
-    // 这地方不成功，消息将不能发送
-    self.$store.commit('SET_WEBSOCKET', websocketHeartbeatJs)
-  }
+  //         // 清除原先的刷新缓存的定时器
+  //         self.$store.commit('CLEAR_FLUSH_TOKEN_TIME_ID')
+  //         // 刷新token 定时器
+  //         const flushTokenTimerId = setTimeout(function () {
+  //           const api = new HttpApiUtils()
+  //           api.flushToken(self)
+  //         }, ((json.expires_in - 10) * 1000))
+  //         self.$store.commit('SET_FLUSH_TOKEN_TIME_ID', flushTokenTimerId)
+  //       })
+  //       .catch(error => {
+  //         count++
+  //         if (error.toString() === 'TypeError: Failed to fetch') {
+  //           self.$Message.error('网络断开，正在重连...')
+  //         } else if (ErrorType.FLUSH_TOKEN_ERROR === error) {
+  //           count = 25
+  //         }
+  //       })
+  //       // 重连次数大于24 退出登录
+  //     if (count > 24) {
+  //       count = 0
+  //       // logout(self)
+  //     }
+  //   }
+  //   // 这地方不成功，消息将不能发送
+  //   self.$store.commit('SET_WEBSOCKET', websocketHeartbeatJs)
+  // }
 }
 </script>
 
