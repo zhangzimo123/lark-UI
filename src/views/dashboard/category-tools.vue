@@ -10,7 +10,7 @@
       <a-radio-button v-if="showAll" :value="0">全部</a-radio-button>
       <a-radio-button v-for="type in showArray" :value="type.type" :key="'a-radio-button-'+type.type">{{ type.name }}</a-radio-button>
       <a-radio-button v-if="editable" :value="-1">
-        <a-icon type="tool" />
+        <a-icon type="setting" />
       </a-radio-button>
     </a-radio-group>
     <a-button-group v-else size="small">

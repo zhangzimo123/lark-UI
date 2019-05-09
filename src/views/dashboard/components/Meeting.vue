@@ -3,12 +3,14 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px'}"
+      :style="{ height: '306px'}"
     >
       <div slot="title">
         <a-row>
           <a-col>
-            {{ title }}
+            <span style="color: #333333">
+              {{ title }}
+            </span>
             <categoryTools v-model="selectedType" :array="typeArray"></categoryTools>
             <a href="#"><a-icon type="plus-circle" class="createMeetClass" @click="createMeeting"/></a>
             <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
@@ -23,15 +25,15 @@
           <a @click="$emit('remove')">移除卡片</a>
         </template>
         <a href="#">
-          <a-icon type="tool"/>
+          <a-icon type="close" />
         </a>
       </a-popover>
       <div style="height:205px;overflow-y:auto;overflow-x: hidden">
         <a-row v-for="(row,index) in showList" :key="'item'+index" class="row-magin">
           <i class="ivu-tag-dot-inner"></i>
           <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-          <span @click="visibleModal(row)" >{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
-          <span class="right">{{ row.date }}</span>
+          <span @click="visibleModal(row)" style="color: #666666">{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
+          <span class="right" style="color:#999999;">{{ row.date }}</span>
           <a-modal
             v-model="modal"
             footer=""
@@ -78,7 +80,7 @@ export default {
   },
   data () {
     return {
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       title: '会议室',
       selectedType: 0,
       buttonEdit: false,
@@ -92,7 +94,7 @@ export default {
           id: 1,
           type: 1,
           name: '未开始',
-          color: 'blue',
+          color: '#516EFC',
           colorType: 'primary',
           show: true
         },
@@ -100,7 +102,7 @@ export default {
           id: 2,
           type: 2,
           name: '进行中',
-          color: 'orange',
+          color: '#f49D2a',
           colorType: 'waring',
           show: true
         },
@@ -183,7 +185,7 @@ export default {
     width: 6px;
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: rgb(45, 140, 240);
+    background-color: #516EFC;
     background-image: none;
     background-origin: padding-box;
     background-position: 0% 0%;
@@ -196,7 +198,7 @@ export default {
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     box-sizing: border-box;
-    color: rgb(81, 90, 110);
+    color: #516EFC;
     cursor: pointer;
     display: inline-block;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;

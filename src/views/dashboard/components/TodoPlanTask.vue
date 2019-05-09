@@ -3,19 +3,21 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px'}"
+      :style="{ height: '306px'}"
       style="overflow-y: auto">
       <div slot="title">
         <a-row>
           <a-col>
-            {{ title }}
+            <span style="color: #333333">
+              {{ title }}
+            </span>
             <a-radio-group
               defaultValue="0"
               type="button"
               v-model="selectedType"
               @change="fetchData"
               size="small">
-              <a-radio-button :value="0" >{{ "代办事项" }}</a-radio-button>
+              <a-radio-button :value="0" >{{ "待办事项" }}</a-radio-button>
               <a-radio-button :value="1">{{ "计划表" }}</a-radio-button>
               <a-radio-button :value="2">{{ "任务单" }}</a-radio-button>
             </a-radio-group>
@@ -30,7 +32,7 @@
           <a @click="$emit('remove')">移除卡片</a>
         </template>
         <a href="#">
-          <a-icon type="tool"/>
+          <a-icon type="close" />
         </a>
       </a-popover>
       <div v-if="this.typeMap==0"><todo :data="data.todo"></todo></div>
@@ -53,7 +55,7 @@ export default {
   },
   data () {
     return {
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       title: '待办事项',
       rowDetails: {},
       selectedType: 0,

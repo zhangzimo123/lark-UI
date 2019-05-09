@@ -3,11 +3,13 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px'}">
+      :style="{ height: '306px'}">
       <div slot="title">
         <a-row>
           <a-col>
-            {{ title }}
+            <span style="#333333">
+              {{ title }}
+            </span>
             <a-radio-group
               defaultValue="0"
               type="button"
@@ -29,7 +31,7 @@
           <a @click="$emit('remove')">移除卡片</a>
         </template>
         <a href="#">
-          <a-icon type="tool"/>
+          <a-icon type="close" />
         </a>
       </a-popover>
       <div v-if="this.typeMap==0"><resource :data="data.resource"></resource></div>
@@ -52,7 +54,7 @@ export default {
   },
   data () {
     return {
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       title: '资源池',
       rowDetails: {},
       selectedType: 0,
