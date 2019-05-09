@@ -9,7 +9,9 @@
       <div slot="title">
         <a-row>
           <a-col>
-            {{ title }}
+            <span style="color: #333333">
+              {{ title }}
+            </span>
             <category-tools :array="typeArray" :editable="false" :showAll="false" @changed="fetchData" />
           </a-col>
         </a-row>

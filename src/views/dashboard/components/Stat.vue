@@ -3,12 +3,14 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px'}"
+      :style="{ height: '306px'}"
     >
       <div slot="title">
         <a-row>
           <a-col>
-            {{ title }}
+            <span style="color: #333333">
+              {{ title }}
+            </span>
           </a-col>
         </a-row>
       </div>
@@ -20,7 +22,7 @@
           <a @click="$emit('remove')">移除卡片</a>
         </template>
         <a href="#">
-          <a-icon type="tool"/>
+          <a-icon type="close" />
         </a>
       </a-popover>
       <a-row :gutter="15">
@@ -43,11 +45,11 @@
         </a-col>
         <a-col :span="8" >
           <div >
-            <span >知识历史记录</span>
+            <span style="color: #666666">知识历史记录</span>
             <div v-for="(row,index) in list" :key="'item'+index" class="row-magin">
               <span class="ivu-tag-dot-inner"></span>
-              <a-tag type="border" color="#f50" >{{ row.date }}</a-tag>
-              <span>{{ row.content.length > 14 ? row.content.replace(/^(.{12})(.*)$/,'$1...') : row.content }}</span>
+              <a-tag type="border" color="#f49d2a" >{{ row.date }}</a-tag>
+              <span style="color: #666666">{{ row.content.length > 14 ? row.content.replace(/^(.{12})(.*)$/,'$1...') : row.content }}</span>
             </div>
           </div>
         </a-col>
@@ -65,7 +67,7 @@ export default {
   data () {
     return {
       title: '统计板',
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       columns: [
         {
           render: (row, column, index) => {
@@ -115,7 +117,7 @@ export default {
             text: '任务完成量',
             x: 'center',
             textStyle: {
-              color: '#333333',
+              color: '#666666',
               fontSize: '13',
               fontWeight: '540'
             }
@@ -187,7 +189,7 @@ export default {
             text: '工具统计',
             x: 'center',
             textStyle: {
-              color: '#333333',
+              color: '#666666',
               fontSize: '13',
               fontWeight: '540'
             }
@@ -245,7 +247,7 @@ export default {
     width: 6px;
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: rgb(45, 140, 240);
+    background-color: #516EFC;
     background-image: none;
     background-origin: padding-box;
     background-position: 0% 0%;
@@ -258,7 +260,7 @@ export default {
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     box-sizing: border-box;
-    color: rgb(81, 90, 110);
+    color: #516EFC;
     cursor: pointer;
     display: inline-block;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;

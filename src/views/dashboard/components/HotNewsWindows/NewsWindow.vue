@@ -2,12 +2,14 @@
   <a-card
     :headStyle="headStyle"
     :bordered="true"
-    :style="{ height: '305px'}"
+    :style="{ height: '306px'}"
   >
     <div slot="title">
       <a-row>
         <a-col>
-          {{ title }}
+          <span style="color: #333333">
+            {{ title }}
+          </span>
         </a-col>
       </a-row>
     </div>
@@ -19,14 +21,14 @@
         <a @click="$emit('remove')">移除卡片</a>
       </template>
       <a href="#">
-        <a-icon type="tool"/>
+        <a-icon type="close" />
       </a>
     </a-popover>
     <div style="height:205px;overflow-y:auto;overflow-x: hidden">
       <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
-        <span>{{ row.name }}</span>
-        <span class="right">{{ row.date }}</span>
+        <span style="color:#666666;">{{ row.name }}</span>
+        <span style="color:#999999" class="right">{{ row.date }}</span>
       </a-row>
     </div>
     <div v-if="list.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
@@ -41,7 +43,7 @@ export default {
   data () {
     return {
       title: '咨讯窗',
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       list: [],
       detailsModal: false,
       detailsNews: {}
@@ -74,7 +76,7 @@ export default {
     width: 6px;
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: rgb(45, 140, 240);
+    background-color: #516EFC;
     background-image: none;
     background-origin: padding-box;
     background-position: 0% 0%;
@@ -87,7 +89,7 @@ export default {
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     box-sizing: border-box;
-    color: rgb(81, 90, 110);
+    color: #516EFC;
     cursor: pointer;
     display: inline-block;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;

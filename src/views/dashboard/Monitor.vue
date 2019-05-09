@@ -86,6 +86,7 @@ import NewsWindow from './components/HotNewsWindows/NewsWindow'
 import LinkFooter from './components/Link.vue'
 
 import SettingDrawer from './components/SettingDrawer.vue'
+import './components/monitor.less'
 // 工作台看板模拟数据
 var layoutCards = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true },
@@ -444,7 +445,7 @@ export default {
   }
 
   .datetime {
-    color: #808695;
+    color: #999999;
   }
 
   .as-link {

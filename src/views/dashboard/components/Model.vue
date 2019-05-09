@@ -8,7 +8,7 @@
             <img src="../../../../public/model.png" style="max-width:100%;height:110px;">
           </a-col>
           <a-col >
-            <div>
+            <div style="color: #666666">
               <div>
                 <span >{{ item.name }}</span>
               </div>

@@ -3,12 +3,14 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px' }">
+      :style="{ height: '306px' }">
       <div slot="title">
         <a-row>
           <a-col>
-            {{ title }}
-            <span style="font-size: 12px;font-weight: 200">({{ data.unread }}条未读消息)</span>
+            <span style="color: #333333">
+              {{ title }}
+            </span>
+            <span style="font-size: 12px;font-weight: 200;color: #666666">({{ data.unread }}条未读消息)</span>
           </a-col>
         </a-row>
       </div>
@@ -19,7 +21,9 @@
           <template slot="content">
             <a @click="$emit('remove')">移除卡片</a>
           </template>
-          <a class="right" href="#"><a-icon type="tool" /></a>
+          <a class="right" href="#">
+            <a-icon type="close" />
+          </a>
         </a-popover>
       </div>
       <div style="height:205px;overflow-y:auto;overflow-x: hidden">
@@ -37,14 +41,14 @@
           <a-col :span="21" class="min-width" @click="showChat(item)">
             <a-row :gutter="5">
               <a-col :span="21">
-                <span class="discuss-name">{{ item.name }}</span>
+                <span style="color: #666666" class="discuss-name">{{ item.name }}</span>
               </a-col>
               <a-col :span="3">
-                <span class="datetime right">{{ item.time }}</span>
+                <span style="color: #999999" class="datetime right">{{ item.time }}</span>
               </a-col>
             </a-row>
             <a-row>
-              <span class="discuss-msg">{{ item.lastMessage }}</span>
+              <span style="color: #999999" class="discuss-msg">{{ item.lastMessage }}</span>
             </a-row>
           </a-col>
         </a-row>
@@ -92,7 +96,7 @@ export default {
   data () {
     return {
       title: '研讨厅',
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       size: 4,
       showChatVisible: true,
       isShowPanel: false,
