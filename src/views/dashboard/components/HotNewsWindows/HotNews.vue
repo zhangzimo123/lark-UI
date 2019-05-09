@@ -1,13 +1,13 @@
 <template>
-    <a-carousel :autoplay="true" >
-      <div v-for="(item,index) in list" :key="'image-news-'+index">
-        <div :style="carouselStyle(item)" >
-          <div class="image_title">
-            <span style="font-size: 18px;">{{ item.name }}</span>
-          </div>
+  <a-carousel :autoplay="true" >
+    <div v-for="(item,index) in list" :key="'image-news-'+index">
+      <div :style="carouselStyle(item)" >
+        <div class="image_title">
+          <span style="font-size: 18px;">{{ item.name }}</span>
         </div>
       </div>
-    </a-carousel>
+    </div>
+  </a-carousel>
 </template>
 <script>
 import { getNews } from '../../../../api/news'

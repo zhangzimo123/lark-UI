@@ -3,11 +3,11 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px' }">
+      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf' }">
       <div slot="title">
         <a-row>
           <a-col>
-            <span style="color: #333333">
+            <span style="color: #333333; font-weight:bold">
               {{ title }}
             </span>
             <span style="font-size: 12px;font-weight: 200;color: #666666">({{ data.unread }}条未读消息)</span>

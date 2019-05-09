@@ -3,12 +3,12 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px'}"
+      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf'}"
     >
       <div slot="title">
         <a-row>
           <a-col>
-            <span style="color: #333333">
+            <span style="color: #333333;font-weight:bold">
               {{ title }}
             </span>
             <categoryTools v-model="selectedType" :array="typeArray" @changed="fetchData"></categoryTools>
@@ -31,7 +31,7 @@
           <a-col :span="15">
             <i class="ivu-tag-dot-inner"></i>
             <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-            <span style="color: #666666">{{ row.name.length > 16 ? row.content.replace(/^(.{16})(.*)$/,'$1...') : row.content }}</span>
+            <span style="color: #666666" class="content-adpat">{{ row.content }}</span>
           </a-col>
           <a-col :span="6">
             <a-progress style="color: #666666" :percent="row.percent" />
@@ -152,5 +152,13 @@ export default {
   }
   .row-tag{
     font-size: 12px;
+  }
+  .content-adpat{
+    width: 50%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
   }
 </style>

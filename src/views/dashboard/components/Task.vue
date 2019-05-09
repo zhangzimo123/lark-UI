@@ -25,7 +25,7 @@
     <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-      <span @click="visibleModal(row)" style="color: #666666">{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
+      <span @click="visibleModal(row)" class="content-adpat" style="color: #666666">{{ row.name }}</span>
       <span class="right" color="#f50" style="color: #999999">{{ row.date }}</span>
       <a-modal
         v-model="modal"
@@ -149,5 +149,13 @@ export default {
   }
   .row-tag{
     font-size: 12px;
+  }
+  .content-adpat{
+    width: 55%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
   }
 </style>
