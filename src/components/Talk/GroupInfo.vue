@@ -1,19 +1,22 @@
 <template>
   <!-- group info component -->
   <div class="group-info">
-    <a-spin :spinning="loadingState" :delay="500" tip="加载中···">
+    <a-spin :spinning="true" tip="加载中···">
 
-      <div v-if="!selected.length" class="unselected-tip">
+      <div v-show="!selected.length" class="unselected-tip">
         <a-icon type="team" style="fontSize: 160px; color: #d7d9db" />
         <p>未选择群组</p>
       </div>
 
       <!-- 重新加载 -->
-      <div v-else-if="!Object.keys(groupInfo).length " class="reload-tip">
-        <p>重新加载</p>
+      <div v-show="!Object.keys(groupInfo).length && !loadingState && selected.length" class="reload-tip">
+        <a-icon type="frown" style="fontSize: 140px; color: #d7d9db" />
+        <p>加载失败，
+          <a-button type="danger" ghost size="small" @click="getData(selected)">重新加载</a-button>
+        </p>
       </div>
 
-      <div v-else class="selected-info">
+      <div v-if="Object.keys(groupInfo).length && !loadingState" class="selected-info">
         <div class="info-wrapper">
           <div class="name-and-org">
             <p>{{ groupInfo.name }}</p>
@@ -75,7 +78,7 @@ export default {
     }
   },
   watch: {
-    selected: function(newValue) {
+    selected: function (newValue) {
       this.getData(newValue)
     }
   },
@@ -86,7 +89,7 @@ export default {
 
       getGroupInfo(groupId).then(res => {
         if (res.status === 200) {
-          this.groupInfo = res.result.data
+          // this.groupInfo = res.result.data
         }
 
         this.loadingState = false
@@ -108,6 +111,12 @@ export default {
   }
 
   .unselected-tip {
+    padding-top: 20%;
+    color: #a5a7a9;
+    font-size: 16px;
+  }
+
+  .reload-tip {
     padding-top: 20%;
     color: #a5a7a9;
     font-size: 16px;
