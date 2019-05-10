@@ -26,7 +26,7 @@
           <p>{{ groupInfo.description }}</p>
         </div>
 
-        <a-avatar class="avatar-img" shape="square" :src="groupInfo.avatar" :size="70">
+        <a-avatar class="avatar-img" shape="square" :src="groupInfo.avatar" :size="75">
           <span>{{ groupInfo.name }}</span>
         </a-avatar>
 
@@ -36,19 +36,19 @@
         <div class="info-list">
           <div>
             <p class="attr">密级</p>
-            <span class="val">{{ groupInfo.securityClass }}</span>
+            <p class="val">{{ groupInfo.securityClass }}</p>
           </div>
           <div>
             <p class="attr">主题</p>
-            <span class="val">{{ groupInfo.subject }}</span>
+            <p class="val">{{ groupInfo.subject }}</p>
           </div>
           <div>
             <p class="attr">创建人</p>
-            <span class="val">{{ groupInfo.creator }}</span>
+            <p class="val">{{ groupInfo.creator }}</p>
           </div>
           <div>
             <p class="attr">创建时间</p>
-            <span class="val">{{ groupInfo.createTime }}</span>
+            <p class="val">{{ groupInfo.createTime }}</p>
           </div>
         </div>
       </div>
@@ -136,15 +136,15 @@ export default {
 
     .info-wrapper {
       margin: 0 auto;
-      width: 420px;
+      width: 450px;
       position: relative;
       border-bottom: 1px solid #dadcdf;
 
       .name-and-org  {
-        height: 115px;
+        height: 105px;
         line-height: 35px;
         text-align: left;
-        margin-right: 80px;
+        margin-right: 88px;
 
         p {
           margin: 0;
@@ -163,6 +163,7 @@ export default {
           &:nth-child(2) {
             font-size: 13px;
             color: rgb(140, 141, 143);
+            line-height: 20px;
           }
         }
 
@@ -191,7 +192,7 @@ export default {
             color: rgba(153, 153, 153, 1);
           }
           .val {
-            color: black;
+            color: rgb(0, 0, 0);
           }
         }
       }
