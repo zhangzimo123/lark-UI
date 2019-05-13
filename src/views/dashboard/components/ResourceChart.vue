@@ -18,6 +18,11 @@ export default {
       default: null
     }
   },
+  data () {
+    return {
+      myChart: ''
+    }
+  },
   mounted () {
     // this.fetchData()
     setTimeout(this.showChart, 100)
@@ -26,8 +31,8 @@ export default {
     showChart () {
       /* ECharts图表 */
       var bardata = this.data.content
-      var myChart = echarts.init(document.getElementById('chartDiv'))
-      myChart.setOption({
+      this.myChart = echarts.init(document.getElementById('chartDiv'))
+      this.myChart.setOption({
         title: {
           text: '资源占比统计',
           x: 'center',
@@ -70,6 +75,7 @@ export default {
           }
         ]
       })
+      this.$emit('myChart', this.myChart)
     }
   }
 }

@@ -3,12 +3,12 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px'}"
+      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf'}"
     >
       <div slot="title">
         <a-row>
           <a-col>
-            <span style="color: #333333">
+            <span style="color: #333333;font-weight:bold">
               {{ title }}
             </span>
             <categoryTools v-model="selectedType" :array="typeArray"></categoryTools>
@@ -32,7 +32,7 @@
         <a-row v-for="(row,index) in showList" :key="'item'+index" class="row-magin">
           <i class="ivu-tag-dot-inner"></i>
           <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-          <span @click="visibleModal(row)" style="color: #666666">{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
+          <span @click="visibleModal(row)" style="color: #666666;" class="content-adpat">{{ row.name }}</span>
           <span class="right" style="color:#999999;">{{ row.date }}</span>
           <a-modal
             v-model="modal"
@@ -209,5 +209,13 @@ export default {
   }
   .row-tag{
     font-size: 12px;
+  }
+  .content-adpat{
+    width: 55%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
   }
 </style>

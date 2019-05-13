@@ -3,13 +3,13 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px'}"
+      :style="{ height: '305px',boxShadow: '2px 2px #bfbfbf'}"
       style="overflow-y:auto"
     >
       <div slot="title">
         <a-row>
           <a-col>
-            <span style="color: #333333">
+            <span style="color: #333333;font-weight:bold">
               {{ title }}
             </span>
             <category-tools :array="typeArray" :editable="false" :showAll="false" @changed="fetchData" />

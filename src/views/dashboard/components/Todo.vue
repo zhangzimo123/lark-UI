@@ -24,7 +24,10 @@
   <div style="height:205px;overflow-y:auto">
     <a-row v-for="(item,index) in data.content" :key="'item'+index" class="row-magin">
       <i class="ivu-tag-dot-inner"></i>
-      <span @click="visibleModal(item)" style="color: #666666">{{ item.name.length> 28 ? item.name.replace(/^(.{26})(.*)$/,'$1...') : item.name }}</span>
+      <span
+        @click="visibleModal(item)"
+        class="content-adpat"
+        style="color: #666666;" >{{ item.name }}</span>
       <a-tag class="right" color="#f49d2a">{{ item.tag }}</a-tag>
       <a-modal
         v-model="modal"
@@ -67,7 +70,6 @@ export default {
   .right {
     float: right;
     margin-right: 3px;
-    box-shadow: 0px 2px #bfbfbf;
   }
   .row-magin{
     margin-bottom: 12px;
@@ -97,6 +99,14 @@ export default {
     font-size: 1px;
     margin-right: 8px;
     position: relative;
-    top: -2px;
+    top: -7px;
+  }
+  .content-adpat{
+    width: 70%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
   }
 </style>

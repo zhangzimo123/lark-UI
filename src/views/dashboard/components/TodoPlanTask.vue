@@ -3,12 +3,12 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px'}"
+      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf'}"
       style="overflow-y: auto">
       <div slot="title">
         <a-row>
           <a-col>
-            <span style="color: #333333">
+            <span style="color: #333333;font-weight:bold">
               {{ title }}
             </span>
             <a-radio-group

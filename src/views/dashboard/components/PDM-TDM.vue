@@ -3,12 +3,12 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px'}"
+      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf'}"
     >
       <div slot="title">
         <a-row>
           <a-col>
-            <span style="color:#333333;">
+            <span style="color:#333333;font-weight:bold;">
               {{ title }}
             </span>
           </a-col>
@@ -29,7 +29,7 @@
         <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
           <i class="ivu-tag-dot-inner"></i>
           <a :href="row.link" target="_blank">
-            <span style="color: #666666">{{ row.name }}</span>
+            <span style="color: #666666" class="content-adpat">{{ row.name }}</span>
           </a>
           <span style="color:#999999;" class="right">{{ row.date }}</span>
         </a-row>
@@ -116,6 +116,14 @@ export default {
     font-size: 1px;
     margin-right: 8px;
     position: relative;
-    top: -2px;
+    top: -7px;
+  }
+  .content-adpat{
+    width: 70%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
   }
 </style>

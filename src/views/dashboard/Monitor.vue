@@ -30,13 +30,16 @@
             :i="grid.i"
             @move="moveEvent"
             @moved="movedEvent"
+            @resize="resizeEvent"
+
           >
             <div
               :is="grid.is"
               :headStyle="headStyle"
               :data="monitor[grid.is]"
+              @myChartSize="myChartSize"
               @showChatPanel="showChatPanel"
-              @remove="grid.show=false" />
+              @remove="grid.show=false"/>
           </grid-item>
         </grid-layout>
         <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
@@ -121,6 +124,7 @@ export default {
       loaded: false,
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       fontSize: { fontSize: '52px' },
+      resourceSize: '',
       visible: false,
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
@@ -329,6 +333,14 @@ export default {
       this.toChangePosition(i)
       // console.log(e)
       console.log('MOVED i=' + i + ', X=' + newX + ', Y=' + newY)
+    },
+    resizeEvent: function (i, newH, newW, newHPx, newWPx) {
+      console.log('RESIZE i=' + i + ', H=' + newH + ', W=' + newW + ', H(px)=' + newHPx + ', W(px)=' + newWPx)
+      this.resourceSize.resize()
+    },
+    myChartSize (data) {
+      console.log(data)
+      this.resourceSize = data
     }
   }
 }

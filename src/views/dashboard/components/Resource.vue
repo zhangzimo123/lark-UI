@@ -28,7 +28,7 @@
   <div style="height:205px;overflow-y:auto;overflow-x: hidden">
     <a-row type="flex" :gutter="10" v-if="selectedType === 0">
       <a-col :span="14">
-        <resource-chart :data="data.stat" :chartStyle="chartStyle" />
+        <resource-chart :data="data.stat" :chartStyle="chartStyle" @myChart="myChart"/>
       </a-col>
       <a-col :span="10">
         <span class="ant-card-body-title" style="color: #666666">计算资源列表</span>
@@ -112,6 +112,9 @@ export default {
       this.$router.push({
         path: '/total-resource'
       })
+    },
+    myChart (data) {
+      this.$emit('myChart', data)
     }
   }
 }
