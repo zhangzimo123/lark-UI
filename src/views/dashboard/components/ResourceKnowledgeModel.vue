@@ -34,7 +34,7 @@
           <a-icon type="close" />
         </a>
       </a-popover>
-      <div v-if="this.typeMap==0"><resource :data="data.resource"></resource></div>
+      <div v-if="this.typeMap==0"><resource @myChart="myChart" :data="data.resource"></resource></div>
       <div v-if="this.typeMap==1"><model :data="data.model"></model></div>
       <div v-if="this.typeMap==2"><knowledge :data="data.knowledge"></knowledge></div>
     </a-card>
@@ -80,6 +80,9 @@ export default {
         this.title = '知识角'
         this.typeMap = 2
       }
+    },
+    myChart (data) {
+      this.$emit('myChartSize', data)
     }
   }
 }
