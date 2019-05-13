@@ -30,13 +30,16 @@
             :i="grid.i"
             @move="moveEvent"
             @moved="movedEvent"
+            @resize="resizeEvent"
+
           >
             <div
               :is="grid.is"
               :headStyle="headStyle"
               :data="monitor[grid.is]"
+              @myChartSize="myChartSize"
               @showChatPanel="showChatPanel"
-              @remove="grid.show=false" />
+              @remove="grid.show=false"/>
           </grid-item>
         </grid-layout>
         <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
@@ -59,8 +62,7 @@
 </template>
 
 <script>
-import './components/style.css'
-import { axios } from '@/utils/request'
+import { MonitorData } from '@/api/dashboard'
 import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
 import MyChatPanel from '@/components/ChatBox/MyChatPanel'
@@ -75,19 +77,35 @@ import TodoPlanTask from './components/TodoPlanTask'
 import ResourceKnowledgeModel from './components/ResourceKnowledgeModel.vue'
 import Simulation from './components/Simulation.vue'
 import Datas from './components/Datas.vue'
+import Stat from './components/Stat.vue'
+import Calendar from './components/Calendar.vue'
+import PDMTDM from './components/PDM-TDM.vue'
+import Tool from './components/Tool.vue'
+import HotNewsWindows from './components/HotNewsWindows'
+import HotNews from './components/HotNewsWindows/HotNews'
+import NewsWindow from './components/HotNewsWindows/NewsWindow'
 // import plan from './components/Plan'
 // import task from './components/Task'
 import LinkFooter from './components/Link.vue'
 
 import SettingDrawer from './components/SettingDrawer.vue'
+import './components/monitor.less'
 // 工作台看板模拟数据
 var layoutCards = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true },
   { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true },
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true },
   { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true },
-  { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: true },
-  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: true }
+  { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false },
+  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false },
+  { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '6', 'title': '统计板', is: 'stat', show: false },
+  { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: false },
+  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'Tool', show: false },
+  // { 'x': 0, 'y': 25, 'w': 6, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNews', show: false },
+  // { 'x': 6, 'y': 25, 'w': 6, 'h': 5, 'i': '10', 'title': '咨讯窗', is: 'NewsWindow', show: false }
+  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false }
+  // { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
+
 ]
 var historyLayout = [
   { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
@@ -106,6 +124,7 @@ export default {
       loaded: false,
       headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
       fontSize: { fontSize: '52px' },
+      resourceSize: '',
       visible: false,
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
@@ -199,6 +218,13 @@ export default {
     // task,
     TodoPlanTask,
     Datas,
+    Stat,
+    Calendar,
+    PDMTDM,
+    Tool,
+    HotNewsWindows,
+    HotNews,
+    NewsWindow,
     // TreeCustom,
     // Container,
     // Draggable,
@@ -215,12 +241,7 @@ export default {
   methods: {
     fetchMonitor () {
       const vm = this
-      const params = []
-      axios({
-        url: '/monitor',
-        method: 'get',
-        params: params
-      }).then(data => {
+      MonitorData([]).then(data => {
         vm.monitor = Object.assign({}, data.data)
         vm.loaded = true
       })
@@ -312,6 +333,14 @@ export default {
       this.toChangePosition(i)
       // console.log(e)
       console.log('MOVED i=' + i + ', X=' + newX + ', Y=' + newY)
+    },
+    resizeEvent: function (i, newH, newW, newHPx, newWPx) {
+      console.log('RESIZE i=' + i + ', H=' + newH + ', W=' + newW + ', H(px)=' + newHPx + ', W(px)=' + newWPx)
+      this.resourceSize.resize()
+    },
+    myChartSize (data) {
+      console.log(data)
+      this.resourceSize = data
     }
   }
 }
@@ -373,5 +402,179 @@ export default {
     bottom: 20px;
     right: 20px;
     z-index: 999;
+  }
+</style>
+<style scoped>
+
+  .panel-content-row {
+    height: 35px;
+    padding: 5px 0 8px 0;
+    margin: -4px 0 8px 0;
+  }
+
+  .panel-content-row > .row-content {
+    width: 70%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .ant-card-body-inner{
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .ant-card-list-item {
+    padding: 5px 0 4px 0 !important;
+  }
+
+  .row-title {
+    color: #17233d;
+    font-size: 18px;
+  }
+
+  .row-content {
+    color: #515a6e;
+    font-size: 18px;
+  }
+
+  .panel-content-row > .row-tag {
+    position: relative;
+    bottom: 10px;
+  }
+
+  .panel-content-row > .ivu-col > .row-tag {
+    position: relative;
+    bottom: 1px;
+  }
+
+  .row-tag {
+    font-size: 16px;
+  }
+
+  div.circle {
+    border-radius: 10px;
+  }
+
+  .datetime {
+    color: #999999;
+  }
+
+  .as-link {
+    cursor: pointer;
+  }
+
+  .right {
+    float: right;
+    margin-right: 10px;
+  }
+
+  .panel-content-row > .ivu-tag-dot-inner {
+    margin: 5px 5px 10px 0;
+  }
+  .ivu-tag {
+    font-size: 16px;
+  }
+  .panel-content-row > .ivu-col > .ivu-tag-dot-inner {
+    margin: 8px 5px 3px 0;
+  }
+
+  .ivu-tag-dot-inner {
+    background-color: #00a5e2;
+    height: 6px;
+    width: 6px;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgb(45, 140, 240);
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0% 0%;
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-size: auto;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    box-sizing: border-box;
+    color: rgb(81, 90, 110);
+    cursor: pointer;
+    display: inline-block;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 32px;
+    margin-right: 8px;
+    position: relative;
+    top: 1px;
+  }
+  /*
+   研讨厅徽标数
+   */
+  /*.ant-badge-count {*/
+    /*top: -6px;*/
+    /*height: 12px;*/
+    /*border-radius: 10px;*/
+    /*min-width: 1px;*/
+    /*margin-right: 6px;*/
+    /*width: 8px;*/
+    /*background: #f5222d;*/
+    /*color: #fff;*/
+    /*line-height: 10px;*/
+    /*!*text-align: center;*!*/
+    /*!* padding: 0 6px; *!*/
+    /*font-size: 8px;*/
+    /*font-weight: normal;*/
+    /*white-space: nowrap;*/
+    /*-webkit-box-shadow: 0 0 0 1px #fff;*/
+    /*box-shadow: 0 0 0 1px #fff;*/
+    /*z-index: 10;*/
+  /*}*/
+  .ant-badge-count {
+    top: -10px;
+    height: 15px;
+    border-radius: 10px;
+    min-width: 15px;
+    background: #f5222d;
+    color: #fff;
+    line-height: 15px;
+    text-align: center;
+    padding: 0 0 0 0;
+    font-size: 12px;
+    font-weight: normal;
+    white-space: nowrap;
+    -webkit-box-shadow: 0 0 0 1px #fff;
+    box-shadow: 0 0 0 1px #fff;
+    z-index: 10;
+  }
+  .ant-card-head {
+    /* background: transparent; */
+    /* border-bottom: 1px solid #e8e8e8; */
+    padding: 0 12px;
+    /* border-radius: 2px 2px 0 0; */
+    zoom: 1;
+    margin-bottom: -1px;
+    min-height: 48px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+  }
+  .ant-radio-group {
+    font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 12px;
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.65);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+    line-height: unset;
+  }
+  .ant-card-body {
+    padding: 16px;
+    zoom: 1;
   }
 </style>

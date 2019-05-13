@@ -3,12 +3,14 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px'}"
+      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf'}"
     >
       <div slot="title">
         <a-row>
           <a-col>
-            {{ title }}
+            <span style="color: #333333;font-weight:bold">
+              {{ title }}
+            </span>
             <categoryTools v-model="selectedType" :array="typeArray" @changed="fetchData"></categoryTools>
           </a-col>
         </a-row>
@@ -21,7 +23,7 @@
           <a @click="$emit('remove')">移除卡片</a>
         </template>
         <a href="#">
-          <a-icon type="tool"/>
+          <a-icon type="close" />
         </a>
       </a-popover>
       <div style="height:205px;overflow-y:auto;overflow-x: hidden">
@@ -29,13 +31,13 @@
           <a-col :span="15">
             <i class="ivu-tag-dot-inner"></i>
             <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-            <span>{{ row.name.length > 16 ? row.content.replace(/^(.{16})(.*)$/,'$1...') : row.content }}</span>
+            <span style="color: #666666" class="content-adpat">{{ row.content }}</span>
           </a-col>
           <a-col :span="6">
-            <a-progress :percent="row.percent" />
+            <a-progress style="color: #666666" :percent="row.percent" />
           </a-col>
           <a-col :span="3">
-            <span class="right">{{ row.date }}</span>
+            <span style="color: #999999" class="right">{{ row.date }}</span>
           </a-col>
         </a-row>
       </div>
@@ -44,7 +46,6 @@
 </template>
 <script>
 import CategoryTools from '../category-tools'
-import { getSimulations } from '../../../api/simulation'
 export default {
   props: {
     data: {
@@ -58,21 +59,19 @@ export default {
   data () {
     return {
       title: '仿真台',
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       typeArray: [
-        { type: 1, name: '新创建', show: true, color: 'blue' },
-        { type: 2, name: '进行中', show: true, color: 'orange' },
+        { type: 1, name: '新创建', show: true, color: '#516EFC' },
+        { type: 2, name: '进行中', show: true, color: '#f49D2a' },
         { type: 3, name: '已完成', show: true, color: '#e8e8e8' }
       ],
       typeMap: {},
       selectedType: 0,
-      list: [],
       selectedRow: {},
       showDetails: false
     }
   },
   created () {
-    // this.fetchData()
     this.fetchToolStatus()
   },
   computed: {
@@ -84,17 +83,6 @@ export default {
     }
   },
   methods: {
-    fetchData (type) {
-      if (type === undefined) {
-        type = 0
-      }
-      var vm = this
-      getSimulations(type).then((data) => {
-        vm.list = data.content.filter(item => {
-          return item.type === type || type === 0
-        })
-      })
-    },
     fetchToolStatus () {
       const vm = this
       // getMyToolSetting('simulation').then(({ data, status }) => {
@@ -140,7 +128,7 @@ export default {
     width: 6px;
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: rgb(45, 140, 240);
+    background-color: #516EFC;
     background-image: none;
     background-origin: padding-box;
     background-position: 0% 0%;
@@ -153,7 +141,7 @@ export default {
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     box-sizing: border-box;
-    color: rgb(81, 90, 110);
+    color: #516EFC;
     cursor: pointer;
     display: inline-block;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;
@@ -164,5 +152,13 @@ export default {
   }
   .row-tag{
     font-size: 12px;
+  }
+  .content-adpat{
+    width: 50%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
   }
 </style>

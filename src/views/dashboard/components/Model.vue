@@ -8,7 +8,7 @@
             <img src="../../../../public/model.png" style="max-width:100%;height:110px;">
           </a-col>
           <a-col >
-            <div>
+            <div style="color: #666666">
               <div>
                 <span >{{ item.name }}</span>
               </div>
@@ -35,7 +35,6 @@
   </div>
 </template>
 <script>
-import { getModels } from '@/api/model'
 export default {
   props: {
     data: {
@@ -46,19 +45,7 @@ export default {
   data () {
     return {
       title: '模型库',
-      list: [],
       selectedName: 'index-0'
-    }
-  },
-  created () {
-    // this.fetchData()
-  },
-  methods: {
-    fetchData (callback) {
-      var vm = this
-      getModels().then((data) => {
-        vm.list = data.content.slice(0, 6)
-      })
     }
   }
 }

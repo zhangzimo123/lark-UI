@@ -24,8 +24,8 @@
     <!--</a-popover>-->
     <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
-      <span @click="visibleModal(row)">{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
-      <span class="right" color="#f50">{{ row.date }}</span>
+      <span @click="visibleModal(row)" class="content-adpat" style="color: #666666">{{ row.name }}</span>
+      <span class="right" color="#999999">{{ row.date }}</span>
       <a-modal
         v-model="modal"
         footer=""
@@ -39,7 +39,6 @@
   </div>
 </template>
 <script>
-import { PlanLatest } from '@/api/plan'
 
 export default {
   props: {
@@ -51,23 +50,11 @@ export default {
   data () {
     return {
       title: '计划表',
-      showTableHeader: true,
-      tableData: [],
       modal: false,
       rowDetails: ''
     }
   },
-  created () {
-    // this.fetchData()
-  },
   methods: {
-    fetchData () {
-      var vm = this
-      PlanLatest()
-        .then((data) => {
-          vm.tableData = [].concat(data.content).slice(0, 6)
-        })
-    },
     visibleModal (row) {
       this.modal = true
       this.rowDetails = row
@@ -89,7 +76,7 @@ export default {
     width: 6px;
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: rgb(45, 140, 240);
+    background-color:  #516EFC;
     background-image: none;
     background-origin: padding-box;
     background-position: 0% 0%;
@@ -102,14 +89,22 @@ export default {
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     box-sizing: border-box;
-    color: rgb(81, 90, 110);
+    color:  #516EFC;
     cursor: pointer;
     display: inline-block;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;
     font-size: 1px;
     margin-right: 8px;
     position: relative;
-    top: -2px;
+    top: -7px;
+  }
+  .content-adpat{
+    width: 70%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
   }
 
 </style>

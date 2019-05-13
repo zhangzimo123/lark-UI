@@ -3,11 +3,13 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px'}">
+      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf'}">
       <div slot="title">
         <a-row>
           <a-col>
-            {{ title }}
+            <span style="color: #333333;font-weight:bold">
+              {{ title }}
+            </span>
             <a-radio-group
               defaultValue="0"
               type="button"
@@ -29,10 +31,10 @@
           <a @click="$emit('remove')">移除卡片</a>
         </template>
         <a href="#">
-          <a-icon type="tool"/>
+          <a-icon type="close" />
         </a>
       </a-popover>
-      <div v-if="this.typeMap==0"><resource :data="data.resource"></resource></div>
+      <div v-if="this.typeMap==0"><resource @myChart="myChart" :data="data.resource"></resource></div>
       <div v-if="this.typeMap==1"><model :data="data.model"></model></div>
       <div v-if="this.typeMap==2"><knowledge :data="data.knowledge"></knowledge></div>
     </a-card>
@@ -52,7 +54,7 @@ export default {
   },
   data () {
     return {
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       title: '资源池',
       rowDetails: {},
       selectedType: 0,
@@ -78,6 +80,9 @@ export default {
         this.title = '知识角'
         this.typeMap = 2
       }
+    },
+    myChart (data) {
+      this.$emit('myChartSize', data)
     }
   }
 }

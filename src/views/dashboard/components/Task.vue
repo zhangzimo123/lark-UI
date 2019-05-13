@@ -25,8 +25,8 @@
     <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-      <span @click="visibleModal(row)">{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
-      <span class="right" color="#f50">{{ row.date }}</span>
+      <span @click="visibleModal(row)" class="content-adpat" style="color: #666666">{{ row.name }}</span>
+      <span class="right" color="#f50" style="color: #999999">{{ row.date }}</span>
       <a-modal
         v-model="modal"
         footer=""
@@ -40,7 +40,6 @@
   </div>
 </template>
 <script>
-import { TaskLatest } from '@/api/task'
 
 export default {
   props: {
@@ -53,7 +52,6 @@ export default {
   data () {
     return {
       title: '任务单',
-      showTableHeader: true,
       selectedType: 0,
       buttonEdit: false,
       typeArray: [
@@ -63,14 +61,12 @@ export default {
         { type: 4, name: '已完成', show: true }
       ],
       typeMap: { 'type-1': {} },
-      list: [],
       modal: false,
       rowDetails: ''
     }
   },
   created () {
     this.setStatusMap()
-    // this.fetchData()
   },
   computed: {
     showTypeArray () {
@@ -80,15 +76,6 @@ export default {
     }
   },
   methods: {
-    fetchData (type) {
-      if (type === undefined) {
-        type = 0
-      }
-      var vm = this
-      TaskLatest(type).then((data) => {
-        vm.list = data.content.slice(0, 6)
-      })
-    },
     setStatusMap () {
       const m = {}
       this.typeArray.forEach(item => {
@@ -102,11 +89,11 @@ export default {
     },
     typeColor (type) {
       if (type === 1) {
-        return '#91d5ff'
+        return '#516EFC'
       } else if (type === 2) {
-        return '#ffd591'
+        return '#f49D2a'
       } else if (type === 3) {
-        return '#ffbb96'
+        return '#e8e8e8'
       } else {
         return '#c5c8ce'
       }
@@ -138,7 +125,7 @@ export default {
     width: 6px;
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: rgb(45, 140, 240);
+    background-color:  #516EFC;
     background-image: none;
     background-origin: padding-box;
     background-position: 0% 0%;
@@ -151,7 +138,7 @@ export default {
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     box-sizing: border-box;
-    color: rgb(81, 90, 110);
+    color:  #516EFC;
     cursor: pointer;
     display: inline-block;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;
@@ -162,5 +149,13 @@ export default {
   }
   .row-tag{
     font-size: 12px;
+  }
+  .content-adpat{
+    width: 55%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
   }
 </style>

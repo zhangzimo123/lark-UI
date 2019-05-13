@@ -3,13 +3,12 @@
     <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <!--<a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>-->
-      <span >{{ row.name.length> 28 ? row.name.replace(/^(.{26})(.*)$/,'$1...') : row.name }}</span>
-      <span class="right" color="#f50">{{ row.date }}</span>
+      <span style="color: #666666" class="content-adpat">{{ row.name }}</span>
+      <span class="right" color="#999999">{{ row.date }}</span>
     </a-row>
   </div>
 </template>
 <script>
-import { getKnowledges } from '@/api/knowledge'
 export default {
   props: {
     data: {
@@ -17,37 +16,19 @@ export default {
       required: true
     }
   },
-  components: {
-  },
   data () {
     return {
       title: '知识角',
-      showTableHeader: true,
       selectedType: 0,
       typeArray: [
         { type: 1, name: '最新', show: true },
         { type: 2, name: '最热', show: true }
       ],
-      list: [],
       knowledgeDetails: false,
       knowledgeDetailsContent: ''
     }
   },
-  created () {
-    // this.fetchData()
-  },
-  filters: {
-  },
   methods: {
-    fetchData (type) {
-      if (type === undefined) {
-        type = 0
-      }
-      var vm = this
-      getKnowledges(type).then((data) => {
-        vm.list = data.content.slice(0, 6)
-      })
-    },
     typeName (type) {
       const o = this.typeMap['type-' + type]
       return o ? o.name : ''
@@ -81,7 +62,7 @@ export default {
     width: 6px;
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: rgb(45, 140, 240);
+    background-color: #516EFC;
     background-image: none;
     background-origin: padding-box;
     background-position: 0% 0%;
@@ -94,16 +75,24 @@ export default {
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     box-sizing: border-box;
-    color: rgb(81, 90, 110);
+    color: #516EFC;
     cursor: pointer;
     display: inline-block;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;
     font-size: 1px;
     margin-right: 8px;
     position: relative;
-    top: -2px;
+    top: -7px;
   }
   .row-tag{
     font-size: 12px;
+  }
+  .content-adpat{
+    width: 70%;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
   }
 </style>

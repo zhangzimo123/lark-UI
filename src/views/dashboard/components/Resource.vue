@@ -28,13 +28,13 @@
   <div style="height:205px;overflow-y:auto;overflow-x: hidden">
     <a-row type="flex" :gutter="10" v-if="selectedType === 0">
       <a-col :span="14">
-        <resource-chart :data="data.stat" :chartStyle="chartStyle" />
+        <resource-chart :data="data.stat" :chartStyle="chartStyle" @myChart="myChart"/>
       </a-col>
       <a-col :span="10">
-        <span class="ant-card-body-title">计算资源列表</span>
+        <span class="ant-card-body-title" style="color: #666666">计算资源列表</span>
         <a-row class="panel-content-row  panel-content-row-resource" v-for="(row,index) in data.list.content" :key="'item'+index">
           <i class="ivu-tag-dot-inner" ></i>
-          <span class="resource-list">{{ row.name }}</span>
+          <span class="resource-list" style="color: #999999">{{ row.name }}</span>
         </a-row>
       </a-col>
     </a-row>
@@ -57,7 +57,6 @@
 
 import TypeBar from './TypeBar.vue'
 import ResourceChart from './ResourceChart.vue'
-import { ResourceLatest } from '@/api/resource'
 export default {
   props: {
     headStyle: {
@@ -86,9 +85,7 @@ export default {
         { type: 2, name: '人员资源', show: true },
         { type: 3, name: '其他', show: true }
       ],
-      size: 4,
-      list: [],
-      total: 0
+      size: 4
     }
   },
   filters: {
@@ -110,40 +107,48 @@ export default {
       return str.replace(/^(.{5})(.*)$/, '$1')
     }
   },
-  mounted () {
-    // this.fetchData()
-  },
   methods: {
-    fetchData () {
-      const vm = this
-      ResourceLatest([vm.size, vm.selectedType]).then((data) => {
-        vm.list = [].concat(data.content)
-        vm.total = data.total
-      })
-    },
     totalResource () {
       this.$router.push({
         path: '/total-resource'
       })
+    },
+    myChart (data) {
+      this.$emit('myChart', data)
     }
   }
 }
 </script>
 <style scoped>
 .ant-card-body-title{
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
 }
 .ivu-tag-dot-inner {
   height: 6px;
   width: 6px;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: #516EFC;
+  background-image: none;
+  background-origin: padding-box;
+  background-position: 0% 0%;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-repeat: repeat;
+  background-size: auto;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
   box-sizing: border-box;
-  color: rgb(81, 90, 110);
+  color: #516EFC;
   cursor: pointer;
+  display: inline-block;
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \5FAE软雅黑, Arial, sans-serif;
   font-size: 1px;
   margin-right: 8px;
   position: relative;
-  top: 9px;
+  top: -2px;
 }
 </style>

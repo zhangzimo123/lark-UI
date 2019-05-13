@@ -14,32 +14,11 @@
   </a-row>
 </template>
 <script>
-import { LinkList } from '@/api/link'
 export default {
   props: {
     data: {
       type: Object,
       required: true
-    }
-  },
-  data () {
-    return {
-      list: [],
-      size: 10,
-      total: 10
-    }
-  },
-  created () {
-    // this.fetchData()
-  },
-  methods: {
-    fetchData () {
-      var vm = this
-      LinkList(vm.size)
-        .then((data) => {
-          vm.list = [].concat(data.content)
-          vm.total = data.total
-        })
     }
   }
 }
