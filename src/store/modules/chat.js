@@ -1,6 +1,8 @@
 import modules from './conf'
 import { Chat, ChatListUtils, MessageInfoType, MessageTargetType, transform } from '../../utils/talk/chatUtils'
 import conf from '@/api/index'
+import { getGroupList } from '@/api/chat'
+
 const chat = {
   state: {
     // token: {},
@@ -29,8 +31,9 @@ const chat = {
     SET_USER_FRIEND_LIST: function (state, userFriendList) {
       state.userFriendList = userFriendList
     },
-    SET_GROUP_LIST: function (state, chatGroupList) {
-      state.chatGroupList = chatGroupList
+    /** modify -> jihainan */
+    SET_GROUP_LIST: function (state, groupList) {
+      state.groupList = groupList
     },
     SET_CHAT_MAP: function (state, chatMap) {
       state.chatMap = chatMap
@@ -171,6 +174,25 @@ const chat = {
     }
   },
   actions: {
+    /**
+     * get group list or refresh group list
+     * if anything affects group list, dispatch this action
+     * @author jihainan
+     */
+    GetGroupList ({ commit }) {
+      return new Promise((resolve, reject) => {
+        getGroupList().then(response => {
+          if (response.status === 200) {
+            commit('SET_GROUP_LIST', [ ...response.result.data ])
+          } else {
+            reject(new Error('getGroupList: 服务器发生错误!'))
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    }
   },
   modules,
   strict: process.env.NODE_ENV !== 'production'
