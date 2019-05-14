@@ -332,10 +332,10 @@ export default {
   }
 
   .discuss-block-mask{
-    width: 33.8%;
+    width: 38.8%;
     height: 76.7%;
     position: fixed;
-    left: 570px;
+    left: 488px;
     top: 125px;
   }
 </style>
