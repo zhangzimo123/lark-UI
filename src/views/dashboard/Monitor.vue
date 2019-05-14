@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 64px; height: 100%;overflow-y: auto" >
+  <div style="height: 100%;" >
     <a-spin :spinning="loaded === false" size="large">
       <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
       <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" >
@@ -50,7 +50,7 @@
       </div>
       <!--这个地方放置最近访问-->
       <footer-tool-bar v-if="loaded" :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-        <link-footer :data="monitor.link" />
+        <link-footer :data="link" />
       </footer-tool-bar>
       <div>
         <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
@@ -202,7 +202,72 @@ export default {
           }
         ]
       },
-      monitor: {}
+      monitor: {},
+      link:{
+        content:[
+          {
+            img: require('@/assets/links/abaqus.png'),
+          },
+          {
+            img: require('@/assets/links/actran.png'),
+          },
+          {
+            img: require('@/assets/links/adams.png'),
+          },
+          {
+            img: require('@/assets/links/ansoft.png'),
+          },
+          {
+            img: require('@/assets/links/ansys.png'),
+          },
+          {
+            img: require('@/assets/links/Arbortext.png'),
+          },
+          {
+            img: require('@/assets/links/e3.png'),
+          },
+          {
+            img: require('@/assets/links/esi.png'),
+          },
+          {
+            img: require('@/assets/links/fluent.png'),
+          },
+          {
+            img: require('@/assets/links/Hypermesh.png'),
+          },
+          {
+            img: require('@/assets/links/hyperworks.png'),
+          },
+          {
+            img: require('@/assets/links/isight.png'),
+          },
+          {
+            img: require('@/assets/links/matlab.png'),
+          },
+          {
+            img: require('@/assets/links/msc.png'),
+          },
+          {
+            img: require('@/assets/links/optistruct.png'),
+          },
+          {
+            img: require('@/assets/links/pointwise.png'),
+          },
+          {
+            img: require('@/assets/links/proe.png'),
+          },
+          {
+            img: require('@/assets/links/spw.png'),
+          },
+          {
+            img: require('@/assets/links/TSV.png'),
+          },
+          {
+            img: require('@/assets/links/virtools.png'),
+          }
+        ],
+        total: 20
+      }
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
@@ -244,6 +309,7 @@ export default {
       MonitorData([]).then(data => {
         vm.monitor = Object.assign({}, data.data)
         vm.loaded = true
+        console.log('vm.monitor', vm.monitor)
       })
     },
     // onDrop (dropResult) {

@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf'}"
+      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf'}"
     >
       <div slot="title">
         <a-row>
@@ -138,7 +138,7 @@ export default {
             width: '90%',
             containLabel: true
           },
-          color: ['#01a5e2', '#e2e2e2', '#fe9846', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
+          color: ['#516efc', '#273eb0', '#f49d2a', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
           series: [
             {
               type: 'pie',
@@ -223,7 +223,7 @@ export default {
               }
             }
           ],
-          color: ['#01a5e2', '#e2e2e2', '#fe9846', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
+          color: ['#516efc', '#273eb0', '#f49d2a', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
           yAxis: [
             {
               type: 'value'

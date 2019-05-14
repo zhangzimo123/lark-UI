@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf' }">
+      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf' }">
       <div slot="title">
         <a-row>
           <a-col>
@@ -311,5 +311,25 @@ export default {
   }
   .discuss-block .ant-layout-content {
     height: 300px;
+  }
+  .discuss-block .ant-modal-header{
+    background-color:#f2f3f5!important;
+  }
+
+  .discuss-block .ant-modal-title{
+    color: #40a9ff!important;
+  }
+
+  .discuss-block .ant-modal-close-x{
+    color: #40a9ff!important;
+    background-color:#f2f3f5!important;
+  }
+
+  .discuss-block-mask{
+    width: 38.8%;
+    height: 76.7%;
+    position: fixed;
+    left: 488px;
+    top: 125px;
   }
 </style>

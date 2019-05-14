@@ -536,5 +536,24 @@ export default {
   .discuss-block .ant-layout-content {
     height: 300px;
   }
+  .panel-block .ant-modal-header{
+    background-color:#f2f3f5!important;
+  }
 
+  .panel-block .ant-modal-title{
+    color: #40a9ff!important;
+  }
+
+  .panel-block .ant-modal-close-x{
+    color: #40a9ff!important;
+    background-color:#f2f3f5!important;
+  }
+
+  .panel-block-mask{
+    width: 38.8%;
+    height: 76.7%;
+    position: fixed;
+    left: 488px;
+    top: 125px;
+  }
 </style>

@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '2px 2px #bfbfbf'}"
+      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf'}"
     >
       <div slot="title">
         <a-row>
