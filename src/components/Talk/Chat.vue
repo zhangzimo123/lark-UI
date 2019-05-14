@@ -210,9 +210,9 @@
 
   <a-layout v-else style="height: 100%; textAlign: center;">
     <div class="unselected-tip">
-    <a-icon type="message" style="fontSize: 140px; color: #d7d9db" />
-    <p>未选择聊天</p>
-  </div>
+      <a-icon type="message" style="fontSize: 140px; color: #d7d9db" />
+      <p>未选择聊天</p>
+    </div>
   </a-layout>
 </template>
 

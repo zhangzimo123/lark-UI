@@ -111,8 +111,8 @@ export default {
     cursor: pointer;
     overflow: hidden;
     padding: 12px 18px 11px;
-    background-color: #fff;
-    /*border-bottom: 1px solid rgb(218, 220, 223);*/
+    background-color: rgb(230, 232, 235);
+    border-bottom: 1px solid rgb(218, 220, 223);
 
     &:hover {
       background-color: rgb(215, 217, 219);
@@ -121,8 +121,8 @@ export default {
 
   .avatar {
     float: left;
-    width: 43px;
-    height: 43px;
+    width: 40px;
+    height: 40px;
     margin-right: 10px;
 
     &-img {
@@ -144,18 +144,15 @@ export default {
       margin: 0;
       font-size:16px;
       font-weight: 400;
-      color:rgba(68,68,68,1);
+      color: rgb(0, 0, 0);
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 140px;
     }
 
     .msg {
-      margin-top: 8px;
-      font-size:14px;
-      font-family:MicrosoftYaHei;
-      font-weight:400;
-      color:rgba(153,153,153,1);
+      margin: 0;
+      font-size: 14px;
+      color: rgb(140, 141, 143);
       overflow: hidden;
       text-overflow: ellipsis;
       .at-me {
@@ -175,31 +172,6 @@ export default {
     .attr {
       height: 20px;
       margin: 0;
-      font-size:14px;
-      font-family:MicrosoftYaHei;
-      font-weight:400;
-      color:rgba(153,153,153,1);
     }
-  }
-
-  .unreadTip{
-    position: absolute;
-    top: 0px;
-    right: 46px;
-    width:20px;
-    height:20px;
-    background:rgba(232,0,0,1);
-    border-radius:50%;
-    font-size:14px;
-    font-family:MicrosoftYaHei;
-    font-weight:400;
-    color:rgba(255,255,255,1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .nameInfo{
-    position: relative;
   }
 </style>

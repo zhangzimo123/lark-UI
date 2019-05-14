@@ -32,7 +32,7 @@
       </a-col>
       <a-col :span="10">
         <span class="ant-card-body-title" style="color: #666666">计算资源列表</span>
-        <a-row  v-for="(row,index) in data.list.content" :key="'item'+index">
+        <a-row v-for="(row,index) in data.list.content" :key="'item'+index">
           <i class="ivu-tag-dot-inner" ></i>
           <span class="resource-list content-adpat" style="color: #999999">{{ row.name }}</span>
         </a-row>
