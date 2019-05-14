@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 64px; height: 100%;overflow-y: auto" >
+  <div style="height: 100%;" >
     <a-spin :spinning="loaded === false" size="large">
       <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
       <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" >
