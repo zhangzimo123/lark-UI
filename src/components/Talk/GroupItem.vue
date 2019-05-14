@@ -1,19 +1,21 @@
 <template>
-  <!-- groups and contacts item -->
-  <div class="contacts-item">
+  <!-- groups item -->
+  <div :class="groupItemClasses">
 
     <div class="avatar">
-      <img src="/avatar2.jpg">
+      <a-avatar class="avatar-img" shape="square" :src="groupInfo.avatar" :size="30">
+        <span>{{ groupInfo.name }}</span>
+      </a-avatar>
     </div>
 
     <div class="extra">
       <p class="attr on-line">
-        <a-icon type="check-circle" theme="filled" />
+        <!-- <a-icon type="check-circle" theme="filled" /> -->
       </p>
     </div>
 
     <div class="info">
-      <p class="nickname">我就是这个联系人的名字啊啦啦啦啦啦啦</p>
+      <p class="nickname">{{ groupInfo.name }}</p>
     </div>
 
   </div>
@@ -21,21 +23,51 @@
 
 <script>
 export default {
-  name: 'ContactsItem',
+  name: 'GroupItem',
   props: {
+    /**
+     * 群组信息数据结构
+     * groupInfo = {
+     *  id: 唯一标识符 String
+     *  name: 群组名称 String
+     *  avatar: 头像 String
+     *  其他需要的信息
+     * }
+     */
+    groupInfo: {
+      type: Object,
+      default: () => ({}),
+      required: true
+    },
+    activated: {
+      type: Boolean,
+      default: false,
+      required: false
+    }
   },
   data () {
     return {}
+  },
+  computed: {
+    groupItemClasses () {
+      return {
+        'group-item': true,
+        'activated': this.activated
+      }
+    }
   },
   methods: {}
 }
 </script>
 
 <style lang="less" scoped>
+  .activated {
+    background-color: rgb(195, 197, 199)!important;
+  }
   .on-line {
     color: rgba(43, 162, 69, 1);
   }
-  .contacts-item {
+  .group-item {
     width: 100%;
     height: 50px;
     min-height: 50px;
@@ -58,10 +90,12 @@ export default {
     height: 30px;
     margin-right: 10px;
 
-    img {
-      width: 30px;
-      height: 30px;
+    &-img {
       border-radius: 2px;
+      background-color: rgb(0, 162, 174);
+      span {
+        color: #fff;
+      }
     }
   }
 

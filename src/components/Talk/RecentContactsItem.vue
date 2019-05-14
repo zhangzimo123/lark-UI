@@ -1,29 +1,42 @@
 <template>
   <!-- recent contacts item -->
-  <div class="recent-contacts">
+  <div :class="recentContactsClasses">
+
     <div class="avatar">
-      <img src="/avatar2.jpg">
+      <a-badge
+        :dot="contactsInfo.isMute"
+        :count="contactsInfo.unreadNum"
+        :overflowCount="99"
+        :offset="badgeoffset"
+        :numberStyle="badgeNumStyle">
+
+        <a-avatar class="avatar-img" shape="square" :src="contactsInfo.avatar" :size="40">
+          <span>{{ contactsInfo.name }}</span>
+        </a-avatar>
+
+      </a-badge>
     </div>
+
     <div class="extra">
-      <p class="attr">12:30</p>
-      <!--<p class="attr">-->
-      <!--<a-icon type="eye-invisible" theme="filled" />-->
-      <!--</p>-->
+      <p class="attr">{{ contactsInfo.time }}</p>
+      <p class="attr">
+        <a-icon v-show="contactsInfo.isMute && contactsInfo.isGroup" type="eye-invisible" theme="filled" />
+      </p>
     </div>
+
     <div class="info">
-      <div class="nameInfo">
-        <p class="nickname">字太多就会被自动隐藏字太多就会被自动隐藏</p>
-        <p class="unreadTip">1</p>
-      </div>
-      <!--<a-badge-->
-      <!--:count="10"-->
-      <!--:overflowCount="99"-->
-      <!--:offset="[-5, -20]"-->
-      <!--:numberStyle="{padding: '0', boxShadow: 'none', height: '16px', minWidth: '16px', lineHeight: '16px'}">-->
-      <!--<a href="#"></a>-->
-      <!--</a-badge>-->
-      <div class="msg">字太多就会被自动隐藏字太多就会被自动隐藏</div>
+      <p class="nickname">{{ contactsInfo.name }}</p>
+      <p class="msg">
+        <span v-show="contactsInfo.atMe && contactsInfo.isGroup" class="at-me">[有人@我]</span>
+        <!-- 群组被静音后提示未读消息条数 -->
+        <span v-show="contactsInfo.isGroup && contactsInfo.isMute && contactsInfo.unreadNum">[{{ contactsInfo.unreadNum }}条]</span>
+        <!-- 群组提示消息发送者姓名 -->
+        <span v-show="contactsInfo.sender && contactsInfo.isGroup">{{ contactsInfo.sender }}:</span>
+
+        {{ contactsInfo.lastMessage }}
+      </p>
     </div>
+
   </div>
 </template>
 
@@ -31,25 +44,26 @@
 export default {
   name: 'RecentContactsItem',
   props: {
-    // contacts information object
+    /* contacts information object
+      contactsInfo = {
+        id: 唯一标识符 String
+        lastMessage: 最后一条消息 String
+        name: 联系人/群组名称 String
+        sender: 发送者姓名 String
+        avatar: 头像 String
+        time: 时间 String
+        atMe: 是否有人@我 Boolean
+        isTop: 是否置顶 Boolean
+        isMute: 是否免打扰 Boolean
+        isGroup: 是否群组 Boolean
+      }
+    */
     contactsInfo: {
       type: Object,
       default: () => ({}),
-      // required: true
-      required: false
+      required: true
     },
     activated: {
-      type: Boolean,
-      default: false,
-      // required: true
-      required: false
-    },
-    isTop: {
-      type: Boolean,
-      default: false,
-      required: false
-    },
-    isMuted: {
       type: Boolean,
       default: false,
       required: false
@@ -58,6 +72,23 @@ export default {
   data () {
     return {}
   },
+  computed: {
+    recentContactsClasses () {
+      return {
+        'recent-contacts': true,
+        'activated': this.activated,
+        'top': this.contactsInfo.isTop
+      }
+    },
+    badgeoffset () {
+      return this.contactsInfo.isMute ? [] : [ -5, 5 ]
+    },
+    badgeNumStyle () {
+      return this.contactsInfo.isMute
+        ? {}
+        : { padding: '0', boxShadow: 'none', height: '16px', minWidth: '16px', lineHeight: '16px' }
+    }
+  },
   methods: {}
 }
 </script>
@@ -65,11 +96,11 @@ export default {
 <style lang="less" scoped>
 
   .activated {
-    background-color: rgb(195, 197, 199);
+    background-color: rgb(195, 197, 199)!important;
   }
 
   .top {
-    background-color: rgb(220, 222, 224);
+    background-color: rgb(220, 222, 224)!important;
   }
 
   .recent-contacts {
@@ -94,10 +125,12 @@ export default {
     height: 43px;
     margin-right: 10px;
 
-    img {
-      width: 43px;
-      height: 43px;
-      margin-top: 4px;
+    &-img {
+      border-radius: 2px;
+      background-color: rgb(0, 162, 174);
+      span {
+        color: #fff;
+      }
     }
   }
 
@@ -125,14 +158,17 @@ export default {
       color:rgba(153,153,153,1);
       overflow: hidden;
       text-overflow: ellipsis;
+      .at-me {
+        color: red;
+      }
     }
   }
 
   .extra {
     float: right;
     height: 40px;
-    width: 40px;
-    font-size: 14px;
+    // width: 40px;
+    font-size: 12px;
     text-align: right;
     color: rgb(140, 141, 143);
 
