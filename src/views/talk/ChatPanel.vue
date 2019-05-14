@@ -45,6 +45,15 @@
             <div v-for="(item, index) in groupList" :key="index" @click="showGroup(item)">
               <group-item :groupInfo="item" :activated="item.id === activeGroup"></group-item>
             </div>
+
+            <!-- 没有群组或者群组加载失败时的提示信息 -->
+            <div v-if="!groupList || !groupList.length" class="reload-group-list">
+              <p>
+                暂无群组信息，
+                <a-button type="primary" ghost size="small" :loading="reloadLoading" @click="reloadGroupList">重新加载</a-button>
+              </p>
+            </div>
+
           </div>
         </a-tab-pane>
 
@@ -55,7 +64,15 @@
           </span>
 
           <div class="contacts-container tab-content-container">
-            <contacts-box :contactsTree="treeData" @SelectContacts="showContacts" style="paddingLeft: 18px;"/>
+            <contacts-box :contactsTree="contactsTree" @SelectContacts="showContacts" style="paddingLeft: 18px;"/>
+
+            <!-- 获取联系人树失败时的提示信息 -->
+            <div v-if="!contactsTree || !contactsTree.length" class="reload-contacts-tree">
+              <p>
+                联系人加载失败，
+                <a-button type="primary" ghost size="small" :loading="contactsLoading" @click="getContactsTree">重新加载</a-button>
+              </p>
+            </div>
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -105,6 +122,7 @@ import {
 } from '../../utils/talk/chatUtils'
 import conf from '@/api/index'
 import HttpApiUtils from '../../utils/talk/HttpApiUtils'
+
 export default {
   directives: { infiniteScroll },
   name: 'ChatPanel',
@@ -129,122 +147,15 @@ export default {
       isShowWelcome: true,
       memberVisible: false,
       active: '',
-      // record current contacts/group
+
+      // 记录当前选中的联系人/群组信息
       activeContacts: '',
       activeGroup: '',
       activeChat: '',
 
-      // 临时数据
-      groupList: [
-        {
-          id: '123',
-          name: '二十五年前的今天',
-          avatar: '/avatar2.jpg'
-        }, {
-          id: '124',
-          name: '白色的玫瑰花',
-          avatar: './avatar2.jpg'
-        }
-      ],
-      treeData: [
-        {
-          title: '中国航天科工第二研究院',
-          icon: 'folder',
-          key: '0',
-          scopedSlots: {
-            title: 'orgNode'
-          },
-          children: [
-            {
-              title: '第二总体设计部',
-              icon: 'folder',
-              key: '0-1',
-              scopedSlots: {
-                title: 'orgNode'
-              },
-              children: [
-                {
-                  title: '十一室',
-                  icon: 'folder',
-                  key: '0-1-1',
-                  scopedSlots: {
-                    title: 'orgNode'
-                  },
-                  children: [
-                    {
-                      title: '三块五',
-                      icon: './avatar2.jpg',
-                      key: '0-1-1-1',
-                      online: false,
-                      scopedSlots: {
-                        title: 'userNode'
-                      }
-                    }, {
-                      title: '两块八',
-                      icon: '/avatar2.jpg',
-                      key: '0-1-1-2',
-                      online: true,
-                      scopedSlots: {
-                        title: 'userNode'
-                      }
-                    }, {
-                      title: '四块三',
-                      icon: '/avatar2.jpg',
-                      key: '0-1-1-3',
-                      online: false,
-                      scopedSlots: {
-                        title: 'userNode'
-                      }
-                    }
-                  ]
-                }, {
-                  title: '发展计划处',
-                  icon: 'folder',
-                  key: '0-1-2',
-                  scopedSlots: {
-                    title: 'orgNode'
-                  },
-                  children: []
-                }
-              ]
-            }, {
-              title: '二十三所',
-              icon: 'folder',
-              key: '0-2',
-              scopedSlots: {
-                title: 'orgNode'
-              },
-              children: [
-                {
-                  title: '市场处',
-                  icon: 'folder',
-                  key: '0-2-1',
-                  scopedSlots: {
-                    title: 'orgNode'
-                  },
-                  children: []
-                }, {
-                  title: '三室',
-                  icon: 'folder',
-                  key: '0-2-2',
-                  scopedSlots: {
-                    title: 'orgNode'
-                  },
-                  children: []
-                }
-              ]
-            }, {
-              title: '二〇八所',
-              icon: 'folder',
-              key: '0-3',
-              scopedSlots: {
-                title: 'orgNode'
-              },
-              children: []
-            }
-          ]
-        }
-      ]
+      // 加载状态
+      reloadLoading: false,
+      contactsLoading: false
     }
   },
   computed: {
@@ -263,7 +174,19 @@ export default {
       set: function (chatList) {
         this.$store.commit('SET_CHAT_LIST', chatList)
       }
+    },
+    groupList () {
+      return this.$store.state.chat.groupList
+    },
+    contactsTree () {
+      return this.$store.state.chat.contactsTree
     }
+  },
+  mounted () {
+    // 加载群组列表
+    this.$store.dispatch('GetGroupList')
+    // 加载联系人列表
+    this.$store.dispatch('GetContactsTree')
   },
   methods: {
     /* 切换面板 */
@@ -305,12 +228,31 @@ export default {
     delChat (chat) {
       this.$store.commit('DEL_CHAT', chat)
     },
+    /** 展示群组详细信息 */
     showGroup (group) {
       this.activeGroup = group.id
     },
+    /** 展示联系人详细信息 */
     showContacts (key) {
       this.activeContacts = key
+    },
+    /** 
+     * 重新加载群组列表
+     * @author jihainan
+     */
+    reloadGroupList () {
+      this.reloadLoading = true
+      this.$store.dispatch('GetGroupList').finally(() => {
+        this.reloadLoading = false
+      })
+    },
+    getContactsTree () {
+      this.contactsLoading = true
+      this.$store.dispatch('GetContactsTree').finally(() => {
+        this.contactsLoading = false
+      })
     }
+
   },
   activated: function () {
     // const self = this
@@ -475,12 +417,18 @@ export default {
 
     // 群组标签页样式
     .group-contacts-container {
-
+      .reload-group-list {
+        text-align: center;
+        padding: 32px;
+      }
     }
 
     // 联系人标签页样式
     .contacts-container {
-
+      .reload-contacts-tree {
+        text-align: center;
+        padding: 32px;
+      }
     }
 
     // 让最近 群组 联系人tab页的内容可以滚动的样式
