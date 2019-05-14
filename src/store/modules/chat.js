@@ -1,11 +1,13 @@
 import modules from './conf'
 import { Chat, ChatListUtils, MessageInfoType, MessageTargetType, transform } from '../../utils/talk/chatUtils'
 import conf from '@/api/index'
+import { getGroupList, getContactsTree } from '@/api/chat'
+
 const chat = {
   state: {
-    token: {},
+    // token: {},
     // token 是否有效
-    tokenStatus: false,
+    // tokenStatus: false,
     // 当前的用户
     user: {},
     flushLocalStore: false,
@@ -19,67 +21,51 @@ const chat = {
     // 所有的研讨窗口(最近)
     chatList: [],
     // 好友列表(联系人)
-    userFriendList: [],
+    contactsTree: [],
     // 群组列表(群组)
-    chatGroupList: [],
+    groupList: [],
     // 刷新token 的定时器
     flushTokenTimerId: null
   },
   mutations: {
-    setFlushTokenTimerId: function (state, flushTokenTimerId) {
-      state.flushTokenTimerId = flushTokenTimerId
+    /** modify -> jihainan */
+    SET_CONTACTS_TREE: function (state, contactsTree) {
+      state.contactsTree = contactsTree
     },
-    clearFlushTokenTimerId: function (state) {
-      clearTimeout(state.flushTokenTimerId)
+    /** modify -> jihainan */
+    SET_GROUP_LIST: function (state, groupList) {
+      state.groupList = groupList
     },
-    setToken: function (state, token) {
-      sessionStorage.setItem('token', token.access_token)
-      sessionStorage.setItem('refresh_token', token.refresh_token)
-    },
-    // token 是否有效
-    setTokenStatus: function (state, tokenStatus) {
-      state.tokenStatus = tokenStatus
-    },
-    setUser: function (state, user) {
-      state.user = user
-    },
-    setUserFriendList: function (state, userFriendList) {
-      state.userFriendList = userFriendList
-    },
-    setChatGroupList: function (state, chatGroupList) {
-      state.chatGroupList = chatGroupList
-    },
-    setChatMap: function (state, chatMap) {
+    SET_CHAT_MAP: function (state, chatMap) {
       state.chatMap = chatMap
     },
-    setWebsocket: function (state, websocket) {
+    SET_WEBSOCKET: function (state, websocket) {
       state.websocket = websocket
     },
     // 发送给服务器
-    sendMessage: function (state, message) {
-      console.log('发送消息')
+    SEND_MESSAGE: function (state, message) {
       const msg = {
         code: MessageInfoType.MSG_MESSAGE,
         message: message
       }
       state.websocket.send(JSON.stringify(msg))
     },
-    resetUnRead: function (state) {
+    RESET_UNREAD: function (state) {
       state.currentChat.unReadCount = 0
     },
     // 退出后清除内存中的研讨信息
-    clear: function (state) {
+    CLEAR: function (state) {
       state.messageList = []
       state.messageListMap = new Map()
     },
     // 保存到内存
-    addMessage: function (state, message) {
+    ADD_MESSAGE: function (state, message) {
       message.content = transform(message.content)
       state.messageList.push(message)
       state.messageListMap.set(message.id, state.messageList)
     },
     // 在用户姓名下展示收到的最后一条信息
-    setLastMessage: function (state, message) {
+    SET_LAST_MESSAGE: function (state, message) {
       const list = ChatListUtils.getChatList(state.user.id)
       const tempChatList = list.map(function (chat) {
         if (String(chat.id) === String(message.fromid) && message.type === '0') {
@@ -90,16 +76,16 @@ const chat = {
         return chat
       })
       // 放入缓存
-      ChatListUtils.setChatList(state.user.id, tempChatList)
+      ChatListUtils.setMessageList(state.user.id, tempChatList)
       state.chatList = tempChatList
     },
-    setMessageList: function (state, messageList) {
+    SET_MESSAGE_LIST: function (state, messageList) {
       state.messageList = messageList
     },
-    setMessageListMap: function (state, messageListMap) {
+    SET_MESSAGE_LIST_MAP: function (state, messageListMap) {
       state.messageListMap = messageListMap
     },
-    addUnreadMessage: function (state, message) {
+    ADD_UNREAD_MESSAGE: function (state, message) {
       message.content = transform(message.content)
       if (message.type === '0') {
         // 从内存中取研讨信息
@@ -123,7 +109,7 @@ const chat = {
         }
       }
     },
-    setCurrentChat: function (state, currentChat) {
+    SET_CURRENT_CHAT: function (state, currentChat) {
       state.currentChat = currentChat
       state.currentChat.unReadCount = 0
 
@@ -134,12 +120,12 @@ const chat = {
         return chat
       })
       // 放入缓存
-      ChatListUtils.setChatList(state.user.id, tempChatList)
+      ChatListUtils.setChatList(this.getters.userInfo.id, tempChatList)
     },
-    setChatList: function (state, chatList) {
+    SET_CHAT_LIST: function (state, chatList) {
       state.chatList = chatList
     },
-    delChat: function (state, chat) {
+    DEL_CHAT: function (state, chat) {
       state.chatList = ChatListUtils.delChat(state.user.id, chat)
     },
     /**
@@ -147,7 +133,7 @@ const chat = {
      * @param state state
      * @param message 消息
      */
-    setUnReadCount: function (state, message) {
+    SET_UNREAD_COUNT: function (state, message) {
       const tempChatList = []
       let tempChat = {}
 
@@ -185,11 +171,48 @@ const chat = {
       // 重新设置chatList
       state.chatList = tempChatList
       // 放入缓存
-      ChatListUtils.setChatList(state.user.id, tempChatList)
+      ChatListUtils.setMessageList(state.user.id, tempChatList)
     }
   },
   actions: {
-
+    /**
+     * get group list or refresh group list
+     * if anything affects group list, dispatch this action
+     * @author jihainan
+     */
+    GetGroupList ({ commit }) {
+      return new Promise((resolve, reject) => {
+        getGroupList().then(response => {
+          if (response.status === 200) {
+            commit('SET_GROUP_LIST', [ ...response.result.data ])
+          } else {
+            reject(new Error('getGroupList: 服务器发生错误!'))
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    /**
+     * 获取联系人树
+     * 当联系人数据被改变，dispatch这个方法
+     * @author jihainan
+     */
+    GetContactsTree ({ commit }) {
+      return new Promise((resolve, reject) => {
+        getContactsTree().then(response => {
+          if (response.status === 200) {
+            commit('SET_CONTACTS_TREE', [ ...response.result.data ])
+          } else {
+            reject(new Error('getContactsTree: 服务器发生错误!'))
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    }
   },
   modules,
   strict: process.env.NODE_ENV !== 'production'

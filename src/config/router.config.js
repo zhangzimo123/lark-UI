@@ -29,7 +29,7 @@ export const asyncRouterMap = [
             path: '/dashboard/monitor',
             name: 'Analysis',
             component: () => import('@/views/dashboard/Monitor'),
-            meta: { title: '工作台', keepAlive: false, icon: 'dashboard',  permission: [ 'dashboard' ] }
+            meta: { title: '工作台', keepAlive: false, icon: 'dashboard', permission: [ 'dashboard' ] }
           }
         ]
       },
@@ -91,6 +91,17 @@ export const asyncRouterMap = [
               icon: 'switcher',
               keepAlive: true,
               permission: ['table']
+            }
+          },
+          {
+            path: '/list/service-list',
+            name: 'ServiceList',
+            component: () => import('@/views/admin/ServiceList'),
+            meta: {
+              title: '服务管理',
+              icon: 'switcher',
+              keepAlive: true,
+              permission: ['jj']
             }
           }
         ]

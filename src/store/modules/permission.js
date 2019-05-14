@@ -62,6 +62,7 @@ const permission = {
     }
   },
   actions: {
+    // 根据角色权限动态生成左侧导航 参数role
     GenerateRoutes ({ commit }, data) {
       return new Promise(resolve => {
         const { roles } = data

@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import conf from '@/api/index'
 import { ErrorType, logout, timeoutFetch, tokenFetch } from './chatUtils'
 
@@ -25,7 +26,8 @@ class HttpApiUtils {
     param.set('client_secret', 'v-client-ppp')
     param.set('grant_type', 'refresh_token')
     param.set('scope', 'select')
-    param.set('refresh_token', sessionStorage.getItem('refresh_token'))
+    // param.set('refresh_token', localStorage.getItem('Refresh-Token'))
+    param.set('refresh_token', Vue.ls.get('Refresh-Token'))
     return timeoutFetch(
       fetch(conf.getTokenUrl(), {
         method: 'POST',
@@ -47,16 +49,16 @@ class HttpApiUtils {
         }
       })
       .then(json => {
-        self.$store.commit('setToken', json)
-        self.$store.commit('setTokenStatus', json)
+        self.$store.commit('SET_TOKEN', json)
+        self.$store.commit('SET_TOKEN_STATUS', json)
         // 清除原先的刷新缓存的定时器
-        self.$store.commit('clearFlushTokenTimerId')
+        self.$store.commit('CLEAR_FLUSH_TOKEN_TIME_ID')
         // 新的刷新token 定时器
         const flushTokenTimerId = setTimeout(function () {
           apiSelf.flushToken(self)
         }, ((json.expires_in - 10) * 1000))
         // 重新设置定时器
-        self.$store.commit('setFlushTokenTimerId', flushTokenTimerId)
+        self.$store.commit('SET_FLUSH_TOKEN_TIME_ID', flushTokenTimerId)
       })
       // 非常不幸，如果正好刷新token 时候网络中断，直接退出登录
       .catch(() => {

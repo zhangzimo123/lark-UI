@@ -9,7 +9,14 @@ const getters = {
   roles: state => state.user.roles,
   userInfo: state => state.user.info,
   addRouters: state => state.permission.addRouters,
-  multiTab: state => state.app.multiTab
+  multiTab: state => state.app.multiTab,
+  messageListMap: state => state.chat.messageListMap,
+  chatMap: state => state.chat.chatMap,
+  messageList: state => state.chat.messageList,
+  currentChat: state => state.chat.currentChat,
+  chatList: state => state.chat.chatList,
+  userFriendList: state => state.chat.userFriendList,
+  flushTokenTimerId: state => state.chat.flushTokenTimerId
 }
 
 export default getters
