@@ -3,8 +3,9 @@ import { axios } from '@/utils/request'
 const api = {
   talkMembers: 'talk/members',
   groupInfo: 'talk/group/info',
+  groupList: 'talk/group/list',
   contactsInfo: 'talk/contacts/info',
-  groupList: 'talk/group/list'
+  contactsTree: 'talk/contacts/tree'
 }
 
 export default api
@@ -48,6 +49,17 @@ export function getContactsInfo (contactsId) {
 export function getGroupList () {
   return axios({
     url: api.groupList,
+    method: 'GET'
+  })
+}
+
+/**
+ * 获取联系人树
+ * @author jihainan
+ */
+export function getContactsTree () {
+  return axios({
+    url: api.contactsTree,
     method: 'GET'
   })
 }

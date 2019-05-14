@@ -1,7 +1,7 @@
 import modules from './conf'
 import { Chat, ChatListUtils, MessageInfoType, MessageTargetType, transform } from '../../utils/talk/chatUtils'
 import conf from '@/api/index'
-import { getGroupList } from '@/api/chat'
+import { getGroupList, getContactsTree } from '@/api/chat'
 
 const chat = {
   state: {
@@ -21,15 +21,16 @@ const chat = {
     // 所有的研讨窗口(最近)
     chatList: [],
     // 好友列表(联系人)
-    userFriendList: [],
+    contactsTree: [],
     // 群组列表(群组)
     groupList: [],
     // 刷新token 的定时器
     flushTokenTimerId: null
   },
   mutations: {
-    SET_USER_FRIEND_LIST: function (state, userFriendList) {
-      state.userFriendList = userFriendList
+    /** modify -> jihainan */
+    SET_CONTACTS_TREE: function (state, contactsTree) {
+      state.contactsTree = contactsTree
     },
     /** modify -> jihainan */
     SET_GROUP_LIST: function (state, groupList) {
@@ -186,6 +187,25 @@ const chat = {
             commit('SET_GROUP_LIST', [ ...response.result.data ])
           } else {
             reject(new Error('getGroupList: 服务器发生错误!'))
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    /**
+     * 获取联系人树
+     * 当联系人数据被改变，dispatch这个方法
+     * @author jihainan
+     */
+    GetContactsTree ({ commit }) {
+      return new Promise((resolve, reject) => {
+        getContactsTree().then(response => {
+          if (response.status === 200) {
+            commit('SET_CONTACTS_TREE', [ ...response.result.data ])
+          } else {
+            reject(new Error('getContactsTree: 服务器发生错误!'))
           }
           resolve(response)
         }).catch(error => {

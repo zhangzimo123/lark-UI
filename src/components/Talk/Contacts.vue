@@ -14,7 +14,7 @@
         <span>{{ title.slice(0, 1) }}</span>
       </a-avatar>
 
-      <span class="user-node-title">{{ title }}</span>
+      <span :class="['user-node-title', online ? '' : 'off-line']">{{ title }}</span>
     </template>
 
   </a-tree>
@@ -65,8 +65,9 @@ export default {
 
 <style lang="less" scoped>
   .off-line {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
+    color: #8f9498!important;
+    -webkit-filter: grayscale(100%)!important;
+    filter: grayscale(100%)!important;
   }
   .contacts-tree {
     .org-node-icon {
