@@ -1,12 +1,12 @@
 <template>
-  <div :class="prefixCls">
-    <div style="float: left">
-      <slot name="extra">{{ extra }}</slot>
-    </div>
-    <div style="float: right">
+  <a-row :class="prefixCls">
+    <a-col :span="23">
       <slot></slot>
-    </div>
-  </div>
+    </a-col>
+    <a-col :span="1" style="float: left">
+      <slot name="extra">{{ extra }}</slot>
+    </a-col>
+  </a-row>
 </template>
 
 <script>
