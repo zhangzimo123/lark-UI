@@ -35,9 +35,9 @@
           <a-icon type="close" />
         </a>
       </a-popover>
-      <div v-if="this.typeMap==0"><todo :data="data.todo"></todo></div>
-      <div v-if="this.typeMap==1"><plan :data="data.plan"></plan></div>
-      <div v-if="this.typeMap==2"><task :data="data.task"></task></div>
+      <div v-if="this.typeMap==0"><todo ></todo></div>
+      <div v-if="this.typeMap==1"><plan ></plan></div>
+      <div v-if="this.typeMap==2"><task ></task></div>
     </a-card>
   </div>
 </template>
@@ -47,12 +47,6 @@ import plan from './Plan'
 import task from './Task'
 
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       headStyle: { height: '52px', 'border-bottom': 'none' },

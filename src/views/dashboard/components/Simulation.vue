@@ -11,7 +11,7 @@
             <span style="color: #333333;font-weight:bold">
               {{ title }}
             </span>
-            <categoryTools v-model="selectedType" :array="typeArray" @changed="fetchData"></categoryTools>
+            <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
           </a-col>
         </a-row>
       </div>
@@ -27,7 +27,7 @@
         </a>
       </a-popover>
       <div style="height:205px;overflow-y:auto;overflow-x: hidden">
-        <a-row type="flex" v-for="(row,index) in showList" :key="'item'+index" class="row-magin">
+        <a-row type="flex" v-for="(row,index) in list" :key="'item'+index" class="row-magin">
           <a-col :span="15">
             <i class="ivu-tag-dot-inner"></i>
             <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
@@ -46,13 +46,8 @@
 </template>
 <script>
 import CategoryTools from '../category-tools'
+import { simulationData } from '@/api/simulation'
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   components: {
     CategoryTools
   },
@@ -68,27 +63,33 @@ export default {
       typeMap: {},
       selectedType: 0,
       selectedRow: {},
-      showDetails: false
+      showDetails: false,
+      list: []
     }
   },
   created () {
     this.fetchToolStatus()
+    this.fetchData()
   },
   computed: {
-    showList () {
-      const vm = this
-      return this.data.content.filter(item => {
-        return vm.selectedType === 0 || vm.selectedType === item.type
-      })
-    }
+
   },
   methods: {
+    fetchData (type) {
+      if (type === undefined) {
+        type = 0
+      }
+      var vm = this
+      simulationData(type).then(data => {
+        vm.list = data.simulation.content.filter(item => {
+          return item.type === type || type === 0
+        })
+        vm.list = vm.list.splice(0, 5)
+      })
+    },
     fetchToolStatus () {
       const vm = this
-      // getMyToolSetting('simulation').then(({ data, status }) => {
-      //   vm.typeArray = [].concat(data.content)
       vm.setStatusMap()
-      // })
     },
     setStatusMap () {
       const m = {}
@@ -105,7 +106,6 @@ export default {
       const o = this.typeMap['type-' + type]
       return o ? o.color : '#c5c8ce'
     }
-
   }
 }
 </script>

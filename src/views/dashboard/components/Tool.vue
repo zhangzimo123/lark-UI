@@ -45,7 +45,7 @@ export default {
   data () {
     return {
       title: '工具仓',
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       showTableHeader: true,
       selectedType: 1,
       typeArray: [

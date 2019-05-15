@@ -1,6 +1,6 @@
 <template>
   <div style="height:205px;overflow-y:auto">
-    <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
+    <a-row class="row-magin" v-for="(row,index) in list" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <!--<a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>-->
       <span style="color: #666666" class="content-adpat">{{ row.name }}</span>
@@ -9,13 +9,8 @@
   </div>
 </template>
 <script>
+import { knowledgeData } from '@/api/knowledge'
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       title: '知识角',
@@ -25,8 +20,12 @@ export default {
         { type: 2, name: '最热', show: true }
       ],
       knowledgeDetails: false,
-      knowledgeDetailsContent: ''
+      knowledgeDetailsContent: '',
+      list: []
     }
+  },
+  created () {
+    this.fetchKnowledge()
   },
   methods: {
     typeName (type) {
@@ -43,6 +42,12 @@ export default {
       } else {
         return '#c5c8ce'
       }
+    },
+    fetchKnowledge () {
+      const vm = this
+      knowledgeData().then(data => {
+        vm.list = data.knowledge.content.slice(0, 5)
+      })
     }
   }
 }

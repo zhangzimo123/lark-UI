@@ -22,7 +22,7 @@
   <!--</a>-->
   <!--</a-popover>-->
   <div style="height:205px;overflow-y:auto">
-    <a-row v-for="(item,index) in data.content" :key="'item'+index" class="row-magin">
+    <a-row v-for="(item,index) in list" :key="'item'+index" class="row-magin">
       <i class="ivu-tag-dot-inner"></i>
       <span
         @click="visibleModal(item)"
@@ -42,23 +42,27 @@
   <!--</a-card>-->
 </template>
 <script>
-
+import { todoData } from '@/api/todo'
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       title: '待办事项',
       headStyle: { height: '52px', 'border-bottom': 'none' },
       modal: false,
-      rowDetails: ''
+      rowDetails: '',
+      list: []
     }
   },
+  created () {
+    this.fetchData()
+  },
   methods: {
+    fetchData () {
+      const vm = this
+      todoData().then(data => {
+        vm.list = data.todo.content.slice(0, 5)
+      })
+    },
     visibleModal (row) {
       this.modal = true
       this.rowDetails = row

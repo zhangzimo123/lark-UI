@@ -11,7 +11,7 @@
             <span style="color: #333333;font-weight:bold">
               {{ title }}
             </span>
-            <categoryTools v-model="selectedType" :array="typeArray"></categoryTools>
+            <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
             <a href="#"><a-icon type="plus-circle" class="createMeetClass" @click="createMeeting"/></a>
             <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
           </a-col>
@@ -28,12 +28,12 @@
           <a-icon type="close" />
         </a>
       </a-popover>
-      <div style="height:205px;overflow-y:auto;overflow-x: hidden">
-        <a-row v-for="(row,index) in showList" :key="'item'+index" class="row-magin">
+      <div>
+        <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
           <i class="ivu-tag-dot-inner"></i>
           <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-          <span @click="visibleModal(row)" style="color: #666666;" class="content-adpat">{{ row.name }}</span>
-          <span class="right" style="color:#999999;">{{ row.date }}</span>
+          <span style="color: #666666" class="content-adpat" @click="visibleModal(row)" >{{row.name }}</span>
+          <span style="color: #999999" class="right">{{ row.date }}</span>
           <a-modal
             v-model="modal"
             footer=""
@@ -59,33 +59,29 @@
           </a-modal>
         </a-row>
       </div>
-      <div v-if="data.content.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
-        <a-icon type="file-exclamation" theme="twoTone"/>
+      <div v-if="list.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
+        <a-icon type="file-exclamation" theme="twoTone" :style="fontSize"/>
         <p class="description">卡片暂无内容</p>
       </div>
     </a-card>
   </div>
 </template>
 <script>
+import { meetingData } from '@/api/meeting'
 import categoryTools from '../category-tools'
 import createMeeting from '../create-meeting'
 import '../modal-mask.css'
 
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       headStyle: { height: '52px', 'border-bottom': 'none' },
       title: '会议室',
+      showTableHeader: true,
       selectedType: 0,
       buttonEdit: false,
       modal: false,
-      rowDetails: {},
+      rowDetails: '',
       typeArray: [
         // { type: 1, name: '未开始', show: true },
         // { type: 2, name: '进行中', show: true },
@@ -116,26 +112,34 @@ export default {
         }
       ],
       typeMap: {},
+      list: [],
       createMeet: false,
       meetingDetails: false
     }
   },
   components: {
+    meetingData,
     categoryTools,
     createMeeting
   },
   created () {
+    this.fetchData()
     this.setToolStatus()
   },
-  computed: {
-    showList () {
-      const vm = this
-      return this.data.content.filter(item => {
-        return vm.selectedType === 0 || vm.selectedType === item.type
-      })
-    }
-  },
+  computed: {},
   methods: {
+    fetchData (type) {
+      if (type === undefined) {
+        type = 0
+      }
+      var vm = this
+      meetingData(type).then(data => {
+        vm.list = data.meeting.content.filter(item => {
+          return item.type === type || type === 0
+        })
+        vm.list = vm.list.splice(0, 5)
+      })
+    },
     setToolStatus () {
       const m = {}
       this.typeArray.forEach(item => {

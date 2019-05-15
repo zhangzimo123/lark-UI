@@ -25,7 +25,7 @@
           <a-icon type="close" />
         </a>
       </a-popover>
-      <a-row v-for="(row,index) in data.content" :key="'item'+index" class="row-magin">
+      <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
         <span style="color:#666666;" class="content-adpat">{{ row.name }}</span>
         <span style="color:#999999" class="right">{{ row.date }}</span>
@@ -34,17 +34,24 @@
   </div>
 </template>
 <script>
+import { datasData } from '@/api/datas'
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       title: '数据板',
-      headStyle: { height: '52px', 'border-bottom': 'none' }
+      headStyle: { height: '52px', 'border-bottom': 'none' },
+      list: []
+    }
+  },
+  created () {
+    this.fetchData()
+  },
+  methods: {
+    fetchData () {
+      const vm = this
+      datasData().then(data => {
+        vm.list = data.datas.content.slice(0, 5)
+      })
     }
   }
 }
