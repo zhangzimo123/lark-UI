@@ -61,369 +61,369 @@
 </template>
 
 <script>
-  import { MonitorData } from '@/api/dashboard'
-  import { mixin, mixinDevice } from '@/utils/mixin'
-  import FooterToolBar from '@/components/FooterToolbar'
-  import MyChatPanel from '@/components/ChatBox/MyChatPanel'
-  import SearchWindow from '@/components/ChatBox/SearchWindow'
-  // import TreeCustom from '@/components/ChatBox/TreeCustom'
-  // import { Container, Draggable } from 'vue-smooth-dnd'
-  // import { applyDrag, generateItems } from './utils'
-  import VueGridLayout from 'vue-grid-layout'
-  import Discuss from './components/Discuss.vue'
-  import Meeting from './components/Meeting'
-  import TodoPlanTask from './components/TodoPlanTask'
-  import ResourceKnowledgeModel from './components/ResourceKnowledgeModel.vue'
-  import Simulation from './components/Simulation.vue'
-  import Datas from './components/Datas.vue'
-  import Stat from './components/Stat.vue'
-  import Calendar from './components/Calendar.vue'
-  import PDMTDM from './components/PDM-TDM.vue'
-  import Tool from './components/Tool.vue'
-  import HotNewsWindows from './components/HotNewsWindows'
-  import HotNews from './components/HotNewsWindows/HotNews'
-  import NewsWindow from './components/HotNewsWindows/NewsWindow'
-  // import plan from './components/Plan'
-  // import task from './components/Task'
-  import LinkFooter from './components/Link.vue'
+import { MonitorData } from '@/api/dashboard'
+import { mixin, mixinDevice } from '@/utils/mixin'
+import FooterToolBar from '@/components/FooterToolbar'
+import MyChatPanel from '@/components/ChatBox/MyChatPanel'
+import SearchWindow from '@/components/ChatBox/SearchWindow'
+// import TreeCustom from '@/components/ChatBox/TreeCustom'
+// import { Container, Draggable } from 'vue-smooth-dnd'
+// import { applyDrag, generateItems } from './utils'
+import VueGridLayout from 'vue-grid-layout'
+import Discuss from './components/Discuss.vue'
+import Meeting from './components/Meeting'
+import TodoPlanTask from './components/TodoPlanTask'
+import ResourceKnowledgeModel from './components/ResourceKnowledgeModel.vue'
+import Simulation from './components/Simulation.vue'
+import Datas from './components/Datas.vue'
+import Stat from './components/Stat.vue'
+import Calendar from './components/Calendar.vue'
+import PDMTDM from './components/PDM-TDM.vue'
+import Tool from './components/Tool.vue'
+import HotNewsWindows from './components/HotNewsWindows'
+import HotNews from './components/HotNewsWindows/HotNews'
+import NewsWindow from './components/HotNewsWindows/NewsWindow'
+// import plan from './components/Plan'
+// import task from './components/Task'
+import LinkFooter from './components/Link.vue'
 
-  import SettingDrawer from './components/SettingDrawer.vue'
-  import './components/monitor.less'
-  // 工作台看板模拟数据
-  var layoutCards = [
-    { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true, minW: 3 },
-    { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true, minW: 3 },
-    { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true, minW: 4 },
-    { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true, minW: 4 },
-    { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false, minW: 4 },
-    { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 3 },
-    { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '6', 'title': '统计板', is: 'stat', show: false, minW: 12 },
-    { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: false, limit: true },
-    { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'Tool', show: false, limit: true },
-    // { 'x': 0, 'y': 25, 'w': 6, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNews', show: false },
-    // { 'x': 6, 'y': 25, 'w': 6, 'h': 5, 'i': '10', 'title': '咨讯窗', is: 'NewsWindow', show: false }
-    { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false, minW: 12 }
-    // { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
+import SettingDrawer from './components/SettingDrawer.vue'
+import './components/monitor.less'
+// 工作台看板模拟数据
+var layoutCards = [
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true, minW: 3 },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true, minW: 3 },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true, minW: 4 },
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true, minW: 4 },
+  { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false, minW: 4 },
+  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 3 },
+  { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '6', 'title': '统计板', is: 'stat', show: false, minW: 12 },
+  { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: false, limit: true },
+  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'Tool', show: false, limit: true },
+  // { 'x': 0, 'y': 25, 'w': 6, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNews', show: false },
+  // { 'x': 6, 'y': 25, 'w': 6, 'h': 5, 'i': '10', 'title': '咨讯窗', is: 'NewsWindow', show: false }
+  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false, minW: 12 }
+  // { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
 
-  ]
-  var historyLayout = [
-    { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
-    { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todoPlanTask' },
-    { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting' },
-    { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model' },
-    { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation' },
-    { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas' }
-  ]
-  // 工作台看板模拟数据
-  export default {
-    name: 'Monitor',
-    mixins: [mixin, mixinDevice],
-    data () {
-      return {
-        loaded: false,
-        headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
-        fontSize: { fontSize: '52px' },
-        resourceSize: '',
-        visible: false,
-        layout: layoutCards,
-        cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
-        myChatPanelIsShow: false,
-        searchWindowIsShow: false,
-        hisGridI: -1,
-        curBox: '',
-        tree: {
-          title: '',
-          key: '0',
-          head: '',
-          selectStatus: false,
-          children: [
-            {
-              title: '科工二院一部（20）',
-              key: '0-0',
-              head: '',
-              selectStatus: false,
-              children: [
-                {
-                  key: '0-0-0',
-                  title: '旺仔研究员1',
-                  head: require('@/assets/sjs.jpg'),
-                  selectStatus: false
-                },
-                {
-                  title: '旺仔研究员2',
-                  key: '0-0-1',
-                  head: require('@/assets/sjs.jpg'),
-                  selectStatus: false
-                }
-              ]
-            },
-            {
-              title: '科工二院二部（20）',
-              key: '0-1',
-              head: '',
-              selectStatus: false,
-              children: [
-                {
-                  title: '策划部（20）',
-                  key: '0-1-0',
-                  head: '',
-                  selectStatus: false,
-                  children: [
-                    {
-                      title: '策划部一分部（10）',
-                      key: '0-1-0-2',
-                      head: '',
-                      selectStatus: false,
-                      children: [
-                        {
-                          title: '旺仔研究员3',
-                          key: '0-1-0-2-0',
-                          head: require('@/assets/sjs.jpg'),
-                          selectStatus: false
-                        },
-                        {
-                          title: '旺仔研究员4',
-                          key: '0-1-0-2-1',
-                          head: require('@/assets/sjs.jpg'),
-                          selectStatus: false
-                        },
-                        {
-                          title: '旺仔研究员5',
-                          key: '0-1-0-2-2',
-                          head: require('@/assets/sjs.jpg'),
-                          selectStatus: false
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        monitor: {},
-        link: {
-          content: [
-            {
-              img: require('@/assets/links/abaqus.png')
-            },
-            {
-              img: require('@/assets/links/actran.png')
-            },
-            {
-              img: require('@/assets/links/adams.png')
-            },
-            {
-              img: require('@/assets/links/ansoft.png')
-            },
-            {
-              img: require('@/assets/links/ansys.png')
-            },
-            {
-              img: require('@/assets/links/Arbortext.png')
-            },
-            {
-              img: require('@/assets/links/e3.png')
-            },
-            {
-              img: require('@/assets/links/esi.png')
-            },
-            {
-              img: require('@/assets/links/fluent.png')
-            },
-            {
-              img: require('@/assets/links/Hypermesh.png')
-            },
-            {
-              img: require('@/assets/links/hyperworks.png')
-            },
-            {
-              img: require('@/assets/links/isight.png')
-            },
-            {
-              img: require('@/assets/links/matlab.png')
-            },
-            {
-              img: require('@/assets/links/msc.png')
-            },
-            {
-              img: require('@/assets/links/optistruct.png')
-            },
-            {
-              img: require('@/assets/links/pointwise.png')
-            },
-            {
-              img: require('@/assets/links/proe.png')
-            },
-            {
-              img: require('@/assets/links/spw.png')
-            },
-            {
-              img: require('@/assets/links/TSV.png')
-            },
-            {
-              img: require('@/assets/links/virtools.png')
-            }
-          ],
-          total: 20
+]
+var historyLayout = [
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todoPlanTask' },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting' },
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model' },
+  { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation' },
+  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas' }
+]
+// 工作台看板模拟数据
+export default {
+  name: 'Monitor',
+  mixins: [mixin, mixinDevice],
+  data () {
+    return {
+      loaded: false,
+      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      fontSize: { fontSize: '52px' },
+      resourceSize: '',
+      visible: false,
+      layout: layoutCards,
+      cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
+      myChatPanelIsShow: false,
+      searchWindowIsShow: false,
+      hisGridI: -1,
+      curBox: '',
+      tree: {
+        title: '',
+        key: '0',
+        head: '',
+        selectStatus: false,
+        children: [
+          {
+            title: '科工二院一部（20）',
+            key: '0-0',
+            head: '',
+            selectStatus: false,
+            children: [
+              {
+                key: '0-0-0',
+                title: '旺仔研究员1',
+                head: require('@/assets/sjs.jpg'),
+                selectStatus: false
+              },
+              {
+                title: '旺仔研究员2',
+                key: '0-0-1',
+                head: require('@/assets/sjs.jpg'),
+                selectStatus: false
+              }
+            ]
+          },
+          {
+            title: '科工二院二部（20）',
+            key: '0-1',
+            head: '',
+            selectStatus: false,
+            children: [
+              {
+                title: '策划部（20）',
+                key: '0-1-0',
+                head: '',
+                selectStatus: false,
+                children: [
+                  {
+                    title: '策划部一分部（10）',
+                    key: '0-1-0-2',
+                    head: '',
+                    selectStatus: false,
+                    children: [
+                      {
+                        title: '旺仔研究员3',
+                        key: '0-1-0-2-0',
+                        head: require('@/assets/sjs.jpg'),
+                        selectStatus: false
+                      },
+                      {
+                        title: '旺仔研究员4',
+                        key: '0-1-0-2-1',
+                        head: require('@/assets/sjs.jpg'),
+                        selectStatus: false
+                      },
+                      {
+                        title: '旺仔研究员5',
+                        key: '0-1-0-2-2',
+                        head: require('@/assets/sjs.jpg'),
+                        selectStatus: false
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      monitor: {},
+      link: {
+        content: [
+          {
+            img: require('@/assets/links/abaqus.png')
+          },
+          {
+            img: require('@/assets/links/actran.png')
+          },
+          {
+            img: require('@/assets/links/adams.png')
+          },
+          {
+            img: require('@/assets/links/ansoft.png')
+          },
+          {
+            img: require('@/assets/links/ansys.png')
+          },
+          {
+            img: require('@/assets/links/Arbortext.png')
+          },
+          {
+            img: require('@/assets/links/e3.png')
+          },
+          {
+            img: require('@/assets/links/esi.png')
+          },
+          {
+            img: require('@/assets/links/fluent.png')
+          },
+          {
+            img: require('@/assets/links/Hypermesh.png')
+          },
+          {
+            img: require('@/assets/links/hyperworks.png')
+          },
+          {
+            img: require('@/assets/links/isight.png')
+          },
+          {
+            img: require('@/assets/links/matlab.png')
+          },
+          {
+            img: require('@/assets/links/msc.png')
+          },
+          {
+            img: require('@/assets/links/optistruct.png')
+          },
+          {
+            img: require('@/assets/links/pointwise.png')
+          },
+          {
+            img: require('@/assets/links/proe.png')
+          },
+          {
+            img: require('@/assets/links/spw.png')
+          },
+          {
+            img: require('@/assets/links/TSV.png')
+          },
+          {
+            img: require('@/assets/links/virtools.png')
+          }
+        ],
+        total: 20
+      }
+      // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
+    }
+  },
+  components: {
+    Discuss,
+    Meeting,
+    ResourceKnowledgeModel,
+    LinkFooter,
+    FooterToolBar,
+    MyChatPanel,
+    Simulation,
+    // plan,
+    // task,
+    TodoPlanTask,
+    Datas,
+    Stat,
+    Calendar,
+    PDMTDM,
+    Tool,
+    HotNewsWindows,
+    HotNews,
+    NewsWindow,
+    // TreeCustom,
+    // Container,
+    // Draggable,
+    GridLayout: VueGridLayout.GridLayout,
+    GridItem: VueGridLayout.GridItem,
+    //    meeting,
+    //    todo,
+    SearchWindow,
+    SettingDrawer
+  },
+  created () {
+    this.fetchMonitor()
+  },
+  mounted () {
+
+  },
+  methods: {
+    fetchMonitor () {
+      const vm = this
+      MonitorData([]).then(data => {
+        vm.monitor = Object.assign({}, data.data)
+        vm.loaded = true
+        console.log('vm.monitor', vm.monitor)
+      })
+    },
+    // onDrop (dropResult) {
+    //   this.items = applyDrag(this.items, dropResult)
+    // }
+    openMyChatPanel () {
+      this.myChatPanelIsShow = true
+    },
+    closeMyChatPanel () {
+      this.myChatPanelIsShow = false
+    },
+    openSearchWindow () {
+      this.searchWindowIsShow = true
+    },
+    closeSearchWindow () {
+      this.searchWindowIsShow = false
+    },
+    searchAndChangeSelectStatus (obj, key, status) {
+      const keyValue = key
+      const statusValue = status
+      if (obj && obj.key === key) {
+        obj.selectStatus = status
+      }
+      if (obj && obj.key !== key) {
+        if (obj.children) {
+          obj.children.forEach(item => {
+            this.searchAndChangeSelectStatus(item, keyValue, statusValue)
+          })
         }
-        // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
       }
     },
-    components: {
-      Discuss,
-      Meeting,
-      ResourceKnowledgeModel,
-      LinkFooter,
-      FooterToolBar,
-      MyChatPanel,
-      Simulation,
-      // plan,
-      // task,
-      TodoPlanTask,
-      Datas,
-      Stat,
-      Calendar,
-      PDMTDM,
-      Tool,
-      HotNewsWindows,
-      HotNews,
-      NewsWindow,
-      // TreeCustom,
-      // Container,
-      // Draggable,
-      GridLayout: VueGridLayout.GridLayout,
-      GridItem: VueGridLayout.GridItem,
-      //    meeting,
-      //    todo,
-      SearchWindow,
-      SettingDrawer
+    showChatPanel (param) {
+      this.$refs.chatPanel.showChat(param)
+      console.log('param:', param)
     },
-    created () {
-      this.fetchMonitor()
-    },
-    mounted () {
-
-    },
-    methods: {
-      fetchMonitor () {
-        const vm = this
-        MonitorData([]).then(data => {
-          vm.monitor = Object.assign({}, data.data)
-          vm.loaded = true
-          console.log('vm.monitor', vm.monitor)
-        })
-      },
-      // onDrop (dropResult) {
-      //   this.items = applyDrag(this.items, dropResult)
-      // }
-      openMyChatPanel () {
-        this.myChatPanelIsShow = true
-      },
-      closeMyChatPanel () {
-        this.myChatPanelIsShow = false
-      },
-      openSearchWindow () {
-        this.searchWindowIsShow = true
-      },
-      closeSearchWindow () {
-        this.searchWindowIsShow = false
-      },
-      searchAndChangeSelectStatus (obj, key, status) {
-        const keyValue = key
-        const statusValue = status
-        if (obj && obj.key === key) {
-          obj.selectStatus = status
-        }
-        if (obj && obj.key !== key) {
-          if (obj.children) {
-            obj.children.forEach(item => {
-              this.searchAndChangeSelectStatus(item, keyValue, statusValue)
-            })
-          }
-        }
-      },
-      showChatPanel (param) {
-        this.$refs.chatPanel.showChat(param)
-        console.log('param:', param)
-      },
-      /*
+    /*
       * 移动方法
       * */
-      watchitem: function (item) {
-        if (this.curBox !== item.i) {
-          for (let j = 0; historyLayout[j] !== undefined; j++) {
-            if (historyLayout[j].i === item.i) {
-              item.x = historyLayout[j].x
-              item.y = historyLayout[j].y
-            }
+    watchitem: function (item) {
+      if (this.curBox !== item.i) {
+        for (let j = 0; historyLayout[j] !== undefined; j++) {
+          if (historyLayout[j].i === item.i) {
+            item.x = historyLayout[j].x
+            item.y = historyLayout[j].y
           }
         }
-        return item
-      },
-      toChangePosition: function (i) {
-        const layout = this.layout
-        const hisLayout = historyLayout
-        for (let j = 0; j < layout.length; j++) {
-          if (layout[j].i === i) {
-            const item = layout[j] // 最新数组
-            for (let k = 0; k < hisLayout.length; k++) {
-              if (hisLayout[k].i === i) {
-                const hisItem = hisLayout[k]
-                const beforeX = hisItem.x
-                const beforeY = hisItem.y
-                for (let n = 0; n < hisLayout.length; n++) {
-                  if (item.x === hisLayout[n].x && item.y === hisLayout[n].y) {
-                    this.hisGridI = hisLayout[n].i
-                    layout[this.hisGridI].x = beforeX
-                    layout[this.hisGridI].y = beforeY
-                    hisLayout[n].x = layout[this.hisGridI].x
-                    hisLayout[n].y = layout[this.hisGridI].y
-                  }
-                }
-                // const beforeX = hisItem.x
-                // const beforeY = hisItem.y
-                // const afterX = item.x
-                // const afterY = item.y
-                hisItem.x = item.x
-                hisItem.y = item.y
-              }
-            }
-          }
-        }
-      },
-      moveEvent: function (i, newX, newY, e) {
-        // this.curBox = i
-        // console.log(e)
-        console.log('MOVE i=' + i + ', X=' + newX + ', Y=' + newY)
-      },
-      movedEvent: function (i, newX, newY, e) {
-        this.toChangePosition(i)
-        // console.log(e)
-        console.log('MOVED i=' + i + ', X=' + newX + ', Y=' + newY)
-      },
-      resizeEvent: function (i, newH, newW, newHPx, newWPx) {
-        console.log('RESIZE i=' + i + ', H=' + newH + ', W=' + newW + ', H(px)=' + newHPx + ', W(px)=' + newWPx)
-        this.resourceSize.resize()
-        // if (i === '2') {
-        //   this.cardSize.minW = 4
-        // }
-        // if (i === '4') {
-        //   this.cardSize.minW = 4
-        // }
-        // if (i === '6') {
-        //   this.cardSize.minW = 12
-        // }
-        // if (i === '9') {
-        //   this.cardSize.minW = 12
-        // }
-      },
-      myChartSize (data) {
-        console.log(data)
-        this.resourceSize = data
       }
+      return item
+    },
+    toChangePosition: function (i) {
+      const layout = this.layout
+      const hisLayout = historyLayout
+      for (let j = 0; j < layout.length; j++) {
+        if (layout[j].i === i) {
+          const item = layout[j] // 最新数组
+          for (let k = 0; k < hisLayout.length; k++) {
+            if (hisLayout[k].i === i) {
+              const hisItem = hisLayout[k]
+              const beforeX = hisItem.x
+              const beforeY = hisItem.y
+              for (let n = 0; n < hisLayout.length; n++) {
+                if (item.x === hisLayout[n].x && item.y === hisLayout[n].y) {
+                  this.hisGridI = hisLayout[n].i
+                  layout[this.hisGridI].x = beforeX
+                  layout[this.hisGridI].y = beforeY
+                  hisLayout[n].x = layout[this.hisGridI].x
+                  hisLayout[n].y = layout[this.hisGridI].y
+                }
+              }
+              // const beforeX = hisItem.x
+              // const beforeY = hisItem.y
+              // const afterX = item.x
+              // const afterY = item.y
+              hisItem.x = item.x
+              hisItem.y = item.y
+            }
+          }
+        }
+      }
+    },
+    moveEvent: function (i, newX, newY, e) {
+      // this.curBox = i
+      // console.log(e)
+      console.log('MOVE i=' + i + ', X=' + newX + ', Y=' + newY)
+    },
+    movedEvent: function (i, newX, newY, e) {
+      this.toChangePosition(i)
+      // console.log(e)
+      console.log('MOVED i=' + i + ', X=' + newX + ', Y=' + newY)
+    },
+    resizeEvent: function (i, newH, newW, newHPx, newWPx) {
+      console.log('RESIZE i=' + i + ', H=' + newH + ', W=' + newW + ', H(px)=' + newHPx + ', W(px)=' + newWPx)
+      this.resourceSize.resize()
+      // if (i === '2') {
+      //   this.cardSize.minW = 4
+      // }
+      // if (i === '4') {
+      //   this.cardSize.minW = 4
+      // }
+      // if (i === '6') {
+      //   this.cardSize.minW = 12
+      // }
+      // if (i === '9') {
+      //   this.cardSize.minW = 12
+      // }
+    },
+    myChartSize (data) {
+      console.log(data)
+      this.resourceSize = data
     }
   }
+}
 </script>
 
 <style lang="less" scoped>
