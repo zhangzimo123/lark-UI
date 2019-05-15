@@ -39,7 +39,7 @@ div.ant-card-body{
   /*overflow:auto;*/
   width: 100%;
   /*overflow-x:scroll;*/
-  overflow-y:scroll;
+  /*overflow-y:scroll;*/
   height: 100px;
   /*background-color: blue;*/
   padding-bottom: 28px;
