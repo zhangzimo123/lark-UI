@@ -5,19 +5,19 @@ import RecentContactsItem from './RecentContactsItem'
 import Contacts from './Contacts'
 import ContactsInfo from './ContactsInfo'
 import Face from './Face'
-import Groups from './Groups'
+import GroupItem from './GroupItem'
 import GroupInfo from './GroupInfo'
-import ContactsItem from './ContactsItem'
 
 export {
   MemberBox,
   TalkSetting,
   Chat,
-  RecentContactsItem,
-  Contacts,
-  ContactsItem,
-  ContactsInfo,
   Face,
-  Groups,
-  GroupInfo
+
+  RecentContactsItem,
+  GroupItem,
+  Contacts,
+
+  GroupInfo,
+  ContactsInfo
 }

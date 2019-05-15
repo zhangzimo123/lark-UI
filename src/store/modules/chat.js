@@ -1,6 +1,8 @@
 import modules from './conf'
 import { Chat, ChatListUtils, MessageInfoType, MessageTargetType, transform } from '../../utils/talk/chatUtils'
 import conf from '@/api/index'
+import { getGroupList, getContactsTree } from '@/api/chat'
+
 const chat = {
   state: {
     // token: {},
@@ -19,18 +21,20 @@ const chat = {
     // 所有的研讨窗口(最近)
     chatList: [],
     // 好友列表(联系人)
-    userFriendList: [],
+    contactsTree: [],
     // 群组列表(群组)
     groupList: [],
     // 刷新token 的定时器
     flushTokenTimerId: null
   },
   mutations: {
-    SET_USER_FRIEND_LIST: function (state, userFriendList) {
-      state.userFriendList = userFriendList
+    /** modify -> jihainan */
+    SET_CONTACTS_TREE: function (state, contactsTree) {
+      state.contactsTree = contactsTree
     },
-    SET_GROUP_LIST: function (state, chatGroupList) {
-      state.chatGroupList = chatGroupList
+    /** modify -> jihainan */
+    SET_GROUP_LIST: function (state, groupList) {
+      state.groupList = groupList
     },
     SET_CHAT_MAP: function (state, chatMap) {
       state.chatMap = chatMap
@@ -171,6 +175,44 @@ const chat = {
     }
   },
   actions: {
+    /**
+     * get group list or refresh group list
+     * if anything affects group list, dispatch this action
+     * @author jihainan
+     */
+    GetGroupList ({ commit }) {
+      return new Promise((resolve, reject) => {
+        getGroupList().then(response => {
+          if (response.status === 200) {
+            commit('SET_GROUP_LIST', [ ...response.result.data ])
+          } else {
+            reject(new Error('getGroupList: 服务器发生错误!'))
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    /**
+     * 获取联系人树
+     * 当联系人数据被改变，dispatch这个方法
+     * @author jihainan
+     */
+    GetContactsTree ({ commit }) {
+      return new Promise((resolve, reject) => {
+        getContactsTree().then(response => {
+          if (response.status === 200) {
+            commit('SET_CONTACTS_TREE', [ ...response.result.data ])
+          } else {
+            reject(new Error('getContactsTree: 服务器发生错误!'))
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    }
   },
   modules,
   strict: process.env.NODE_ENV !== 'production'

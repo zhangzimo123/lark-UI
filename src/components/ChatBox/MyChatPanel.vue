@@ -87,15 +87,14 @@
         <member-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
       </a-layout>
       <a-modal
-        class="panel-block"
-        title="消息框"
+        class="discuss-block"
+        title=""
         :visible="isShowPanel"
         @cancel="handleCancel"
         :mask="false"
         centered
         :footer="null"
-        :maskClosable="false"
-        wrapClassName="panel-block-mask"
+        :closable="false"
       >
         <user-chat :chat="currentChat" @showChat="showChat"/>
       </a-modal>
@@ -531,10 +530,10 @@ export default {
     align-items: center;
     margin-top: 45px;
   }
-  .panel-block .ant-modal-body{
+  .discuss-block .ant-modal-body{
     padding: 0!important;
   }
-  .panel-block .ant-layout-content {
+  .discuss-block .ant-layout-content {
     height: 300px;
   }
   .panel-block .ant-modal-header{
@@ -551,11 +550,10 @@ export default {
   }
 
   .panel-block-mask{
-    width: 33.8%;
+    width: 38.8%;
     height: 76.7%;
     position: fixed;
-    left: 570px;
+    left: 488px;
     top: 125px;
   }
-
 </style>
