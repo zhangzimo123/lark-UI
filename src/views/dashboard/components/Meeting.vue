@@ -11,8 +11,8 @@
             <span style="color: #333333;font-weight:bold">
               {{ title }}
             </span>
+            <a href="#"><a-icon type="plus-circle" class="createMeetClass" title="创建会议" @click="createMeeting"/></a>
             <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
-            <a href="#"><a-icon type="plus-circle" class="createMeetClass" @click="createMeeting"/></a>
             <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
           </a-col>
         </a-row>
@@ -20,19 +20,26 @@
       <a-popover
         placement="left"
         slot="extra"
-        trigger="click">
+        trigger="hover">
         <template slot="content">
-          <a @click="$emit('remove')">移除卡片</a>
+          <a-row>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+            </a-col>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+            </a-col>
+          </a-row>
         </template>
         <a href="#">
-          <a-icon type="close" />
+          <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
       <div>
         <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
           <i class="ivu-tag-dot-inner"></i>
           <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
-          <span style="color: #666666" class="content-adpat" @click="visibleModal(row)" >{{row.name }}</span>
+          <span style="color: #666666" class="content-adpat" @click="visibleModal(row)" >{{ row.name }}</span>
           <span style="color: #999999" class="right">{{ row.date }}</span>
           <a-modal
             v-model="modal"
@@ -183,6 +190,7 @@ export default {
     margin-top: 5px;
     float: right;
     margin-right: 15px;
+    color: #516efc;
   }
   .ivu-tag-dot-inner {
     height: 6px;

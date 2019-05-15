@@ -19,10 +19,19 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <a @click="$emit('remove')">移除卡片</a>
+          <!--<a @click="$emit('remove')">移除卡片</a>-->
+          <a-row>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+            </a-col>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+            </a-col>
+          </a-row>
         </template>
         <a href="#">
-          <a-icon type="close" />
+          <!--<a-icon type="close" />-->
+          <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
       <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">

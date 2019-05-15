@@ -19,10 +19,19 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <a @click="$emit('remove')">移除卡片</a>
+          <!--<a @click="$emit('remove')">移除卡片</a>-->
+          <a-row>
+            <acol>
+              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+            </acol>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+            </a-col>
+          </a-row>
         </template>
         <a href="#">
-          <a-icon type="close" />
+          <!--<a-icon type="close" />-->
+          <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
       <div>
