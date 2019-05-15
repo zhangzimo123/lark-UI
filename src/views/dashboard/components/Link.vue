@@ -4,19 +4,6 @@
       <img class="link-ant-card-img" :src="item.img"/>
     </div>
   </div>
-  <!--<a-row :gutter="5" class="link-ant-row">-->
-    <!--<a-col :span="2" v-for="(item,index) in data.content" :key="'link-'+index">-->
-      <!--<a :href="item.link" target="_blank">-->
-        <!--<a-card hoverable class="link-ant-card">-->
-          <!--<img class="link-ant-card-img" slot="cover" :title="item.name" :src="item.img"/>-->
-          <!--<span>{{ item.name }}</span>-->
-        <!-- <a-card-meta :title="item.name" :description="item.description" style="backgrounp:blue;"> -->
-        <!-- <template slot="description">{{ item.description }}</template> -->
-        <!--&lt;!&ndash; </a-card-meta> &ndash;&gt;-->
-        <!--</a-card>-->
-      <!--</a>-->
-    <!--</a-col>-->
-  <!--</a-row>-->
 </template>
 <script>
 export default {
@@ -43,7 +30,7 @@ div.ant-card-body{
   /*height: 48px;*/
   /*float: left;*/
   /*height: 70px;*/
-  width: 70px;
+  width: 90px;
 
 }
 .link-ant-row{
