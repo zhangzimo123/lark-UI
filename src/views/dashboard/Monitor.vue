@@ -42,7 +42,7 @@
           </grid-item>
         </grid-layout>
         <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
-          <img class="myWorkShopIconImg" src="@/assets/sjs.jpg"/>
+          <img class="myWorkShopIconImg" src="@/assets/head-icon.png"/>
           <span class="myWorkShopIconTitle">我的研讨厅</span>
           <div class="myWorkShopIconInfoTip"></div>
         </div>
@@ -448,8 +448,8 @@ export default {
   }
   .myWorkShopIcon{
     position: fixed;
-    bottom: 36px;
-    right: 100px;
+    top: 10px;
+    right: 200px;
     z-index: 999;
     background: rgba(105,105,105,0.75);
     border-radius: 25px;

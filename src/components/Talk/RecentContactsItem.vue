@@ -148,8 +148,8 @@ export default {
 
   .unreadTip{
     position: absolute;
-    top: 0px;
-    right: 46px;
+    top: -2px;
+    left: 30px;
     width:20px;
     height:20px;
     background:rgba(232,0,0,1);

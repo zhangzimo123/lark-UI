@@ -398,7 +398,7 @@ export default {
  }
 .box-panel{
   /*height: calc(100% - 50px);*/
-  height: 405px;
+  height: 480px;
   background-color: white;
 }
 .description{
