@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%;" >
+  <div class="work-surface" >
     <a-spin :spinning="loaded === false" size="large">
       <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
       <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" >
@@ -427,6 +427,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .work-surface {
+    margin: -24px -24px 0px;
+    // height: calc(100vh - 136px)!important;
+    // overflow-y: overlay;
+    // overflow-x: hidden;
+  }
   .antd-pro-pages-dashboard-analysis-twoColLayout {
     position: relative;
     display: flex;
