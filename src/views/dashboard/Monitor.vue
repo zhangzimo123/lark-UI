@@ -1,63 +1,64 @@
 <template>
   <div style="height: 100%;" >
-    <a-spin :spinning="loaded === false" size="large">
-      <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
-      <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" style="margin: -20px">
-        <grid-layout
-          :layout.sync="layout"
-          :col-num="12"
-          :row-height="52"
-          :max-rows="12"
-          :is-draggable="true"
-          :is-resizable="true"
-          :is-mirrored="false"
-          :vertical-compact="true"
-          :margin="[10, 10]"
-          :use-css-transforms="true"
-        >
-          <grid-item
-            v-for="grid in layout"
-            v-if="grid.show"
-            dragIgnoreFrom=".ant-card-body"
-            :minH="cardSize.minH"
-            :maxH="cardSize.maxH"
-            :minW="grid.minW"
-            :key="grid.id"
-            :x="grid.x"
-            :y="grid.y"
-            :w="grid.w"
-            :h="grid.h"
-            :i="grid.i"
-            @move="moveEvent"
-            @moved="movedEvent"
-            @resize="resizeEvent"
-          >
-            <div
-              :is="grid.is"
-              :headStyle="headStyle"
-              :data="monitor[grid.is]"
-              @myChartSize="myChartSize"
-              @showChatPanel="showChatPanel"
-              @remove="grid.show=false"/>
-          </grid-item>
-        </grid-layout>
-        <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
-          <img class="myWorkShopIconImg" src="@/assets/head-icon.png"/>
-          <span class="myWorkShopIconTitle">我的研讨厅</span>
-          <div class="myWorkShopIconInfoTip"></div>
-        </div>
-      </div>
-      <!--这个地方放置最近访问-->
-      <footer-tool-bar v-if="loaded" :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-        <link-footer :data="link" />
-      </footer-tool-bar>
-      <div>
-        <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
-        <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
-      </div>
-      <setting-drawer :layout="layout" />
+    <a-spin :spinning="loaded === false" size="large" style="margin-top: 25%;margin-left: 50%" >
     </a-spin>
-  </div>
+    <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
+    <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" style="margin: -20px">
+      <grid-layout
+        :layout.sync="layout"
+        :col-num="12"
+        :row-height="52"
+        :max-rows="12"
+        :is-draggable="true"
+        :is-resizable="true"
+        :is-mirrored="false"
+        :vertical-compact="true"
+        :margin="[10, 10]"
+        :use-css-transforms="true"
+      >
+        <grid-item
+          v-for="grid in layout"
+          v-if="grid.show"
+          dragIgnoreFrom=".ant-card-body"
+          :minH="cardSize.minH"
+          :maxH="cardSize.maxH"
+          :minW="grid.minW"
+          :key="grid.id"
+          :x="grid.x"
+          :y="grid.y"
+          :w="grid.w"
+          :h="grid.h"
+          :i="grid.i"
+          @move="moveEvent"
+          @moved="movedEvent"
+          @resize="resizeEvent"
+        >
+          <div
+            :is="grid.is"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false"/>
+        </grid-item>
+      </grid-layout>
+      <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
+        <img class="myWorkShopIconImg" src="@/assets/head-icon.png"/>
+        <span class="myWorkShopIconTitle">我的研讨厅</span>
+        <div class="myWorkShopIconInfoTip"></div>
+      </div>
+    </div>
+    <!--这个地方放置最近访问-->
+    <footer-tool-bar v-if="loaded" :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
+      <link-footer :data="link" />
+    </footer-tool-bar>
+    <div>
+      <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
+      <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
+    </div>
+    <setting-drawer :layout="layout" />
+
+    </a-spin></div>
 </template>
 
 <script>
