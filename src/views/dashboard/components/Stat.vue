@@ -15,15 +15,15 @@
         </a-row>
       </div>
       <!--<a-popover-->
-        <!--placement="left"-->
-        <!--slot="extra"-->
-        <!--trigger="click">-->
-        <!--<template slot="content">-->
-          <!--<a @click="$emit('remove')">移除卡片</a>-->
-        <!--</template>-->
-        <!--<a href="#">-->
-          <!--<a-icon type="close" />-->
-        <!--</a>-->
+      <!--placement="left"-->
+      <!--slot="extra"-->
+      <!--trigger="click">-->
+      <!--<template slot="content">-->
+      <!--<a @click="$emit('remove')">移除卡片</a>-->
+      <!--</template>-->
+      <!--<a href="#">-->
+      <!--<a-icon type="close" />-->
+      <!--</a>-->
       <!--</a-popover>-->
       <a-popover
         placement="left"
