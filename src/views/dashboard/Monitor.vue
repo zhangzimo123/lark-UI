@@ -32,6 +32,7 @@
           @move="moveEvent"
           @moved="movedEvent"
           @resize="resizeEvent"
+          @changeLayout="changeLayout"
         >
           <div
             :is="grid.is"
@@ -42,10 +43,14 @@
             @remove="grid.show=false"/>
         </grid-item>
       </grid-layout>
-      <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
+      <div class="myWorkSetButton">
+        <a-button @click="this.toggle">设置</a-button>
+      </div>
+      <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">-->
+      <div class="myWorkShopIcon" @click="this.openMyChatPanel">
         <img class="myWorkShopIconImg" src="@/assets/head-icon.png"/>
-        <span class="myWorkShopIconTitle">我的研讨厅</span>
-        <div class="myWorkShopIconInfoTip"></div>
+        <!--<span class="myWorkShopIconTitle">我的研讨厅</span>-->
+        <!--<div class="myWorkShopIconInfoTip"></div>-->
       </div>
     </div>
     <!--这个地方放置最近访问-->
@@ -56,7 +61,7 @@
       <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
       <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
     </div>
-    <setting-drawer :layout="layout" />
+    <setting-drawer :layout="layout" :visible="settingDrawerVisible"  @closeToggle="closeToggle"/>
 
     </a-spin></div>
 </template>
@@ -126,6 +131,7 @@ export default {
       fontSize: { fontSize: '52px' },
       resourceSize: '',
       visible: false,
+      settingDrawerVisible: false,
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
       myChatPanelIsShow: false,
@@ -319,7 +325,14 @@ export default {
     //   this.items = applyDrag(this.items, dropResult)
     // }
     openMyChatPanel () {
-      this.myChatPanelIsShow = true
+    // this.myChatPanelIsShow = true
+      this.myChatPanelIsShow = !this.myChatPanelIsShow
+    },
+    toggle () {
+      this.settingDrawerVisible = true
+    },
+    closeToggle () {
+      this.settingDrawerVisible = false
     },
     closeMyChatPanel () {
       this.myChatPanelIsShow = false
@@ -422,6 +435,9 @@ export default {
     myChartSize (data) {
       console.log(data)
       this.resourceSize = data
+    },
+    changeLayout (index, flag){
+      this.layout[index].show = flag
     }
   }
 }
@@ -449,14 +465,20 @@ export default {
   }
   .myWorkShopIcon{
     position: fixed;
-    top: 10px;
+    top: 15px;
     right: 200px;
     z-index: 999;
-    background: rgba(105,105,105,0.75);
+    /*background: rgba(105,105,105,0.75);*/
     border-radius: 25px;
     display: flex;
     align-items: center;
-    padding: 5px 18px 5px 5px;
+    /*padding: 5px 18px 5px 5px;*/
+  }
+  .myWorkSetButton{
+    position: fixed;
+    top: 16px;
+    right: 250px;
+    z-index: 999;
   }
   .myWorkShopIconImg{
     width: 32px;
