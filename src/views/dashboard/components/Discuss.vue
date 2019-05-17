@@ -19,10 +19,10 @@
           placement="left"
           trigger="click">
           <template slot="content">
-            <a @click="$emit('remove')">移除卡片</a>
+            <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
           </template>
           <a class="right" href="#">
-            <a-icon type="close" />
+            <a-icon type="close" style="color: #516efc"/>
           </a>
         </a-popover>
       </div>
