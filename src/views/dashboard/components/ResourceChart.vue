@@ -5,9 +5,12 @@
 </template>
 <script>
 import echarts from 'echarts'
-// import { ResourceStat } from '@/api/resource'
-
 export default {
+  data () {
+    return {
+      myChart: ''
+    }
+  },
   props: {
     data: {
       type: Object,
@@ -18,20 +21,14 @@ export default {
       default: null
     }
   },
-  data () {
-    return {
-      myChart: ''
-    }
-  },
   mounted () {
-    // this.fetchData()
     setTimeout(this.showChart, 100)
   },
   methods: {
     showChart () {
       /* ECharts图表 */
-      var bardata = this.data.content
       this.myChart = echarts.init(document.getElementById('chartDiv'))
+      var bardata = this.data.content
       this.myChart.setOption({
         title: {
           text: '资源占比统计',

@@ -1,28 +1,6 @@
 <template>
   <div style="height:205px;overflow-y:auto">
-    <!--<a-card-->
-    <!--:headStyle="headStyle"-->
-    <!--:bordered="true"-->
-    <!--:style="{ minHeight: '300px'}">-->
-    <!--<div slot="title">-->
-    <!--<a-row>-->
-    <!--<a-col>-->
-    <!--{{ title }}-->
-    <!--</a-col>-->
-    <!--</a-row>-->
-    <!--</div>-->
-    <!--<a-popover-->
-    <!--placement="left"-->
-    <!--slot="extra"-->
-    <!--trigger="click">-->
-    <!--<template slot="content">-->
-    <!--<a>移除卡片</a>-->
-    <!--</template>-->
-    <!--<a href="#">-->
-    <!--<a-icon type="tool"/>-->
-    <!--</a>-->
-    <!--</a-popover>-->
-    <a-row class="row-magin" v-for="(row,index) in list" :key="'item'+index">
+    <a-row class="row-magin" v-for="(row,index) in showList" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
       <span @click="visibleModal(row)" class="content-adpat" style="color: #666666">{{ row.name }}</span>
@@ -36,12 +14,17 @@
         </a-row>
       </a-modal>
     </a-row>
-    <!--</a-card>-->
   </div>
 </template>
 <script>
-import { taskData } from '@/api/task'
+
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   components: {},
   data () {
     return {
@@ -56,19 +39,20 @@ export default {
       ],
       typeMap: { 'type-1': {} },
       modal: false,
-      rowDetails: '',
-      list: []
+      rowDetails: ''
     }
   },
   created () {
     this.setStatusMap()
-    this.fetchTask()
   },
   computed: {
     showTypeArray () {
       return this.typeArray.filter(item => {
         return item.show
       })
+    },
+    showList () {
+      return this.data.content.slice(0, 5)
     }
   },
   methods: {
@@ -102,11 +86,6 @@ export default {
     visibleModal (row) {
       this.modal = true
       this.rowDetails = row
-    },
-    fetchTask () {
-      taskData().then(data => {
-        this.list = data.task.content.slice(0, 5)
-      })
     }
   }
 }

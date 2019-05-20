@@ -34,13 +34,86 @@
           @resize="resizeEvent"
           @changeLayout="changeLayout"
         >
-          <div
-            :is="grid.is"
+          <Discuss
+            v-if="grid.is==='discuss'"
             :headStyle="headStyle"
             :data="monitor[grid.is]"
             @myChartSize="myChartSize"
             @showChatPanel="showChatPanel"
-            @remove="grid.show=false"/>
+            @remove="grid.show=false">
+          </Discuss>
+          <TodoPlanTask
+            v-if="grid.is==='todo-plan-task'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </TodoPlanTask>
+          <Meeting
+            v-if="grid.is==='meeting'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </Meeting>
+          <ResourceKnowledgeModel
+            v-if="grid.is==='resource-knowledge-model'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </ResourceKnowledgeModel>
+          <Simulation
+            v-if="grid.is==='simulation'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </Simulation>
+          <Datas
+            v-if="grid.is==='datas'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </Datas>
+          <stat
+            v-if="grid.is==='stat'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </stat>
+          <PDMTDM
+            v-if="grid.is==='PDMTDM'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </PDMTDM>
+          <tool
+            v-if="grid.is==='tool'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </tool>
+          <HotNewsWindows
+            v-if="grid.is==='HotNewsWindows'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </HotNewsWindows>
         </grid-item>
       </grid-layout>
       <div class="myWorkSetButton">
@@ -61,9 +134,8 @@
       <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
       <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
     </div>
-    <setting-drawer :layout="layout" :visible="settingDrawerVisible"  @closeToggle="closeToggle"/>
-
-    </a-spin></div>
+    <setting-drawer :layout="layout" :visible="settingDrawerVisible" @closeToggle="closeToggle"/>
+  </div>
 </template>
 
 <script>
@@ -72,9 +144,6 @@ import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
 import MyChatPanel from '@/components/ChatBox/MyChatPanel'
 import SearchWindow from '@/components/ChatBox/SearchWindow'
-// import TreeCustom from '@/components/ChatBox/TreeCustom'
-// import { Container, Draggable } from 'vue-smooth-dnd'
-// import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
 import Discuss from './components/Discuss.vue'
 import Meeting from './components/Meeting'
@@ -89,8 +158,6 @@ import Tool from './components/Tool.vue'
 import HotNewsWindows from './components/HotNewsWindows'
 import HotNews from './components/HotNewsWindows/HotNews'
 import NewsWindow from './components/HotNewsWindows/NewsWindow'
-// import plan from './components/Plan'
-// import task from './components/Task'
 import LinkFooter from './components/Link.vue'
 
 import SettingDrawer from './components/SettingDrawer.vue'
@@ -104,11 +171,11 @@ var layoutCards = [
   { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false, minW: 4 },
   { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 3 },
   { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '6', 'title': '统计板', is: 'stat', show: false, minW: 12 },
-  { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: false, limit: true },
-  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'Tool', show: false, limit: true },
+  { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: true, minW: 3 },
+  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'tool', show: false, minW: 6 },
   // { 'x': 0, 'y': 25, 'w': 6, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNews', show: false },
   // { 'x': 6, 'y': 25, 'w': 6, 'h': 5, 'i': '10', 'title': '咨讯窗', is: 'NewsWindow', show: false }
-  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false, minW: 12 }
+  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: true, minW: 12 }
   // { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
 
 ]
@@ -436,7 +503,7 @@ export default {
       console.log(data)
       this.resourceSize = data
     },
-    changeLayout (index, flag){
+    changeLayout (index, flag) {
       this.layout[index].show = flag
     }
   }

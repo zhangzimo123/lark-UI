@@ -20,7 +20,6 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <!--<a @click="$emit('remove')">移除卡片</a>-->
           <a-row>
             <a-col>
               <a @click="$emit('remove')" style="color: #516efc">更多</a>
@@ -31,7 +30,6 @@
           </a-row>
         </template>
         <a href="#">
-          <!--<a-icon type="close" />-->
           <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
@@ -42,13 +40,18 @@
   </div>
 </template>
 <script>
-import { getMyTools, getHotTools, getLatestTools } from '../../../api/tool'
 import CategoryTools from '../category-tools'
 import AppCard from '../app-card'
 export default {
   components: {
     CategoryTools,
     AppCard
+  },
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
   },
   data () {
     return {
@@ -64,36 +67,17 @@ export default {
       list: []
     }
   },
-  created () {
-    this.fetchData(1)
-  },
   computed: {
     cardList () {
-      return this.list.filter((item, index) => { return index < 8 })
+      return this.data.content.filter((item, index) => { return item.type === this.selectedType }).slice(0, 8)
     }
   },
   methods: {
     fetchData (type) {
-      switch (type) {
-        case 1: {
-          getMyTools().then(this.loadData)
-          break
-        }
-        case 2: {
-          getHotTools().then(this.loadData)
-          break
-        }
-        case 3: {
-          getLatestTools().then(this.loadData)
-          break
-        }
-      }
+      this.selectedType = type
     },
     loadData (result) {
       this.list = [].concat(result.content)
-    },
-    toolAll () {
-      this.$router.push({ path: '/tool' })
     }
   }
 }

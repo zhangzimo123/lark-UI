@@ -1,63 +1,22 @@
 <template>
-  <!--<a-card-->
-  <!--title="资源池"-->
-  <!--:headStyle="headStyle"-->
-  <!--:loading="loading"-->
-  <!--:bordered="true"-->
-  <!--:style="{ minHeight: '300px' }">-->
-  <!--<a-row slot="extra" style="width:450px;">-->
-  <!--<a-col :span="20">-->
-  <!--<a-radio-group v-model="selectedType" size="small" @change="fetchData">-->
-  <!--<a-radio-button :value="0">全部</a-radio-button>-->
-  <!--<a-radio-button :value="1">工具资源</a-radio-button>-->
-  <!--<a-radio-button :value="2">人员资源</a-radio-button>-->
-  <!--<a-radio-button :value="3">其他</a-radio-button>-->
-  <!--</a-radio-group>-->
-  <!--</a-col>-->
-  <!--<a-col :span="4">-->
-  <!--<a-popover-->
-  <!--placement="left"-->
-  <!--trigger="click">-->
-  <!--<template slot="content">-->
-  <!--<a>移除卡片</a>-->
-  <!--</template>-->
-  <!--<a href="#" class="right"><a-icon type="tool" /></a>-->
-  <!--</a-popover>-->
-  <!--</a-col>-->
-  <!--</a-row>-->
   <div style="height:205px;overflow-y:auto;overflow-x: hidden">
     <a-row type="flex" :gutter="10" v-if="selectedType === 0">
-      <a-col :span="14">
-        <resource-chart :data="list.stat" :chartStyle="chartStyle" @myChart="myChart"/>
+      <a-col :span="16">
+        <resource-chart :data="data.stat" :chartStyle="chartStyle" @myChart="myChart"/>
       </a-col>
-      <a-col :span="10">
+      <a-col :span="8">
         <span class="ant-card-body-title" style="color: #666666">计算资源列表</span>
-        <a-row v-for="(row,index) in list.list.content" :key="'item'+index">
+        <a-row v-for="(row,index) in showList" :key="'item'+index">
           <i class="ivu-tag-dot-inner" ></i>
-          <span class="resource-list content-adpat" style="color: #999999">{{ row.name }}</span>
+          <span class="content-adpat" style="color: #999999">{{ row.name }}</span>
         </a-row>
       </a-col>
     </a-row>
   </div>
-  <!--<a-row :gutter="5" v-else>-->
-  <!--<a-col :span="8" v-for="(item,index) in list" :key="'col-item-'+index">-->
-  <!--<a-card>-->
-  <!--<div style="height:60px;text-align:center;">-->
-  <!--<img :src="item.img" style="max-width:60%;max-height:60px;">-->
-  <!--</div>-->
-  <!--<div style="text-align:center;">-->
-  <!--<span>{{ item.name | omit }}</span>-->
-  <!--</div>-->
-  <!--</a-card>-->
-  <!--</a-col>-->
-  <!--</a-row>-->
-  <!--</a-card>-->
 </template>
 <script>
-
 import TypeBar from './TypeBar.vue'
 import ResourceChart from './ResourceChart.vue'
-import { resourceData } from '@/api/resource'
 export default {
   props: {
     headStyle: {
@@ -67,6 +26,10 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    },
+    data: {
+      type: Object,
+      required: true
     }
   },
   components: {
@@ -82,8 +45,7 @@ export default {
         { type: 2, name: '人员资源', show: true },
         { type: 3, name: '其他', show: true }
       ],
-      size: 4,
-      list: []
+      size: 4
     }
   },
   filters: {
@@ -105,22 +67,18 @@ export default {
       return str.replace(/^(.{5})(.*)$/, '$1')
     }
   },
-  created () {
-    this.fetchResource()
+  computed: {
+    showList () {
+      return this.data.list.content.slice(0, 5)
+    }
   },
   methods: {
-    totalResource () {
-      this.$router.push({
-        path: '/total-resource'
-      })
-    },
     myChart (data) {
       this.$emit('myChart', data)
     },
-    fetchResource () {
-      const vm = this
-      resourceData().then(data => {
-        vm.list = data.resource
+    totalResource () {
+      this.$router.push({
+        path: '/total-resource'
       })
     }
   }

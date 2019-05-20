@@ -28,7 +28,6 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <!--<a @click="$emit('remove')">移除卡片</a>-->
           <a-row>
             <a-col>
               <a @click="$emit('remove')" style="color: #516efc">更多</a>
@@ -39,13 +38,12 @@
           </a-row>
         </template>
         <a href="#">
-          <!--<a-icon type="close" />-->
           <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
-      <div v-if="this.typeMap==0"><todo ></todo></div>
-      <div v-if="this.typeMap==1"><plan ></plan></div>
-      <div v-if="this.typeMap==2"><task ></task></div>
+      <div v-if="this.typeMap==0"><todo :data="data.todo"></todo></div>
+      <div v-if="this.typeMap==1"><plan :data="data.plan"></plan></div>
+      <div v-if="this.typeMap==2"><task :data="data.task"></task></div>
     </a-card>
   </div>
 </template>
@@ -55,6 +53,12 @@ import plan from './Plan'
 import task from './Task'
 
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       headStyle: { height: '52px', 'border-bottom': 'none' },

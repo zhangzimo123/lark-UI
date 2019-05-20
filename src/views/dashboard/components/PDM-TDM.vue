@@ -30,7 +30,6 @@
           </a-row>
         </template>
         <a href="#">
-          <!--<a-icon type="close" />-->
           <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
@@ -47,8 +46,13 @@
   </div>
 </template>
 <script>
-import { getPdmtdm } from '../../../api/pdmtdm'
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       title: 'PDM-TDM',
@@ -60,7 +64,7 @@ export default {
   components: {
 
   },
-  created () {
+  mounted () {
     this.fetchData()
   },
   computed: {
@@ -76,18 +80,8 @@ export default {
       return this.publicPath + 'images/index/' + icon + '.jpg'
     },
     fetchData () {
-      var vm = this
-      getPdmtdm().then((data) => {
-        console.log(data)
-        vm.list = [].concat(data.content.splice(0, 5))
-        console.log(data)
-      })
-    },
-    openLink (row) {
-
-    },
-    toManagerPage () {
-      this.$router.push({ path: '/data-manager' })
+      this.list = [].concat(this.data.content.splice(0, 5))
+      console.log(this.data)
     }
   }
 }

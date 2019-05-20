@@ -19,7 +19,6 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <!--<a @click="$emit('remove')">移除卡片</a>-->
           <a-row>
             <a-col>
               <a @click="$emit('remove')" style="color: #516efc">更多</a>
@@ -30,11 +29,10 @@
           </a-row>
         </template>
         <a href="#">
-          <!--<a-icon type="close" />-->
           <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
-      <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
+      <a-row v-for="(row,index) in showList" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
         <span style="color:#666666;" class="content-adpat">{{ row.name }}</span>
         <span style="color:#999999" class="right">{{ row.date }}</span>
@@ -43,24 +41,22 @@
   </div>
 </template>
 <script>
-import { datasData } from '@/api/datas'
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       title: '数据板',
-      headStyle: { height: '52px', 'border-bottom': 'none' },
-      list: []
+      headStyle: { height: '52px', 'border-bottom': 'none' }
     }
   },
-  created () {
-    this.fetchData()
-  },
-  methods: {
-    fetchData () {
-      const vm = this
-      datasData().then(data => {
-        vm.list = data.datas.content.slice(0, 5)
-      })
+  computed: {
+    showList () {
+      return this.data.content.slice(0, 5)
     }
   }
 }
