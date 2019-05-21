@@ -55,14 +55,13 @@
       </div>
       <a-modal
         class="discuss-block"
-        title="消息框"
+        title=""
         :visible="isShowPanel"
         @cancel="handleCancel"
         :mask="false"
         centered
         :footer="null"
-        :maskClosable="false"
-        wrapClassName="discuss-block-mask"
+        :closable="false"
       >
         <user-chat :chat="currentChat" @showChat="showChat"/>
       </a-modal>
@@ -301,23 +300,18 @@ export default {
     padding: 5px;
     margin-right: 10px;
   }
-
   .discuss-name{
     font-weight: 500;
   }
-
   .discuss-msg{
 
   }
-
   .discuss-block .ant-modal-body{
     padding: 0!important;
   }
-
   .discuss-block .ant-layout-content {
     height: 300px;
   }
-
   .discuss-block .ant-modal-header{
     background-color:#f2f3f5!important;
   }

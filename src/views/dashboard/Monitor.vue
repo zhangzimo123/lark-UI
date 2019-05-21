@@ -511,6 +511,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .work-surface {
+    margin: -24px -24px 0px;
+    // height: calc(100vh - 136px)!important;
+    // overflow-y: overlay;
+    // overflow-x: hidden;
+  }
   .antd-pro-pages-dashboard-analysis-twoColLayout {
     position: relative;
     display: flex;
