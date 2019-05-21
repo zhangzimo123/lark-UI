@@ -32,20 +32,24 @@
     </a-layout-header>
 
     <a-layout-content class="conv-box-message">
+
       <div
         class="talk-main-box"
         v-infinite-scroll="handleInfiniteOnLoad"
         :infinite-scroll-disabled="busy"
         :infinite-scroll-distance="10">
+
         <div v-if="messageList" class="talk-main">
-          <div v-for="item in messageList" :key="item" class="talk-item" @mouseenter="talkItemEnter" @mouseleave="talkItemLeave">
-            <div class="item-avatar" :class="{ me: item.isself }">
+          <div v-for="(item, index) in messageList" :key="index" class="talk-item" @mouseenter="talkItemEnter" @mouseleave="talkItemLeave">
+            <message-piece :messageInfo="item"></message-piece>
+            <!-- <div class="item-avatar" :class="{ me: item.isself }">
               <a-avatar shape="square" size="large" style="color: #f56a00; backgroundColor: #fde3cf">{{ item.username }}</a-avatar>
             </div>
             <div class="say" :class="{ reply: item.isself }">
               <div class="text">{{ item.content }}</div>
-            </div>
-            <div v-show="activeItemHandle" style="float: right; marginTop: 0px">
+            </div> -->
+
+            <!-- <div v-show="activeItemHandle" style="float: right; marginTop: 0px">
               <a-button-group size="small">
                 <a-button>标记</a-button>
                 <a-button>回复</a-button>
@@ -53,10 +57,13 @@
                 <a-button>撤回</a-button>
                 <a-button>删除</a-button>
               </a-button-group>
-            </div>
+            </div> -->
+
           </div>
         </div>
+
       </div>
+
     </a-layout-content>
 
     <a-layout-footer class="conv-box-editor">
@@ -142,6 +149,7 @@
 import conf from '@/api/index'
 import Faces from './Face.vue'
 import TalkSetting from './setting/TalkSetting'
+import MessagePiece from './MessagePiece'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
 import infiniteScroll from 'vue-infinite-scroll'
 import VEmojiPicker from 'v-emoji-picker'
@@ -151,7 +159,8 @@ export default {
   components: {
     VEmojiPicker,
     Faces,
-    TalkSetting
+    TalkSetting,
+    MessagePiece
   },
   name: 'UserChat',
   props: {
@@ -493,7 +502,10 @@ export default {
       .conv-title {
         color: black;
         font-size: 16px;
-        font-weight: 500;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
         :nth-child(2) {
           letter-spacing: -2px;
@@ -501,7 +513,7 @@ export default {
       }
 
       .conv-option {
-        font-size: 16px;
+        font-size: 18px;
 
         .anticon:hover {
           color: #1890ff;
@@ -514,13 +526,11 @@ export default {
       position: relative;
       overflow: hidden;
       flex-grow: 1;
-      // background-color: #f2f3f5;
 
       .talk-main-box {
         position: relative;
         flex-grow: 1;
         overflow: hidden;
-        // background-color: #f2f3f5;
         &:hover {
           overflow: overlay;
         }
@@ -533,8 +543,7 @@ export default {
           width: 100%;
           padding: 4px 16px 16px;
           background: rgba(255, 255, 255, 0);
-          overflow-x: hidden;
-          overflow-y: auto;
+          // overflow: hidden;
           .talk-item{
             display: flex;
             flex-direction: row-reverse;
