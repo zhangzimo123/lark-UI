@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf' }">
+      :style="{ height: '300px',boxShadow: '0px 2px #bfbfbf' }">
       <div slot="title">
         <a-row>
           <a-col>
@@ -19,10 +19,10 @@
           placement="left"
           trigger="click">
           <template slot="content">
-            <a @click="$emit('remove')">移除卡片</a>
+            <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
           </template>
           <a class="right" href="#">
-            <a-icon type="close" />
+            <a-icon type="close" style="color: #516efc"/>
           </a>
         </a-popover>
       </div>

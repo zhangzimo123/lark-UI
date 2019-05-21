@@ -30,7 +30,7 @@ div.ant-card-body{
   /*height: 48px;*/
   /*float: left;*/
   /*height: 70px;*/
-  width: 70px;
+  width: 90px;
 
 }
 .link-ant-row{
@@ -39,7 +39,7 @@ div.ant-card-body{
   /*overflow:auto;*/
   width: 100%;
   /*overflow-x:scroll;*/
-  overflow-y:scroll;
+  /*overflow-y:scroll;*/
   height: 100px;
   /*background-color: blue;*/
   padding-bottom: 28px;

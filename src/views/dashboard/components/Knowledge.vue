@@ -1,6 +1,6 @@
 <template>
   <div style="height:205px;overflow-y:auto">
-    <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
+    <a-row class="row-magin" v-for="(row,index) in showList" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <!--<a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>-->
       <span style="color: #666666" class="content-adpat">{{ row.name }}</span>
@@ -26,6 +26,11 @@ export default {
       ],
       knowledgeDetails: false,
       knowledgeDetailsContent: ''
+    }
+  },
+  computed: {
+    showList () {
+      return this.data.content.slice(0, 5)
     }
   },
   methods: {

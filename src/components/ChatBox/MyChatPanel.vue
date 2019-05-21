@@ -5,14 +5,14 @@
         class="talk-sider"
         style="flex: 0 0 300px;max-width: 300px;min-width: 300px;width: 300px;"
       >
-        <div class="talk-account-info-board">
-          <div class="talk-account-info-board-close" @click="this.closeMyChatPanel">✖</div>
-          <div>
-            <img class="talk-account-info-board-head" src="@/assets/sjs.jpg"/>
-            <div class="talk-account-info-board-online-icon"></div>
-            <span class="talk-account-info-board-name" >三井寿</span>
-          </div>
-        </div>
+        <!--<div class="talk-account-info-board">-->
+        <!--<div class="talk-account-info-board-close" @click="this.closeMyChatPanel">✖</div>-->
+        <!--<div>-->
+        <!--<img class="talk-account-info-board-head" src="@/assets/sjs.jpg"/>-->
+        <!--<div class="talk-account-info-board-online-icon"></div>-->
+        <!--<span class="talk-account-info-board-name" >三井寿</span>-->
+        <!--</div>-->
+        <!--</div>-->
         <!--<div class="search-bar">-->
         <!--<a-row>-->
         <!--<a-col :span="21">-->
@@ -68,10 +68,10 @@
             </div>
           </a-tab-pane>
         </a-tabs>
-        <div class="talk-foot-background">
-          <img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />
-          <img class="talk-foot-add"src="@/assets/add.png" />
-        </div>
+        <!--<div class="talk-foot-background">-->
+        <!--<img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />-->
+        <!--<img class="talk-foot-add"src="@/assets/add.png" />-->
+        <!--</div>-->
       </a-layout-sider>
 
       <a-layout style="z-index: 1">
@@ -365,7 +365,7 @@ export default {
 }
 .talk-view {
   // height: calc(100% - 64px);
-  height: 596px;
+  height: 555px;
   /*width: 209px;*/
   // margin: -24px;
   box-shadow: -3px -1px 6px -3px #919191;
@@ -397,7 +397,7 @@ export default {
  }
 .box-panel{
   /*height: calc(100% - 50px);*/
-  height: 405px;
+  height: 515px;
   background-color: white;
 }
 .description{

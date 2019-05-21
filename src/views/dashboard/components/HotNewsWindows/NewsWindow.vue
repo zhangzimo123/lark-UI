@@ -18,14 +18,15 @@
       slot="extra"
       trigger="click">
       <template slot="content">
-        <a @click="$emit('remove')">移除卡片</a>
+        <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
       </template>
       <a href="#">
-        <a-icon type="close" />
+        <a-icon type="close" style="color: #516efc"/>
       </a>
     </a-popover>
+
     <div style="height:205px;overflow-y:auto;overflow-x: hidden">
-      <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
+      <a-row v-for="(row,index) in showList" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
         <span style="color:#666666;" class="content-adpat">{{ row.name }}</span>
         <span style="color:#999999" class="right">{{ row.date }}</span>
@@ -38,8 +39,13 @@
   </a-card>
 </template>
 <script>
-import { getNews } from '../../../../api/news'
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       title: '咨讯窗',
@@ -49,15 +55,9 @@ export default {
       detailsNews: {}
     }
   },
-  created () {
-    this.fetchData()
-  },
-  methods: {
-    fetchData () {
-      var vm = this
-      getNews().then((data) => {
-        vm.list = [].concat(data.content).slice(0, 6)
-      })
+  computed: {
+    showList () {
+      return this.data.content.slice(0, 5)
     }
   }
 }

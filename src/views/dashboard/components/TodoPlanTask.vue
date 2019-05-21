@@ -3,8 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf'}"
-      style="overflow-y: auto">
+      :style="{ height: '300px',boxShadow: '0px 2px #bfbfbf'}">
       <div slot="title">
         <a-row>
           <a-col>
@@ -29,10 +28,17 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <a @click="$emit('remove')">移除卡片</a>
+          <a-row>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+            </a-col>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+            </a-col>
+          </a-row>
         </template>
         <a href="#">
-          <a-icon type="close" />
+          <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
       <div v-if="this.typeMap==0"><todo :data="data.todo"></todo></div>

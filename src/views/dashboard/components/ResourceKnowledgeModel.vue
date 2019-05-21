@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf'}">
+      :style="{ height: '300px',boxShadow: '0px 2px #bfbfbf'}">
       <div slot="title">
         <a-row>
           <a-col>
@@ -28,13 +28,22 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <a @click="$emit('remove')">移除卡片</a>
+          <!--<a @click="$emit('remove')">移除卡片</a>-->
+          <a-row>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+            </a-col>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+            </a-col>
+          </a-row>
         </template>
         <a href="#">
-          <a-icon type="close" />
+          <!--<a-icon type="close" />-->
+          <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
-      <div v-if="this.typeMap==0"><resource @myChart="myChart" :data="data.resource"></resource></div>
+      <div v-if="this.typeMap==0"><resource :data="data.resource" @myChart="myChart"></resource></div>
       <div v-if="this.typeMap==1"><model :data="data.model"></model></div>
       <div v-if="this.typeMap==2"><knowledge :data="data.knowledge"></knowledge></div>
     </a-card>

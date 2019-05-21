@@ -3,8 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px',boxShadow: '0px 2px #bfbfbf'}"
-      style="overflow-y:auto"
+      :style="{ height: '300px',boxShadow: '0px 2px #bfbfbf'}"
     >
       <div slot="title">
         <a-row>
@@ -21,10 +20,17 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <a @click="$emit('remove')">移除卡片</a>
+          <a-row>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+            </a-col>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+            </a-col>
+          </a-row>
         </template>
         <a href="#">
-          <a-icon type="tool"/>
+          <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
       <div class="tool-icon" v-for="(row,index) in cardList" :key="'item'+index">
@@ -34,7 +40,6 @@
   </div>
 </template>
 <script>
-import { getMyTools, getHotTools, getLatestTools } from '../../../api/tool'
 import CategoryTools from '../category-tools'
 import AppCard from '../app-card'
 export default {
@@ -42,10 +47,16 @@ export default {
     CategoryTools,
     AppCard
   },
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       title: '工具仓',
-      headStyle: { height: '52px', 'border-top': '4px solid #1890ff', 'border-bottom': 'none' },
+      headStyle: { height: '52px', 'border-bottom': 'none' },
       showTableHeader: true,
       selectedType: 1,
       typeArray: [
@@ -56,36 +67,17 @@ export default {
       list: []
     }
   },
-  created () {
-    this.fetchData(1)
-  },
   computed: {
     cardList () {
-      return this.list.filter((item, index) => { return index < 8 })
+      return this.data.content.filter((item, index) => { return item.type === this.selectedType }).slice(0, 8)
     }
   },
   methods: {
     fetchData (type) {
-      switch (type) {
-        case 1: {
-          getMyTools().then(this.loadData)
-          break
-        }
-        case 2: {
-          getHotTools().then(this.loadData)
-          break
-        }
-        case 3: {
-          getLatestTools().then(this.loadData)
-          break
-        }
-      }
+      this.selectedType = type
     },
     loadData (result) {
       this.list = [].concat(result.content)
-    },
-    toolAll () {
-      this.$router.push({ path: '/tool' })
     }
   }
 }
