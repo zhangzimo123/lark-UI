@@ -1,67 +1,37 @@
 <template>
-  <a-layout v-if="chat.name" id="talkSetting" style="height: 100%">
-    <talk-setting ref="model" :talk="talkId"/>
-    <a-layout-header class="talk-header" v-if="chat">
-      <a-row type="flex" align="middle" style="height: 64px">
-        <a-col :span="1">
-          <a-avatar style="color: #f56a00; backgroundColor: #fde3cf">{{ chat.name }}</a-avatar>
+  <a-layout v-if="chat.name" id="talkSetting" class="conv-box">
+
+    <!-- <talk-setting ref="model" :talk="talkId"/> -->
+
+    <a-layout-header class="conv-box-header">
+      <a-row type="flex" justify="space-between">
+        <a-col :span="14" class="conv-title">
+          <!-- 需要对名字的字数做限制 -->
+          <span>一二三四五二二三四五三二三四五四二三四五五</span>
+          <!-- 若为群组时显示成员数量 -->
+          <span>(417)</span>
         </a-col>
-        <a-col :span="3">
-          <div class="talk-info">
-            <div class="talk-name">
-              {{ chat.name }}
-            </div>
+
+        <a-col :span="10" class="conv-option">
+          <div style="float: right">
+            <!-- 需要判断是否为群聊，操作选项不同 -->
+            <a-tooltip
+              v-for="(item, index) in optionList"
+              :key="index"
+              placement="bottom"
+              :overlayStyle="{fontSize: '12px'}"
+            >
+              <template slot="title">
+                <span>{{ item.message }}</span>
+              </template>
+              <a-icon style="marginLeft: 20px" :type="item.type" />
+            </a-tooltip>
           </div>
         </a-col>
-        <a-col :span="20"><div class="header-toolbat">
-          <div class="message-box-toolbar">
-            <ul class="toolbar-right">
-              <li class="tool-element">
-                <a-tooltip placement="bottom" >
-                  <template slot="title">
-                    <span>群公告</span>
-                  </template>
-                  <a-icon type="sound" theme="twoTone" :style="{ fontSize: '18px' }"/>
-                </a-tooltip>
-              </li>
-              <li class="tool-element">
-                <a-tooltip placement="bottom" >
-                  <template slot="title">
-                    <span>文件</span>
-                  </template>
-                  <a-icon type="folder" theme="twoTone" :style="{ fontSize: '18px' }"/>
-                </a-tooltip>
-              </li>
-              <li class="tool-element">
-                <a-tooltip placement="bottom" >
-                  <template slot="title">
-                    <span>标记信息</span>
-                  </template>
-                  <a-icon type="star" theme="twoTone" :style="{ fontSize: '18px' }" />
-                </a-tooltip>
-              </li>
-              <li class="tool-element">
-                <a-tooltip placement="bottom" >
-                  <template slot="title">
-                    <span>研讨记录</span>
-                  </template>
-                  <a-icon type="profile" theme="twoTone" :style="{ fontSize: '18px' }" />
-                </a-tooltip>
-              </li>
-              <li class="tool-element">
-                <a-tooltip placement="bottomLeft" >
-                  <template slot="title">
-                    <span>研讨设置</span>
-                  </template>
-                  <a-icon type="setting" theme="twoTone" :style="{ fontSize: '18px' }" @click="$refs.model.showSetting(talkId)"/>
-                </a-tooltip>
-              </li>
-            </ul>
-          </div>
-        </div></a-col>
       </a-row>
     </a-layout-header>
-    <a-layout-content class="talk-content">
+
+    <a-layout-content class="conv-box-message">
       <div
         class="talk-main-box"
         v-infinite-scroll="handleInfiniteOnLoad"
@@ -88,100 +58,52 @@
         </div>
       </div>
     </a-layout-content>
-    <a-layout-footer class="talk-footer message-box">
-      <div class="message-box-toolbar">
-        <ul class="toolbar-left">
-          <li class="tool-element">
-            <a-tooltip placement="topLeft" >
+
+    <a-layout-footer class="conv-box-editor">
+
+      <div class="editor-option">
+        <a-row type="flex" justify="space-between" class="editor-option-container">
+          <a-col :span="12">
+            <!-- 文字编辑选项 -->
+            <a-tooltip
+              placement="top"
+              :overlayStyle="{fontSize: '12px'}"
+            >
               <template slot="title">
-                <span>添加表情</span>
+                <span>表情</span>
               </template>
-              <a-popover trigger="click">
-                <template slot="content">
-                  <VEmojiPicker
-                    :pack="emojisNative"
-                    labelSearch=""
-                    @select="onSelectEmoji"
-                  />
+              <a-icon style="marginRight: 20px" type="smile" />
+            </a-tooltip>
+          </a-col>
+
+          <a-col :span="12">
+            <div style="float: right">
+              <!-- 发送选项 -->
+              <a-tooltip
+                placement="top"
+                :overlayStyle="{fontSize: '12px'}"
+              >
+                <template slot="title">
+                  <span>文件上传</span>
                 </template>
-                <a-icon type="smile" :style="{ fontSize: '21px' }"/>
-              </a-popover>
-            </a-tooltip>
-          </li>
-          <li class="tool-element">
-            <a-tooltip placement="top" >
-              <template slot="title">
-                <span>字体加粗</span>
-              </template>
-              <a-icon type="bold" :style="{ fontSize: '21px' }"/>
-            </a-tooltip>
-          </li>
-          <li class="tool-element">
-            <a-tooltip placement="top" >
-              <template slot="title">
-                <span>字体大小</span>
-              </template>
-              <a-icon type="font-size" :style="{ fontSize: '21px' }"/>
-            </a-tooltip>
-          </li>
-          <li class="tool-element">
-            <a-tooltip placement="top" >
-              <template slot="title">
-                <span>文字序列</span>
-              </template>
-              <a-icon type="ordered-list" :style="{ fontSize: '21px' }"/>
-            </a-tooltip>
-          </li>
-        </ul>
-        <ul class="toolbar-right">
-          <li class="tool-element">
-            <a-tooltip placement="top" >
-              <template slot="title">
-                <span>网盘资源</span>
-              </template>
-              <a-icon type="cloud" :style="{ fontSize: '21px' }"/>
-            </a-tooltip>
-          </li>
-          <li class="tool-element">
-            <a-tooltip placement="top" >
-              <template slot="title">
-                <span>文件上传</span>
-              </template>
-              <a-icon type="paper-clip" :style="{ fontSize: '21px' }" />
-            </a-tooltip>
-          </li>
-          <li class="tool-element">
-            <a-tooltip placement="top" >
-              <template slot="title">
-                <span>发送名片到当前研讨中</span>
-              </template>
-              <a-icon type="idcard" :style="{ fontSize: '21px' }" />
-            </a-tooltip>
-          </li>
-          <li class="tool-element">
-            <a-dropdown placement="topRight">
-              <a-menu slot="overlay">
-                <a-menu-item key="1">
-                  <a-icon type="bar-chart" />
-                  投票
-                </a-menu-item>
-                <a-menu-item key="2">
-                  <a-icon type="table" />
-                  填表
-                </a-menu-item>
-                <a-menu-item key="3">
-                  <a-icon type="calendar" />
-                  发起会议
-                </a-menu-item>
-              </a-menu>
-              <a-icon type="appstore" :style="{ fontSize: '21px' }" />
-            </a-dropdown>
-          </li>
-        </ul>
+                <a-icon style="marginLeft: 20px" type="folder" />
+              </a-tooltip>
+            </div>
+          </a-col>
+        </a-row>
       </div>
-      <div class="message-composer">
+
+      <div class="editor-area">
         <div class="draft-input">
-          <textarea size="large" class="textarea-input" v-model="messageContent" @keyup.enter="mineSend()" placeholder="开始研讨..."></textarea>
+          <!-- 输入框 -->
+          <textarea
+            size="large"
+            class="textarea-input"
+            v-model="messageContent"
+            @keyup.enter="mineSend()"
+            placeholder="开始研讨..."
+          ></textarea>
+          <!-- 发送键 -->
           <div class="send-toolbar">
             <div style="margin-left: auto">
               <a-tooltip placement="top" >
@@ -193,7 +115,6 @@
                 </template>
                 <a-icon type="question-circle" style="margin-right: 6px; cursor: pointer;"/>
               </a-tooltip>
-              <!-- <span class="user-guide" style="margin-left: auto">Enter 发送 ,Shift+Enter 标记为秘密发送 ,Alt+Enter 标记为机密发送 ,Ctrl+Enter 换行</span> -->
               <a-dropdown-button @click="mineSend()" type="primary">
                 发送(<strong>非密</strong>)
                 <a-menu slot="overlay">
@@ -206,13 +127,14 @@
         </div>
       </div>
     </a-layout-footer>
+
   </a-layout>
 
   <a-layout v-else style="height: 100%; textAlign: center;">
     <div class="unselected-tip">
-    <a-icon type="message" style="fontSize: 140px; color: #d7d9db" />
-    <p>未选择聊天</p>
-  </div>
+      <a-icon type="message" style="fontSize: 140px; color: #d7d9db" />
+      <p>未选择聊天</p>
+    </div>
   </a-layout>
 </template>
 
@@ -232,21 +154,11 @@ export default {
     TalkSetting
   },
   name: 'UserChat',
-  computed: {
-    emojisNative () {
-      return packData
-    },
-    messageList: {
-      get: function () {
-        return this.$store.state.chat.messageList
-      },
-      set: function (messageList) {
-        this.$store.commit('SET_MESSAGE_LIST', messageList)
-      }
-    },
-    talkId: {
-      get: function () {
-        return this.chat.id
+  props: {
+    chat: {
+      type: Object,
+      default: function () {
+        return { message: '没东西' }
       }
     }
   },
@@ -284,15 +196,88 @@ export default {
       action: conf.getHostUrl() + '/api/upload',
       headers: {
         'Access-Control-Allow-Origin': '*'
+      },
+      optionList: [
+        {
+          message: '群公告',
+          type: 'notification'
+        }, {
+          message: '标记信息',
+          type: 'tags'
+        }, {
+          message: '聊天内容',
+          type: 'file-text'
+        }, {
+          message: '文件',
+          type: 'folder-open'
+        }, {
+          message: '更多',
+          type: 'ellipsis'
+        }
+      ]
+    }
+  },
+  watch: {
+    // 监听每次 user 的变化
+    chat: function () {
+      const self = this
+      self.messageList = []
+      // 从内存中取研讨信息
+      const cacheMessages = self.$store.state.chat.messageListMap.get(self.chat.id)
+      if (cacheMessages) {
+        self.messageList = cacheMessages
+      }
+      // 每次滚动到最底部
+      this.$nextTick(() => {
+        imageLoad('message-box')
+      })
+      // if (self.chat.type === '1') {
+      //   const param = new FormData()
+      //   param.set('chatId', self.chat.id)
+      //   fetchPost(
+      //     conf.getChatUsersUrl(),
+      //     param,
+      //     function (json) {
+      //       self.userList = json
+      //     },
+      //     self
+      //   )
+      // }
+    }
+  },
+  computed: {
+    emojisNative () {
+      return packData
+    },
+    messageList: {
+      get: function () {
+        return this.$store.state.chat.messageList
+      },
+      set: function (messageList) {
+        this.$store.commit('SET_MESSAGE_LIST', messageList)
+      }
+    },
+    talkId: {
+      get: function () {
+        return this.chat.id
       }
     }
   },
-  props: {
-    chat: {
-      type: Object,
-      default: function () {
-        return { message: '没东西' }
-      }
+  mounted: function () {
+    // 每次滚动到最底部
+    this.$nextTick(() => {
+      imageLoad('message-box')
+    })
+    console.log('this.chat', this.chat)
+  },
+  filters: {
+    // 将日期过滤为 hour:minutes
+    time (date) {
+      // if (typeof date === 'string') {
+      //   date = new Date(date)
+      // }
+      date = new Date(date)
+      return date.getHours() + ':' + date.getMinutes()
     }
   },
   methods: {
@@ -471,50 +456,6 @@ export default {
       )
     }
   },
-  watch: {
-    // 监听每次 user 的变化
-    chat: function () {
-      const self = this
-      self.messageList = []
-      // 从内存中取研讨信息
-      const cacheMessages = self.$store.state.chat.messageListMap.get(self.chat.id)
-      if (cacheMessages) {
-        self.messageList = cacheMessages
-      }
-      // 每次滚动到最底部
-      this.$nextTick(() => {
-        imageLoad('message-box')
-      })
-      // if (self.chat.type === '1') {
-      //   const param = new FormData()
-      //   param.set('chatId', self.chat.id)
-      //   fetchPost(
-      //     conf.getChatUsersUrl(),
-      //     param,
-      //     function (json) {
-      //       self.userList = json
-      //     },
-      //     self
-      //   )
-      // }
-    }
-  },
-  filters: {
-    // 将日期过滤为 hour:minutes
-    time (date) {
-      // if (typeof date === 'string') {
-      //   date = new Date(date)
-      // }
-      date = new Date(date)
-      return date.getHours() + ':' + date.getMinutes()
-    }
-  },
-  mounted: function () {
-    // 每次滚动到最底部
-    this.$nextTick(() => {
-      imageLoad('message-box')
-    })
-  },
   directives: { infiniteScroll }
   // directives: {
   //   // 发送消息后滚动到底部
@@ -528,231 +469,197 @@ export default {
 </script>
 <style lang="less" scoped>
 
-.unselected-tip {
-  padding-top: 20%;
-  color: #a5a7a9;
-  font-size: 16px;
-}
+  .unselected-tip {
+    padding-top: 20%;
+    color: #a5a7a9;
+    font-size: 16px;
+  }
 
-.talk-header{
-    width: 100%;
-    height: 64px;
-    z-index: 100;
-    position: relative;
-    border-bottom: 1px solid #ebebeb;
-    background-color: #f2f3f5;
-    padding: 0 12px 0 12px;
-    align-items: center!important;
-    background: #f2f3f5;
-    height: 64px;
-    line-height: 0px;
-    border-bottom: 1px solid #dcdee0;
-    .header-content{
-      height: 100%;
-       display: -moz-box;/*兼容Firefox*/
-      display: -webkit-box;/*兼容FSafari、Chrome*/
-       -moz-box-align: center;/*兼容Firefox*/
-      -webkit-box-align: center;/*兼容FSafari、Chrome */
-    }
-    .talk-info{
-      flex: 1;
-      margin-left: 9px;
-      max-width: 100%;
-      overflow: hidden!important;
-      text-overflow: ellipsis!important;
-      word-wrap: normal!important;
-      .talk-name{
-        color: #404040;
-        margin: 0;
-        cursor: pointer;
-        overflow: hidden !important;
-        font-size: 14px;
-        max-width: 100%;
-        word-wrap: normal !important;
-        font-weight: 600;
-        line-height: 1.1;
-        user-select: text;
-        white-space: nowrap !important;
-        margin-bottom: 6px;
-        text-overflow: ellipsis !important;
+  .conv-box {
+    height: 100%;
+
+    // 头部区域
+    &-header {
+      position: relative;
+      top: 0;
+      height: 48px;
+      width: 100%;
+
+      line-height: 48px;
+      padding: 0 20px;
+      background-color: #f2f3f5;
+      border-bottom: 1px solid #dcdee0;
+
+      .conv-title {
+        color: black;
+        font-size: 16px;
+        font-weight: 500;
+
+        :nth-child(2) {
+          letter-spacing: -2px;
+        }
+      }
+
+      .conv-option {
+        font-size: 16px;
+
+        .anticon:hover {
+          color: #1890ff;
+        }
       }
     }
-}
-.header-toolbar{
-  margin-left: auto;
-}
-.talk-content{
-    display: flex;
-    position: relative;
-    overflow: hidden;
-    flex-grow: 1;
-    background-color: #f2f3f5;
-}
-.talk-main-box{
-  position: relative;
-  flex-grow: 1;
-  overflow: hidden;
-  background-color: #f2f3f5;
-
-  // 聊天内容区滚动
-  &:hover {
-    overflow: overlay;
-  }
-  .talk-main{
-    position: absolute;
-    box-sizing: border-box;
-    min-height: 100%;
-    min-width: 360px;
-    width: 100%;
-    padding: 4px 16px 16px;
-    background: rgba(255, 255, 255, 0);
-    overflow-x: hidden;
-    overflow-y: auto;
-    .talk-item{
+    // 消息展示区域
+    &-message {
       display: flex;
-      flex-direction: row-reverse;
-      margin-top: 20px;
-      margin-bottom: 22px;
-      .item-avatar{
-        float: left;
-        margin-left: 0;
-        margin-right: 7px;
-        cursor: pointer;
-      }
-      .item-avatar.me {
-        float: right;
-        margin-right: 0;
-        margin-left: 7px;
-        cursor: pointer;
-      }
-      .say {
-          color: #212121;
-          background: rgba(207 , 232, 252, 0.84);
-          padding: 8px 16px;
-          border-radius: 1px 18px 18px 18px;
-          font-weight: 400;
-          text-transform: none;
-          text-align: left;
-          font-size: 16px;
-          letter-spacing: .5px;
-          margin: 0 0 2px 0;
-          max-width: 65%;
-          float: none;
-          clear: both;
-          line-height: 1.5em;
-          word-break: break-word;
-          transform-origin: left top;
-          transition: all 200ms;
-          box-sizing: content-box;
-          // border: 1px solid rgb(182, 182, 182);
-          box-shadow: 1px 1px 1px #c2c2c2;
-      }
-      .reply {
-          color: #212121;
-          background: rgba(255, 255, 255, 0.84);
-          padding: 8px 16px !important;
-          border-radius: 18px 1px 18px 18px;
-          font-weight: 400;
-          text-transform: none;
-          text-align: left;
-          font-size: 16px;
-          letter-spacing: .5px;
-          margin: 0 0 2px 0 !important;
-          max-width: 65%;
-          float: right;
-          position: relative;
-          transform-origin: right top;
-          margin: 8px 0 10px;
-          padding: 0;
-          max-width: 65%;
-          // border: 1px solid red;
-          box-shadow: -1px 1px 1px #c2c2c2;
-      }
-    }
-  }
-}
+      position: relative;
+      overflow: hidden;
+      flex-grow: 1;
+      // background-color: #f2f3f5;
 
-.talk-footer{
-  flex: none;
-  position: relative;
-  flex-shrink: 0;
-  background-color: #fff;
-}
-.message-box{
-  padding: 6px 12px;
-  display: flex;
-  position: relative;
-  border-top: 1px solid #dcdee0;
-  flex-direction: column;
-  background-color: #FFFFFF;
-}
-.im-talk{
-  height: 100%
-}
-.message-box-toolbar{
-  position: relative;
-  display: flex;
-  .toolbar-left{
-    margin: 0;
-    padding: 0;
-    display: flex;
-    list-style: none;
-    margin-left: -7px;
-    margin-right: auto;
-  }
-  .toolbar-right{
-    margin: 0;
-    padding: 0;
-    display: flex;
-    list-style: none;
-    margin-left: auto;
-    margin-right: -7px;
-  }
-}
-.tool-element{
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  margin-right: 2px;
-  border-radius: 50%;
-  justify-content: center;
-}
-.message-composer{
-  display: flex;
-  flex-direction: column;
-  .draft-input{
-    flex: 1 0 auto;
-    width: 100%;
-    display: flex;
-    min-height: 84px;
-    max-height: 204px;
-    line-height: 24px;
-    flex-direction: column;
-    cursor: text;
-    position: relative;
-    .textarea-input{
-      max-height: 204px;
-      height:84px;
-      width:100%;
-      resize:none;
-      outline:none;
-      border: none;
+      .talk-main-box {
+        position: relative;
+        flex-grow: 1;
+        overflow: hidden;
+        // background-color: #f2f3f5;
+        &:hover {
+          overflow: overlay;
+        }
+
+        .talk-main{
+          position: absolute;
+          box-sizing: border-box;
+          min-height: 100%;
+          min-width: 360px;
+          width: 100%;
+          padding: 4px 16px 16px;
+          background: rgba(255, 255, 255, 0);
+          overflow-x: hidden;
+          overflow-y: auto;
+          .talk-item{
+            display: flex;
+            flex-direction: row-reverse;
+            margin-top: 20px;
+            margin-bottom: 22px;
+            .item-avatar{
+              float: left;
+              margin-left: 0;
+              margin-right: 7px;
+              cursor: pointer;
+            }
+            .item-avatar.me {
+              float: right;
+              margin-right: 0;
+              margin-left: 7px;
+              cursor: pointer;
+            }
+            .say {
+                color: #212121;
+                background: rgba(207 , 232, 252, 0.84);
+                padding: 8px 16px;
+                border-radius: 1px 18px 18px 18px;
+                font-weight: 400;
+                text-transform: none;
+                text-align: left;
+                font-size: 16px;
+                letter-spacing: .5px;
+                margin: 0 0 2px 0;
+                max-width: 65%;
+                float: none;
+                clear: both;
+                line-height: 1.5em;
+                word-break: break-word;
+                transform-origin: left top;
+                transition: all 200ms;
+                box-sizing: content-box;
+                // border: 1px solid rgb(182, 182, 182);
+                box-shadow: 1px 1px 1px #c2c2c2;
+            }
+            .reply {
+                color: #212121;
+                background: rgba(255, 255, 255, 0.84);
+                padding: 8px 16px !important;
+                border-radius: 18px 1px 18px 18px;
+                font-weight: 400;
+                text-transform: none;
+                text-align: left;
+                font-size: 16px;
+                letter-spacing: .5px;
+                margin: 0 0 2px 0 !important;
+                max-width: 65%;
+                float: right;
+                position: relative;
+                transform-origin: right top;
+                margin: 8px 0 10px;
+                padding: 0;
+                max-width: 65%;
+                // border: 1px solid red;
+                box-shadow: -1px 1px 1px #c2c2c2;
+            }
+          }
+        }
+      }
     }
-    .send-toolbar{
-          height: 24px;
-    display: flex;
-    align-items: flex-end;
+    // 文字编辑区域
+    &-editor {
+      flex-shrink: 0;
+      background-color: #fff;
+      display: flex;
+      padding: 0;
+      border-top: 1px solid #dcdee0;
+      flex-direction: column;
+      // 编辑器选项
+      .editor-option {
+        display: flex;
+        height: 40px;
+        line-height: 32px;
+        padding: 4px 20px;
+
+        &-container {
+          width: 100%;
+          font-size: 20px;
+        }
+      }
+      // 文字编辑区域
+      .editor-area {
+        padding: 0 20px 5px;
+        display: flex;
+        flex-direction: column;
+
+        .draft-input{
+          flex: 1 0 auto;
+          width: 100%;
+          display: flex;
+          height: 135px;
+          flex-direction: column;
+          cursor: text;
+          // 输入框
+          .textarea-input{
+            height: 95px;
+            width: 100%;
+            line-height: 20px;
+            color: black;
+            resize: none;
+            outline: none;
+            border: none;
+          }
+          // 发送键
+          .send-toolbar{
+            margin: 4px 0;
+            display: flex;
+            align-items: flex-end;
+        }
+      }
+
+      .user-guide {
+        font-size: 12px;
+        color: #bdbebf;
+      }
+      .faces-box {
+        position: absolute;
+        bottom: 3.8rem;
+      }
+    }
     }
   }
-  .user-guide {
-    font-size: 12px;
-    color: #bdbebf;
-}
-    .faces-box {
-      position: absolute;
-      bottom: 3.8rem;
-    }
-}
+
 </style>
