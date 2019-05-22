@@ -33,11 +33,10 @@
 
     <a-layout-content class="conv-box-message">
 
-      <div
-        class="talk-main-box"
-        v-infinite-scroll="handleInfiniteOnLoad"
+      <!-- v-infinite-scroll="handleInfiniteOnLoad"
         :infinite-scroll-disabled="busy"
-        :infinite-scroll-distance="10">
+        :infinite-scroll-distance="10" -->
+      <div class="talk-main-box">
 
         <div v-if="messageList" class="talk-main">
           <div v-for="(item, index) in messageList" :key="index" class="talk-item" @mouseenter="talkItemEnter" @mouseleave="talkItemLeave">
@@ -151,7 +150,7 @@ import Faces from './Face.vue'
 import TalkSetting from './setting/TalkSetting'
 import MessagePiece from './MessagePiece'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
-import infiniteScroll from 'vue-infinite-scroll'
+// import infiniteScroll from 'vue-infinite-scroll'
 import VEmojiPicker from 'v-emoji-picker'
 import packData from 'v-emoji-picker/data/emojis.json'
 
@@ -330,20 +329,20 @@ export default {
         })
       })
     },
-    handleInfiniteOnLoad () {
-      const hisMessageList = this.hisMessageList
-      this.loading = true
-      if (hisMessageList.length > 14) {
-        this.$message.warning('没有了')
-        this.busy = true
-        this.loading = false
-        return
-      }
-      this.fetchData(res => {
-        this.hisMessageList = hisMessageList.concat(res.results)
-        this.loading = false
-      })
-    },
+    // handleInfiniteOnLoad () {
+    //   const hisMessageList = this.hisMessageList
+    //   this.loading = true
+    //   if (hisMessageList.length > 14) {
+    //     this.$message.warning('没有了')
+    //     this.busy = true
+    //     this.loading = false
+    //     return
+    //   }
+    //   this.fetchData(res => {
+    //     this.hisMessageList = hisMessageList.concat(res.results)
+    //     this.loading = false
+    //   })
+    // },
     // 错误提示
     openMessage (error) {
       this.$Message.error(error)
@@ -465,7 +464,7 @@ export default {
       )
     }
   },
-  directives: { infiniteScroll }
+  directives: {}
   // directives: {
   //   // 发送消息后滚动到底部
   //   'scroll-bottom' () {
@@ -543,67 +542,67 @@ export default {
           width: 100%;
           padding: 4px 16px 16px;
           background: rgba(255, 255, 255, 0);
-          // overflow: hidden;
+          overflow: hidden;
           .talk-item{
             display: flex;
             flex-direction: row-reverse;
             // margin-top: 20px;
             // margin-bottom: 22px;
-            .item-avatar{
-              float: left;
-              margin-left: 0;
-              margin-right: 7px;
-              cursor: pointer;
-            }
-            .item-avatar.me {
-              float: right;
-              margin-right: 0;
-              margin-left: 7px;
-              cursor: pointer;
-            }
-            .say {
-                color: #212121;
-                background: rgba(207 , 232, 252, 0.84);
-                padding: 8px 16px;
-                border-radius: 1px 18px 18px 18px;
-                font-weight: 400;
-                text-transform: none;
-                text-align: left;
-                font-size: 16px;
-                letter-spacing: .5px;
-                margin: 0 0 2px 0;
-                max-width: 65%;
-                float: none;
-                clear: both;
-                line-height: 1.5em;
-                word-break: break-word;
-                transform-origin: left top;
-                transition: all 200ms;
-                box-sizing: content-box;
-                // border: 1px solid rgb(182, 182, 182);
-                box-shadow: 1px 1px 1px #c2c2c2;
-            }
-            .reply {
-                color: #212121;
-                background: rgba(255, 255, 255, 0.84);
-                padding: 8px 16px !important;
-                border-radius: 18px 1px 18px 18px;
-                font-weight: 400;
-                text-transform: none;
-                text-align: left;
-                font-size: 16px;
-                letter-spacing: .5px;
-                margin: 0 0 2px 0 !important;
-                max-width: 65%;
-                float: right;
-                position: relative;
-                transform-origin: right top;
-                margin: 8px 0 10px;
-                padding: 0;
-                max-width: 65%;
-                // border: 1px solid red;
-                box-shadow: -1px 1px 1px #c2c2c2;
-            }
+            // .item-avatar{
+            //   float: left;
+            //   margin-left: 0;
+            //   margin-right: 7px;
+            //   cursor: pointer;
+            // }
+            // .item-avatar.me {
+            //   float: right;
+            //   margin-right: 0;
+            //   margin-left: 7px;
+            //   cursor: pointer;
+            // }
+            // .say {
+            //     color: #212121;
+            //     background: rgba(207 , 232, 252, 0.84);
+            //     padding: 8px 16px;
+            //     border-radius: 1px 18px 18px 18px;
+            //     font-weight: 400;
+            //     text-transform: none;
+            //     text-align: left;
+            //     font-size: 16px;
+            //     letter-spacing: .5px;
+            //     margin: 0 0 2px 0;
+            //     max-width: 65%;
+            //     float: none;
+            //     clear: both;
+            //     line-height: 1.5em;
+            //     word-break: break-word;
+            //     transform-origin: left top;
+            //     transition: all 200ms;
+            //     box-sizing: content-box;
+            //     // border: 1px solid rgb(182, 182, 182);
+            //     box-shadow: 1px 1px 1px #c2c2c2;
+            // }
+            // .reply {
+            //     color: #212121;
+            //     background: rgba(255, 255, 255, 0.84);
+            //     padding: 8px 16px !important;
+            //     border-radius: 18px 1px 18px 18px;
+            //     font-weight: 400;
+            //     text-transform: none;
+            //     text-align: left;
+            //     font-size: 16px;
+            //     letter-spacing: .5px;
+            //     margin: 0 0 2px 0 !important;
+            //     max-width: 65%;
+            //     float: right;
+            //     position: relative;
+            //     transform-origin: right top;
+            //     margin: 8px 0 10px;
+            //     padding: 0;
+            //     max-width: 65%;
+            //     // border: 1px solid red;
+            //     box-shadow: -1px 1px 1px #c2c2c2;
+            // }
           }
         }
       }

@@ -132,8 +132,8 @@ export default {
       overflow: hidden;
 
       .message-nickname {
-        height: 20px;
-        line-height: 22px;
+        height: 22px;
+        line-height: 24px;
         font-size: 12px;
         font-weight: 400;
         padding-left: 10px;
