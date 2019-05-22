@@ -299,45 +299,6 @@ export default {
           },
           {
             img: require('@/assets/links/e3.png')
-          },
-          {
-            img: require('@/assets/links/esi.png')
-          },
-          {
-            img: require('@/assets/links/fluent.png')
-          },
-          {
-            img: require('@/assets/links/Hypermesh.png')
-          },
-          {
-            img: require('@/assets/links/hyperworks.png')
-          },
-          {
-            img: require('@/assets/links/isight.png')
-          },
-          {
-            img: require('@/assets/links/matlab.png')
-          },
-          {
-            img: require('@/assets/links/msc.png')
-          },
-          {
-            img: require('@/assets/links/optistruct.png')
-          },
-          {
-            img: require('@/assets/links/pointwise.png')
-          },
-          {
-            img: require('@/assets/links/proe.png')
-          },
-          {
-            img: require('@/assets/links/spw.png')
-          },
-          {
-            img: require('@/assets/links/TSV.png')
-          },
-          {
-            img: require('@/assets/links/virtools.png')
           }
         ],
         total: 20
