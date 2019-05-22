@@ -62,16 +62,16 @@
               <img class="talk-group-list-head" :src="item.head" />
               <span class="talk-group-list-name" >{{ item.title }}</span>
             </div>
-            <div class="talk-group-list-add-box">
-              <img class="talk-group-list-add" src="@/assets/add-group.png" />
-              <span class="talk-group-list-add-font">添加群组</span>
-            </div>
+            <!--<div class="talk-group-list-add-box">-->
+            <!--<img class="talk-group-list-add" src="@/assets/add-group.png" />-->
+            <!--<span class="talk-group-list-add-font">添加群组</span>-->
+            <!--</div>-->
           </a-tab-pane>
         </a-tabs>
-        <!--<div class="talk-foot-background">-->
-        <!--<img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />-->
-        <!--<img class="talk-foot-add"src="@/assets/add.png" />-->
-        <!--</div>-->
+        <div class="talk-foot-background">
+          <img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />
+          <img class="talk-foot-add"src="@/assets/add.png" />
+        </div>
       </a-layout-sider>
 
       <a-layout style="z-index: 1">

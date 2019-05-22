@@ -1,11 +1,11 @@
 <template>
   <div @remove="test" >
-    <a-row style="boxShadow: 0px 2px #bfbfbf">
+    <a-row>
       <a-col span="12">
-        <hot-news :data="data"></hot-news>
+        <hot-news></hot-news>
       </a-col>
       <a-col span="12">
-        <news-window @remove="$emit('remove')" :data="data"></news-window>
+        <news-window @remove="$emit('remove')"></news-window>
       </a-col>
     </a-row>
   </div>
@@ -14,12 +14,6 @@
 import HotNews from './HotNewsWindows/HotNews'
 import NewsWindow from './HotNewsWindows/NewsWindow'
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
     }

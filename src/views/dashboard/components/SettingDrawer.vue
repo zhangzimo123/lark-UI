@@ -23,40 +23,8 @@
               </a-row>
             </div>
           </div>
-          <!--<grid-layout-->
-            <!--:layout.sync="layout"-->
-            <!--:col-num="12"-->
-            <!--:row-height="2"-->
-            <!--:max-rows="12"-->
-            <!--:is-draggable="true"-->
-            <!--:is-resizable="true"-->
-            <!--:is-mirrored="false"-->
-            <!--:vertical-compact="true"-->
-            <!--:margin="[10, 10]"-->
-            <!--:use-css-transforms="true"-->
-          <!--&gt;-->
-            <!--<grid-item-->
-              <!--v-for="grid in layout"-->
-              <!--v-if="grid.show !== true"-->
-              <!--dragIgnoreFrom=".card-content"-->
-              <!--:minH="cardSize.minH"-->
-              <!--:maxH="cardSize.maxH"-->
-              <!--:minW="cardSize.minW"-->
-              <!--:key="grid.id"-->
-              <!--:x="grid.x"-->
-              <!--:y="grid.y"-->
-              <!--:w="grid.w"-->
-              <!--:h="grid.h"-->
-              <!--:i="grid.i"-->
-            <!--&gt;<a-button @click="grid.show=true" class="title"><span class="plus-icon" >+</span>{{ grid.title }}</a-button></grid-item>-->
-          </grid-layout>
-          <!--<div class="bottom-line"></div>-->
         </div>
       </div>
-      <!--<div class="setting-drawer-index-handle" @click="toggle">-->
-        <!--<a-icon type="plus" v-if="!visible"/>-->
-        <!--<a-icon type="close" v-else/>-->
-      <!--</div>-->
     </a-drawer>
   </div>
 </template>
@@ -76,7 +44,7 @@ export default {
   },
   data () {
     return {
-      // visible: true,
+      visible: true,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
       indexData: null
     }

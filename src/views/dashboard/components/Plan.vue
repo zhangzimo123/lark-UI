@@ -1,6 +1,28 @@
 <template>
   <div style="height:205px;overflow-y:auto">
-    <a-row class="row-magin" v-for="(row,index) in showList" :key="'item'+index">
+    <!--<a-card-->
+    <!--:headStyle="headStyle"-->
+    <!--:bordered="true"-->
+    <!--:style="{ minHeight: '300px'}">-->
+    <!--<div slot="title">-->
+    <!--<a-row>-->
+    <!--<a-col>-->
+    <!--{{ title }}-->
+    <!--</a-col>-->
+    <!--</a-row>-->
+    <!--</div>-->
+    <!--<a-popover-->
+    <!--placement="left"-->
+    <!--slot="extra"-->
+    <!--trigger="click">-->
+    <!--<template slot="content">-->
+    <!--<a>移除卡片</a>-->
+    <!--</template>-->
+    <!--<a href="#">-->
+    <!--<a-icon type="tool"/>-->
+    <!--</a>-->
+    <!--</a-popover>-->
+    <a-row class="row-magin" v-for="(row,index) in list" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <span @click="visibleModal(row)" class="content-adpat" style="color: #666666">{{ row.name }}</span>
       <span class="right" color="#999999">{{ row.date }}</span>
@@ -13,16 +35,12 @@
         </a-row>
       </a-modal>
     </a-row>
+    <!--</a-card>-->
   </div>
 </template>
 <script>
+import { planData } from '@/api/plan'
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       title: '计划表',
@@ -31,15 +49,19 @@ export default {
       list: []
     }
   },
-  computed: {
-    showList () {
-      return this.data.content.slice(0, 5)
-    }
+  created () {
+    this.fetchPlan()
   },
   methods: {
     visibleModal (row) {
       this.modal = true
       this.rowDetails = row
+    },
+    fetchPlan () {
+      const vm = this
+      planData().then(data => {
+        vm.list = data.plan.content.slice(0, 5)
+      })
     }
   }
 }
