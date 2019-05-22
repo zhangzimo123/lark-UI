@@ -17,7 +17,6 @@
   </div>
 </template>
 <script>
-
 export default {
   props: {
     data: {
@@ -125,10 +124,12 @@ export default {
     font-size: 1px;
     margin-right: 8px;
     position: relative;
-    top: -2px;
+    top: -7px;
   }
   .row-tag{
     font-size: 12px;
+    position: relative;
+    top: -5px;
   }
   .content-adpat{
     width: 55%;

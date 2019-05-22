@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px',boxShadow: '0px 2px #bfbfbf' }">
+      :style="{ height: '300px'}">
       <div slot="title">
         <a-row>
           <a-col>
@@ -26,7 +26,7 @@
           </a>
         </a-popover>
       </div>
-      <div style="height:205px;overflow-y:auto;overflow-x: hidden">
+      <div style="height:205px;">
         <!--<a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in data.content" :key="'item'+index" >-->
         <!--<a-col :span="2" class="discuss-avatar">-->
         <!--<a-badge :count="row.unread">-->
@@ -115,7 +115,7 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.chat.chatList
+        return this.$store.state.chat.chatList.slice(0, 5)
       },
       set: function (chatList) {
         this.$store.commit('SET_CHAT_LIST', chatList)

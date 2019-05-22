@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px',boxShadow: '0px 2px #bfbfbf'}"
+      :style="{ height: '300px'}"
     >
       <div slot="title">
         <a-row>
@@ -11,7 +11,7 @@
             <span style="color: #333333;font-weight:bold">
               {{ title }}
             </span>
-            <category-tools :array="typeArray" :editable="false" :showAll="false" @changed="fetchData" />
+            <category-tools :array="typeArray" :editable="false" :showAll="false" @changed="fetchData"/>
           </a-col>
         </a-row>
       </div>
@@ -33,15 +33,19 @@
           <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
-      <div class="tool-icon" v-for="(row,index) in cardList" :key="'item'+index">
-        <app-card :file="row" />
+      <div style="overflow-y: auto;height: 224px;">
+        <div class="tool-icon" v-for="(row,index) in cardList" :key="'item'+index">
+          <app-card :file="row"/>
+        </div>
       </div>
+
     </a-card>
   </div>
 </template>
 <script>
 import CategoryTools from '../category-tools'
 import AppCard from '../app-card'
+
 export default {
   components: {
     CategoryTools,
@@ -69,7 +73,9 @@ export default {
   },
   computed: {
     cardList () {
-      return this.data.content.filter((item, index) => { return item.type === this.selectedType }).slice(0, 8)
+      return this.data.content.filter((item, index) => {
+        return item.type === this.selectedType
+      }).slice(0, 8)
     }
   },
   methods: {
@@ -86,7 +92,8 @@ export default {
   .tool-icon {
     width: 112px;
     height: 112px;
-    margin: 0px 10px 0px 10px;
+    /*margin: 0px 10px 0px 10px;*/
+    margin: 0 4px 0 4px;
     float: left;
   }
 </style>

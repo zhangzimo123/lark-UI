@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%;" >
+  <div style="height: 1000%;" >
     <a-spin :spinning="loaded === false" size="large" style="margin-top: 25%;margin-left: 50%" >
     </a-spin>
     <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
@@ -116,18 +116,21 @@
           </HotNewsWindows>
         </grid-item>
       </grid-layout>
-      <div class="myWorkSetButton">
-        <a-button @click="this.toggle">设置</a-button>
-      </div>
+      <span class="myWorkSetButton">
+        <a-button type="link" @click="this.toggle"><a-icon type="setting" /></a-button>
+      </span>
       <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">-->
-      <div class="myWorkShopIcon" @click="this.openMyChatPanel">
-        <img class="myWorkShopIconImg" src="@/assets/head-icon.png"/>
-        <!--<span class="myWorkShopIconTitle">我的研讨厅</span>-->
-        <!--<div class="myWorkShopIconInfoTip"></div>-->
-      </div>
+      <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel">-->
+      <!--<img class="myWorkShopIconImg" src="@/assets/head-icon.png"/>-->
+      <!--<span class="myWorkShopIconTitle">我的研讨厅</span>-->
+      <!--<div class="myWorkShopIconInfoTip"></div>-->
+      <!--</div>-->
+      <span class="myWorkShopIcon" @click="this.openMyChatPanel">
+        <a-button type="link"><a-icon type="message" /></a-button>
+      </span>
     </div>
     <!--这个地方放置最近访问-->
-    <footer-tool-bar v-if="loaded" :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
+    <footer-tool-bar v-if="loaded" :style="{height:'86px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
       <link-footer :data="link" />
     </footer-tool-bar>
     <div>
@@ -164,18 +167,16 @@ import SettingDrawer from './components/SettingDrawer.vue'
 import './components/monitor.less'
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true, minW: 3 },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true, minW: 3 },
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true, minW: 4 },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true, minW: 4 },
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true, minW: 4 },
   { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true, minW: 4 },
   { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false, minW: 4 },
-  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 3 },
+  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 4 },
   { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '6', 'title': '统计板', is: 'stat', show: false, minW: 12 },
-  { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: true, minW: 3 },
-  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'tool', show: false, minW: 6 },
-  // { 'x': 0, 'y': 25, 'w': 6, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNews', show: false },
-  // { 'x': 6, 'y': 25, 'w': 6, 'h': 5, 'i': '10', 'title': '咨讯窗', is: 'NewsWindow', show: false }
-  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: true, minW: 12 }
+  { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: false, minW: 4 },
+  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'tool', show: false, minW: 4 },
+  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false, minW: 12 }
   // { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
 
 ]
@@ -585,7 +586,7 @@ export default {
   .panel-content-row > .row-content {
     width: 70%;
     text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
+     -o-text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     display: inline-block;
@@ -713,7 +714,7 @@ export default {
     font-size: 12px;
     font-weight: normal;
     white-space: nowrap;
-    -webkit-box-shadow: 0 0 0 1px #fff;
+     -webkit-box-shadow: 0 0 0 1px #fff;
     box-shadow: 0 0 0 1px #fff;
     z-index: 10;
   }
@@ -735,7 +736,7 @@ export default {
     font-variant: tabular-nums;
     line-height: 1.5;
     color: rgba(0, 0, 0, 0.65);
-    -webkit-box-sizing: border-box;
+     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
