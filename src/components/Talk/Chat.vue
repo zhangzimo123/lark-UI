@@ -38,7 +38,7 @@
         :infinite-scroll-distance="10" -->
       <div class="talk-main-box">
 
-        <div v-if="messageList" class="talk-main">
+        <div v-if="messageList.length" class="talk-main">
           <div v-for="(item, index) in messageList" :key="index" class="talk-item" @mouseenter="talkItemEnter" @mouseleave="talkItemLeave">
             <message-piece :messageInfo="item"></message-piece>
             <!-- <div class="item-avatar" :class="{ me: item.isself }">
@@ -59,6 +59,10 @@
             </div> -->
 
           </div>
+        </div>
+
+        <div v-else class="talk-main">
+          <p class="empty-tip">暂时没有消息</p>
         </div>
 
       </div>
@@ -103,11 +107,11 @@
         <div class="draft-input">
           <!-- 输入框 -->
           <textarea
+            v-focus
             size="large"
             class="textarea-input"
             v-model="messageContent"
             @keyup.enter="mineSend()"
-            placeholder="开始研讨..."
           ></textarea>
           <!-- 发送键 -->
           <div class="send-toolbar">
@@ -237,7 +241,7 @@ export default {
       }
       // 每次滚动到最底部
       this.$nextTick(() => {
-        imageLoad('message-box')
+        imageLoad('conv-box-editor')
       })
       // if (self.chat.type === '1') {
       //   const param = new FormData()
@@ -271,24 +275,43 @@ export default {
       }
     }
   },
-  mounted: function () {
+  mounted () {
+    // 页面创建时，消息滚动到最近一条
+    this.scrollToBottom()
+
     // 每次滚动到最底部
     this.$nextTick(() => {
-      imageLoad('message-box')
+      imageLoad('conv-box-editor')
     })
     console.log('this.chat', this.chat)
   },
+  updated () {
+    // 页面更新时，滚动到最近一条消息
+    this.scrollToBottom()
+  },
   filters: {
     // 将日期过滤为 hour:minutes
-    time (date) {
-      // if (typeof date === 'string') {
-      //   date = new Date(date)
-      // }
-      date = new Date(date)
-      return date.getHours() + ':' + date.getMinutes()
-    }
+    // time (date) {
+    // if (typeof date === 'string') {
+    //   date = new Date(date)
+    // }
+    // date = new Date(date)
+    // return date.getHours() + ':' + date.getMinutes()
+    // }
   },
   methods: {
+    /**
+     * 聊天消息滚到到最新一条
+     * 1. 发送消息 2. 页面创建 3.页面更新
+     */
+    scrollToBottom () {
+      this.$nextTick(() => {
+        const msgContr = this.$el.querySelector('.talk-main-box')
+        if (msgContr) {
+          msgContr.scrollTop = msgContr.scrollHeight
+        }
+      })
+    },
     talkItemEnter () {
       this.activeItemHandle = true
     },
@@ -416,6 +439,7 @@ export default {
           self.send(currentMessage)
         }
       }
+      this.scrollToBottom()
     },
     // 发送消息的基础方法
     send (message) {
@@ -426,7 +450,7 @@ export default {
       self.messageContent = ''
       // 每次滚动到最底部
       self.$nextTick(() => {
-        // imageLoad('message-box')
+        // imageLoad('conv-box-editor')
       })
     },
     getHistoryMessage (pageNo) {
@@ -464,15 +488,33 @@ export default {
       )
     }
   },
-  directives: {}
-  // directives: {
-  //   // 发送消息后滚动到底部
-  //   'scroll-bottom' () {
-  //     this.$nextTick(() => {
-  //       this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight
-  //     })
-  //   }
-  // }
+  directives: {
+    // 使元素获得焦点
+    'focus': (el) => {
+      el.focus()
+    },
+    // directives: {
+    //   // 发送消息后滚动到底部
+    // 'scroll-bottom': function (el) {
+    // console.log(el)
+    // this.$nextTick(() => {
+    //   el.scrollTop = el.scrollHeight - el.clientHeight
+    // })
+    // }
+    'local-test': function (el, binding, vnode) {
+      // el可以获取当前dom节点，并且进行编译，也可以操作事件 **/
+      // binding指的是一个对象，一般不用 **/
+      // vnode 是 Vue 编译生成的虚拟节点
+      // 操作style所有样式
+      // el.style.border = '1px solid red'
+      // 获取v-model的值
+      console.log(el.value)
+      // data-name绑定的值，需要el.dataset来获取
+      console.log(el.dataset.name)
+      // 获取当前路由信息
+      console.log(vnode.context.$route)
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -603,6 +645,13 @@ export default {
             //     // border: 1px solid red;
             //     box-shadow: -1px 1px 1px #c2c2c2;
             // }
+          }
+
+          .empty-tip {
+            text-align: center;
+            margin-top: 130px;
+            color: #ccc;
+            font-size: 13px;
           }
         }
       }
