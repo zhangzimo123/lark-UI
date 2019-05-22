@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import infiniteScroll from 'vue-infinite-scroll'
 import {
   Chat as UserChat,
   Contacts as ContactsBox,
@@ -124,7 +123,6 @@ import conf from '@/api/index'
 import HttpApiUtils from '../../utils/talk/HttpApiUtils'
 
 export default {
-  directives: { infiniteScroll },
   name: 'ChatPanel',
   components: {
     ContactsBox,

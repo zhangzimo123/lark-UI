@@ -102,7 +102,6 @@
   </div>
 </template>
 <script>
-import infiniteScroll from 'vue-infinite-scroll'
 import UserChat from '@/components/Talk/Chat'
 import ContactList from './ContactsList.vue'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
@@ -122,7 +121,6 @@ import {
 import conf from '@/api/index'
 import HttpApiUtils from '../../utils/talk/HttpApiUtils'
 export default {
-  directives: { infiniteScroll },
   name: 'MyChatPanel',
   components: {
     ContactList,
