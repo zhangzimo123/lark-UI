@@ -52,6 +52,11 @@
               联系人
             </span>
             <contact-list/>
+            <div class="talk-group-list-add-box" @click="openSearchWindow">
+              <!--<img class="talk-group-list-add" src="@/assets/search.png" />-->
+              <a-icon type="search" style="color:#5C95F6" />
+              <span class="talk-group-list-add-font">搜索</span>
+            </div>
           </a-tab-pane>
           <a-tab-pane key="3" class="box-panel">
             <span slot="tab" class="talk-tab-font">
@@ -62,16 +67,16 @@
               <img class="talk-group-list-head" :src="item.head" />
               <span class="talk-group-list-name" >{{ item.title }}</span>
             </div>
-            <!--<div class="talk-group-list-add-box">-->
-            <!--<img class="talk-group-list-add" src="@/assets/add-group.png" />-->
-            <!--<span class="talk-group-list-add-font">添加群组</span>-->
-            <!--</div>-->
+            <div class="talk-group-list-add-box" @click="openSearchWindow">
+              <img class="talk-group-list-add" src="@/assets/add-group.png" />
+              <span class="talk-group-list-add-font">添加群组</span>
+            </div>
           </a-tab-pane>
         </a-tabs>
-        <div class="talk-foot-background">
-          <img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />
-          <img class="talk-foot-add"src="@/assets/add.png" />
-        </div>
+        <!--<div class="talk-foot-background">-->
+        <!--<img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />-->
+        <!--<img class="talk-foot-add"src="@/assets/add.png" />-->
+        <!--</div>-->
       </a-layout-sider>
 
       <a-layout style="z-index: 1">
@@ -213,10 +218,10 @@ export default {
       this.$store.commit('delChat', chat)
     },
     closeMyChatPanel () {
-      this.$parent.$parent.closeMyChatPanel()
+      this.$parent.closeMyChatPanel()
     },
     openSearchWindow () {
-      this.$parent.$parent.openSearchWindow()
+      this.$parent.openSearchWindow()
     },
     handleCancel: function () {
       const self = this
