@@ -547,8 +547,8 @@ export default {
           .talk-item{
             display: flex;
             flex-direction: row-reverse;
-            margin-top: 20px;
-            margin-bottom: 22px;
+            // margin-top: 20px;
+            // margin-bottom: 22px;
             .item-avatar{
               float: left;
               margin-left: 0;
@@ -638,12 +638,12 @@ export default {
           flex: 1 0 auto;
           width: 100%;
           display: flex;
-          height: 135px;
+          height: 140px;
           flex-direction: column;
           cursor: text;
           // 输入框
           .textarea-input{
-            height: 95px;
+            height: 100px;
             width: 100%;
             line-height: 20px;
             color: black;
