@@ -33,38 +33,16 @@
 
     <a-layout-content class="conv-box-message">
 
-      <!-- v-infinite-scroll="handleInfiniteOnLoad"
-        :infinite-scroll-disabled="busy"
-        :infinite-scroll-distance="10" -->
       <div class="talk-main-box">
-
         <div v-if="messageList.length" class="talk-main">
           <div v-for="(item, index) in messageList" :key="index" class="talk-item" @mouseenter="talkItemEnter" @mouseleave="talkItemLeave">
             <message-piece :messageInfo="item"></message-piece>
-            <!-- <div class="item-avatar" :class="{ me: item.isself }">
-              <a-avatar shape="square" size="large" style="color: #f56a00; backgroundColor: #fde3cf">{{ item.username }}</a-avatar>
-            </div>
-            <div class="say" :class="{ reply: item.isself }">
-              <div class="text">{{ item.content }}</div>
-            </div> -->
-
-            <!-- <div v-show="activeItemHandle" style="float: right; marginTop: 0px">
-              <a-button-group size="small">
-                <a-button>标记</a-button>
-                <a-button>回复</a-button>
-                <a-button>转发</a-button>
-                <a-button>撤回</a-button>
-                <a-button>删除</a-button>
-              </a-button-group>
-            </div> -->
-
           </div>
         </div>
 
         <div v-else class="talk-main">
           <p class="empty-tip">暂时没有消息</p>
         </div>
-
       </div>
 
     </a-layout-content>
@@ -154,7 +132,6 @@ import Faces from './Face.vue'
 import TalkSetting from './setting/TalkSetting'
 import MessagePiece from './MessagePiece'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
-// import infiniteScroll from 'vue-infinite-scroll'
 import VEmojiPicker from 'v-emoji-picker'
 import packData from 'v-emoji-picker/data/emojis.json'
 
@@ -255,6 +232,8 @@ export default {
       //     self
       //   )
       // }
+      // 滚动到最新一条消息
+      this.scrollToBottom()
     }
   },
   computed: {
@@ -286,8 +265,6 @@ export default {
     console.log('this.chat', this.chat)
   },
   updated () {
-    // 页面更新时，滚动到最近一条消息
-    this.scrollToBottom()
   },
   filters: {
     // 将日期过滤为 hour:minutes
@@ -303,6 +280,7 @@ export default {
     /**
      * 聊天消息滚到到最新一条
      * 1. 发送消息 2. 页面创建 3.页面更新
+     * @author jihainan
      */
     scrollToBottom () {
       this.$nextTick(() => {
