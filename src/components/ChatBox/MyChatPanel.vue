@@ -67,7 +67,7 @@
               <img class="talk-group-list-head" :src="item.head" />
               <span class="talk-group-list-name" >{{ item.title }}</span>
             </div>
-            <div class="talk-group-list-add-box">
+            <div class="talk-group-list-add-box" @click="openSearchWindow">
               <img class="talk-group-list-add" src="@/assets/add-group.png" />
               <span class="talk-group-list-add-font">添加群组</span>
             </div>
