@@ -5,14 +5,14 @@
         class="talk-sider"
         style="flex: 0 0 300px;max-width: 300px;min-width: 300px;width: 300px;"
       >
-        <!--<div class="talk-account-info-board">-->
-        <!--<div class="talk-account-info-board-close" @click="this.closeMyChatPanel">✖</div>-->
-        <!--<div>-->
-        <!--<img class="talk-account-info-board-head" src="@/assets/sjs.jpg"/>-->
-        <!--<div class="talk-account-info-board-online-icon"></div>-->
-        <!--<span class="talk-account-info-board-name" >三井寿</span>-->
-        <!--</div>-->
-        <!--</div>-->
+        <div class="talk-account-info-board">
+          <div class="talk-account-info-board-close" @click="this.closeMyChatPanel">✖</div>
+          <div>
+            <img class="talk-account-info-board-head" src="@/assets/sjs.jpg"/>
+            <div class="talk-account-info-board-online-icon"></div>
+            <span class="talk-account-info-board-name" >三井寿</span>
+          </div>
+        </div>
         <!--<div class="search-bar">-->
         <!--<a-row>-->
         <!--<a-col :span="21">-->
@@ -68,10 +68,10 @@
             </div>
           </a-tab-pane>
         </a-tabs>
-        <!--<div class="talk-foot-background">-->
-        <!--<img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />-->
-        <!--<img class="talk-foot-add"src="@/assets/add.png" />-->
-        <!--</div>-->
+        <div class="talk-foot-background">
+          <img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />
+          <img class="talk-foot-add"src="@/assets/add.png" />
+        </div>
       </a-layout-sider>
 
       <a-layout style="z-index: 1">
@@ -87,15 +87,14 @@
         <member-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
       </a-layout>
       <a-modal
-        class="panel-block"
-        title="消息框"
+        class="discuss-block"
+        title=""
         :visible="isShowPanel"
         @cancel="handleCancel"
         :mask="false"
         centered
         :footer="null"
-        :maskClosable="false"
-        wrapClassName="panel-block-mask"
+        :closable="false"
       >
         <user-chat :chat="currentChat" @showChat="showChat"/>
       </a-modal>
@@ -366,7 +365,7 @@ export default {
 }
 .talk-view {
   // height: calc(100% - 64px);
-  height: 555px;
+  height: 596px;
   /*width: 209px;*/
   // margin: -24px;
   box-shadow: -3px -1px 6px -3px #919191;
@@ -398,7 +397,7 @@ export default {
  }
 .box-panel{
   /*height: calc(100% - 50px);*/
-  height: 515px;
+  height: 405px;
   background-color: white;
 }
 .description{
@@ -531,10 +530,10 @@ export default {
     align-items: center;
     margin-top: 45px;
   }
-  .panel-block .ant-modal-body{
+  .discuss-block .ant-modal-body{
     padding: 0!important;
   }
-  .panel-block .ant-layout-content {
+  .discuss-block .ant-layout-content {
     height: 300px;
   }
   .panel-block .ant-modal-header{
@@ -557,5 +556,4 @@ export default {
     left: 488px;
     top: 125px;
   }
-
 </style>

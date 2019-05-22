@@ -45,7 +45,6 @@
 <script>
 import CategoryTools from '../category-tools'
 import AppCard from '../app-card'
-
 export default {
   components: {
     CategoryTools,

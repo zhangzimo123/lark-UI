@@ -1,6 +1,6 @@
 <template>
   <a-carousel :autoplay="true" >
-    <div v-for="(item,index) in showList" :key="'image-news-'+index">
+    <div v-for="(item,index) in list" :key="'image-news-'+index">
       <div :style="carouselStyle(item)" >
         <div class="image_title">
           <span style="font-size: 18px;">{{ item.name }}</span>
@@ -10,24 +10,23 @@
   </a-carousel>
 </template>
 <script>
+import { getNews } from '../../../../api/news'
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       list: []
     }
   },
-  computed: {
-    showList () {
-      return this.data.content.slice(0, 5)
-    }
+  created () {
+    this.fetchData()
   },
   methods: {
+    fetchData () {
+      var vm = this
+      getNews().then((data) => {
+        vm.list = [].concat(data.content)
+      })
+    },
     carouselStyle (item) {
       return {
         backgroundImage: 'url(' + this.publicPath + item.imageUrl + ')',

@@ -9,14 +9,16 @@
           placeholder="消息/联系人/群组"
           size="small"
         />
+
         <a-dropdown>
           <a-menu slot="overlay">
-            <a-menu-item key="1">发起研讨</a-menu-item>
+            <a-menu-item key="1" @click="$refs.model.beginTalk()">发起研讨</a-menu-item>
             <a-menu-item key="2">发起会议</a-menu-item>
           </a-menu>
           <a-button type="default" size="small" icon="plus" style="margin-left:3px">
           </a-button>
         </a-dropdown>
+
       </div>
 
       <a-tabs :activeKey="activeKey" @change="changePane" :tabBarGutter="0" :tabBarStyle="tabStyle" :animated="false">
@@ -27,24 +29,8 @@
           </span>
 
           <div class="recent-contacts-container tab-content-container">
-
-            <!-- <a-list :dataSource="chatList">
-              <a-list-item :class="{active : active == item.id}" class="talk-list" slot="renderItem" slot-scope="item" @click="showChat(item)">
-                <a-list-item-meta :description="item.lastMessage" class="talk-item">
-                  <div slot="title" :href="item.href">{{ item.name }}</div>
-                  <a-avatar
-                    slot="avatar"
-                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                  />
-                </a-list-item-meta>
-                <div class="talk-time">10:34</div>
-              </a-list-item>
-              <div v-if="loading && !busy" class="demo-loading-container">
-                <a-spin/>
-              </div>
-            </a-list> -->
-            <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
-              <recent-contacts-item :contactsInfo="item[index]"></recent-contacts-item>
+            <div v-for="(item, index) in chatList" :key="index" @click="showChat(item)">
+              <recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat"></recent-contacts-item>
             </div>
           </div>
         </a-tab-pane>
@@ -56,8 +42,18 @@
           </span>
 
           <div class="group-contacts-container tab-content-container">
+            <div v-for="(item, index) in groupList" :key="index" @click="showGroup(item)">
+              <group-item :groupInfo="item" :activated="item.id === activeGroup"></group-item>
+            </div>
 
-            <contacts-item></contacts-item>
+            <!-- 没有群组或者群组加载失败时的提示信息 -->
+            <div v-if="!groupList || !groupList.length" class="reload-group-list">
+              <p>
+                暂无群组信息，
+                <a-button type="primary" ghost size="small" :loading="reloadLoading" @click="reloadGroupList">重新加载</a-button>
+              </p>
+            </div>
+
           </div>
         </a-tab-pane>
 
@@ -68,41 +64,32 @@
           </span>
 
           <div class="contacts-container tab-content-container">
-            <contacts-box/>
+            <contacts-box :contactsTree="contactsTree" @SelectContacts="showContacts" style="paddingLeft: 18px;"/>
+
+            <!-- 获取联系人树失败时的提示信息 -->
+            <div v-if="!contactsTree || !contactsTree.length" class="reload-contacts-tree">
+              <p>
+                联系人加载失败，
+                <a-button type="primary" ghost size="small" :loading="contactsLoading" @click="getContactsTree">重新加载</a-button>
+              </p>
+            </div>
           </div>
         </a-tab-pane>
       </a-tabs>
     </a-layout-sider>
 
     <a-layout class="talk-layout-content">
-      <!--
-      根据左侧选择的tab页，右侧展示对应的组件内容
-      所以右侧也需要写三个组件 分别是：聊天组件， 群组信息组件， 联系人信息组件
-        1). 聊天组件： 直接进行聊天的界面
-        2). 群组信息组件： 展示群组信息，有直接跳转到聊天界面的按钮
-        3). 联系人信息组件： 展示联系人信息，有直接跳转到聊天界面的按钮
-      情景描述：
-        用户未选中查看左侧列表中的某一项时，右侧显示对应的欢迎页；
-        用户选中后直接展示对应的信息，并高亮选中项；
-        选中项的值可以统一记录在本组件中
-      -->
-      <!-- <div v-show="isShowWelcome">
-        <div style="margin: 120px auto 0 auto;text-align: center;">
-          <a-icon type="rocket" theme="twoTone" twoToneColor="#52c41a" style="fontSize:108px" />
-          <p class="description">不要怂，一起上</p>
-        </div>
-      </div> -->
 
       <div v-show="activeKey == '1'" class="chat-area">
-        <user-chat v-show="isShowPanel" :chat="currentChat" @showChat="showChat"/>
+        <user-chat :chat="currentChat" @showChat="showChat"/>
       </div>
 
       <div v-show="activeKey == '2'" class="info-area">
-        <group-info :selected="selectedGroup"></group-info>
+        <group-info :selected="activeGroup"></group-info>
       </div>
 
       <div v-show="activeKey == '3'" class="info-area">
-        <contacts-info :selected="selectedContacts"></contacts-info>
+        <contacts-info :selected="activeContacts"></contacts-info>
       </div>
 
     </a-layout>
@@ -120,8 +107,8 @@ import {
   ContactsInfo,
   GroupInfo,
   RecentContactsItem,
-  ContactsItem,
-  MemberBox as MemberModel
+  MemberBox as MemberModel,
+  GroupItem
 } from '@/components/Talk'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
 import {
@@ -135,6 +122,7 @@ import {
 } from '../../utils/talk/chatUtils'
 import conf from '@/api/index'
 import HttpApiUtils from '../../utils/talk/HttpApiUtils'
+
 export default {
   directives: { infiniteScroll },
   name: 'ChatPanel',
@@ -145,7 +133,7 @@ export default {
     UserChat,
     MemberModel,
     RecentContactsItem,
-    ContactsItem
+    GroupItem
   },
   data () {
     return {
@@ -159,9 +147,15 @@ export default {
       isShowWelcome: true,
       memberVisible: false,
       active: '',
-      // record current contacts/group
-      selectedContacts: {},
-      selectedGroup: {}
+
+      // 记录当前选中的联系人/群组信息
+      activeContacts: '',
+      activeGroup: '',
+      activeChat: '',
+
+      // 加载状态
+      reloadLoading: false,
+      contactsLoading: false
     }
   },
   computed: {
@@ -180,7 +174,19 @@ export default {
       set: function (chatList) {
         this.$store.commit('SET_CHAT_LIST', chatList)
       }
+    },
+    groupList () {
+      return this.$store.state.chat.groupList
+    },
+    contactsTree () {
+      return this.$store.state.chat.contactsTree
     }
+  },
+  created () {
+    // 加载群组列表
+    this.$store.dispatch('GetGroupList')
+    // 加载联系人列表
+    this.$store.dispatch('GetContactsTree')
   },
   methods: {
     /* 切换面板 */
@@ -217,28 +223,53 @@ export default {
       this.$nextTick(() => {
         // imageLoad('message-box')
       })
-      this.active = chat.id
+      this.activeChat = chat.id
     },
     delChat (chat) {
       this.$store.commit('DEL_CHAT', chat)
+    },
+    /** 展示群组详细信息 */
+    showGroup (group) {
+      this.activeGroup = group.id
+    },
+    /** 展示联系人详细信息 */
+    showContacts (key) {
+      this.activeContacts = key
+    },
+    /**
+     * 重新加载群组列表
+     * @author jihainan
+     */
+    reloadGroupList () {
+      this.reloadLoading = true
+      this.$store.dispatch('GetGroupList').finally(() => {
+        this.reloadLoading = false
+      })
+    },
+    getContactsTree () {
+      this.contactsLoading = true
+      this.$store.dispatch('GetContactsTree').finally(() => {
+        this.contactsLoading = false
+      })
     }
+
   },
   activated: function () {
-    // const self = this
-    // if (this.$route.query.chat) {
-    //   self.isShowPanel = true
-    //   self.isShowWelcome = false
-    // }
+    const self = this
+    if (this.$route.query.chat) {
+      self.isShowPanel = true
+      self.isShowWelcome = false
+    }
     // 当前研讨室
-    // if (self.$route.query.chat) {
-    //   self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
-    // }
+    if (self.$route.query.chat) {
+      self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
+    }
     // 重新设置chatList
-    // self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+    self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
     // 每次滚动到最底部
-    // this.$nextTick(() => {
-    //   imageLoad('message-box')
-    // })
+    this.$nextTick(() => {
+      imageLoad('message-box')
+    })
   },
   mounted: function () {
     const self = this
@@ -386,12 +417,18 @@ export default {
 
     // 群组标签页样式
     .group-contacts-container {
-
+      .reload-group-list {
+        text-align: center;
+        padding: 32px;
+      }
     }
 
     // 联系人标签页样式
     .contacts-container {
-
+      .reload-contacts-tree {
+        text-align: center;
+        padding: 32px;
+      }
     }
 
     // 让最近 群组 联系人tab页的内容可以滚动的样式

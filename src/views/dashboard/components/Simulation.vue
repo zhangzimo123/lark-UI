@@ -157,8 +157,6 @@ export default {
   }
   .row-tag{
     font-size: 12px;
-    position: relative;
-    top: -5px;
   }
   .content-adpat{
     width: 50%;

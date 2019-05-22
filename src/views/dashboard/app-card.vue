@@ -17,7 +17,8 @@ export default {
   props: {
     file: {
       type: Object,
-      require: true
+      require: true,
+      default: () => {}
     },
     column: {
       type: Number,
