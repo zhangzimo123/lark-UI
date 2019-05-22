@@ -30,7 +30,7 @@ div.ant-card-body{
   /*height: 48px;*/
   /*float: left;*/
   /*height: 70px;*/
-  width: 90px;
+  width: 108px;
 
 }
 .link-ant-row{

@@ -13,10 +13,10 @@
       <div class="setting-drawer-index-content">
         <div :style="{ marginBottom: '24px' }">
           <div class="setting-drawer-title">添加面板</div>
-          <div v-for="(item,index) in layout">
+          <div v-for="(item,index) in layout" :key="index">
             <div @click="getCurrentInfo(index)">
               <a-row>
-                <a-col :span="12" class="setting-drawer-title">{{item.title}}</a-col>
+                <a-col :span="12" class="setting-drawer-title"> {{ item.title }} </a-col>
                 <a-col :span="6" class="setting-drawer-title">
                   <a-checkbox @change="onChange" :defaultChecked="true"/>
                 </a-col>
@@ -44,7 +44,7 @@ export default {
   },
   data () {
     return {
-      visible: true,
+      visibleFlag: true,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
       indexData: null
     }
