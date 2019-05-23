@@ -311,7 +311,7 @@ export const ChatListUtils = {
     newChatList.unshift(chat)
     // 存储到localStorage 的 chatList
     this.setChatList(self.$store.state.user.id, chatList)
-    self.$store.commit('SET_CHAT_LIST', newChatList)
+    self.$store.commit('SET_RECENT_CHAT_LIST', newChatList)
     return chat
   }
 }
