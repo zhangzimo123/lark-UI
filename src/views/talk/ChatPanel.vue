@@ -89,7 +89,7 @@
     <a-layout class="talk-layout-content">
 
       <div v-show="activeKey == '1'" class="chat-area">
-        <user-chat :chat="currentChat" @showChat="showChat"/>
+        <user-chat :chatInfo="currentChat" @showChat="showChat"/>
       </div>
 
       <div v-show="activeKey == '2'" class="info-area">
