@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '305px',boxShadow: '0px 2px #bfbfbf'}"
+      :style="{ height: '300px'}"
     >
       <div slot="title">
         <a-row>
@@ -11,7 +11,7 @@
             <span style="color: #333333;font-weight:bold">
               {{ title }}
             </span>
-            <category-tools :array="typeArray" :editable="false" :showAll="false" @changed="fetchData" />
+            <category-tools :array="typeArray" :editable="false" :showAll="false" @changed="fetchData"/>
           </a-col>
         </a-row>
       </div>
@@ -20,7 +20,6 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <!--<a @click="$emit('remove')">移除卡片</a>-->
           <a-row>
             <a-col>
               <a @click="$emit('remove')" style="color: #516efc">更多</a>
@@ -31,24 +30,31 @@
           </a-row>
         </template>
         <a href="#">
-          <!--<a-icon type="close" />-->
           <a-icon type="plus" style="color: #516efc"/>
         </a>
       </a-popover>
-      <div class="tool-icon" v-for="(row,index) in cardList" :key="'item'+index">
-        <app-card :file="row" />
+      <div style="overflow-y: auto;height: 224px;">
+        <div class="tool-icon" v-for="(row,index) in cardList" :key="'item'+index">
+          <app-card :file="row"/>
+        </div>
       </div>
+
     </a-card>
   </div>
 </template>
 <script>
-import { getMyTools, getHotTools, getLatestTools } from '../../../api/tool'
 import CategoryTools from '../category-tools'
 import AppCard from '../app-card'
 export default {
   components: {
     CategoryTools,
     AppCard
+  },
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
   },
   data () {
     return {
@@ -64,36 +70,19 @@ export default {
       list: []
     }
   },
-  created () {
-    this.fetchData(1)
-  },
   computed: {
     cardList () {
-      return this.list.filter((item, index) => { return index < 8 })
+      return this.data.content.filter((item, index) => {
+        return item.type === this.selectedType
+      }).slice(0, 8)
     }
   },
   methods: {
     fetchData (type) {
-      switch (type) {
-        case 1: {
-          getMyTools().then(this.loadData)
-          break
-        }
-        case 2: {
-          getHotTools().then(this.loadData)
-          break
-        }
-        case 3: {
-          getLatestTools().then(this.loadData)
-          break
-        }
-      }
+      this.selectedType = type
     },
     loadData (result) {
       this.list = [].concat(result.content)
-    },
-    toolAll () {
-      this.$router.push({ path: '/tool' })
     }
   }
 }
@@ -102,7 +91,8 @@ export default {
   .tool-icon {
     width: 112px;
     height: 112px;
-    margin: 0px 10px 0px 10px;
+    /*margin: 0px 10px 0px 10px;*/
+    margin: 0 4px 0 4px;
     float: left;
   }
 </style>

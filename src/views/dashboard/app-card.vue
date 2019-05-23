@@ -51,17 +51,17 @@ export default {
 }
 </script>
 <style scoped>
-  .app-card {
-    width: 100%;
-    height: 105px;
-    margin: 5px 0 5px 0;
-    padding: 5px 0 5px 0;
-  }
+  /*.app-card {*/
+    /*width: 100%;*/
+    /*height: 105px;*/
+    /*margin: 5px 0 5px 0;*/
+    /*padding: 5px 0 5px 0;*/
+  /*}*/
   .app-card-tools {
     width: 90%;
     height: 90px;
-    margin: 5px 0 5px 0;
-    padding: 8px 0 8px 0;
+    /*margin: 5px 0 5px 0;*/
+    /*padding: 8px 0 8px 0;*/
   }
   .tool-download-image {
     width: 22px;

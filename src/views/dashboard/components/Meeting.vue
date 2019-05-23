@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf'}"
+      :style="{ height: '300px'}"
     >
       <div slot="title">
         <a-row>
@@ -12,7 +12,7 @@
               {{ title }}
             </span>
             <a href="#"><a-icon type="plus-circle" class="createMeetClass" title="创建会议" @click="createMeeting"/></a>
-            <categoryTools :array="typeArray" @changed="fetchData"></categoryTools>
+            <categoryTools v-model="selectedType" :array="typeArray"></categoryTools>
             <create-meeting :createMeeted="createMeet" @createMeeted="createMeeted"></create-meeting>
           </a-col>
         </a-row>
@@ -36,7 +36,7 @@
         </a>
       </a-popover>
       <div>
-        <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
+        <a-row v-for="(row,index) in showList" :key="'item'+index" class="row-magin">
           <i class="ivu-tag-dot-inner"></i>
           <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
           <span style="color: #666666" class="content-adpat" @click="visibleModal(row)" >{{ row.name }}</span>
@@ -66,7 +66,7 @@
           </a-modal>
         </a-row>
       </div>
-      <div v-if="list.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
+      <div v-if="data.content.size==0" style="margin: 40px auto 0 auto;text-align: center;" class="card-content">
         <a-icon type="file-exclamation" theme="twoTone" :style="fontSize"/>
         <p class="description">卡片暂无内容</p>
       </div>
@@ -74,12 +74,17 @@
   </div>
 </template>
 <script>
-import { meetingData } from '@/api/meeting'
 import categoryTools from '../category-tools'
 import createMeeting from '../create-meeting'
 import '../modal-mask.css'
 
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       headStyle: { height: '52px', 'border-bottom': 'none' },
@@ -88,11 +93,8 @@ export default {
       selectedType: 0,
       buttonEdit: false,
       modal: false,
-      rowDetails: '',
+      rowDetails: {},
       typeArray: [
-        // { type: 1, name: '未开始', show: true },
-        // { type: 2, name: '进行中', show: true },
-        // { type: 3, name: '已结束', show: true }
         {
           id: 1,
           type: 1,
@@ -125,28 +127,21 @@ export default {
     }
   },
   components: {
-    meetingData,
     categoryTools,
     createMeeting
   },
   created () {
-    this.fetchData()
     this.setToolStatus()
   },
-  computed: {},
+  computed: {
+    showList () {
+      const vm = this
+      return this.data.content.filter(item => {
+        return vm.selectedType === 0 || vm.selectedType === item.type
+      }).slice(0, 5)
+    }
+  },
   methods: {
-    fetchData (type) {
-      if (type === undefined) {
-        type = 0
-      }
-      var vm = this
-      meetingData(type).then(data => {
-        vm.list = data.meeting.content.filter(item => {
-          return item.type === type || type === 0
-        })
-        vm.list = vm.list.splice(0, 5)
-      })
-    },
     setToolStatus () {
       const m = {}
       this.typeArray.forEach(item => {
@@ -217,10 +212,12 @@ export default {
     font-size: 1px;
     margin-right: 8px;
     position: relative;
-    top: -2px;
+    top: -7px;
   }
   .row-tag{
     font-size: 12px;
+    position: relative;
+    top: -5px;
   }
   .content-adpat{
     width: 55%;

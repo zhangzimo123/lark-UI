@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf' }">
+      :style="{ height: '300px'}">
       <div slot="title">
         <a-row>
           <a-col>
@@ -19,14 +19,14 @@
           placement="left"
           trigger="click">
           <template slot="content">
-            <a @click="$emit('remove')">移除卡片</a>
+            <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
           </template>
           <a class="right" href="#">
-            <a-icon type="close" />
+            <a-icon type="close" style="color: #516efc"/>
           </a>
         </a-popover>
       </div>
-      <div style="height:205px;overflow-y:auto;overflow-x: hidden">
+      <div style="height:205px;">
         <!--<a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in data.content" :key="'item'+index" >-->
         <!--<a-col :span="2" class="discuss-avatar">-->
         <!--<a-badge :count="row.unread">-->
@@ -55,13 +55,14 @@
       </div>
       <a-modal
         class="discuss-block"
-        title=""
+        title="消息框"
         :visible="isShowPanel"
         @cancel="handleCancel"
         :mask="false"
         centered
         :footer="null"
-        :closable="false"
+        :maskClosable="false"
+        wrapClassName="discuss-block-mask"
       >
         <user-chat :chat="currentChat" @showChat="showChat"/>
       </a-modal>
@@ -114,7 +115,7 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.chat.chatList
+        return this.$store.state.chat.chatList.slice(0, 5)
       },
       set: function (chatList) {
         this.$store.commit('SET_CHAT_LIST', chatList)
@@ -300,18 +301,23 @@ export default {
     padding: 5px;
     margin-right: 10px;
   }
+
   .discuss-name{
     font-weight: 500;
   }
+
   .discuss-msg{
 
   }
+
   .discuss-block .ant-modal-body{
     padding: 0!important;
   }
+
   .discuss-block .ant-layout-content {
     height: 300px;
   }
+
   .discuss-block .ant-modal-header{
     background-color:#f2f3f5!important;
   }

@@ -4,7 +4,7 @@
       width="367"
       placement="right"
       :closable="false"
-      @close="onClose"
+      @close="closeToggle"
       :visible="visible"
       :getContainer="() => $refs.plusDrawer"
       :style="{}"
@@ -13,39 +13,17 @@
       <div class="setting-drawer-index-content">
         <div :style="{ marginBottom: '24px' }">
           <div class="setting-drawer-title">添加面板</div>
-          <grid-layout
-            :layout.sync="layout"
-            :col-num="12"
-            :row-height="2"
-            :max-rows="12"
-            :is-draggable="true"
-            :is-resizable="true"
-            :is-mirrored="false"
-            :vertical-compact="true"
-            :margin="[10, 10]"
-            :use-css-transforms="true"
-          >
-            <grid-item
-              v-for="grid in layout"
-              v-if="grid.show !== true"
-              dragIgnoreFrom=".card-content"
-              :minH="cardSize.minH"
-              :maxH="cardSize.maxH"
-              :minW="cardSize.minW"
-              :key="grid.id"
-              :x="grid.x"
-              :y="grid.y"
-              :w="grid.w"
-              :h="grid.h"
-              :i="grid.i"
-            ><a-button @click="grid.show=true" class="title"><span class="plus-icon" >+</span>{{ grid.title }}</a-button></grid-item>
-          </grid-layout>
-          <!--<div class="bottom-line"></div>-->
+          <div v-for="(item,index) in layout" :key="index">
+            <div @click="getCurrentInfo(index)">
+              <a-row>
+                <a-col :span="12" class="setting-drawer-title"> {{ item.title }} </a-col>
+                <a-col :span="6" class="setting-drawer-title">
+                  <a-checkbox @change="onChange" :defaultChecked="true"/>
+                </a-col>
+              </a-row>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="setting-drawer-index-handle" @click="toggle">
-        <a-icon type="plus" v-if="!visible"/>
-        <a-icon type="close" v-else/>
       </div>
     </a-drawer>
   </div>
@@ -58,12 +36,17 @@ export default {
     layout: {
       type: Array,
       required: true
+    },
+    visible: {
+      type: Boolean,
+      required: true
     }
   },
   data () {
     return {
-      visible: true,
-      cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 }
+      visibleFlag: true,
+      cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
+      indexData: null
     }
   },
   mounted () {
@@ -81,6 +64,15 @@ export default {
     },
     toggle () {
       this.visible = !this.visible
+    },
+    closeToggle () {
+      this.$parent.closeToggle()
+    },
+    onChange (e) {
+      this.$parent.changeLayout(this.indexData, e.target.checked)
+    },
+    getCurrentInfo (index) {
+      this.indexData = index
     }
   }
 }

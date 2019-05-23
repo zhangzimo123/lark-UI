@@ -1,62 +1,143 @@
 <template>
-  <div class="work-surface" >
-    <a-spin :spinning="loaded === false" size="large">
-      <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
-      <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" >
-        <grid-layout
-          :layout.sync="layout"
-          :col-num="12"
-          :row-height="52"
-          :max-rows="12"
-          :is-draggable="true"
-          :is-resizable="true"
-          :is-mirrored="false"
-          :vertical-compact="true"
-          :margin="[10, 10]"
-          :use-css-transforms="true"
-        >
-          <grid-item
-            v-for="grid in layout"
-            v-if="grid.show"
-            dragIgnoreFrom=".card-content"
-            :minH="cardSize.minH"
-            :maxH="cardSize.maxH"
-            :minW="grid.minW"
-            :key="grid.id"
-            :x="grid.x"
-            :y="grid.y"
-            :w="grid.w"
-            :h="grid.h"
-            :i="grid.i"
-            @move="moveEvent"
-            @moved="movedEvent"
-            @resize="resizeEvent"
-          >
-            <div
-              :is="grid.is"
-              :headStyle="headStyle"
-              :data="monitor[grid.is]"
-              @myChartSize="myChartSize"
-              @showChatPanel="showChatPanel"
-              @remove="grid.show=false"/>
-          </grid-item>
-        </grid-layout>
-        <div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">
-          <img class="myWorkShopIconImg" src="@/assets/sjs.jpg"/>
-          <span class="myWorkShopIconTitle">我的研讨厅</span>
-          <div class="myWorkShopIconInfoTip"></div>
-        </div>
-      </div>
-      <!--这个地方放置最近访问-->
-      <footer-tool-bar v-if="loaded" :style="{height:'72px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-        <link-footer :data="link" />
-      </footer-tool-bar>
-      <div>
-        <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
-        <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
-      </div>
-      <setting-drawer :layout="layout" />
+  <div style="height: 1000%;" >
+    <a-spin :spinning="loaded === false" size="large" style="margin-top: 25%;margin-left: 50%" >
     </a-spin>
+    <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
+    <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" style="margin: -20px">
+      <grid-layout
+        :layout.sync="layout"
+        :col-num="12"
+        :row-height="52"
+        :max-rows="12"
+        :is-draggable="true"
+        :is-resizable="true"
+        :is-mirrored="false"
+        :vertical-compact="true"
+        :margin="[10, 10]"
+        :use-css-transforms="true"
+      >
+        <grid-item
+          v-for="grid in layout"
+          v-if="grid.show"
+          dragIgnoreFrom=".ant-card-body"
+          :minH="cardSize.minH"
+          :maxH="cardSize.maxH"
+          :minW="grid.minW"
+          :key="grid.id"
+          :x="grid.x"
+          :y="grid.y"
+          :w="grid.w"
+          :h="grid.h"
+          :i="grid.i"
+          @move="moveEvent"
+          @moved="movedEvent"
+          @resize="resizeEvent"
+          @changeLayout="changeLayout"
+        >
+          <Discuss
+            v-if="grid.is==='discuss'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </Discuss>
+          <TodoPlanTask
+            v-if="grid.is==='todo-plan-task'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </TodoPlanTask>
+          <Meeting
+            v-if="grid.is==='meeting'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </Meeting>
+          <ResourceKnowledgeModel
+            v-if="grid.is==='resource-knowledge-model'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </ResourceKnowledgeModel>
+          <Simulation
+            v-if="grid.is==='simulation'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </Simulation>
+          <Datas
+            v-if="grid.is==='datas'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </Datas>
+          <stat
+            v-if="grid.is==='stat'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </stat>
+          <PDMTDM
+            v-if="grid.is==='PDMTDM'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </PDMTDM>
+          <tool
+            v-if="grid.is==='tool'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </tool>
+          <HotNewsWindows
+            v-if="grid.is==='HotNewsWindows'"
+            :headStyle="headStyle"
+            :data="monitor[grid.is]"
+            @myChartSize="myChartSize"
+            @showChatPanel="showChatPanel"
+            @remove="grid.show=false">
+          </HotNewsWindows>
+        </grid-item>
+      </grid-layout>
+      <span class="myWorkSetButton">
+        <a-button type="link" @click="this.toggle"><a-icon type="setting" /></a-button>
+      </span>
+      <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">-->
+      <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel">-->
+      <!--<img class="myWorkShopIconImg" src="@/assets/head-icon.png"/>-->
+      <!--<span class="myWorkShopIconTitle">我的研讨厅</span>-->
+      <!--<div class="myWorkShopIconInfoTip"></div>-->
+      <!--</div>-->
+      <span class="myWorkShopIcon" @click="this.openMyChatPanel">
+        <a-button type="link"><a-icon type="message" /></a-button>
+      </span>
+    </div>
+    <!--这个地方放置最近访问-->
+    <footer-tool-bar v-if="loaded" :style="{height:'86px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
+      <link-footer :data="link" />
+    </footer-tool-bar>
+    <div>
+      <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
+      <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
+    </div>
+    <setting-drawer :layout="layout" :visible="settingDrawerVisible" @closeToggle="closeToggle"/>
   </div>
 </template>
 
@@ -66,9 +147,6 @@ import { mixin, mixinDevice } from '@/utils/mixin'
 import FooterToolBar from '@/components/FooterToolbar'
 import MyChatPanel from '@/components/ChatBox/MyChatPanel'
 import SearchWindow from '@/components/ChatBox/SearchWindow'
-// import TreeCustom from '@/components/ChatBox/TreeCustom'
-// import { Container, Draggable } from 'vue-smooth-dnd'
-// import { applyDrag, generateItems } from './utils'
 import VueGridLayout from 'vue-grid-layout'
 import Discuss from './components/Discuss.vue'
 import Meeting from './components/Meeting'
@@ -83,25 +161,21 @@ import Tool from './components/Tool.vue'
 import HotNewsWindows from './components/HotNewsWindows'
 import HotNews from './components/HotNewsWindows/HotNews'
 import NewsWindow from './components/HotNewsWindows/NewsWindow'
-// import plan from './components/Plan'
-// import task from './components/Task'
 import LinkFooter from './components/Link.vue'
 
 import SettingDrawer from './components/SettingDrawer.vue'
 import './components/monitor.less'
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true, minW: 3 },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true, minW: 3 },
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true, minW: 4 },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true, minW: 4 },
   { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true, minW: 4 },
   { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true, minW: 4 },
   { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false, minW: 4 },
-  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 3 },
+  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 4 },
   { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '6', 'title': '统计板', is: 'stat', show: false, minW: 12 },
-  { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: false, limit: true },
-  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'Tool', show: false, limit: true },
-  // { 'x': 0, 'y': 25, 'w': 6, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNews', show: false },
-  // { 'x': 6, 'y': 25, 'w': 6, 'h': 5, 'i': '10', 'title': '咨讯窗', is: 'NewsWindow', show: false }
+  { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: false, minW: 4 },
+  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'tool', show: false, minW: 4 },
   { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false, minW: 12 }
   // { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
 
@@ -125,6 +199,7 @@ export default {
       fontSize: { fontSize: '52px' },
       resourceSize: '',
       visible: false,
+      settingDrawerVisible: false,
       layout: layoutCards,
       cardSize: { maxH: 5, minH: 5, maxW: 12, minW: 3 },
       myChatPanelIsShow: false,
@@ -224,45 +299,6 @@ export default {
           },
           {
             img: require('@/assets/links/e3.png')
-          },
-          {
-            img: require('@/assets/links/esi.png')
-          },
-          {
-            img: require('@/assets/links/fluent.png')
-          },
-          {
-            img: require('@/assets/links/Hypermesh.png')
-          },
-          {
-            img: require('@/assets/links/hyperworks.png')
-          },
-          {
-            img: require('@/assets/links/isight.png')
-          },
-          {
-            img: require('@/assets/links/matlab.png')
-          },
-          {
-            img: require('@/assets/links/msc.png')
-          },
-          {
-            img: require('@/assets/links/optistruct.png')
-          },
-          {
-            img: require('@/assets/links/pointwise.png')
-          },
-          {
-            img: require('@/assets/links/proe.png')
-          },
-          {
-            img: require('@/assets/links/spw.png')
-          },
-          {
-            img: require('@/assets/links/TSV.png')
-          },
-          {
-            img: require('@/assets/links/virtools.png')
           }
         ],
         total: 20
@@ -318,7 +354,14 @@ export default {
     //   this.items = applyDrag(this.items, dropResult)
     // }
     openMyChatPanel () {
-      this.myChatPanelIsShow = true
+    // this.myChatPanelIsShow = true
+      this.myChatPanelIsShow = !this.myChatPanelIsShow
+    },
+    toggle () {
+      this.settingDrawerVisible = true
+    },
+    closeToggle () {
+      this.settingDrawerVisible = false
     },
     closeMyChatPanel () {
       this.myChatPanelIsShow = false
@@ -421,18 +464,15 @@ export default {
     myChartSize (data) {
       console.log(data)
       this.resourceSize = data
+    },
+    changeLayout (index, flag) {
+      this.layout[index].show = flag
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-  .work-surface {
-    margin: -24px -24px 0px;
-    // height: calc(100vh - 136px)!important;
-    // overflow-y: overlay;
-    // overflow-x: hidden;
-  }
   .antd-pro-pages-dashboard-analysis-twoColLayout {
     position: relative;
     display: flex;
@@ -454,14 +494,20 @@ export default {
   }
   .myWorkShopIcon{
     position: fixed;
-    bottom: 36px;
-    right: 100px;
+    top: 15px;
+    right: 200px;
     z-index: 999;
-    background: rgba(105,105,105,0.75);
+    /*background: rgba(105,105,105,0.75);*/
     border-radius: 25px;
     display: flex;
     align-items: center;
-    padding: 5px 18px 5px 5px;
+    /*padding: 5px 18px 5px 5px;*/
+  }
+  .myWorkSetButton{
+    position: fixed;
+    top: 16px;
+    right: 250px;
+    z-index: 999;
   }
   .myWorkShopIconImg{
     width: 32px;
@@ -501,7 +547,7 @@ export default {
   .panel-content-row > .row-content {
     width: 70%;
     text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
+     -o-text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     display: inline-block;
@@ -629,7 +675,7 @@ export default {
     font-size: 12px;
     font-weight: normal;
     white-space: nowrap;
-    -webkit-box-shadow: 0 0 0 1px #fff;
+     -webkit-box-shadow: 0 0 0 1px #fff;
     box-shadow: 0 0 0 1px #fff;
     z-index: 10;
   }
@@ -651,7 +697,7 @@ export default {
     font-variant: tabular-nums;
     line-height: 1.5;
     color: rgba(0, 0, 0, 0.65);
-    -webkit-box-sizing: border-box;
+     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
