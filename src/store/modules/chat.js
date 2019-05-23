@@ -77,7 +77,7 @@ const chat = {
       })
       // 放入缓存
       ChatListUtils.setMessageList(state.user.id, tempChatList)
-      state.chatList = tempChatList
+      state.recentChatList = tempChatList
     },
     SET_MESSAGE_LIST: function (state, messageList) {
       state.messageList = messageList
@@ -113,7 +113,7 @@ const chat = {
       state.currentChat = currentChat
       state.currentChat.unReadCount = 0
 
-      const tempChatList = state.chatList.map(function (chat) {
+      const tempChatList = state.recentChatList.map(function (chat) {
         if (String(chat.id) === String(currentChat.id)) {
           chat.unReadCount = 0
         }
@@ -126,7 +126,7 @@ const chat = {
       state.recentChatList = recentChatList
     },
     DEL_CHAT: function (state, chat) {
-      state.chatList = ChatListUtils.delChat(state.user.id, chat)
+      state.recentChatList = ChatListUtils.delChat(state.user.id, chat)
     },
     /**
      * 设置未读消息条数
@@ -137,7 +137,7 @@ const chat = {
       const tempChatList = []
       let tempChat = {}
 
-      for (const chat of state.chatList) {
+      for (const chat of state.recentChatList) {
         // 给接受消息的研讨室未读数量 +1
         if (String(chat.id) === String(message.fromid) && message.type === MessageTargetType.FRIEND) {
           if (!chat.unReadCount) {
@@ -169,7 +169,7 @@ const chat = {
       // 添加到研讨室列表的第一个
       tempChatList.unshift(tempChat)
       // 重新设置chatList
-      state.chatList = tempChatList
+      state.recentChatList = tempChatList
       // 放入缓存
       ChatListUtils.setMessageList(state.user.id, tempChatList)
     }

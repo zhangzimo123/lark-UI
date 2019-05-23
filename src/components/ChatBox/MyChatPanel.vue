@@ -164,7 +164,7 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.chat.chatList
+        return this.$store.state.chat.recentChatList
       },
       set: function (chatList) {
         this.$store.commit('SET_RECENT_CHAT_LIST', chatList)
