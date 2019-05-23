@@ -1,5 +1,5 @@
 <template>
-  <a-layout v-if="chat.name" id="talkSetting" class="conv-box">
+  <a-layout v-if="Object.keys(chatInfo).length" id="talkSetting" class="conv-box">
 
     <!-- <talk-setting ref="model" :talk="talkId"/> -->
 
@@ -7,16 +7,18 @@
       <a-row type="flex" justify="space-between">
         <a-col :span="14" class="conv-title">
           <!-- 需要对名字的字数做限制 -->
-          <span>一二三四五二二三四五三二三四五四二三四五五</span>
+          <span>{{ chatInfo.name }}</span>
           <!-- 若为群组时显示成员数量 -->
-          <span>(417)</span>
+          <span v-show="chatInfo.isGroup">( {{ chatInfo.memberNum }} )</span>
+          <!-- 显示密级 -->
+          <span>【{{ chatInfo.secretLevel | fileSecret }}】</span>
         </a-col>
 
         <a-col :span="10" class="conv-option">
           <div style="float: right">
             <!-- 需要判断是否为群聊，操作选项不同 -->
             <a-tooltip
-              v-for="(item, index) in optionList"
+              v-for="(item, index) in optionFilter(chatInfo.isGroup)"
               :key="index"
               placement="bottom"
               :overlayStyle="{fontSize: '12px'}"
@@ -134,6 +136,8 @@ import MessagePiece from './MessagePiece'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
 import VEmojiPicker from 'v-emoji-picker'
 import packData from 'v-emoji-picker/data/emojis.json'
+// 引入密级常量
+import { mixinSecret } from '@/utils/mixin'
 
 export default {
   components: {
@@ -144,13 +148,13 @@ export default {
   },
   name: 'UserChat',
   props: {
-    chat: {
+    /** 聊天对话框的基本信息 */
+    chatInfo: {
       type: Object,
-      default: function () {
-        return { message: '没东西' }
-      }
+      default: () => ({})
     }
   },
+  mixins: [ mixinSecret ],
   data () {
     return {
       facesVisible: false,
@@ -185,34 +189,16 @@ export default {
       action: conf.getHostUrl() + '/api/upload',
       headers: {
         'Access-Control-Allow-Origin': '*'
-      },
-      optionList: [
-        {
-          message: '群公告',
-          type: 'notification'
-        }, {
-          message: '标记信息',
-          type: 'tags'
-        }, {
-          message: '聊天内容',
-          type: 'file-text'
-        }, {
-          message: '文件',
-          type: 'folder-open'
-        }, {
-          message: '更多',
-          type: 'ellipsis'
-        }
-      ]
+      }
     }
   },
   watch: {
     // 监听每次 user 的变化
-    chat: function () {
+    chatInfo: function () {
       const self = this
       self.messageList = []
       // 从内存中取研讨信息
-      const cacheMessages = self.$store.state.chat.messageListMap.get(self.chat.id)
+      const cacheMessages = self.$store.state.chat.messageListMap.get(self.chatInfo.id)
       if (cacheMessages) {
         self.messageList = cacheMessages
       }
@@ -250,7 +236,7 @@ export default {
     },
     talkId: {
       get: function () {
-        return this.chat.id
+        return this.chatInfo.id
       }
     }
   },
@@ -262,7 +248,7 @@ export default {
     this.$nextTick(() => {
       imageLoad('conv-box-editor')
     })
-    console.log('this.chat', this.chat)
+    console.log('this.chatInfo', this.chatInfo)
   },
   updated () {
   },
@@ -289,6 +275,15 @@ export default {
           msgContr.scrollTop = msgContr.scrollHeight
         }
       })
+    },
+    optionFilter (isGroup) {
+      const optionList = [
+        { group: true, message: '群公告', type: 'notification' },
+        { group: true, message: '标记信息', type: 'tags' },
+        { group: false, message: '聊天内容', type: 'file-text' },
+        { group: false, message: '文件', type: 'folder-open' },
+        { group: false, message: '更多', type: 'ellipsis' }]
+      return isGroup ? optionList : optionList.filter(item => !item.group)
     },
     talkItemEnter () {
       this.activeItemHandle = true
@@ -405,13 +400,13 @@ export default {
             username: currentUser.name, // 当前用户名称
             time: new Date(), // 时间
             content: self.messageContent, // 研讨内容
-            toid: self.chat.id, // 消息目的id
+            toid: self.chatInfo.id, // 消息目的id
             fromid: currentUser.id, // 消息来源id
-            id: self.chat.id, // 当前研讨间id
-            type: self.chat.type, // 消息类型
-            code: self.chat.code, // 消息编码
-            secret: self.chat.secret, // 消息密级
-            status: self.chat.status, // 消息状态 已读未读
+            id: self.chatInfo.id, // 当前研讨间id
+            type: self.chatInfo.type, // 消息类型
+            code: self.chatInfo.code, // 消息编码
+            secret: self.chatInfo.secret, // 消息密级
+            status: self.chatInfo.status, // 消息状态 已读未读
             isself: true
           }
           self.send(currentMessage)
@@ -438,8 +433,8 @@ export default {
         pageNo = 1
       }
       const param = new FormData()
-      param.set('chatId', self.chat.id)
-      param.set('chatType', self.chat.type)
+      param.set('chatId', self.chatInfo.id)
+      param.set('chatType', self.chatInfo.type)
       param.set('fromId', self.$store.state.user.id)
       param.set('pageNo', pageNo)
       fetchPost(
@@ -470,27 +465,6 @@ export default {
     // 使元素获得焦点
     'focus': (el) => {
       el.focus()
-    },
-    // directives: {
-    //   // 发送消息后滚动到底部
-    // 'scroll-bottom': function (el) {
-    // console.log(el)
-    // this.$nextTick(() => {
-    //   el.scrollTop = el.scrollHeight - el.clientHeight
-    // })
-    // }
-    'local-test': function (el, binding, vnode) {
-      // el可以获取当前dom节点，并且进行编译，也可以操作事件 **/
-      // binding指的是一个对象，一般不用 **/
-      // vnode 是 Vue 编译生成的虚拟节点
-      // 操作style所有样式
-      // el.style.border = '1px solid red'
-      // 获取v-model的值
-      console.log(el.value)
-      // data-name绑定的值，需要el.dataset来获取
-      console.log(el.dataset.name)
-      // 获取当前路由信息
-      console.log(vnode.context.$route)
     }
   }
 }
@@ -528,6 +502,10 @@ export default {
 
         :nth-child(2) {
           letter-spacing: -2px;
+        }
+        :nth-child(3) {
+          color: #708090;
+          font-size: 14px;
         }
       }
 

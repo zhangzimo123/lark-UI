@@ -164,10 +164,10 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.chat.chatList
+        return this.$store.state.chat.recentChatList
       },
       set: function (chatList) {
-        this.$store.commit('SET_CHAT_LIST', chatList)
+        this.$store.commit('SET_RECENT_CHAT_LIST', chatList)
       }
     }
   },
@@ -200,7 +200,7 @@ export default {
         self.$store.commit('SET_CURRENT_CHAT', firstChat)
       }
       // 重新设置chatList
-      self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+      self.$store.commit('SET_RECENT_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
       // Chat会话框中的研讨信息每次滚动到最底部
       this.$nextTick(() => {
         // imageLoad('message-box')

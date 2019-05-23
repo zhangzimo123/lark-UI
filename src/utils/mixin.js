@@ -50,4 +50,26 @@ const mixinDevice = {
   }
 }
 
-export { mixin, mixinDevice }
+// 密级常量
+const SECRETLEVEL_ENUM = new Map([
+  [60, { people: '非密', file: '非密' }],
+  [70, { people: '一般', file: '秘密' }],
+  [80, { people: '重要', file: '机密' }],
+  [90, { people: '核心', file: '绝密' }],
+  ['default', '非密']
+])
+
+// 根据密级编码获取密级的过滤器
+const mixinSecret = {
+  filters: {
+    // 人员密级
+    peopleSecret: (code) => {
+      return code ? SECRETLEVEL_ENUM.get(code).people : SECRETLEVEL_ENUM.get('default')
+    },
+    // 资源密级
+    fileSecret: (code) => {
+      return code ? SECRETLEVEL_ENUM.get(code).file : SECRETLEVEL_ENUM.get('default')
+    }
+  }
+}
+export { mixin, mixinDevice, mixinSecret }

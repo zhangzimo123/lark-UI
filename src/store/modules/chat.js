@@ -1,7 +1,7 @@
 import modules from './conf'
 import { Chat, ChatListUtils, MessageInfoType, MessageTargetType, transform } from '../../utils/talk/chatUtils'
 import conf from '@/api/index'
-import { getGroupList, getContactsTree } from '@/api/chat'
+import { getGroupList, getContactsTree, getRecentContacts } from '@/api/chat'
 
 const chat = {
   state: {
@@ -18,8 +18,8 @@ const chat = {
     messageList: [],
     // 当前研讨窗口
     currentChat: {},
-    // 所有的研讨窗口(最近)
-    chatList: [],
+    // 所有的研讨窗口(最近联系人)
+    recentChatList: [],
     // 好友列表(联系人)
     contactsTree: [],
     // 群组列表(群组)
@@ -77,7 +77,7 @@ const chat = {
       })
       // 放入缓存
       ChatListUtils.setMessageList(state.user.id, tempChatList)
-      state.chatList = tempChatList
+      state.recentChatList = tempChatList
     },
     SET_MESSAGE_LIST: function (state, messageList) {
       state.messageList = messageList
@@ -113,7 +113,7 @@ const chat = {
       state.currentChat = currentChat
       state.currentChat.unReadCount = 0
 
-      const tempChatList = state.chatList.map(function (chat) {
+      const tempChatList = state.recentChatList.map(function (chat) {
         if (String(chat.id) === String(currentChat.id)) {
           chat.unReadCount = 0
         }
@@ -122,11 +122,11 @@ const chat = {
       // 放入缓存
       ChatListUtils.setChatList(this.getters.userInfo.id, tempChatList)
     },
-    SET_CHAT_LIST: function (state, chatList) {
-      state.chatList = chatList
+    SET_RECENT_CHAT_LIST: function (state, recentChatList) {
+      state.recentChatList = recentChatList
     },
     DEL_CHAT: function (state, chat) {
-      state.chatList = ChatListUtils.delChat(state.user.id, chat)
+      state.recentChatList = ChatListUtils.delChat(state.user.id, chat)
     },
     /**
      * 设置未读消息条数
@@ -137,7 +137,7 @@ const chat = {
       const tempChatList = []
       let tempChat = {}
 
-      for (const chat of state.chatList) {
+      for (const chat of state.recentChatList) {
         // 给接受消息的研讨室未读数量 +1
         if (String(chat.id) === String(message.fromid) && message.type === MessageTargetType.FRIEND) {
           if (!chat.unReadCount) {
@@ -169,7 +169,7 @@ const chat = {
       // 添加到研讨室列表的第一个
       tempChatList.unshift(tempChat)
       // 重新设置chatList
-      state.chatList = tempChatList
+      state.recentChatList = tempChatList
       // 放入缓存
       ChatListUtils.setMessageList(state.user.id, tempChatList)
     }
@@ -206,6 +206,25 @@ const chat = {
             commit('SET_CONTACTS_TREE', [ ...response.result.data ])
           } else {
             reject(new Error('getContactsTree: 服务器发生错误!'))
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    /**
+     * 获取最近联系人列表
+     * 当最近联系人有变化时，dispatch这个方法
+     * @author jihainan
+     */
+    GetRecentContacts ({ commit }) {
+      return new Promise((resolve, reject) => {
+        getRecentContacts().then(response => {
+          if (response.status === 200) {
+            commit('SET_RECENT_CHAT_LIST', [ ...response.result.data ])
+          } else {
+            reject(new Error('getRecentContacts: 服务器发生错误'))
           }
           resolve(response)
         }).catch(error => {

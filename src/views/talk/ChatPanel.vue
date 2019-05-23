@@ -32,6 +32,14 @@
             <div v-for="(item, index) in chatList" :key="index" @click="showChat(item)">
               <recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat"></recent-contacts-item>
             </div>
+
+            <!-- 没有最新联系人或者联系人加载失败时的提示信息 -->
+            <div v-if="!chatList || !chatList.length" class="empty-tips">
+              <p>
+                暂无聊天信息，
+                <a-button type="primary" ghost size="small" :loading="recentLoading" @click="getRecentContacts">重新加载</a-button>
+              </p>
+            </div>
           </div>
         </a-tab-pane>
 
@@ -47,10 +55,10 @@
             </div>
 
             <!-- 没有群组或者群组加载失败时的提示信息 -->
-            <div v-if="!groupList || !groupList.length" class="reload-group-list">
+            <div v-if="!groupList || !groupList.length" class="empty-tips">
               <p>
                 暂无群组信息，
-                <a-button type="primary" ghost size="small" :loading="reloadLoading" @click="reloadGroupList">重新加载</a-button>
+                <a-button type="primary" ghost size="small" :loading="groupLoading" @click="getGroupList">重新加载</a-button>
               </p>
             </div>
 
@@ -67,9 +75,9 @@
             <contacts-box :contactsTree="contactsTree" @SelectContacts="showContacts" style="paddingLeft: 18px;"/>
 
             <!-- 获取联系人树失败时的提示信息 -->
-            <div v-if="!contactsTree || !contactsTree.length" class="reload-contacts-tree">
+            <div v-if="!contactsTree || !contactsTree.length" class="empty-tips">
               <p>
-                联系人加载失败，
+                加载失败，
                 <a-button type="primary" ghost size="small" :loading="contactsLoading" @click="getContactsTree">重新加载</a-button>
               </p>
             </div>
@@ -81,7 +89,7 @@
     <a-layout class="talk-layout-content">
 
       <div v-show="activeKey == '1'" class="chat-area">
-        <user-chat :chat="currentChat" @showChat="showChat"/>
+        <user-chat :chatInfo="currentChat" @showChat="showChat"/>
       </div>
 
       <div v-show="activeKey == '2'" class="info-area">
@@ -152,7 +160,8 @@ export default {
       activeChat: '',
 
       // 加载状态
-      reloadLoading: false,
+      recentLoading: false,
+      groupLoading: false,
       contactsLoading: false
     }
   },
@@ -167,10 +176,10 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.chat.chatList
+        return this.$store.state.chat.recentChatList
       },
-      set: function (chatList) {
-        this.$store.commit('SET_CHAT_LIST', chatList)
+      set: function (recentChatList) {
+        this.$store.commit('SET_RECENT_CHAT_LIST', recentChatList)
       }
     },
     groupList () {
@@ -181,10 +190,9 @@ export default {
     }
   },
   created () {
-    // 加载群组列表
-    this.$store.dispatch('GetGroupList')
-    // 加载联系人列表
-    this.$store.dispatch('GetContactsTree')
+    this.getRecentContacts()
+    this.getContactsTree()
+    this.getGroupList()
   },
   methods: {
     /* 切换面板 */
@@ -216,7 +224,7 @@ export default {
         self.$store.commit('SET_CURRENT_CHAT', firstChat)
       }
       // 重新设置chatList
-      self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+      self.$store.commit('SET_RECENT_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
       // Chat会话框中的研讨信息每次滚动到最底部
       this.$nextTick(() => {
         // imageLoad('message-box')
@@ -235,19 +243,37 @@ export default {
       this.activeContacts = key
     },
     /**
-     * 重新加载群组列表
+     * 加载群组列表
      * @author jihainan
      */
-    reloadGroupList () {
-      this.reloadLoading = true
+    getGroupList () {
+      this.groupLoading = true
       this.$store.dispatch('GetGroupList').finally(() => {
-        this.reloadLoading = false
+        this.groupLoading = false
       })
     },
+    /**
+     * 加载联系人树
+     * @author jihainan
+     */
     getContactsTree () {
       this.contactsLoading = true
       this.$store.dispatch('GetContactsTree').finally(() => {
         this.contactsLoading = false
+      })
+    },
+    /**
+     * 获取最近联系列表
+     * @author jihainan
+     */
+    getRecentContacts () {
+      this.recentLoading = true
+      this.$store.dispatch('GetRecentContacts').then(res => {
+        if (this.$store.state.user.info.id) {
+          ChatListUtils.setChatList(this.$store.state.user.info.id, res.result.data)
+        }
+      }).finally(() => {
+        this.recentLoading = false
       })
     }
 
@@ -263,7 +289,7 @@ export default {
       self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
     }
     // 重新设置chatList
-    self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+    self.$store.commit('SET_RECENT_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
     // 每次滚动到最底部
     this.$nextTick(() => {
       imageLoad('message-box')
@@ -419,18 +445,10 @@ export default {
 
     // 群组标签页样式
     .group-contacts-container {
-      .reload-group-list {
-        text-align: center;
-        padding: 32px;
-      }
     }
 
     // 联系人标签页样式
     .contacts-container {
-      .reload-contacts-tree {
-        text-align: center;
-        padding: 32px;
-      }
     }
 
     // 让最近 群组 联系人tab页的内容可以滚动的样式
@@ -444,6 +462,12 @@ export default {
         overflow-y: overlay;
       }
 
+    }
+
+    // 加载失败或列表为空的提示信息样式
+    .empty-tips {
+      text-align: center;
+      padding: 32px;
     }
   }
 
