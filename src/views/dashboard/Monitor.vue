@@ -10,7 +10,7 @@
         :row-height="52"
         :max-rows="12"
         :is-draggable="true"
-        :is-resizable="true"
+        :is-resizable="false"
         :is-mirrored="false"
         :vertical-compact="true"
         :margin="[10, 10]"
@@ -34,30 +34,30 @@
           @resize="resizeEvent"
           @changeLayout="changeLayout"
         >
-          <Discuss
-            v-if="grid.is==='discuss'"
+          <Message
+            v-if="grid.is==='message'"
             :headStyle="headStyle"
             :data="monitor[grid.is]"
             @myChartSize="myChartSize"
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
-          </Discuss>
-          <TodoPlanTask
-            v-if="grid.is==='todo-plan-task'"
+          </Message>
+          <TodoList
+            v-if="grid.is==='todo'"
             :headStyle="headStyle"
             :data="monitor[grid.is]"
             @myChartSize="myChartSize"
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
-          </TodoPlanTask>
-          <Meeting
-            v-if="grid.is==='meeting'"
+          </TodoList>
+          <MyCollect
+            v-if="grid.is==='mycollect'"
             :headStyle="headStyle"
             :data="monitor[grid.is]"
             @myChartSize="myChartSize"
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
-          </Meeting>
+          </MyCollect>
           <ResourceKnowledgeModel
             v-if="grid.is==='resource-knowledge-model'"
             :headStyle="headStyle"
@@ -161,15 +161,18 @@ import Tool from './components/Tool.vue'
 import HotNewsWindows from './components/HotNewsWindows'
 import HotNews from './components/HotNewsWindows/HotNews'
 import NewsWindow from './components/HotNewsWindows/NewsWindow'
+import MyCollect from './components/MyCollect'
+import Message from './components/Message'
+import TodoList from './components/TodoList'
 import LinkFooter from './components/Link.vue'
 
 import SettingDrawer from './components/SettingDrawer.vue'
 import './components/monitor.less'
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true, minW: 4 },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true, minW: 4 },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true, minW: 4 },
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '消息', is: 'message', show: true, minW: 4 },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办', is: 'todo', show: true, minW: 4 },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的收藏', is: 'mycollect', show: true, minW: 4 },
   { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true, minW: 4 },
   { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false, minW: 4 },
   { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 4 },
@@ -325,6 +328,9 @@ export default {
     HotNewsWindows,
     HotNews,
     NewsWindow,
+    MyCollect,
+    Message,
+    TodoList,
     // TreeCustom,
     // Container,
     // Draggable,
