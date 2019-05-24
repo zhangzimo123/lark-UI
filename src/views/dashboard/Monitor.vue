@@ -516,8 +516,8 @@ export default {
       this.addLinkIconVisible = true
       this.form.setFieldsValue({
         'img': '',
-        'link': '',
-      });
+        'link': ''
+      })
     },
     handleOk (e) {
       e.preventDefault()
