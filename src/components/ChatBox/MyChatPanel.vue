@@ -42,7 +42,7 @@
             </span>
             <div class="talk-box-container">
               <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
-                <recent-contacts-item :contactsInfo="item[index]"></recent-contacts-item>
+                <recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat" style="background-color: white!important;"></recent-contacts-item>
               </div>
             </div>
           </a-tab-pane>

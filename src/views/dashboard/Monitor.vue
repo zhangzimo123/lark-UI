@@ -10,7 +10,7 @@
         :row-height="52"
         :max-rows="12"
         :is-draggable="true"
-        :is-resizable="true"
+        :is-resizable="false"
         :is-mirrored="false"
         :vertical-compact="true"
         :margin="[10, 10]"
@@ -34,30 +34,30 @@
           @resize="resizeEvent"
           @changeLayout="changeLayout"
         >
-          <Discuss
-            v-if="grid.is==='discuss'"
+          <Message
+            v-if="grid.is==='message'"
             :headStyle="headStyle"
             :data="monitor[grid.is]"
             @myChartSize="myChartSize"
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
-          </Discuss>
-          <TodoPlanTask
-            v-if="grid.is==='todo-plan-task'"
+          </Message>
+          <TodoList
+            v-if="grid.is==='todo'"
             :headStyle="headStyle"
             :data="monitor[grid.is]"
             @myChartSize="myChartSize"
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
-          </TodoPlanTask>
-          <Meeting
-            v-if="grid.is==='meeting'"
+          </TodoList>
+          <MyCollect
+            v-if="grid.is==='mycollect'"
             :headStyle="headStyle"
             :data="monitor[grid.is]"
             @myChartSize="myChartSize"
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
-          </Meeting>
+          </MyCollect>
           <ResourceKnowledgeModel
             v-if="grid.is==='resource-knowledge-model'"
             :headStyle="headStyle"
@@ -116,8 +116,8 @@
           </HotNewsWindows>
         </grid-item>
       </grid-layout>
-      <span class="myWorkSetButton">
-        <a-button type="link" @click="this.toggle"><a-icon type="setting" /></a-button>
+      <span class="myWorkSetButton" @click="this.toggle">
+        <a-icon type="setting" />
       </span>
       <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">-->
       <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel">-->
@@ -126,18 +126,51 @@
       <!--<div class="myWorkShopIconInfoTip"></div>-->
       <!--</div>-->
       <span class="myWorkShopIcon" @click="this.openMyChatPanel">
-        <a-button type="link"><a-icon type="message" /></a-button>
+        <a-icon type="message" />
       </span>
     </div>
     <!--这个地方放置最近访问-->
     <footer-tool-bar v-if="loaded" :style="{height:'86px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-      <link-footer :data="link" />
+      <img class="addLinkIcon" :src=" require('@/assets/add-group.png')" @click="showModal" />
+      <link-footer :data="linkList" />
     </footer-tool-bar>
     <div>
       <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
       <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
     </div>
     <setting-drawer :layout="layout" :visible="settingDrawerVisible" @closeToggle="closeToggle"/>
+    <a-modal
+      :visible="addLinkIconVisible"
+      title="新增链接"
+      @ok="handleOk"
+      :confirmLoading="confirmLoading"
+      @cancel="handleCancel"
+    >
+      <a-form
+        :form="form"
+      >
+        <a-form-item
+          label="图片地址"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
+        >
+          <a-input
+            v-model="img"
+            v-decorator="['img',{rules: [{ required: true, message: '请输入图片地址!' }]}]"
+          />
+        </a-form-item>
+        <a-form-item
+          label="打开链接"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
+        >
+          <a-input
+            v-model="link"
+            v-decorator="['link',{rules: [{ required: true, message: '请输入打开链接!' }]}]"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -161,15 +194,18 @@ import Tool from './components/Tool.vue'
 import HotNewsWindows from './components/HotNewsWindows'
 import HotNews from './components/HotNewsWindows/HotNews'
 import NewsWindow from './components/HotNewsWindows/NewsWindow'
+import MyCollect from './components/MyCollect'
+import Message from './components/Message'
+import TodoList from './components/TodoList'
 import LinkFooter from './components/Link.vue'
 
 import SettingDrawer from './components/SettingDrawer.vue'
 import './components/monitor.less'
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss', show: true, minW: 4 },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todo-plan-task', show: true, minW: 4 },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting', show: true, minW: 4 },
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '消息', is: 'message', show: true, minW: 4 },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办', is: 'todo', show: true, minW: 4 },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的收藏', is: 'mycollect', show: true, minW: 4 },
   { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true, minW: 4 },
   { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false, minW: 4 },
   { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 4 },
@@ -277,7 +313,7 @@ export default {
         ]
       },
       monitor: {},
-      link: {
+      linkList: {
         content: [
           {
             img: require('@/assets/links/abaqus.png')
@@ -302,7 +338,12 @@ export default {
           }
         ],
         total: 20
-      }
+      },
+      addLinkIconVisible: false,
+      confirmLoading: false,
+      form: this.$form.createForm(this),
+      img: '',
+      link: ''
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
@@ -325,6 +366,9 @@ export default {
     HotNewsWindows,
     HotNews,
     NewsWindow,
+    MyCollect,
+    Message,
+    TodoList,
     // TreeCustom,
     // Container,
     // Draggable,
@@ -467,6 +511,29 @@ export default {
     },
     changeLayout (index, flag) {
       this.layout[index].show = flag
+    },
+    showModal () {
+      this.addLinkIconVisible = true
+      this.form.setFieldsValue({
+        'img': '',
+        'link': '',
+      });
+    },
+    handleOk (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        this.confirmLoading = true
+        if (!err) {
+          setTimeout(() => {
+            this.addLinkIconVisible = false
+          }, 2000)
+        }
+        this.confirmLoading = false
+      })
+    },
+    handleCancel (e) {
+      console.log('Clicked cancel button')
+      this.addLinkIconVisible = false
     }
   }
 }
@@ -494,8 +561,8 @@ export default {
   }
   .myWorkShopIcon{
     position: fixed;
-    top: 15px;
-    right: 200px;
+    top: 25px;
+    right: 211px;
     z-index: 999;
     /*background: rgba(105,105,105,0.75);*/
     border-radius: 25px;
@@ -505,7 +572,7 @@ export default {
   }
   .myWorkSetButton{
     position: fixed;
-    top: 16px;
+    top: 21px;
     right: 250px;
     z-index: 999;
   }
@@ -708,5 +775,15 @@ export default {
   .ant-card-body {
     padding: 16px;
     zoom: 1;
+  }
+  .addLinkIcon{
+    width: 66px;
+    height: 66px;
+    border: 2px solid #2eabff;
+    padding: 10px;
+    border-radius: 10px;
+    /*box-shadow: 0 0 5px #2eabff;*/
+    margin: 10px 10px 5px 10px;
+    float: left;
   }
 </style>
