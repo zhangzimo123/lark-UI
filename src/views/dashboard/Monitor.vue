@@ -116,8 +116,8 @@
           </HotNewsWindows>
         </grid-item>
       </grid-layout>
-      <span class="myWorkSetButton">
-        <a-button type="link" @click="this.toggle"><a-icon type="setting" /></a-button>
+      <span class="myWorkSetButton" @click="this.toggle">
+        <a-icon type="setting" />
       </span>
       <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">-->
       <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel">-->
@@ -126,18 +126,51 @@
       <!--<div class="myWorkShopIconInfoTip"></div>-->
       <!--</div>-->
       <span class="myWorkShopIcon" @click="this.openMyChatPanel">
-        <a-button type="link"><a-icon type="message" /></a-button>
+        <a-icon type="message" />
       </span>
     </div>
     <!--这个地方放置最近访问-->
     <footer-tool-bar v-if="loaded" :style="{height:'86px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-      <link-footer :data="link" />
+      <img class="addLinkIcon" :src=" require('@/assets/add-group.png')" @click="showModal" />
+      <link-footer :data="linkList" />
     </footer-tool-bar>
     <div>
       <my-chat-panel class="myChatPanel" :myChatPanelIsShow="myChatPanelIsShow" ref="chatPanel" />
       <search-window :searchWindowIsShow="searchWindowIsShow" :tree="tree" />
     </div>
     <setting-drawer :layout="layout" :visible="settingDrawerVisible" @closeToggle="closeToggle"/>
+    <a-modal
+      :visible="addLinkIconVisible"
+      title="新增链接"
+      @ok="handleOk"
+      :confirmLoading="confirmLoading"
+      @cancel="handleCancel"
+    >
+      <a-form
+        :form="form"
+      >
+        <a-form-item
+          label="图片地址"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
+        >
+          <a-input
+            v-model="img"
+            v-decorator="['img',{rules: [{ required: true, message: '请输入图片地址!' }]}]"
+          />
+        </a-form-item>
+        <a-form-item
+          label="打开链接"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
+        >
+          <a-input
+            v-model="link"
+            v-decorator="['link',{rules: [{ required: true, message: '请输入打开链接!' }]}]"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -280,7 +313,7 @@ export default {
         ]
       },
       monitor: {},
-      link: {
+      linkList: {
         content: [
           {
             img: require('@/assets/links/abaqus.png')
@@ -305,7 +338,12 @@ export default {
           }
         ],
         total: 20
-      }
+      },
+      addLinkIconVisible: false,
+      confirmLoading: false,
+      form: this.$form.createForm(this),
+      img: '',
+      link: ''
       // items: generateItems(50, i => ({ id: i, data: 'Draggable' + i }))
     }
   },
@@ -473,6 +511,29 @@ export default {
     },
     changeLayout (index, flag) {
       this.layout[index].show = flag
+    },
+    showModal () {
+      this.addLinkIconVisible = true
+      this.form.setFieldsValue({
+        'img': '',
+        'link': '',
+      });
+    },
+    handleOk (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        this.confirmLoading = true
+        if (!err) {
+          setTimeout(() => {
+            this.addLinkIconVisible = false
+          }, 2000)
+        }
+        this.confirmLoading = false
+      })
+    },
+    handleCancel (e) {
+      console.log('Clicked cancel button')
+      this.addLinkIconVisible = false
     }
   }
 }
@@ -500,8 +561,8 @@ export default {
   }
   .myWorkShopIcon{
     position: fixed;
-    top: 15px;
-    right: 200px;
+    top: 25px;
+    right: 211px;
     z-index: 999;
     /*background: rgba(105,105,105,0.75);*/
     border-radius: 25px;
@@ -511,7 +572,7 @@ export default {
   }
   .myWorkSetButton{
     position: fixed;
-    top: 16px;
+    top: 21px;
     right: 250px;
     z-index: 999;
   }
@@ -714,5 +775,15 @@ export default {
   .ant-card-body {
     padding: 16px;
     zoom: 1;
+  }
+  .addLinkIcon{
+    width: 66px;
+    height: 66px;
+    border: 2px solid #2eabff;
+    padding: 10px;
+    border-radius: 10px;
+    /*box-shadow: 0 0 5px #2eabff;*/
+    margin: 10px 10px 5px 10px;
+    float: left;
   }
 </style>
