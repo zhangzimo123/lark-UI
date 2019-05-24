@@ -124,9 +124,9 @@ import {
   imageLoad,
   MessageInfoType,
   MessageTargetType,
-  ErrorType,
   timeoutFetch
 } from '../../utils/talk/chatUtils'
+import { ErrorType } from '@/utils/constants'
 import conf from '@/api/index'
 import HttpApiUtils from '../../utils/talk/HttpApiUtils'
 
@@ -168,6 +168,7 @@ export default {
   computed: {
     currentChat: {
       get: function () {
+        console.log(this.$store.state.chat.currentChat)
         return this.$store.state.chat.currentChat
       },
       set: function (currentChat) {
