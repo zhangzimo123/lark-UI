@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div>{{ messageInfo }}</div>
+      <!-- <div>{{ messageInfo }}</div> -->
 
     </div>
 

@@ -79,9 +79,10 @@ import {
   imageLoad,
   MessageInfoType,
   MessageTargetType,
-  ErrorType,
   timeoutFetch
 } from '../../../utils/talk/chatUtils'
+import { ErrorType } from '@/utils/constants'
+
 export default {
   props: {
     data: {

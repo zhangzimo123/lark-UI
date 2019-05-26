@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import { ErrorType } from '@/utils/constants'
+
 // 格式化时间
 export function formatDateTime (date) {
   const y = date.getFullYear()
@@ -424,12 +426,4 @@ export function tokenFetch (url, formData) {
     },
     body: formData
   })
-}
-
-export const ErrorType = {
-  TIMEOUT_ERROR: 9, // 超时
-  TOKEN_ERROR: 401, // token 失效错误
-  PARAM_ERROR: 400, // 参数错误
-  FLUSH_TOKEN_ERROR: 7, // 刷新token错误
-  SERVER_ERROR: 500 // 刷新token错误
 }
