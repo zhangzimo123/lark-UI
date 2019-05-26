@@ -7,7 +7,6 @@ const SECRETLEVEL_ENUM = new Map([
   [60, { people: '非密', file: '非密' }],
   [70, { people: '一般', file: '秘密' }],
   [80, { people: '重要', file: '机密' }],
-  [90, { people: '核心', file: '绝密' }],
   ['default', '非密']
 ])
 
