@@ -131,7 +131,7 @@
     </div>
     <!--这个地方放置最近访问-->
     <footer-tool-bar v-if="loaded" :style="{height:'86px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-      <img class="addLinkIcon" :src=" require('@/assets/add-group.png')" @click="showModal" />
+      <img class="addLinkIcon" :src=" require('@/assets/add-link.jpg')" @click="showModal" />
       <link-footer :data="linkList" />
     </footer-tool-bar>
     <div>
@@ -779,9 +779,9 @@ export default {
   .addLinkIcon{
     width: 66px;
     height: 66px;
-    border: 2px solid #2eabff;
-    padding: 10px;
-    border-radius: 10px;
+    /*border: 2px solid #2eabff;*/
+    /*padding: 10px;*/
+    /*border-radius: 10px;*/
     /*box-shadow: 0 0 5px #2eabff;*/
     margin: 10px 10px 5px 10px;
     float: left;

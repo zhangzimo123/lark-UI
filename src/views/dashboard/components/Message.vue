@@ -38,7 +38,9 @@
           </a-row>
         </template>
         <a href="#">
-          <a-icon type="plus" style="color: #516efc"/>
+          <!--<a-icon type="plus" style="color: #516efc"/>-->
+          <img style="width: 14px;height: 14px;" :src=" require('@/assets/more.jpg')" />
+          <img />
         </a>
       </a-popover>
       <div v-if="this.typeMap==0"><Discuss :data="data.discuss" ></Discuss></div>
