@@ -58,62 +58,78 @@
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
           </MyCollect>
-          <ResourceKnowledgeModel
-            v-if="grid.is==='resource-knowledge-model'"
+          <Calendar
+            v-if="grid.is==='calendar'"
             :headStyle="headStyle"
             :data="monitor[grid.is]"
             @myChartSize="myChartSize"
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
-          </ResourceKnowledgeModel>
-          <Simulation
-            v-if="grid.is==='simulation'"
+          </Calendar>
+          <WorkSituation
+            v-if="grid.is==='worksituation'"
             :headStyle="headStyle"
             :data="monitor[grid.is]"
             @myChartSize="myChartSize"
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
-          </Simulation>
-          <Datas
-            v-if="grid.is==='datas'"
-            :headStyle="headStyle"
-            :data="monitor[grid.is]"
-            @myChartSize="myChartSize"
-            @showChatPanel="showChatPanel"
-            @remove="grid.show=false">
-          </Datas>
-          <stat
-            v-if="grid.is==='stat'"
-            :headStyle="headStyle"
-            :data="monitor[grid.is]"
-            @myChartSize="myChartSize"
-            @showChatPanel="showChatPanel"
-            @remove="grid.show=false">
-          </stat>
-          <PDMTDM
-            v-if="grid.is==='PDMTDM'"
-            :headStyle="headStyle"
-            :data="monitor[grid.is]"
-            @myChartSize="myChartSize"
-            @showChatPanel="showChatPanel"
-            @remove="grid.show=false">
-          </PDMTDM>
-          <tool
-            v-if="grid.is==='tool'"
-            :headStyle="headStyle"
-            :data="monitor[grid.is]"
-            @myChartSize="myChartSize"
-            @showChatPanel="showChatPanel"
-            @remove="grid.show=false">
-          </tool>
-          <HotNewsWindows
-            v-if="grid.is==='HotNewsWindows'"
-            :headStyle="headStyle"
-            :data="monitor[grid.is]"
-            @myChartSize="myChartSize"
-            @showChatPanel="showChatPanel"
-            @remove="grid.show=false">
-          </HotNewsWindows>
+          </WorkSituation>
+          <!--<ResourceKnowledgeModel-->
+          <!--v-if="grid.is==='resource-knowledge-model'"-->
+          <!--:headStyle="headStyle"-->
+          <!--:data="monitor[grid.is]"-->
+          <!--@myChartSize="myChartSize"-->
+          <!--@showChatPanel="showChatPanel"-->
+          <!--@remove="grid.show=false">-->
+          <!--</ResourceKnowledgeModel>-->
+          <!--<Simulation-->
+          <!--v-if="grid.is==='simulation'"-->
+          <!--:headStyle="headStyle"-->
+          <!--:data="monitor[grid.is]"-->
+          <!--@myChartSize="myChartSize"-->
+          <!--@showChatPanel="showChatPanel"-->
+          <!--@remove="grid.show=false">-->
+          <!--</Simulation>-->
+          <!--<Datas-->
+          <!--v-if="grid.is==='datas'"-->
+          <!--:headStyle="headStyle"-->
+          <!--:data="monitor[grid.is]"-->
+          <!--@myChartSize="myChartSize"-->
+          <!--@showChatPanel="showChatPanel"-->
+          <!--@remove="grid.show=false">-->
+          <!--</Datas>-->
+          <!--<stat-->
+          <!--v-if="grid.is==='stat'"-->
+          <!--:headStyle="headStyle"-->
+          <!--:data="monitor[grid.is]"-->
+          <!--@myChartSize="myChartSize"-->
+          <!--@showChatPanel="showChatPanel"-->
+          <!--@remove="grid.show=false">-->
+          <!--</stat>-->
+          <!--<PDMTDM-->
+          <!--v-if="grid.is==='PDMTDM'"-->
+          <!--:headStyle="headStyle"-->
+          <!--:data="monitor[grid.is]"-->
+          <!--@myChartSize="myChartSize"-->
+          <!--@showChatPanel="showChatPanel"-->
+          <!--@remove="grid.show=false">-->
+          <!--</PDMTDM>-->
+          <!--<tool-->
+          <!--v-if="grid.is==='tool'"-->
+          <!--:headStyle="headStyle"-->
+          <!--:data="monitor[grid.is]"-->
+          <!--@myChartSize="myChartSize"-->
+          <!--@showChatPanel="showChatPanel"-->
+          <!--@remove="grid.show=false">-->
+          <!--</tool>-->
+          <!--<HotNewsWindows-->
+          <!--v-if="grid.is==='HotNewsWindows'"-->
+          <!--:headStyle="headStyle"-->
+          <!--:data="monitor[grid.is]"-->
+          <!--@myChartSize="myChartSize"-->
+          <!--@showChatPanel="showChatPanel"-->
+          <!--@remove="grid.show=false">-->
+          <!--</HotNewsWindows>-->
         </grid-item>
       </grid-layout>
       <span class="myWorkSetButton" @click="this.toggle">
@@ -131,7 +147,7 @@
     </div>
     <!--这个地方放置最近访问-->
     <footer-tool-bar v-if="loaded" :style="{height:'86px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
-      <img class="addLinkIcon" :src=" require('@/assets/add-link.jpg')" @click="showModal" />
+      <img class="addLinkIcon" :src=" require('@/assets/add-group.png')" @click="showModal" />
       <link-footer :data="linkList" />
     </footer-tool-bar>
     <div>
@@ -198,31 +214,31 @@ import MyCollect from './components/MyCollect'
 import Message from './components/Message'
 import TodoList from './components/TodoList'
 import LinkFooter from './components/Link.vue'
+import WorkSituation from './components/WorkSituation.vue'
 
 import SettingDrawer from './components/SettingDrawer.vue'
 import './components/monitor.less'
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '消息', is: 'message', show: true, minW: 4 },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办', is: 'todo', show: true, minW: 4 },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的收藏', is: 'mycollect', show: true, minW: 4 },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model', show: true, minW: 4 },
-  { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation', show: false, minW: 4 },
-  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas', show: false, minW: 4 },
-  { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '6', 'title': '统计板', is: 'stat', show: false, minW: 12 },
-  { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '7', 'title': 'PDM-TDM', is: 'PDMTDM', show: false, minW: 4 },
-  { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '8', 'title': '工具仓', is: 'tool', show: false, minW: 4 },
-  { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '9', 'title': '热点咨讯', is: 'HotNewsWindows', show: false, minW: 12 }
-  // { 'x': 0, 'y': 30, 'w': 6, 'h': 5, 'i': '10', 'title': '日历墙', is: 'Calendar', show: false }
-
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 7, 'i': '0', 'title': '消息', is: 'message', show: true, minW: 4 },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 7, 'i': '1', 'title': '待办', is: 'todo', show: true, minW: 4 },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 7, 'i': '2', 'title': '我的收藏', is: 'mycollect', show: true, minW: 4 },
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 7, 'i': '3', 'title': '日历墙', is: 'calendar', show: true },
+  { 'x': 0, 'y': 10, 'w': 12, 'h': 7, 'i': '4', 'title': '工作情况', is: 'worksituation', show: true, minW: 4 }
+  // { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '5', 'title': '资源池', is: 'resource-knowledge-model', show: true, minW: 4 },
+  // { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '6', 'title': '仿真台', is: 'simulation', show: false, minW: 4 },
+  // { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '7', 'title': '数据板', is: 'datas', show: false, minW: 4 },
+  // { 'x': 0, 'y': 15, 'w': 12, 'h': 5, 'i': '8', 'title': '统计板', is: 'stat', show: false, minW: 12 },
+  // { 'x': 0, 'y': 20, 'w': 6, 'h': 5, 'i': '9', 'title': 'PDM-TDM', is: 'PDMTDM', show: false, minW: 4 },
+  // { 'x': 6, 'y': 20, 'w': 6, 'h': 5, 'i': '10', 'title': '工具仓', is: 'tool', show: false, minW: 4 },
+  // { 'x': 0, 'y': 25, 'w': 12, 'h': 5, 'i': '11', 'title': '热点咨讯', is: 'HotNewsWindows', show: false, minW: 12 }
 ]
 var historyLayout = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨厅', is: 'discuss' },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项', is: 'todoPlanTask' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '会议室', is: 'meeting' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '资源池', is: 'resource-knowledge-model' },
-  { 'x': 0, 'y': 10, 'w': 6, 'h': 5, 'i': '4', 'title': '仿真台', is: 'simulation' },
-  { 'x': 6, 'y': 10, 'w': 6, 'h': 5, 'i': '5', 'title': '数据板', is: 'datas' }
+  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '消息', is: 'message' },
+  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办', is: 'todo' },
+  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的收藏', is: 'mycollect' },
+  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '日历墙', is: 'calendar' },
+  { 'x': 0, 'y': 10, 'w': 12, 'h': 5, 'i': '4', 'title': '工作情况', is: 'worksituation' }
 ]
 // 工作台看板模拟数据
 export default {
@@ -355,6 +371,7 @@ export default {
     FooterToolBar,
     MyChatPanel,
     Simulation,
+    WorkSituation,
     // plan,
     // task,
     TodoPlanTask,
@@ -516,8 +533,8 @@ export default {
       this.addLinkIconVisible = true
       this.form.setFieldsValue({
         'img': '',
-        'link': '',
-      });
+        'link': ''
+      })
     },
     handleOk (e) {
       e.preventDefault()
@@ -779,9 +796,9 @@ export default {
   .addLinkIcon{
     width: 66px;
     height: 66px;
-    /*border: 2px solid #2eabff;*/
-    /*padding: 10px;*/
-    /*border-radius: 10px;*/
+    border: 2px solid #2eabff;
+    padding: 10px;
+    border-radius: 10px;
     /*box-shadow: 0 0 5px #2eabff;*/
     margin: 10px 10px 5px 10px;
     float: left;

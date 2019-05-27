@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px'}">
+      :style="{ height: '420px'}">
       <div slot="title">
         <a-row>
           <a-col>
@@ -17,7 +17,7 @@
               @change="fetchData"
               size="small">
               <a-radio-button :value="0" >{{ "研讨" }}</a-radio-button>
-              <a-radio-button :value="1">{{ "邮件" }}</a-radio-button>
+              <!--<a-radio-button :value="1">{{ "邮件" }}</a-radio-button>-->
               <a-radio-button :value="2">{{ "其他" }}</a-radio-button>
             </a-radio-group>
           </a-col>

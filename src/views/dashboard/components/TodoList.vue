@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px'}"
+      :style="{ height: '420px'}"
     >
       <div slot="title">
         <a-row>
@@ -63,7 +63,7 @@ export default {
   },
   computed: {
     showList () {
-      return this.data.content.slice(0, 5)
+      return this.data.content.slice(0, 8)
     }
   },
   methods: {

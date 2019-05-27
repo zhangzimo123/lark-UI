@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px'}"
+      :style="{ height: '420px'}"
     >
       <div slot="title">
         <a-row>
@@ -107,7 +107,7 @@ export default {
       const vm = this
       return this.data.content.filter(item => {
         return vm.selectedType === 0 || vm.selectedType === item.type
-      }).slice(0, 5)
+      }).slice(0, 8)
     }
   },
   methods: {

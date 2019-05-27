@@ -115,7 +115,7 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.chat.chatList.slice(0, 5)
+        return this.$store.state.chat.chatList.slice(0, 7)
       },
       set: function (chatList) {
         this.$store.commit('SET_CHAT_LIST', chatList)

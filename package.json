@@ -24,6 +24,7 @@
     "v-emoji-picker": "^1.1.1",
     "viser-vue": "^2.3.3",
     "vue": "^2.5.22",
+    "vue-cal": "^1.58.0",
     "vue-clipboard2": "^0.2.1",
     "vue-cropper": "^0.4.4",
     "vue-grid-layout": "^2.3.4",
