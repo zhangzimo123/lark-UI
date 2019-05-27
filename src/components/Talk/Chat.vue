@@ -1,7 +1,21 @@
 <template>
-  <a-layout v-if="Object.keys(chatInfo).length" id="talkSetting" class="conv-box">
+  <a-layout v-if="Object.keys(chatInfo).length" class="conv-box">
 
     <!-- <talk-setting ref="model" :talk="talkId"/> -->
+    <!-- <a-drawer
+      placement="right"
+      getContainer=".conv-box"
+      title="聊天记录"
+      :wrapStyle="{marginTop: '64px'}"
+      :width="448"
+      :closable="false"
+      @close="onClose"
+      :visible="visible">
+      <p>Some contents...</p>
+      <p>Some contents...</p>
+      <p>Some contents...</p>
+    </a-drawer> -->
+    <talk-history :activeOption="activeOption" @closeDrawer="triggerDrawer('')"></talk-history>
 
     <a-layout-header class="conv-box-header">
       <a-row type="flex" justify="space-between">
@@ -15,7 +29,7 @@
         </a-col>
 
         <a-col :span="10" class="conv-option">
-          <div style="float: right">
+          <div v-if="!isPopup" style="float: right">
             <!-- 需要判断是否为群聊，操作选项不同 -->
             <a-tooltip
               v-for="(item, index) in optionFilter(chatInfo.isGroup)"
@@ -26,7 +40,8 @@
               <template slot="title">
                 <span>{{ item.message }}</span>
               </template>
-              <a-icon style="marginLeft: 20px" :type="item.type" />
+              <!-- <a-icon @click="openDrawer(item.name)" style="marginLeft: 20px" :type="item.type" /> -->
+              <a-icon @click="triggerDrawer(item.name)" style="marginLeft: 20px" :type="item.type" />
             </a-tooltip>
           </div>
         </a-col>
@@ -131,7 +146,8 @@
 <script>
 import conf from '@/api/index'
 import Faces from './Face.vue'
-import TalkSetting from './setting/TalkSetting'
+import TalkSetting from '@/components/Talk/drawers/TalkSetting'
+import TalkHistory from '@/components/Talk/drawers/TalkHistory'
 import MessagePiece from './MessagePiece'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
 import VEmojiPicker from 'v-emoji-picker'
@@ -144,7 +160,8 @@ export default {
     VEmojiPicker,
     Faces,
     TalkSetting,
-    MessagePiece
+    MessagePiece,
+    TalkHistory
   },
   name: 'UserChat',
   props: {
@@ -152,16 +169,23 @@ export default {
     chatInfo: {
       type: Object,
       default: () => ({})
+    },
+    /** 是否为弹框式的聊天窗口 */
+    isPopup: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   mixins: [ mixinSecret ],
   data () {
     return {
+      // 被激活的抽屉
+      activeOption: '',
       facesVisible: false,
       pack: packData,
-
+      visible: false,
       wrapClass: 'talk-setting',
-      wrapId: 'talkSetting',
       host: conf.getHostUrl(),
       count: 0,
       pageSize: 20,
@@ -276,14 +300,26 @@ export default {
         }
       })
     },
+    /**
+     * 通过isGroup属性过滤聊天选项
+     * @author jihainan
+     */
     optionFilter (isGroup) {
       const optionList = [
-        { group: true, message: '群公告', type: 'notification' },
-        { group: true, message: '标记信息', type: 'tags' },
-        { group: false, message: '聊天内容', type: 'file-text' },
-        { group: false, message: '文件', type: 'folder-open' },
-        { group: false, message: '更多', type: 'ellipsis' }]
+        { group: true, name: 'groupNotice', message: '群公告', type: 'notification' },
+        { group: true, name: 'markupInfo', message: '标记信息', type: 'tags' },
+        { group: false, name: 'talkHistory', message: '聊天内容', type: 'file-text' },
+        { group: false, name: 'chatFile', message: '文件', type: 'folder-open' },
+        { group: false, name: 'moreInfo', message: '更多', type: 'ellipsis' }]
       return isGroup ? optionList : optionList.filter(item => !item.group)
+    },
+    /**
+     * 根据drawerName打开对应的抽屉
+     * @author jihainan
+     */
+    triggerDrawer (drawerName) {
+      this.avtiveOption = drawerName
+      // console.log(drawerName)
     },
     talkItemEnter () {
       this.activeItemHandle = true
@@ -484,10 +520,10 @@ export default {
     &-header {
       position: relative;
       top: 0;
-      height: 48px;
+      height: 55px;
       width: 100%;
 
-      line-height: 48px;
+      line-height: 55px;
       padding: 0 20px;
       background-color: #f2f3f5;
       border-bottom: 1px solid #dcdee0;

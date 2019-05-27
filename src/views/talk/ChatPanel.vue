@@ -427,7 +427,7 @@ export default {
     // 聊天搜索栏样式 该部分高度为48px
     .search-bar {
       display: flex;
-      margin: 12px;
+      margin: 16px 12px 8px;
     }
 
     // 调整tabs标签样式
