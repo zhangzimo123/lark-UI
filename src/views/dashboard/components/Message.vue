@@ -30,10 +30,11 @@
         <template slot="content">
           <a-row>
             <a-col>
-              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+              <a @click="$emit('remove')" style="color: #516efc"><a-icon type="minus-circle" /><span style="margin-left: 5px">更多</span></a>
             </a-col>
+            <a-divider type="horizontal " style="margin-top: 3px;margin-bottom: 3px" />
             <a-col>
-              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+              <a @click="$emit('remove')" style="color: #516efc"><a-icon type="minus-circle" /><span style="margin-left: 5px">移除卡片</span></a>
             </a-col>
           </a-row>
         </template>
@@ -94,4 +95,11 @@ export default {
 }
 </script>
 <style scoped>
+  .ant-radio-button-wrapper:last-child {
+    border-radius: 0 0 0 0;
+  }
+  .ant-radio-button-wrapper:first-child {
+    border-radius: 0 0 0 0;
+    border-left: 1px solid #d9d9d9;
+  }
 </style>

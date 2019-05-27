@@ -20,12 +20,13 @@
         <template slot="content">
           <a-row>
             <a-col>
-              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+              <a @click="$emit('remove')" style="color: #516efc"><a-icon type="minus-circle" /><span style="margin-left: 5px">移除卡片</span></a>
             </a-col>
           </a-row>
         </template>
         <a href="#">
-          <a-icon type="plus" style="color: #516efc"/>
+          <!--<a-icon type="plus" style="color: #516efc"/>-->
+          <img style="width: 14px;height: 14px;" :src=" require('@/assets/more.jpg')" />
         </a>
       </a-popover>
       <div>

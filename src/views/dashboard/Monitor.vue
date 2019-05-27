@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 1000%;" >
+  <div style="height: 155%;" >
     <a-spin :spinning="loaded === false" size="large" style="margin-top: 25%;margin-left: 50%" >
     </a-spin>
     <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
