@@ -169,7 +169,7 @@ export default {
       isShowWelcome: true,
       memberVisible: false,
       active: '',
-      searchObj:{
+      searchObj: {
         searchValue: ''
       },
       searchResultList: [],
@@ -289,7 +289,7 @@ export default {
     },
     onFocus () {
       console.log('onFocus')
-      if(!this.searchObj.searchValue){
+      if (!this.searchObj.searchValue) {
         this.searchResultList = []
       }
       this.showSearchContent = false
