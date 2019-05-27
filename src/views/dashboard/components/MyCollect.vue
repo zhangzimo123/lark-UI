@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px'}"
+      :style="{ height: '420px'}"
     >
       <div slot="title">
         <a-row>
@@ -21,15 +21,17 @@
         <template slot="content">
           <a-row>
             <a-col>
-              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+              <a @click="$emit('remove')" style="color: #516efc"><a-icon type="minus-circle" /><span style="margin-left: 5px">更多</span></a>
             </a-col>
+            <a-divider type="horizontal " style="margin-top: 3px;margin-bottom: 3px" />
             <a-col>
-              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+              <a @click="$emit('remove')" style="color: #516efc"><a-icon type="minus-circle" /><span style="margin-left: 5px">移除卡片</span></a>
             </a-col>
           </a-row>
         </template>
         <a href="#">
-          <a-icon type="plus" style="color: #516efc"/>
+          <!--<a-icon type="plus" style="color: #516efc"/>-->
+          <img style="width: 14px;height: 14px;" :src=" require('@/assets/more.jpg')" />
         </a>
       </a-popover>
       <div>
@@ -106,7 +108,7 @@ export default {
       const vm = this
       return this.data.content.filter(item => {
         return vm.selectedType === 0 || vm.selectedType === item.type
-      }).slice(0, 5)
+      }).slice(0, 8)
     }
   },
   methods: {

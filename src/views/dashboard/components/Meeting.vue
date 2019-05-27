@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px'}"
+      :style="{ height: '420px'}"
     >
       <div slot="title">
         <a-row>
@@ -32,7 +32,8 @@
           </a-row>
         </template>
         <a href="#">
-          <a-icon type="plus" style="color: #516efc"/>
+          <!--<a-icon type="plus" style="color: #516efc"/>-->
+          <img style="width: 14px;height: 14px;" :src=" require('@/assets/more.jpg')" />
         </a>
       </a-popover>
       <div>

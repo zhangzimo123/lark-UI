@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '300px'}">
+      :style="{ height: '420px'}">
       <div slot="title">
         <a-row>
           <a-col>
@@ -17,7 +17,7 @@
               @change="fetchData"
               size="small">
               <a-radio-button :value="0" >{{ "研讨" }}</a-radio-button>
-              <a-radio-button :value="1">{{ "邮件" }}</a-radio-button>
+              <!--<a-radio-button :value="1">{{ "邮件" }}</a-radio-button>-->
               <a-radio-button :value="2">{{ "其他" }}</a-radio-button>
             </a-radio-group>
           </a-col>
@@ -30,15 +30,18 @@
         <template slot="content">
           <a-row>
             <a-col>
-              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+              <a @click="$emit('remove')" style="color: #516efc"><a-icon type="minus-circle" /><span style="margin-left: 5px">更多</span></a>
             </a-col>
+            <a-divider type="horizontal " style="margin-top: 3px;margin-bottom: 3px" />
             <a-col>
-              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+              <a @click="$emit('remove')" style="color: #516efc"><a-icon type="minus-circle" /><span style="margin-left: 5px">移除卡片</span></a>
             </a-col>
           </a-row>
         </template>
         <a href="#">
-          <a-icon type="plus" style="color: #516efc"/>
+          <!--<a-icon type="plus" style="color: #516efc"/>-->
+          <img style="width: 14px;height: 14px;" :src=" require('@/assets/more.jpg')" />
+          <img />
         </a>
       </a-popover>
       <div v-if="this.typeMap==0"><Discuss :data="data.discuss" ></Discuss></div>
@@ -92,4 +95,11 @@ export default {
 }
 </script>
 <style scoped>
+  .ant-radio-button-wrapper:last-child {
+    border-radius: 0 0 0 0;
+  }
+  .ant-radio-button-wrapper:first-child {
+    border-radius: 0 0 0 0;
+    border-left: 1px solid #d9d9d9;
+  }
 </style>

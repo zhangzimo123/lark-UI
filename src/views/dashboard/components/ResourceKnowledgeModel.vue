@@ -40,7 +40,8 @@
         </template>
         <a href="#">
           <!--<a-icon type="close" />-->
-          <a-icon type="plus" style="color: #516efc"/>
+          <!--<a-icon type="plus" style="color: #516efc"/>-->
+          <img style="width: 14px;height: 14px;" :src=" require('@/assets/more.jpg')" />
         </a>
       </a-popover>
       <div v-if="this.typeMap==0"><resource :data="data.resource" @myChart="myChart"></resource></div>
