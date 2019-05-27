@@ -18,7 +18,6 @@
       >
         <grid-item
           v-for="grid in layout"
-          v-if="grid.show"
           dragIgnoreFrom=".ant-card-body"
           :minH="cardSize.minH"
           :maxH="cardSize.maxH"
