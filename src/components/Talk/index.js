@@ -1,5 +1,6 @@
 import MemberBox from './contacts/MemberBox'
-import TalkSetting from './setting/TalkSetting'
+import TalkSetting from './drawers/TalkSetting'
+import TalkHistory from './drawers/TalkHistory'
 import Chat from './Chat'
 import RecentContactsItem from './RecentContactsItem'
 import Contacts from './Contacts'
@@ -11,6 +12,8 @@ import Face from './Face'
 export {
   MemberBox,
   TalkSetting,
+  // 聊天历史
+  TalkHistory,
   // 聊天组件
   Chat,
   // 联系人组件
