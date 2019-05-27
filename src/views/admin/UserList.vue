@@ -1,218 +1,199 @@
 <template>
   <div>
     <a-card :bordered="false">
-    <a-row :gutter="8">
-      <a-col :span="5">
-        <a-card :bordered="true" title="组织树">
-          <a-row>
-            <a-col :span="6">
-              <a-tree
-              ref="orgtree"
-                :treeData="orgTree"
-                @select="handleClick"
-              />
-            </a-col>
-          </a-row>
-        </a-card>
-      </a-col>
-      <a-col :span="19">
-        <a-card :bordered="true" title="员工信息">
-          <div class="table-page-search-wrapper">
-            <a-form layout="inline">
-              <a-row>
-                <a-col :span="5" :offset="1">
-                  <a-form-item label="姓名">
-                    <a-input v-model="queryParam.name"/>
-                  </a-form-item>
+      <a-row :gutter="8">
+        <a-col :span="5">
+          <a-card :bordered="true" title="组织树">
+            <a-row>
+              <a-col :span="6">
+                <a-tree
+                  ref="orgtree"
+                  :treeData="orgTree"
+                  @select="handleClick"
+                />
+              </a-col>
+            </a-row>
+          </a-card>
+        </a-col>
+        <a-col :span="19">
+          <a-card :bordered="true" title="员工信息" v-show="cardvisible">
+            <div class="table-page-search-wrapper">
+              <a-form layout="inline">
+                <a-row>
+                  <a-col :span="5" :offset="1">
+                    <a-form-item label="姓名">
+                      <a-input v-model="queryParam.name"/>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="5" :offset="1">
+                    <a-form-item label="在职状态">
+                      <a-select placeholder="请选择" v-model="queryParam.inservice">
+                        <a-select-option value="1">在职</a-select-option>
+                        <a-select-option value="2">离职</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="4" :offset="1">
+                    <a-form-item label="状态">
+                      <a-select placeholder="请选择" v-model="queryParam.status">
+                        <a-select-option value="1">启用</a-select-option>
+                        <a-select-option value="2">禁用</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="4" :offset="1">
+                    <span class="table-page-search-submitButtons">
+                      <a-button type="primary" @click="searchUser">查询</a-button>
+                      <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
+                      <a-button type="primary" icon="plus" style="margin-left: 70px" @click="openEditModal('','1')">新增用户</a-button>
+                    </span>
+                  </a-col>
+                </a-row>
+                <a-row>
+                  <s-table
+                    ref="stable"
+                    size="default"
+                    :columns="columns"
+                    :data="loadData"
+                    :alert="false"
+                  >
+                    <span slot="action" slot-scope="text, record">
+                      <template>
+                        <a @click="openEditModal(record,'2')">编辑</a>
+                        <a-divider type="vertical"/>
+                      </template>
+                      <template>
+                        <a @click="handleDel(record)">删除</a>
+                      </template>
+                    </span>
+                  </s-table>
+                </a-row>
+              </a-form>
+            </div>
+          </a-card>
+          <a-card :bordered="true" title="人员信息" v-show="editvisible">
+            <a href="#" slot="extra" @click="cacenlEdit">返回</a>
+            <a-form :form="editForm">
+              <a-tabs defaultActiveKey="1" tabPosition="left" @change="changeTab">
+                <a-tab-pane tab="基础信息" key="1">
+                  <a-row>
+                    <a-col :span="10" :offset="1">
+                      <a-form-item
+                        :labelCol="labelCol"
+                        :wrapperCol="wrapperCol"
+                        label="姓名"
+                      >
+                        <a-input v-decorator="['name',{rules: [{ required: true, message: '请输入姓名' },{ max:10,message:'长度不能超过10个字'}]}]"/>
+                      </a-form-item>
+                    </a-col>
+                    <a-col :span="10" :offset="1">
+                      <a-form-item
+                        :labelCol="labelCol"
+                        :wrapperCol="wrapperCol"
+                        label="密级"
+                      >
+                        <a-select placeholder="请选择" v-decorator="['slevel',{rules: [{ required: true, message: '请选择密级' }]}]">
+                          <a-select-option value="1">一般</a-select-option>
+                          <a-select-option value="2">重要</a-select-option>
+                          <a-select-option value="3">核心</a-select-option>
+                        </a-select>
+                      </a-form-item>
+                    </a-col>
+                  </a-row>
+                  <a-row>
+                    <a-col :span="10" :offset="1">
+                      <a-form-item
+                        :labelCol="labelCol"
+                        :wrapperCol="wrapperCol"
+                        label="身份证号"
+                      >
+                        <a-input
+                          v-decorator="['cardno',{rules: [{ required: true, message: '请输入身份证号' },{pattern: /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/, message: '身份证输入格式有误'}]}]"/>
+                      </a-form-item>
+                    </a-col>
+                    <a-col :span="10" :offset="1">
+                      <a-form-item
+                        :labelCol="labelCol"
+                        :wrapperCol="wrapperCol"
+                        label="在职状态"
+                      >
+                        <a-select placeholder="请选择" v-decorator="['inservice',{rules: [{ required: true, message: '请选择在职状态' }]}]">
+                          <a-select-option value="1">在职</a-select-option>
+                          <a-select-option value="2">离职</a-select-option>
+                        </a-select>
+                      </a-form-item>
+                    </a-col>
+                  </a-row>
+                  <a-row>
+                    <a-col :span="10" :offset="1">
+                      <a-form-item
+                        :labelCol="labelCol"
+                        :wrapperCol="wrapperCol"
+                        label="状态"
+                      >
+                        <a-switch defaultChecked v-decorator="['status']"/>
+                      </a-form-item>
+                    </a-col>
+                  </a-row>
+                </a-tab-pane>
+                <a-tab-pane tab="组织信息" key="2">
+                  <a-row>
+                    <a-col :span="10" :offset="1">
+                      <a-form-item
+                        :labelCol="labelCol"
+                        :wrapperCol="wrapperCol"
+                        label="所属组织"
+                      >
+                        <org-treeSelect :pvalue="userinfo.orgname"></org-treeSelect>
+                      </a-form-item>
+                    </a-col>
+                  </a-row>
+                </a-tab-pane>
+                <a-tab-pane tab="角色" key="3">
+                  <a-row>
+                    <a-col :span="10" :offset="1">
+                      <a-form-item
+                        :labelCol="labelCol"
+                        :wrapperCol="wrapperCol"
+                        label="选择角色"
+                      >
+                        <a-select
+                          mode="multiple"
+                          placeholder="请选择"
+                          v-decorator="['userrole']"
+                        >
+                          <a-select-option v-for="item in roleopts" :key="item.key">
+                            {{ item.title }}
+                          </a-select-option>
+                        </a-select>
+                      </a-form-item>
+                    </a-col>
+                  </a-row>
+                </a-tab-pane>
+              </a-tabs>
+              <a-row type="flex" justify="end">
+                <a-col>
+                  <a-button type="primary" @click="saveUserInfo">保存</a-button>
                 </a-col>
-                <a-col :span="5" :offset="1">
-                  <a-form-item label="在职状态">
-                    <a-select placeholder="请选择" v-model="queryParam.inservice">
-                      <a-select-option value="1">在职</a-select-option>
-                      <a-select-option value="2">离职</a-select-option>
-                    </a-select>
-                  </a-form-item>
-                </a-col>
-                <a-col :span="4" :offset="1">
-                  <a-form-item label="状态">
-                    <a-select placeholder="请选择" v-model="queryParam.status">
-                      <a-select-option value="1">启用</a-select-option>
-                      <a-select-option value="2">禁用</a-select-option>
-                    </a-select>
-                  </a-form-item>
-                </a-col>
-                <a-col :span="4" :offset="1">
-                  <span class="table-page-search-submitButtons">
-                    <a-button type="primary" @click="searchUser">查询</a-button>
-                    <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
-                    <a-button type="primary" icon="plus" style="margin-left: 70px"  @click="openEditModal('','1')">新增用户</a-button>
-                  </span>
-                </a-col>
-              </a-row>
-              <a-row>
-                <s-table
-                  ref="stable"
-                  size="default"
-                  :columns="columns"
-                  :data="loadData"
-                  :alert="false"
-                >
-                  <span slot="action" slot-scope="text, record">
-                    <template>
-                      <a @click="openEditModal(record,'2')">编辑</a>
-                      <a-divider type="vertical"/>
-                    </template>
-                    <template>
-                      <a @click="handleDel(record)">删除</a>
-                    </template>
-                  </span>
-                </s-table>
               </a-row>
             </a-form>
-          </div>
-        </a-card>
-      </a-col>
-    </a-row>
+          </a-card>
+        </a-col>
+      </a-row>
     </a-card>
-    <a-modal
-      title="修改用户信息"
-      style="top: 20px;"
-      :width="800"
-      v-model="visible"
-      @ok="saveUserInfo"
-      @cancel="cacenlEdit"
-      :closable="false"
-      :keyboard="false"
-      :maskClosable="true"
-      :destroyOnClose="true"
-      
-    >
-      <a-form :form="editForm">
-        <a-row>
-          <a-col :span="10" :offset="1">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="姓名"
-            >
-              <a-input
-              v-decorator="[
-              'name',
-              {rules: [{ required: true, message: '请输入姓名' },
-              { max:10,message:'长度不能超过10个字'}]}]"/>
-            </a-form-item>
-          </a-col>
-          <a-col :span="10" :offset="1">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="密级"
-            >
-              <a-select placeholder="请选择"
-              v-decorator="[
-              'slevel',
-              {rules: [{ required: true, message: '请选择密级' }]}]"
-              >
-                <a-select-option value="1">一般</a-select-option>
-                <a-select-option value="2">重要</a-select-option>
-                <a-select-option value="3">核心</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row>
-          <a-col :span="10" :offset="1">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="身份证号"
-            >
-              <a-input
-              v-decorator="[
-              'cardno',
-              {rules: [{ required: true, message: '请输入身份证号' },
-              { pattern: /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/, message: '身份证输入格式有误'}]}]"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="10" :offset="1">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="在职状态"
-            >
-              <a-select placeholder="请选择"
-              v-decorator="[
-              'inservice',
-              {rules: [{ required: true, message: '请选择在职状态' }]}]"
-              >
-                <a-select-option value="1">在职</a-select-option>
-                <a-select-option value="2">离职</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row>
-          <a-col :span="10" :offset="1">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="所属组织"
-            >
-              <a-tree-select
-                :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
-                :treeData="orgTree"
-                treeDefaultExpandAll
-                v-decorator="[
-                'userorg',
-                {rules: [{ required: true, message: '请选择组织机构' }]}]"
-              ></a-tree-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="10" :offset="1">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="选择角色"
-            >
-            <!-- :defaultValue="rolechecked" -->
-              <a-select
-                mode="multiple"
-                placeholder="请选择"
-                style="width: 200px"
-                v-decorator="['userrole']"
-              >
-                <a-select-option v-for="item in roleopts" :key="item.key">
-                  {{ item.title }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row>
-          <a-col :span="10" :offset="1">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="状态"
-            >
-              <a-switch defaultChecked v-decorator="['status']"/>
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-    </a-modal>
   </div>
 </template>
 
 <script>
 import STable from '@/components/table/'
+import OrgTreeSelect from '@/components/admin/OrgTreeSelect'
 import { setTimeout } from 'timers'
-import { getOrgTree, getRoleList, getUserList, adduser, updateuser, deluser } from '@/api/admin'
+import { getRoleList, getUserList, adduser, updateuser, deluser } from '@/api/admin'
 export default {
   name: 'UserList',
   components: {
-    STable
+    STable,
+    OrgTreeSelect
   },
   data () {
     return {
@@ -221,6 +202,8 @@ export default {
       queryParam: {},
       // 默认不显示编辑页面
       visible: false,
+      cardvisible: true,
+      editvisible: false,
       // 编辑页面信息传递
       userinfo: {},
       // 响应式布局
@@ -261,7 +244,7 @@ export default {
         },
         {
           table: '操作',
-           width: '120px',
+          width: '120px',
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' }
         }
@@ -282,11 +265,6 @@ export default {
     }
   },
   created () {
-    // 获取树形组织信息
-    getOrgTree().then(res => {
-      this.orgTree = res.result
-      // this.$refs.orgtree.defaultExpandedKeys = this.expandedKeys
-    })
     // 一次加载所有角色信息
     if (this.roleopts.length === 0) {
       getRoleList().then(res => {
@@ -307,10 +285,6 @@ export default {
       }
       this.$refs.stable.refresh(true)
     },
-    handleAdd (item) {
-      this.$message.info(`提示：你点了 ${item.key} - ${item.title} `)
-      this.$refs.modal.add(item.key)
-    },
     /**
      * 查询用户信息
      */
@@ -321,20 +295,22 @@ export default {
      * 保存修改内容
      */
     saveUserInfo () {
-      this.editForm.validateFields((err,values) =>{
+      this.editForm.validateFields((err, values) => {
         if (!err) {
           if (this.editType === '1') {
             return adduser(
               values
             ).then(
               res => {
-                if(res.status === '200'){
+                if (res.status === '200') {
                   this.$notification['success']({
-                      message: '新增成功',
-                      duration: 2
-                    })
+                    message: '新增成功',
+                    duration: 2
+                  })
                   // 关闭编辑框
-                  this.visible= false
+                  // this.visible = false
+                  this.editvisible = false
+                  this.cardvisible = true
                   // 刷新员工列表
                   this.$refs.stable.refresh(true)
                 } else {
@@ -350,13 +326,15 @@ export default {
               values
             ).then(
               res => {
-                if(res.status === '200'){
+                if (res.status === '200') {
                   this.$notification['success']({
-                      message: '修改成功',
-                      duration: 2
-                    })
+                    message: '修改成功',
+                    duration: 2
+                  })
                   // 关闭编辑框
-                  this.visible= false
+                  // this.visible = false
+                  this.editvisible = false
+                  this.cardvisible = true
                   // 刷新员工列表
                   this.$refs.stable.refresh(true)
                 } else {
@@ -375,14 +353,19 @@ export default {
      * 编辑页取消按钮
      */
     cacenlEdit () {
-      this.editForm.resetFields()
+      this.editvisible = false
+      this.cardvisible = true
+      this.$notification['info']({
+        message: '取消操作',
+        duration: 2
+      })
     },
     /**
      * 打开编辑用户信息弹出框
      */
     openEditModal (item, type) {
       this.editType = type
-      // add
+      // edit
       if (type === '2') {
         // 拷贝选中信息内容到userinfo
         this.userinfo = Object.assign({}, item)
@@ -392,24 +375,35 @@ export default {
         userrole.forEach((r) => {
           this.rolechecked.push(r.id)
         })
-        setTimeout(() =>
+        setTimeout(() => {
           this.editForm.setFieldsValue({
             name: this.userinfo.name,
             inservice: this.userinfo.inservice,
             slevel: this.userinfo.slevel,
             cardno: this.userinfo.cardno,
-            status: this.userinfo.status === '启用'?true:false,
-            userorg: this.userinfo.orgname,
-            userrole: this.rolechecked
-          }),0)
+            status: this.userinfo.status === '启用'
+          })
+        }, 0)
+      } else {
+        // add
+        setTimeout(() => {
+          this.editForm.setFieldsValue({
+            name: '',
+            inservice: '',
+            slevel: '',
+            cardno: '',
+            status: true
+          })
+        }, 0)
       }
-      this.visible = true
+      // this.visible = true
+      this.editvisible = true
+      this.cardvisible = false
     },
-    
     /**
      * 单条删除用户信息
      */
-    handleDel (item) {  
+    handleDel (item) {
       this.$confirm({
         title: '警告',
         content: `确认要删除 ${item.name} 的信息吗?`,
@@ -434,20 +428,62 @@ export default {
                 })
               }
             }
-          ).catch(() => 
+          ).catch(() =>
             this.$notification['error']({
               message: '删除异常，请联系系统管理员',
               duration: 4
             })
           )
         },
-        onCancel: (() => {
+        onCancel: () => {
           this.$notification['info']({
             message: '取消删除操作',
             duration: 4
           })
-        })
+        }
       })
+    },
+    /**
+     * tab页切换，初始表单信息
+     * 表单信息渲染出来后赋值
+     * 否则页面跑错Warning: You cannot set a form field before rendering a field associated with the value
+     */
+    changeTab (key) {
+      // 打开组织信息页
+      // if (key === '2') {
+      //   // 新增
+      //   if (this.editType === '1') {
+      //     setTimeout(() => {
+      //       this.editForm.setFieldsValue({
+      //         userorg: ''
+      //       })
+      //     }, 0)
+      //   } else {
+      //     // 编辑
+      //     setTimeout(() => {
+      //       this.editForm.setFieldsValue({
+      //         userorg: this.userinfo.orgname
+      //       })
+      //     }, 0)
+      //   }
+      // } else if (key === '3') {
+      //   // 打开角色信息页
+      //   // 新增
+      //   if (this.editType === '1') {
+      //     setTimeout(() => {
+      //       this.editForm.setFieldsValue({
+      //         userrole: []
+      //       })
+      //     }, 0)
+      //   } else {
+      //     // 编辑
+      //     setTimeout(() => {
+      //       this.editForm.setFieldsValue({
+      //         userrole: this.rolechecked
+      //       })
+      //     }, 0)
+      //   }
+      // }
     }
   }
 }

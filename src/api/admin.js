@@ -9,7 +9,7 @@ const api = {
   orgTree: '/admin/org/tree',
   user: '/admin/user',
   org: '/admin/org',
-  role: '/admin/role'
+  role: '/admin/role/page'
 }
 
 export default api
