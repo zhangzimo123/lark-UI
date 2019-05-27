@@ -1,6 +1,12 @@
 <template>
   <div class="user-wrapper">
     <span class="action">
+      <a-icon type="setting" @click="setFun"/>
+    </span>
+    <span class="action">
+      <a-icon type="message" />
+    </span>
+    <span class="action">
       <a-icon type="question-circle-o"></a-icon>
     </span>
     <header-notice class="action"/>
@@ -69,6 +75,9 @@ export default {
         onCancel () {
         }
       })
+    },
+    setFun () {
+      console.log('setFun', this)
     }
   }
 }

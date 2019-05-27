@@ -132,18 +132,18 @@
           <!--</HotNewsWindows>-->
         </grid-item>
       </grid-layout>
-      <span class="myWorkSetButton" @click="this.toggle">
-        <a-icon type="setting" />
-      </span>
+      <!--<span class="myWorkSetButton" @click="this.toggle">-->
+        <!--<a-icon type="setting" />-->
+      <!--</span>-->
       <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">-->
       <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel">-->
       <!--<img class="myWorkShopIconImg" src="@/assets/head-icon.png"/>-->
       <!--<span class="myWorkShopIconTitle">我的研讨厅</span>-->
       <!--<div class="myWorkShopIconInfoTip"></div>-->
       <!--</div>-->
-      <span class="myWorkShopIcon" @click="this.openMyChatPanel">
-        <a-icon type="message" />
-      </span>
+      <!--<span class="myWorkShopIcon" @click="this.openMyChatPanel">-->
+        <!--<a-icon type="message" />-->
+      <!--</span>-->
     </div>
     <!--这个地方放置最近访问-->
     <footer-tool-bar v-if="loaded" :style="{height:'86px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
