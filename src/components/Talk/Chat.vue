@@ -1,21 +1,8 @@
 <template>
   <a-layout v-if="Object.keys(chatInfo).length" class="conv-box">
 
-    <!-- <talk-setting ref="model" :talk="talkId"/> -->
-    <!-- <a-drawer
-      placement="right"
-      getContainer=".conv-box"
-      title="聊天记录"
-      :wrapStyle="{marginTop: '64px'}"
-      :width="448"
-      :closable="false"
-      @close="onClose"
-      :visible="visible">
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-    </a-drawer> -->
-    <talk-history :activeOption="activeOption" @closeDrawer="triggerDrawer('')"></talk-history>
+    <!-- 聊天设置选项的抽屉组件 -->
+    <talk-history :activeOption="activeOption" @closeDrawer="triggerDrawer()"></talk-history>
 
     <a-layout-header class="conv-box-header">
       <a-row type="flex" justify="space-between">
@@ -146,8 +133,7 @@
 <script>
 import conf from '@/api/index'
 import Faces from './Face.vue'
-import TalkSetting from '@/components/Talk/drawers/TalkSetting'
-import TalkHistory from '@/components/Talk/drawers/TalkHistory'
+import { TalkHistory } from '@/components/Talk'
 import MessagePiece from './MessagePiece'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
 import VEmojiPicker from 'v-emoji-picker'
@@ -159,7 +145,6 @@ export default {
   components: {
     VEmojiPicker,
     Faces,
-    TalkSetting,
     MessagePiece,
     TalkHistory
   },
@@ -307,9 +292,9 @@ export default {
     optionFilter (isGroup) {
       const optionList = [
         { group: true, name: 'groupNotice', message: '群公告', type: 'notification' },
-        { group: true, name: 'markupInfo', message: '标记信息', type: 'tags' },
+        { group: true, name: 'markMessage', message: '标记信息', type: 'tags' },
         { group: false, name: 'talkHistory', message: '聊天内容', type: 'file-text' },
-        { group: false, name: 'chatFile', message: '文件', type: 'folder-open' },
+        { group: false, name: 'talkFile', message: '文件', type: 'folder-open' },
         { group: false, name: 'moreInfo', message: '更多', type: 'ellipsis' }]
       return isGroup ? optionList : optionList.filter(item => !item.group)
     },
@@ -318,8 +303,8 @@ export default {
      * @author jihainan
      */
     triggerDrawer (drawerName) {
-      this.avtiveOption = drawerName
-      // console.log(drawerName)
+      this.activeOption = drawerName
+      console.log(drawerName)
     },
     talkItemEnter () {
       this.activeItemHandle = true
