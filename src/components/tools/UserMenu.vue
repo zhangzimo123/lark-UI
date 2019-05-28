@@ -4,7 +4,7 @@
       <a-icon type="setting" @click="setFun"/>
     </span>
     <span class="action">
-      <a-icon type="message" />
+      <a-icon type="message" @click="messageFun"/>
     </span>
     <span class="action">
       <a-icon type="question-circle-o"></a-icon>
@@ -47,7 +47,7 @@
 <script>
 import HeaderNotice from './HeaderNotice'
 import { mapActions, mapGetters } from 'vuex'
-
+import Utils from '../../../src/utils/utils.js'
 export default {
   name: 'UserMenu',
   components: {
@@ -77,7 +77,12 @@ export default {
       })
     },
     setFun () {
-      console.log('setFun', this)
+      Utils.$emit('set', 'msg')
+      this.$router.push({ name: 'Analysis', params: { setFlag: true } })
+    },
+    messageFun () {
+      Utils.$emit('message', 'msg')
+      this.$router.push({ name: 'Analysis', params: { messageFlag: true } })
     }
   }
 }

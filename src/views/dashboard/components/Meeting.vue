@@ -18,16 +18,17 @@
         </a-row>
       </div>
       <a-popover
-        placement="left"
+        placement="bottomLeft"
         slot="extra"
         trigger="hover">
         <template slot="content">
           <a-row>
             <a-col>
-              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+              <a @click="$emit('remove')" style="color: #666666;margin-right:12px;"><img style="width: 14px;height: 14px;margin-right: 5px;margin-left: 5px;" :src=" require('@/assets/more-icon.png')" /><span style="margin-left: 5px">更多</span></a>
             </a-col>
+            <a-divider type="horizontal " style="margin-top: 8px;margin-bottom: 8px" />
             <a-col>
-              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+              <a @click="$emit('remove')" style="color: #666666;margin-right:12px;"><img style="width: 14px;height: 14px;margin-right: 5px;margin-left: 5px;" :src=" require('@/assets/remove-icon.png')" /><span style="margin-left: 5px">移除卡片</span></a>
             </a-col>
           </a-row>
         </template>
