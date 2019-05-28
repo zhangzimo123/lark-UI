@@ -33,7 +33,13 @@ export default {
     }
   },
   data () {
-    return {
+    return {}
+  },
+  watch: {
+    activeOption (newValue) {
+      if (newValue === 'talkHistory') {
+        console.log('在这里加载数据')
+      }
     }
   },
   computed: {
