@@ -139,18 +139,18 @@ import {
   MemberBox as MemberModel,
   GroupItem
 } from '@/components/Talk'
-import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
+// import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
 import {
   ChatListUtils,
   Chat,
   imageLoad,
-  MessageInfoType,
-  MessageTargetType,
-  timeoutFetch
+  // MessageInfoType,
+  MessageTargetType
+  // timeoutFetch
 } from '../../utils/talk/chatUtils'
-import { ErrorType } from '@/utils/constants'
+// import { ErrorType } from '@/utils/constants'
 import conf from '@/api/index'
-import HttpApiUtils from '../../utils/talk/HttpApiUtils'
+// import HttpApiUtils from '../../utils/talk/HttpApiUtils'
 
 export default {
   name: 'ChatPanel',
