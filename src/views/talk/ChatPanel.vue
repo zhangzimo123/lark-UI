@@ -188,7 +188,7 @@ export default {
       // 加载状态
       recentLoading: false,
       groupLoading: false,
-      contactsLoading: false
+      contactsLoading: false,
 
       // 搜索内容显示
       showSearchContent: true
@@ -305,6 +305,7 @@ export default {
       }).finally(() => {
         this.recentLoading = false
       })
+    },
     onBlur () {
       console.log('onBlur')
       if (!this.searchObj.searchValue) {
