@@ -133,7 +133,7 @@
         </grid-item>
       </grid-layout>
       <!--<span class="myWorkSetButton" @click="this.toggle">-->
-        <!--<a-icon type="setting" />-->
+      <!--<a-icon type="setting" />-->
       <!--</span>-->
       <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">-->
       <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel">-->
@@ -142,7 +142,7 @@
       <!--<div class="myWorkShopIconInfoTip"></div>-->
       <!--</div>-->
       <!--<span class="myWorkShopIcon" @click="this.openMyChatPanel">-->
-        <!--<a-icon type="message" />-->
+      <!--<a-icon type="message" />-->
       <!--</span>-->
     </div>
     <!--这个地方放置最近访问-->
@@ -215,7 +215,7 @@ import Message from './components/Message'
 import TodoList from './components/TodoList'
 import LinkFooter from './components/Link.vue'
 import WorkSituation from './components/WorkSituation.vue'
-
+import Utils from '../../../src/utils/utils.js'
 import SettingDrawer from './components/SettingDrawer.vue'
 import './components/monitor.less'
 // 工作台看板模拟数据
@@ -400,7 +400,15 @@ export default {
     this.fetchMonitor()
   },
   mounted () {
-
+    const self = this
+    Utils.$on('message', function (msg) {
+      console.log(msg)
+      self.openMyChatPanel()
+    })
+    Utils.$on('set', function (msg) {
+      console.log(msg)
+      self.toggle()
+    })
   },
   methods: {
     fetchMonitor () {
