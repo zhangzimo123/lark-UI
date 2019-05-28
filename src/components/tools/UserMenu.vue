@@ -1,6 +1,12 @@
 <template>
   <div class="user-wrapper">
     <span class="action">
+      <a-icon type="setting" @click="setFun"/>
+    </span>
+    <span class="action">
+      <a-icon type="message" />
+    </span>
+    <span class="action">
       <a-icon type="question-circle-o"></a-icon>
     </span>
     <header-notice class="action"/>
@@ -13,7 +19,7 @@
         <a-menu-item key="0">
           <router-link :to="{ name: 'center' }">
             <a-icon type="user"/>
-            <span>个人中心</span>
+            <span>个人信息</span>
           </router-link>
         </a-menu-item>
         <a-menu-item key="1">
@@ -69,6 +75,9 @@ export default {
         onCancel () {
         }
       })
+    },
+    setFun () {
+      console.log('setFun', this)
     }
   }
 }

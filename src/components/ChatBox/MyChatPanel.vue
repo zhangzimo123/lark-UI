@@ -5,14 +5,14 @@
         class="talk-sider"
         style="flex: 0 0 300px;max-width: 300px;min-width: 300px;width: 300px;"
       >
-        <div class="talk-account-info-board">
-          <div class="talk-account-info-board-close" @click="this.closeMyChatPanel">✖</div>
-          <div>
-            <img class="talk-account-info-board-head" src="@/assets/sjs.jpg"/>
-            <div class="talk-account-info-board-online-icon"></div>
-            <span class="talk-account-info-board-name" >三井寿</span>
-          </div>
-        </div>
+        <!--<div class="talk-account-info-board">-->
+        <!--<div class="talk-account-info-board-close" @click="this.closeMyChatPanel">✖</div>-->
+        <!--<div>-->
+        <!--<img class="talk-account-info-board-head" src="@/assets/sjs.jpg"/>-->
+        <!--<div class="talk-account-info-board-online-icon"></div>-->
+        <!--<span class="talk-account-info-board-name" >三井寿</span>-->
+        <!--</div>-->
+        <!--</div>-->
         <!--<div class="search-bar">-->
         <!--<a-row>-->
         <!--<a-col :span="21">-->
@@ -41,8 +41,8 @@
               消息
             </span>
             <div class="talk-box-container">
-              <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
-                <recent-contacts-item :contactsInfo="item[index]"></recent-contacts-item>
+              <div v-for="(item) in chatList" :key="item.id" @click="showChat(item)">
+                <recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat" style="background-color: white!important;"></recent-contacts-item>
               </div>
             </div>
           </a-tab-pane>
@@ -52,6 +52,11 @@
               联系人
             </span>
             <contact-list/>
+            <div class="talk-group-list-add-box" @click="openSearchWindow">
+              <!--<img class="talk-group-list-add" src="@/assets/search.png" />-->
+              <a-icon type="search" style="color:#5C95F6" />
+              <span class="talk-group-list-add-font">搜索</span>
+            </div>
           </a-tab-pane>
           <a-tab-pane key="3" class="box-panel">
             <span slot="tab" class="talk-tab-font">
@@ -62,16 +67,16 @@
               <img class="talk-group-list-head" :src="item.head" />
               <span class="talk-group-list-name" >{{ item.title }}</span>
             </div>
-            <div class="talk-group-list-add-box">
+            <div class="talk-group-list-add-box" @click="openSearchWindow">
               <img class="talk-group-list-add" src="@/assets/add-group.png" />
               <span class="talk-group-list-add-font">添加群组</span>
             </div>
           </a-tab-pane>
         </a-tabs>
-        <div class="talk-foot-background">
-          <img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />
-          <img class="talk-foot-add"src="@/assets/add.png" />
-        </div>
+        <!--<div class="talk-foot-background">-->
+        <!--<img class="talk-foot-search" src="@/assets/search.png" @click="openSearchWindow" />-->
+        <!--<img class="talk-foot-add"src="@/assets/add.png" />-->
+        <!--</div>-->
       </a-layout-sider>
 
       <a-layout style="z-index: 1">
@@ -211,10 +216,10 @@ export default {
       this.$store.commit('delChat', chat)
     },
     closeMyChatPanel () {
-      this.$parent.$parent.closeMyChatPanel()
+      this.$parent.closeMyChatPanel()
     },
     openSearchWindow () {
-      this.$parent.$parent.openSearchWindow()
+      this.$parent.openSearchWindow()
     },
     handleCancel: function () {
       const self = this
@@ -363,7 +368,7 @@ export default {
 }
 .talk-view {
   // height: calc(100% - 64px);
-  height: 596px;
+  height: 555px;
   /*width: 209px;*/
   // margin: -24px;
   box-shadow: -3px -1px 6px -3px #919191;
@@ -395,7 +400,7 @@ export default {
  }
 .box-panel{
   /*height: calc(100% - 50px);*/
-  height: 405px;
+  height: 515px;
   background-color: white;
 }
 .description{

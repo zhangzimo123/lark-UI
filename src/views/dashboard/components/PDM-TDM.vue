@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf'}"
+      :style="{ height: '300px'}"
     >
       <div slot="title">
         <a-row>
@@ -19,10 +19,19 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <a @click="$emit('remove')">移除卡片</a>
+          <!--<a @click="$emit('remove')">移除卡片</a>-->
+          <a-row>
+            <acol>
+              <a @click="$emit('remove')" style="color: #516efc">更多</a>
+            </acol>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc">移除卡片</a>
+            </a-col>
+          </a-row>
         </template>
         <a href="#">
-          <a-icon type="close" />
+          <!--<a-icon type="plus" style="color: #516efc"/>-->
+          <img style="width: 14px;height: 14px;" :src=" require('@/assets/more.jpg')" />
         </a>
       </a-popover>
       <div>
@@ -38,8 +47,13 @@
   </div>
 </template>
 <script>
-import { getPdmtdm } from '../../../api/pdmtdm'
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       title: 'PDM-TDM',
@@ -51,7 +65,7 @@ export default {
   components: {
 
   },
-  created () {
+  mounted () {
     this.fetchData()
   },
   computed: {
@@ -67,18 +81,8 @@ export default {
       return this.publicPath + 'images/index/' + icon + '.jpg'
     },
     fetchData () {
-      var vm = this
-      getPdmtdm().then((data) => {
-        console.log(data)
-        vm.list = [].concat(data.content.splice(0, 5))
-        console.log(data)
-      })
-    },
-    openLink (row) {
-
-    },
-    toManagerPage () {
-      this.$router.push({ path: '/data-manager' })
+      this.list = [].concat(this.data.content.splice(0, 5))
+      console.log(this.data)
     }
   }
 }

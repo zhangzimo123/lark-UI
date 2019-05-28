@@ -1,71 +1,72 @@
 <template>
   <div>
-    <a-card
-      :headStyle="headStyle"
-      :bordered="true"
-      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf' }">
-      <div slot="title">
-        <a-row>
-          <a-col>
-            <span style="color: #333333; font-weight:bold">
-              {{ title }}
-            </span>
-            <span style="font-size: 12px;font-weight: 200;color: #666666">({{ data.unread }}条未读消息)</span>
-          </a-col>
-        </a-row>
-      </div>
-      <div slot="extra">
-        <a-popover
-          placement="left"
-          trigger="click">
-          <template slot="content">
-            <a @click="$emit('remove')">移除卡片</a>
-          </template>
-          <a class="right" href="#">
-            <a-icon type="close" />
-          </a>
-        </a-popover>
-      </div>
-      <div style="height:205px;overflow-y:auto;overflow-x: hidden">
-        <!--<a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in data.content" :key="'item'+index" >-->
-        <!--<a-col :span="2" class="discuss-avatar">-->
-        <!--<a-badge :count="row.unread">-->
-        <!--<a-avatar :src="row.avatar" />-->
-        <!--<a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index" @click="showChat(row)">-->
-        <a-row class="ant-card-list-item" :gutter="5" v-for="(item) in chatList" :key="item.id" >
-          <a-col :span="2" class="discuss-avatar" >
-            <a-badge :count="item.unread">
-              <a-avatar :src=" require('@/assets/sjs.jpg')" />
-            </a-badge>
-          </a-col>
-          <a-col :span="21" class="min-width" @click="showChat(item)">
-            <a-row :gutter="5">
-              <a-col :span="21">
-                <span style="color: #666666" class="discuss-name">{{ item.name }}</span>
-              </a-col>
-              <a-col :span="3">
-                <span style="color: #999999" class="datetime right">{{ item.time }}</span>
-              </a-col>
-            </a-row>
-            <a-row>
-              <span style="color: #999999" class="discuss-msg">{{ item.lastMessage }}</span>
-            </a-row>
-          </a-col>
-        </a-row>
-      </div>
-      <a-modal
-        class="discuss-block"
-        title=""
-        :visible="isShowPanel"
-        @cancel="handleCancel"
-        :mask="false"
-        centered
-        :footer="null"
-        :closable="false"
-      >
-        <user-chat :chat="currentChat" @showChat="showChat"/>
-      </a-modal>
-    </a-card>
+    <!--<a-card-->
+    <!--:headStyle="headStyle"-->
+    <!--:bordered="true"-->
+    <!--:style="{ height: '300px'}">-->
+    <!--<div slot="title">-->
+    <!--<a-row>-->
+    <!--<a-col>-->
+    <!--<span style="color: #333333; font-weight:bold">-->
+    <!--{{ title }}-->
+    <!--</span>-->
+    <!--<span style="font-size: 12px;font-weight: 200;color: #666666">({{ data.unread }}条未读消息)</span>-->
+    <!--</a-col>-->
+    <!--</a-row>-->
+    <!--</div>-->
+    <!--<div slot="extra">-->
+    <!--<a-popover-->
+    <!--placement="left"-->
+    <!--trigger="click">-->
+    <!--<template slot="content">-->
+    <!--<a @click="$emit('remove')" style="color: #516efc">移除卡片</a>-->
+    <!--</template>-->
+    <!--<a class="right" href="#">-->
+    <!--<a-icon type="close" style="color: #516efc"/>-->
+    <!--</a>-->
+    <!--</a-popover>-->
+    <!--</div>-->
+    <div style="height:205px;">
+      <!--<a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in data.content" :key="'item'+index" >-->
+      <!--<a-col :span="2" class="discuss-avatar">-->
+      <!--<a-badge :count="row.unread">-->
+      <!--<a-avatar :src="row.avatar" />-->
+      <!--<a-row class="ant-card-list-item" :gutter="5" v-for="(row,index) in list" :key="'item'+index" @click="showChat(row)">-->
+      <a-row class="ant-card-list-item" :gutter="5" v-for="(item) in chatList" :key="item.id" >
+        <a-col :span="2" class="discuss-avatar" >
+          <a-badge :count="item.unread">
+            <a-avatar :src=" require('@/assets/sjs.jpg')" />
+          </a-badge>
+        </a-col>
+        <a-col :span="21" class="min-width" @click="showChat(item)">
+          <a-row :gutter="5">
+            <a-col :span="21">
+              <span style="color: #666666" class="discuss-name">{{ item.name }}</span>
+            </a-col>
+            <a-col :span="3">
+              <span style="color: #999999" class="datetime right">{{ item.time }}</span>
+            </a-col>
+          </a-row>
+          <a-row>
+            <span style="color: #999999" class="discuss-msg">{{ item.lastMessage }}</span>
+          </a-row>
+        </a-col>
+      </a-row>
+    </div>
+    <a-modal
+      class="discuss-block"
+      title="消息框"
+      :visible="isShowPanel"
+      @cancel="handleCancel"
+      :mask="false"
+      centered
+      :footer="null"
+      :maskClosable="false"
+      wrapClassName="discuss-block-mask"
+    >
+      <user-chat :chat="currentChat" @showChat="showChat"/>
+    </a-modal>
+    <!--</a-card>-->
   </div>
 </template>
 <script>
@@ -301,18 +302,23 @@ export default {
     padding: 5px;
     margin-right: 10px;
   }
+
   .discuss-name{
     font-weight: 500;
   }
+
   .discuss-msg{
 
   }
+
   .discuss-block .ant-modal-body{
     padding: 0!important;
   }
+
   .discuss-block .ant-layout-content {
     height: 300px;
   }
+
   .discuss-block .ant-modal-header{
     background-color:#f2f3f5!important;
   }

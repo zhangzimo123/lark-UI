@@ -3,7 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf'}"
+      :style="{ height: '300px'}"
     >
       <div slot="title">
         <a-row>
@@ -20,10 +20,20 @@
         slot="extra"
         trigger="click">
         <template slot="content">
-          <a @click="$emit('remove')">移除卡片</a>
+          <!--<a @click="$emit('remove')">移除卡片</a>-->
+          <a-row>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc" >更多</a>
+            </a-col>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #516efc" >移除卡片</a>
+            </a-col>
+          </a-row>
         </template>
         <a href="#">
-          <a-icon type="close" />
+          <!--<a-icon type="close" />-->
+          <!--<a-icon type="plus" style="color: #516efc"/>-->
+          <img style="width: 14px;height: 14px;" :src=" require('@/assets/more.jpg')" />
         </a>
       </a-popover>
       <div style="height:205px;overflow-y:auto;overflow-x: hidden">
@@ -79,16 +89,13 @@ export default {
       const vm = this
       return this.data.content.filter(item => {
         return vm.selectedType === 0 || vm.selectedType === item.type
-      })
+      }).slice(0, 5)
     }
   },
   methods: {
     fetchToolStatus () {
       const vm = this
-      // getMyToolSetting('simulation').then(({ data, status }) => {
-      //   vm.typeArray = [].concat(data.content)
       vm.setStatusMap()
-      // })
     },
     setStatusMap () {
       const m = {}
@@ -105,7 +112,6 @@ export default {
       const o = this.typeMap['type-' + type]
       return o ? o.color : '#c5c8ce'
     }
-
   }
 }
 </script>
@@ -148,7 +154,7 @@ export default {
     font-size: 1px;
     margin-right: 8px;
     position: relative;
-    top: -2px;
+    top: -7px;
   }
   .row-tag{
     font-size: 12px;
