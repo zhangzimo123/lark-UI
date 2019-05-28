@@ -41,7 +41,7 @@
               消息
             </span>
             <div class="talk-box-container">
-              <div v-for="(item, index) in chatList" :key="item.id" @click="showChat(item)">
+              <div v-for="(item) in chatList" :key="item.id" @click="showChat(item)">
                 <recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat" style="background-color: white!important;"></recent-contacts-item>
               </div>
             </div>
@@ -107,7 +107,6 @@
   </div>
 </template>
 <script>
-import infiniteScroll from 'vue-infinite-scroll'
 import UserChat from '@/components/Talk/Chat'
 import ContactList from './ContactsList.vue'
 import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
@@ -118,16 +117,15 @@ import {
   imageLoad,
   MessageInfoType,
   MessageTargetType,
-  ErrorType,
   timeoutFetch
 } from '../../utils/talk/chatUtils'
+import { ErrorType } from '@/utils/constants'
 import {
   RecentContactsItem
 } from '@/components/Talk'
 import conf from '@/api/index'
 import HttpApiUtils from '../../utils/talk/HttpApiUtils'
 export default {
-  directives: { infiniteScroll },
   name: 'MyChatPanel',
   components: {
     ContactList,
@@ -171,10 +169,10 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.chat.chatList
+        return this.$store.state.chat.recentChatList
       },
       set: function (chatList) {
-        this.$store.commit('SET_CHAT_LIST', chatList)
+        this.$store.commit('SET_RECENT_CHAT_LIST', chatList)
       }
     }
   },
@@ -207,7 +205,7 @@ export default {
         self.$store.commit('SET_CURRENT_CHAT', firstChat)
       }
       // 重新设置chatList
-      self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+      self.$store.commit('SET_RECENT_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
       // Chat会话框中的研讨信息每次滚动到最底部
       this.$nextTick(() => {
         // imageLoad('message-box')

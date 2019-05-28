@@ -46,7 +46,7 @@
         :animated="false">
         <a-tab-pane key="1" forceRender>
           <span slot="tab">
-            <a-icon type="clock-circle" style="fontSize: 18px" />
+            <a-icon type="clock-circle" style="{fontSize: 16px}" />
             最近
           </span>
 
@@ -54,12 +54,20 @@
             <div v-for="(item, index) in chatList" :key="index" @click="showChat(item)">
               <recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat"></recent-contacts-item>
             </div>
+
+            <!-- 没有最新联系人或者联系人加载失败时的提示信息 -->
+            <div v-if="!chatList || !chatList.length" class="empty-tips">
+              <p>
+                暂无聊天信息，
+                <a-button type="primary" ghost size="small" :loading="recentLoading" @click="getRecentContacts">重新加载</a-button>
+              </p>
+            </div>
           </div>
         </a-tab-pane>
 
         <a-tab-pane key="2">
           <span slot="tab">
-            <a-icon type="team" style="fontSize: 18px" />
+            <a-icon type="team" style="{fontSize: 16px}" />
             群组
           </span>
 
@@ -69,10 +77,10 @@
             </div>
 
             <!-- 没有群组或者群组加载失败时的提示信息 -->
-            <div v-if="!groupList || !groupList.length" class="reload-group-list">
+            <div v-if="!groupList || !groupList.length" class="empty-tips">
               <p>
                 暂无群组信息，
-                <a-button type="primary" ghost size="small" :loading="reloadLoading" @click="reloadGroupList">重新加载</a-button>
+                <a-button type="primary" ghost size="small" :loading="groupLoading" @click="getGroupList">重新加载</a-button>
               </p>
             </div>
 
@@ -81,7 +89,7 @@
 
         <a-tab-pane key="3">
           <span slot="tab">
-            <a-icon type="user" style="fontSize: 18px" />
+            <a-icon type="user" style="{fontSize: 18px, margin: 0}" />
             联系人
           </span>
 
@@ -89,9 +97,9 @@
             <contacts-box :contactsTree="contactsTree" @SelectContacts="showContacts" style="paddingLeft: 18px;"/>
 
             <!-- 获取联系人树失败时的提示信息 -->
-            <div v-if="!contactsTree || !contactsTree.length" class="reload-contacts-tree">
+            <div v-if="!contactsTree || !contactsTree.length" class="empty-tips">
               <p>
-                联系人加载失败，
+                加载失败，
                 <a-button type="primary" ghost size="small" :loading="contactsLoading" @click="getContactsTree">重新加载</a-button>
               </p>
             </div>
@@ -103,7 +111,7 @@
     <a-layout class="talk-layout-content">
 
       <div v-show="activeKey == '1'" class="chat-area">
-        <user-chat :chat="currentChat" @showChat="showChat"/>
+        <user-chat :chatInfo="currentChat" @showChat="showChat"/>
       </div>
 
       <div v-show="activeKey == '2'" class="info-area">
@@ -122,7 +130,6 @@
 </template>
 
 <script>
-import infiniteScroll from 'vue-infinite-scroll'
 import {
   Chat as UserChat,
   Contacts as ContactsBox,
@@ -139,14 +146,13 @@ import {
   imageLoad,
   MessageInfoType,
   MessageTargetType,
-  ErrorType,
   timeoutFetch
 } from '../../utils/talk/chatUtils'
+import { ErrorType } from '@/utils/constants'
 import conf from '@/api/index'
 import HttpApiUtils from '../../utils/talk/HttpApiUtils'
 
 export default {
-  directives: { infiniteScroll },
   name: 'ChatPanel',
   components: {
     ContactsBox,
@@ -160,7 +166,7 @@ export default {
   data () {
     return {
       activeKey: '1',
-      tabStyle: { margin: '0 6px 0' },
+      tabStyle: { margin: '0 6px 0', paddingLeft: '10px' },
       data: [],
       loading: false,
       busy: false,
@@ -169,7 +175,7 @@ export default {
       isShowWelcome: true,
       memberVisible: false,
       active: '',
-      searchObj:{
+      searchObj: {
         searchValue: ''
       },
       searchResultList: [],
@@ -180,7 +186,8 @@ export default {
       activeChat: '',
 
       // 加载状态
-      reloadLoading: false,
+      recentLoading: false,
+      groupLoading: false,
       contactsLoading: false,
 
       // 搜索内容显示
@@ -190,6 +197,7 @@ export default {
   computed: {
     currentChat: {
       get: function () {
+        console.log(this.$store.state.chat.currentChat)
         return this.$store.state.chat.currentChat
       },
       set: function (currentChat) {
@@ -198,10 +206,10 @@ export default {
     },
     chatList: {
       get: function () {
-        return this.$store.state.chat.chatList
+        return this.$store.state.chat.recentChatList
       },
-      set: function (chatList) {
-        this.$store.commit('SET_CHAT_LIST', chatList)
+      set: function (recentChatList) {
+        this.$store.commit('SET_RECENT_CHAT_LIST', recentChatList)
       }
     },
     groupList () {
@@ -212,10 +220,9 @@ export default {
     }
   },
   created () {
-    // 加载群组列表
-    this.$store.dispatch('GetGroupList')
-    // 加载联系人列表
-    this.$store.dispatch('GetContactsTree')
+    this.getRecentContacts()
+    this.getContactsTree()
+    this.getGroupList()
   },
   methods: {
     /* 切换面板 */
@@ -247,7 +254,7 @@ export default {
         self.$store.commit('SET_CURRENT_CHAT', firstChat)
       }
       // 重新设置chatList
-      self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+      self.$store.commit('SET_RECENT_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
       // Chat会话框中的研讨信息每次滚动到最底部
       this.$nextTick(() => {
         // imageLoad('message-box')
@@ -266,19 +273,37 @@ export default {
       this.activeContacts = key
     },
     /**
-     * 重新加载群组列表
+     * 加载群组列表
      * @author jihainan
      */
-    reloadGroupList () {
-      this.reloadLoading = true
+    getGroupList () {
+      this.groupLoading = true
       this.$store.dispatch('GetGroupList').finally(() => {
-        this.reloadLoading = false
+        this.groupLoading = false
       })
     },
+    /**
+     * 加载联系人树
+     * @author jihainan
+     */
     getContactsTree () {
       this.contactsLoading = true
       this.$store.dispatch('GetContactsTree').finally(() => {
         this.contactsLoading = false
+      })
+    },
+    /**
+     * 获取最近联系列表
+     * @author jihainan
+     */
+    getRecentContacts () {
+      this.recentLoading = true
+      this.$store.dispatch('GetRecentContacts').then(res => {
+        if (this.$store.state.user.info.id) {
+          ChatListUtils.setChatList(this.$store.state.user.info.id, res.result.data)
+        }
+      }).finally(() => {
+        this.recentLoading = false
       })
     },
     onBlur () {
@@ -289,7 +314,7 @@ export default {
     },
     onFocus () {
       console.log('onFocus')
-      if(!this.searchObj.searchValue){
+      if (!this.searchObj.searchValue) {
         this.searchResultList = []
       }
       this.showSearchContent = false
@@ -334,121 +359,121 @@ export default {
       self.$store.commit('SET_CURRENT_CHAT', this.$route.query.chat)
     }
     // 重新设置chatList
-    self.$store.commit('SET_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
+    self.$store.commit('SET_RECENT_CHAT_LIST', ChatListUtils.getChatList(self.$store.state.user.info.id))
     // 每次滚动到最底部
     this.$nextTick(() => {
       imageLoad('message-box')
     })
   },
   mounted: function () {
-    const self = this
-    const websocketHeartbeatJs = new WebsocketHeartbeatJs({
-      url: conf.getWsUrl()
-    })
-    websocketHeartbeatJs.onopen = function () {
-      websocketHeartbeatJs.send('{"code":' + MessageInfoType.MSG_READY + '}')
-    }
-    websocketHeartbeatJs.onmessage = function (event) {
-      const data = event.data
-      const sendInfo = JSON.parse(data)
-      // 真正的消息类型
-      if (sendInfo.code === MessageInfoType.MSG_MESSAGE) {
-        const message = sendInfo.message
-        if (message.avatar && message.avatar.indexOf('http') === -1) {
-          message.avatar = conf.getHostUrl() + message.avatar
-        }
-        message.timestamp = self.formatDateTime(new Date(message.timestamp))
-        // 发送给个人
-        if (message.type === MessageTargetType.FRIEND) {
-          // 接受人是当前的研讨窗口
-          if (String(message.fromid) === String(self.$store.state.currentChat.id)) {
-            self.$store.commit('ADD_MESSAGE', message)
-          } else {
-            self.$store.commit('SET_UNREAD_COUNT', message)
-            self.$store.commit('ADD_UNREAD_MESSAGE', message)
-          }
-        } else if (message.type === MessageTargetType.CHAT_GROUP) {
-          // message.avatar = self.$store.state.chatMap.get(message.id);
-          // 接受人是当前的研讨窗口
-          if (String(message.id) === String(self.$store.state.currentChat.id)) {
-            if (String(message.fromid) !== self.$store.state.user.id) {
-              self.$store.commit('ADD_MESSAGE', message)
-            }
-          } else {
-            self.$store.commit('SET_UNREAD_COUNT', message)
-            self.$store.commit('ADD_UNREAD_MESSAGE', message)
-          }
-        }
-        self.$store.commit('SET_LAST_MESSAGE', message)
-        // 每次滚动到最底部
-        self.$nextTick(() => {
-          imageLoad('message-box')
-        })
-      }
-    }
+    // const self = this
+    // const websocketHeartbeatJs = new WebsocketHeartbeatJs({
+    //   url: conf.getWsUrl()
+    // })
+    // websocketHeartbeatJs.onopen = function () {
+    //   websocketHeartbeatJs.send('{"code":' + MessageInfoType.MSG_READY + '}')
+    // }
+    // websocketHeartbeatJs.onmessage = function (event) {
+    //   const data = event.data
+    //   const sendInfo = JSON.parse(data)
+    //   // 真正的消息类型
+    //   if (sendInfo.code === MessageInfoType.MSG_MESSAGE) {
+    //     const message = sendInfo.message
+    //     if (message.avatar && message.avatar.indexOf('http') === -1) {
+    //       message.avatar = conf.getHostUrl() + message.avatar
+    //     }
+    //     message.timestamp = self.formatDateTime(new Date(message.timestamp))
+    //     // 发送给个人
+    //     if (message.type === MessageTargetType.FRIEND) {
+    //       // 接受人是当前的研讨窗口
+    //       if (String(message.fromid) === String(self.$store.state.currentChat.id)) {
+    //         self.$store.commit('ADD_MESSAGE', message)
+    //       } else {
+    //         self.$store.commit('SET_UNREAD_COUNT', message)
+    //         self.$store.commit('ADD_UNREAD_MESSAGE', message)
+    //       }
+    //     } else if (message.type === MessageTargetType.CHAT_GROUP) {
+    //       // message.avatar = self.$store.state.chatMap.get(message.id);
+    //       // 接受人是当前的研讨窗口
+    //       if (String(message.id) === String(self.$store.state.currentChat.id)) {
+    //         if (String(message.fromid) !== self.$store.state.user.id) {
+    //           self.$store.commit('ADD_MESSAGE', message)
+    //         }
+    //       } else {
+    //         self.$store.commit('SET_UNREAD_COUNT', message)
+    //         self.$store.commit('ADD_UNREAD_MESSAGE', message)
+    //       }
+    //     }
+    //     self.$store.commit('SET_LAST_MESSAGE', message)
+    //     // 每次滚动到最底部
+    //     self.$nextTick(() => {
+    //       imageLoad('message-box')
+    //     })
+    //   }
+    // }
 
-    websocketHeartbeatJs.onreconnect = function () {
-      console.log('重连中...')
-    }
+    // websocketHeartbeatJs.onreconnect = function () {
+    //   console.log('重连中...')
+    // }
 
-    let count = 0
-    websocketHeartbeatJs.onerror = function () {
-      const param = new FormData()
-      param.set('client_id', 'v-client')
-      param.set('client_secret', 'v-client-ppp')
-      param.set('grant_type', 'refresh_token')
-      param.set('scope', 'select')
-      // param.set('refresh_token', localStorage.getItem('Refresh-Token'))
-      timeoutFetch(
-        fetch(conf.getTokenUrl(), {
-          method: 'POST',
-          model: 'cros', // 跨域
-          headers: {
-            Accept: 'application/json'
-          },
-          body: param
-        }),
-        5000
-      )
-        .then(response => {
-          if (response.status === 200) {
-            return response.json()
-          } else {
-            return new Promise((resolve, reject) => {
-              reject(ErrorType.FLUSH_TOKEN_ERROR)
-            })
-          }
-        })
-        .then(json => {
-          count = 0
-          self.$store.commit('SET_TOKEN', json)
-          self.$store.commit('SET_TOKEN_STATUS', json)
+    // let count = 0
+    // websocketHeartbeatJs.onerror = function () {
+    //   const param = new FormData()
+    //   param.set('client_id', 'v-client')
+    //   param.set('client_secret', 'v-client-ppp')
+    //   param.set('grant_type', 'refresh_token')
+    //   param.set('scope', 'select')
+    //   // param.set('refresh_token', localStorage.getItem('Refresh-Token'))
+    //   timeoutFetch(
+    //     fetch(conf.getTokenUrl(), {
+    //       method: 'POST',
+    //       model: 'cros', // 跨域
+    //       headers: {
+    //         Accept: 'application/json'
+    //       },
+    //       body: param
+    //     }),
+    //     5000
+    //   )
+    //     .then(response => {
+    //       if (response.status === 200) {
+    //         return response.json()
+    //       } else {
+    //         return new Promise((resolve, reject) => {
+    //           reject(ErrorType.FLUSH_TOKEN_ERROR)
+    //         })
+    //       }
+    //     })
+    //     .then(json => {
+    //       count = 0
+    //       self.$store.commit('SET_TOKEN', json)
+    //       self.$store.commit('SET_TOKEN_STATUS', json)
 
-          // 清除原先的刷新缓存的定时器
-          self.$store.commit('CLEAR_FLUSH_TOKEN_TIME_ID')
-          // 刷新token 定时器
-          const flushTokenTimerId = setTimeout(function () {
-            const api = new HttpApiUtils()
-            api.flushToken(self)
-          }, ((json.expires_in - 10) * 1000))
-          self.$store.commit('SET_FLUSH_TOKEN_TIME_ID', flushTokenTimerId)
-        })
-        .catch(error => {
-          count++
-          if (error.toString() === 'TypeError: Failed to fetch') {
-            self.$Message.error('网络断开，正在重连...')
-          } else if (ErrorType.FLUSH_TOKEN_ERROR === error) {
-            count = 25
-          }
-        })
-        // 重连次数大于24 退出登录
-      if (count > 24) {
-        count = 0
-        // logout(self)
-      }
-    }
-    // 这地方不成功，消息将不能发送
-    self.$store.commit('SET_WEBSOCKET', websocketHeartbeatJs)
+    //       // 清除原先的刷新缓存的定时器
+    //       self.$store.commit('CLEAR_FLUSH_TOKEN_TIME_ID')
+    //       // 刷新token 定时器
+    //       const flushTokenTimerId = setTimeout(function () {
+    //         const api = new HttpApiUtils()
+    //         api.flushToken(self)
+    //       }, ((json.expires_in - 10) * 1000))
+    //       self.$store.commit('SET_FLUSH_TOKEN_TIME_ID', flushTokenTimerId)
+    //     })
+    //     .catch(error => {
+    //       count++
+    //       if (error.toString() === 'TypeError: Failed to fetch') {
+    //         self.$Message.error('网络断开，正在重连...')
+    //       } else if (ErrorType.FLUSH_TOKEN_ERROR === error) {
+    //         count = 25
+    //       }
+    //     })
+    //     // 重连次数大于24 退出登录
+    //   if (count > 24) {
+    //     count = 0
+    //     // logout(self)
+    //   }
+    // }
+    // // 这地方不成功，消息将不能发送
+    // self.$store.commit('SET_WEBSOCKET', websocketHeartbeatJs)
   }
 }
 </script>
@@ -461,8 +486,8 @@ export default {
 
   .talk-layout-sider {
     // 覆盖默认样式
-    max-width: 300px !important;
-    flex: 0 0 300px !important;
+    max-width: 280px !important;
+    flex: 0 0 280px !important;
 
     background: rgb(230, 232, 235);
     border-right: 1px solid #dcdee0;
@@ -470,8 +495,12 @@ export default {
     // 聊天搜索栏样式 该部分高度为48px
     .search-bar {
       display: flex;
-      // margin: 18px 12px 6px;
-      margin: 24px 12px 16px
+      margin: 16px 12px 8px;
+    }
+
+    // 调整tabs标签样式
+    .ant-tabs-nav .ant-tabs-tab .anticon {
+      margin-right: 0px;
     }
 
     // 最近消息标签页样式
@@ -485,18 +514,10 @@ export default {
 
     // 群组标签页样式
     .group-contacts-container {
-      .reload-group-list {
-        text-align: center;
-        padding: 32px;
-      }
     }
 
     // 联系人标签页样式
     .contacts-container {
-      .reload-contacts-tree {
-        text-align: center;
-        padding: 32px;
-      }
     }
 
     // 让最近 群组 联系人tab页的内容可以滚动的样式
@@ -504,12 +525,18 @@ export default {
       overflow: hidden;
 
       // 视窗高度-头部导航栏高度-搜索框高度-tab页高度
-      height: calc(100vh - 64px - 64px - 46px);
+      height: calc(100vh - 64px - 48px - 46px);
 
       &:hover {
         overflow-y: overlay;
       }
 
+    }
+
+    // 加载失败或列表为空的提示信息样式
+    .empty-tips {
+      text-align: center;
+      padding: 32px;
     }
   }
 

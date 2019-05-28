@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { login, getInfo, logout } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
-import { ChatListUtils } from '@/utils/talk/chatUtils'
+// import { ChatListUtils } from '@/utils/talk/chatUtils'
 
 const user = {
   state: {
@@ -68,6 +68,7 @@ const user = {
         getInfo().then(response => {
           const result = response.result
 
+          // 判断用户角色
           if (result.role && result.role.permissions.length > 0) {
             const role = result.role
             role.permissions = result.role.permissions
@@ -86,9 +87,11 @@ const user = {
 
           commit('SET_NAME', { name: result.name, welcome: welcome() })
           commit('SET_AVATAR', result.avatar)
-          commit('SET_CHAT_LIST', result.chat.chatList)
-          ChatListUtils.setChatList(user.state.info.id, result.chat.chatList)
+          // commit('SET_RECENT_CHAT_LIST', result.chat.chatList)
+          // ChatListUtils.setChatList(user.state.info.id, result.chat.chatList)
           resolve(response)
+        }).then(() => {
+
         }).catch(error => {
           reject(error)
         })

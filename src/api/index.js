@@ -14,9 +14,6 @@ const api = {
   Logout: '/auth/logout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
-  twoStepCode: '/auth/2step-code',
-  SendSms: '/account/sms',
-  SendSmsErr: '/account/sms_err',
   // 获取用户信息
   UserInfo: '/user/info',
   getHostUrl: function () {

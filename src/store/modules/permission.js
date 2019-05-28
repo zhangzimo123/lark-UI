@@ -3,8 +3,8 @@ import { asyncRouterMap, constantRouterMap } from '@/config/router.config'
 /**
  * 过滤账户是否拥有某一个权限，并将菜单从加载列表移除
  *
- * @param permission
- * @param route
+ * @param permission 后台传过来的permissionList
+ * @param route 一个前端可变路由项
  * @returns {boolean}
  */
 function hasPermission (permission, route) {

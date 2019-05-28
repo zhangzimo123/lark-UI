@@ -55,8 +55,14 @@ export default {
     return {}
   },
   methods: {
-    handleSelect (selectedKeys, info) {
-      this.$emit('SelectContacts', info.selected ? selectedKeys[0] : '')
+    handleSelect (selectedKeys, { selectedNodes }) {
+      if (selectedNodes.length) {
+        if (selectedNodes[0].data.props.dataRef.hasOwnProperty('online')) {
+          this.$emit('SelectContacts', selectedKeys[0])
+        }
+      } else {
+        this.$emit('SelectContacts', selectedKeys[0])
+      }
     }
   }
 }

@@ -1,9 +1,8 @@
 <template>
-  <div style="height: 155%;" >
+  <div class="lark-monitor">
     <a-spin :spinning="loaded === false" size="large" style="margin-top: 25%;margin-left: 50%" >
     </a-spin>
-    <!--<TreeCustom :label="tree.title" :headImg="tree.head" :treeData="tree.children" :depth="0" />-->
-    <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''" style="margin: -20px">
+    <div v-if="loaded" class="antd-pro-pages-dashboard-analysis-twoColLayout" :class="isDesktop() ? 'desktop' : ''">
       <grid-layout
         :layout.sync="layout"
         :col-num="12"
@@ -18,7 +17,6 @@
       >
         <grid-item
           v-for="grid in layout"
-          v-if="grid.show"
           dragIgnoreFrom=".ant-card-body"
           :minH="cardSize.minH"
           :maxH="cardSize.maxH"
@@ -74,79 +72,11 @@
             @showChatPanel="showChatPanel"
             @remove="grid.show=false">
           </WorkSituation>
-          <!--<ResourceKnowledgeModel-->
-          <!--v-if="grid.is==='resource-knowledge-model'"-->
-          <!--:headStyle="headStyle"-->
-          <!--:data="monitor[grid.is]"-->
-          <!--@myChartSize="myChartSize"-->
-          <!--@showChatPanel="showChatPanel"-->
-          <!--@remove="grid.show=false">-->
-          <!--</ResourceKnowledgeModel>-->
-          <!--<Simulation-->
-          <!--v-if="grid.is==='simulation'"-->
-          <!--:headStyle="headStyle"-->
-          <!--:data="monitor[grid.is]"-->
-          <!--@myChartSize="myChartSize"-->
-          <!--@showChatPanel="showChatPanel"-->
-          <!--@remove="grid.show=false">-->
-          <!--</Simulation>-->
-          <!--<Datas-->
-          <!--v-if="grid.is==='datas'"-->
-          <!--:headStyle="headStyle"-->
-          <!--:data="monitor[grid.is]"-->
-          <!--@myChartSize="myChartSize"-->
-          <!--@showChatPanel="showChatPanel"-->
-          <!--@remove="grid.show=false">-->
-          <!--</Datas>-->
-          <!--<stat-->
-          <!--v-if="grid.is==='stat'"-->
-          <!--:headStyle="headStyle"-->
-          <!--:data="monitor[grid.is]"-->
-          <!--@myChartSize="myChartSize"-->
-          <!--@showChatPanel="showChatPanel"-->
-          <!--@remove="grid.show=false">-->
-          <!--</stat>-->
-          <!--<PDMTDM-->
-          <!--v-if="grid.is==='PDMTDM'"-->
-          <!--:headStyle="headStyle"-->
-          <!--:data="monitor[grid.is]"-->
-          <!--@myChartSize="myChartSize"-->
-          <!--@showChatPanel="showChatPanel"-->
-          <!--@remove="grid.show=false">-->
-          <!--</PDMTDM>-->
-          <!--<tool-->
-          <!--v-if="grid.is==='tool'"-->
-          <!--:headStyle="headStyle"-->
-          <!--:data="monitor[grid.is]"-->
-          <!--@myChartSize="myChartSize"-->
-          <!--@showChatPanel="showChatPanel"-->
-          <!--@remove="grid.show=false">-->
-          <!--</tool>-->
-          <!--<HotNewsWindows-->
-          <!--v-if="grid.is==='HotNewsWindows'"-->
-          <!--:headStyle="headStyle"-->
-          <!--:data="monitor[grid.is]"-->
-          <!--@myChartSize="myChartSize"-->
-          <!--@showChatPanel="showChatPanel"-->
-          <!--@remove="grid.show=false">-->
-          <!--</HotNewsWindows>-->
         </grid-item>
       </grid-layout>
-      <!--<span class="myWorkSetButton" @click="this.toggle">-->
-      <!--<a-icon type="setting" />-->
-      <!--</span>-->
-      <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel" v-show="!myChatPanelIsShow">-->
-      <!--<div class="myWorkShopIcon" @click="this.openMyChatPanel">-->
-      <!--<img class="myWorkShopIconImg" src="@/assets/head-icon.png"/>-->
-      <!--<span class="myWorkShopIconTitle">我的研讨厅</span>-->
-      <!--<div class="myWorkShopIconInfoTip"></div>-->
-      <!--</div>-->
-      <!--<span class="myWorkShopIcon" @click="this.openMyChatPanel">-->
-      <!--<a-icon type="message" />-->
-      <!--</span>-->
     </div>
     <!--这个地方放置最近访问-->
-    <footer-tool-bar v-if="loaded" :style="{height:'86px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
+    <footer-tool-bar v-if="loaded" :style="{height:'64px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
       <img class="addLinkIcon" :src=" require('@/assets/add-group.png')" @click="showModal" />
       <link-footer :data="linkList" />
     </footer-tool-bar>
@@ -571,6 +501,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.lark-monitor{
+  margin: -21px 0 0 0
+}
   .antd-pro-pages-dashboard-analysis-twoColLayout {
     position: relative;
     display: flex;
