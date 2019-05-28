@@ -401,6 +401,12 @@ export default {
   },
   mounted () {
     const self = this
+    if (self.$route.params.setFlag) {
+      self.settingDrawerVisible = self.$route.params.setFlag
+    }
+    if (self.$route.params.messageFlag) {
+      self.myChatPanelIsShow = self.$route.params.messageFlag
+    }
     Utils.$on('message', function (msg) {
       console.log(msg)
       self.openMyChatPanel()

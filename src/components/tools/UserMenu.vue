@@ -78,9 +78,11 @@ export default {
     },
     setFun () {
       Utils.$emit('set', 'msg')
+      this.$router.push({ name: 'Analysis', params: { setFlag: true } })
     },
     messageFun () {
       Utils.$emit('message', 'msg')
+      this.$router.push({ name: 'Analysis', params: { messageFlag: true } })
     }
   }
 }
