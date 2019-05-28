@@ -2,7 +2,7 @@
   <a-layout v-if="Object.keys(chatInfo).length" class="conv-box">
 
     <!-- 聊天设置选项的抽屉组件 -->
-    <talk-history :activeOption="activeOption" @closeDrawer="triggerDrawer()"></talk-history>
+    <talk-history :activeOption="activeOption" @closeDrawer="triggerDrawer"></talk-history>
 
     <a-layout-header class="conv-box-header">
       <a-row type="flex" justify="space-between">
@@ -290,6 +290,7 @@ export default {
      * @author jihainan
      */
     optionFilter (isGroup) {
+      // 聊天操作选项
       const optionList = [
         { group: true, name: 'groupNotice', message: '群公告', type: 'notification' },
         { group: true, name: 'markMessage', message: '标记信息', type: 'tags' },
@@ -304,7 +305,6 @@ export default {
      */
     triggerDrawer (drawerName) {
       this.activeOption = drawerName
-      console.log(drawerName)
     },
     talkItemEnter () {
       this.activeItemHandle = true

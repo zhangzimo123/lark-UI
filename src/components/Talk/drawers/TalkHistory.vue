@@ -8,7 +8,7 @@
     :width="448"
     :closable="false"
     @close="onClose"
-    :visible="visible">
+    :visible="activeOption=='talkHistory'">
 
     <p>Some contents...</p>
     <p>Some contents...</p>
@@ -34,12 +34,6 @@ export default {
   },
   data () {
     return {
-      visible: false
-    }
-  },
-  watch: {
-    activeOption (newVal) {
-      this.visible = (newVal === 'talkHistory')
     }
   },
   computed: {
@@ -48,6 +42,7 @@ export default {
   },
   mounted () {},
   methods: {
+    /** 抽屉关闭时触发closeDrawer事件 */
     onClose () {
       this.$emit('closeDrawer')
     }
