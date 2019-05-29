@@ -1,6 +1,12 @@
 <template>
   <div class="user-wrapper">
     <span class="action">
+      <a-icon type="setting" @click="setFun"/>
+    </span>
+    <span class="action">
+      <a-icon type="message" @click="messageFun"/>
+    </span>
+    <span class="action">
       <a-icon type="question-circle-o"></a-icon>
     </span>
     <header-notice class="action"/>
@@ -13,7 +19,7 @@
         <a-menu-item key="0">
           <router-link :to="{ name: 'center' }">
             <a-icon type="user"/>
-            <span>个人中心</span>
+            <span>个人信息</span>
           </router-link>
         </a-menu-item>
         <a-menu-item key="1">
@@ -41,7 +47,7 @@
 <script>
 import HeaderNotice from './HeaderNotice'
 import { mapActions, mapGetters } from 'vuex'
-
+import Utils from '../../../src/utils/utils.js'
 export default {
   name: 'UserMenu',
   components: {
@@ -69,6 +75,14 @@ export default {
         onCancel () {
         }
       })
+    },
+    setFun () {
+      Utils.$emit('set', 'msg')
+      this.$router.push({ name: 'Analysis', params: { setFlag: true } })
+    },
+    messageFun () {
+      Utils.$emit('message', 'msg')
+      this.$router.push({ name: 'Analysis', params: { messageFlag: true } })
     }
   }
 }

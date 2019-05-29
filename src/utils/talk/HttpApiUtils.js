@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import conf from '@/api/index'
-import { ErrorType, logout, timeoutFetch, tokenFetch } from './chatUtils'
+import { logout, timeoutFetch, tokenFetch } from './chatUtils'
+import { ErrorType } from '@/utils/constants'
 
 class HttpApiUtils {
   constructor () {

@@ -3,8 +3,7 @@
     <a-card
       :headStyle="headStyle"
       :bordered="true"
-      :style="{ height: '306px',boxShadow: '0px 2px #bfbfbf'}"
-      style="overflow-y: auto">
+      :style="{ height: '300px'}">
       <div slot="title">
         <a-row>
           <a-col>
@@ -25,14 +24,23 @@
         </a-row>
       </div>
       <a-popover
-        placement="left"
+        placement="bottomLeft"
         slot="extra"
         trigger="click">
         <template slot="content">
-          <a @click="$emit('remove')">移除卡片</a>
+          <a-row>
+            <a-col>
+              <a @click="$emit('remove')" style="color: #666666;margin-right:12px;"><img style="width: 14px;height: 14px;margin-right: 5px;margin-left: 5px;" :src=" require('@/assets/more-icon.png')" /><span style="margin-left: 5px">更多</span></a>
+            </a-col>
+            <a-divider type="horizontal " style="margin-top: 8px;margin-bottom: 8px" />
+            <a-col>
+              <a @click="$emit('remove')" style="color: #666666;margin-right:12px;"><img style="width: 14px;height: 14px;margin-right: 5px;margin-left: 5px;" :src=" require('@/assets/remove-icon.png')" /><span style="margin-left: 5px">移除卡片</span></a>
+            </a-col>
+          </a-row>
         </template>
         <a href="#">
-          <a-icon type="close" />
+          <!--<a-icon type="plus" style="color: #516efc"/>-->
+          <img style="width: 14px;height: 14px;" :src=" require('@/assets/more.jpg')" />
         </a>
       </a-popover>
       <div v-if="this.typeMap==0"><todo :data="data.todo"></todo></div>

@@ -22,7 +22,7 @@
     <!--<a-icon type="tool"/>-->
     <!--</a>-->
     <!--</a-popover>-->
-    <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
+    <a-row class="row-magin" v-for="(row,index) in list" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <span @click="visibleModal(row)" class="content-adpat" style="color: #666666">{{ row.name }}</span>
       <span class="right" color="#999999">{{ row.date }}</span>
@@ -39,25 +39,29 @@
   </div>
 </template>
 <script>
-
+import { planData } from '@/api/plan'
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       title: '计划表',
       modal: false,
-      rowDetails: ''
+      rowDetails: '',
+      list: []
     }
+  },
+  created () {
+    this.fetchPlan()
   },
   methods: {
     visibleModal (row) {
       this.modal = true
       this.rowDetails = row
+    },
+    fetchPlan () {
+      const vm = this
+      planData().then(data => {
+        vm.list = data.plan.content.slice(0, 5)
+      })
     }
   }
 }

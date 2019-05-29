@@ -14,16 +14,25 @@
       </a-row>
     </div>
     <a-popover
-      placement="left"
+      placement="bottomLeft"
       slot="extra"
       trigger="click">
       <template slot="content">
-        <a @click="$emit('remove')">移除卡片</a>
+        <a-row>
+          <a-col>
+            <a @click="$emit('remove')" style="color: #666666;margin-right:12px;"><img style="width: 14px;height: 14px;margin-right: 5px;margin-left: 5px;" :src=" require('@/assets/more-icon.png')" /><span style="margin-left: 5px">更多</span></a>
+          </a-col>
+          <a-divider type="horizontal " style="margin-top: 8px;margin-bottom: 8px" />
+          <a-col>
+            <a @click="$emit('remove')" style="color: #666666;margin-right:12px;"><img style="width: 14px;height: 14px;margin-right: 5px;margin-left: 5px;" :src=" require('@/assets/remove-icon.png')" /><span style="margin-left: 5px">移除卡片</span></a>
+          </a-col>
+        </a-row>
       </template>
       <a href="#">
-        <a-icon type="close" />
+        <a-icon type="close" style="color: #516efc"/>
       </a>
     </a-popover>
+
     <div style="height:205px;overflow-y:auto;overflow-x: hidden">
       <a-row v-for="(row,index) in list" :key="'item'+index" class="row-magin">
         <i class="ivu-tag-dot-inner"></i>
@@ -56,7 +65,7 @@ export default {
     fetchData () {
       var vm = this
       getNews().then((data) => {
-        vm.list = [].concat(data.content).slice(0, 6)
+        vm.list = [].concat(data.content).slice(0, 5)
       })
     }
   }

@@ -5,7 +5,8 @@ const api = {
   groupInfo: 'talk/group/info',
   groupList: 'talk/group/list',
   contactsInfo: 'talk/contacts/info',
-  contactsTree: 'talk/contacts/tree'
+  contactsTree: 'talk/contacts/tree',
+  recentContacts: 'talk/recent/list'
 }
 
 export default api
@@ -60,6 +61,17 @@ export function getGroupList () {
 export function getContactsTree () {
   return axios({
     url: api.contactsTree,
+    method: 'GET'
+  })
+}
+
+/**
+ * 获取最近联系人列表
+ * @author jihainan
+ */
+export function getRecentContacts () {
+  return axios({
+    url: api.recentContacts,
     method: 'GET'
   })
 }
