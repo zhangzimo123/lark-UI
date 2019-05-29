@@ -20,7 +20,7 @@ export default {
   components: {
 
   },
-  props:{
+  props: {
 
   },
   data () {
@@ -36,30 +36,30 @@ export default {
 
   },
   created () {
-    this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent);
+    this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
   },
   methods: {
     searchInputOnBlur () {
       console.log('onBlur')
       if (!this.searchObj.searchValue) {
         this.showSearchContent = true
-        this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent);
+        this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
       }
     },
     searchInputOnFocus () {
       console.log('onFocus')
       if (!this.searchObj.searchValue) {
         this.searchResultList = []
-        this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList);
+        this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList)
       }
       this.showSearchContent = false
-      this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent);
+      this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
     },
     cleanSearchValue () {
       console.log('clean')
       this.searchObj.searchValue = ''
       this.showSearchContent = true
-      this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent);
+      this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
     },
     searchValueChange (e) {
       console.log('this.searchObj.searchValue', this.searchObj.searchValue)
@@ -87,7 +87,7 @@ export default {
         }
       }
       console.log('this.searchResultList', this.searchResultList)
-      this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList);
+      this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList)
     }
   },
   activated: function () {

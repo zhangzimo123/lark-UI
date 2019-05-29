@@ -118,18 +118,18 @@ import {
 } from '@/components/Talk'
 import SearchInput from './SearchInput'
 import SearchArea from './SearchArea'
-import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
+// import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
 import {
   ChatListUtils,
   Chat,
   imageLoad,
-  MessageInfoType,
-  MessageTargetType,
-  timeoutFetch
+  // MessageInfoType,
+  MessageTargetType
+  // timeoutFetch
 } from '../../utils/talk/chatUtils'
-import { ErrorType } from '@/utils/constants'
+// import { ErrorType } from '@/utils/constants'
 import conf from '@/api/index'
-import HttpApiUtils from '../../utils/talk/HttpApiUtils'
+// import HttpApiUtils from '../../utils/talk/HttpApiUtils'
 import Utils from '../../../src/utils/utils.js'
 export default {
   name: 'ChatPanel',
@@ -159,7 +159,6 @@ export default {
       searchObj: {
         searchValue: ''
       },
-//      searchResultList: [],
 
       // 记录当前选中的联系人/群组信息
       activeContacts: '',
@@ -169,11 +168,8 @@ export default {
       // 加载状态
       recentLoading: false,
       groupLoading: false,
-      contactsLoading: false,
+      contactsLoading: false
 
-      // 搜索内容显示
-//      showSearchContent: true
-//      showSearchResult: true
     }
   },
   computed: {
@@ -201,9 +197,9 @@ export default {
       return this.$store.state.chat.contactsTree
     },
     showSearchContent () {
-      if(this.$store.state.chat.showSearchContent === null){
+      if (this.$store.state.chat.showSearchContent === null) {
         return true
-      }else{
+      } else {
         return this.$store.state.chat.showSearchContent
       }
     },
@@ -297,7 +293,7 @@ export default {
       }).finally(() => {
         this.recentLoading = false
       })
-    },
+    }
   },
   activated: function () {
     const self = this
@@ -319,7 +315,7 @@ export default {
   mounted: function () {
     const self = this
     Utils.$on('showChat', function (chat) {
-      self.showChat(chat);
+      self.showChat(chat)
     })
     // const self = this
     // const websocketHeartbeatJs = new WebsocketHeartbeatJs({
