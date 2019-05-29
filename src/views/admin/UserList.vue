@@ -146,12 +146,12 @@
                 :wrapperCol="wrapperCol"
                 label="所属组织"
               >
-                <org-treeSelect :values="userinfo.orgid" :dataSource ="orgTree"></org-treeSelect>
+                <org-treeSelect :values="userinfo.orgid" :dataSource="orgTree"></org-treeSelect>
               </a-form-item>
             </a-col>
           </a-row>
-          </a-card>
-          <a-card :bordered="true" title="角色信息" v-show="editvisible">
+        </a-card>
+        <a-card :bordered="true" title="角色信息" v-show="editvisible">
           <a-row>
             <a-col :span="10" :offset="1">
               <a-form-item

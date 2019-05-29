@@ -31,7 +31,7 @@ export default {
         this.orgTree = res.result
       })
     } else {
-      this.orgTree = dataSource
+      this.orgTree = this.dataSource
     }
   },
   props: {
