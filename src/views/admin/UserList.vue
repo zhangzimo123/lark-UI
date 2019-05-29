@@ -3,7 +3,7 @@
     <a-card :bordered="false">
       <a-row :gutter="8">
         <a-col :span="5">
-          <a-card :bordered="true" title="组织树">
+          <a-card :bordered="true" title="组织树" v-show="cardvisible">
             <a-row>
               <a-col :span="6">
                 <a-tree
@@ -16,7 +16,7 @@
           </a-card>
         </a-col>
         <a-col :span="19">
-          <a-card :bordered="true" title="员工信息" v-show="cardvisible">
+          <a-card :bordered="true" title="人员信息列表" v-show="cardvisible">
             <div class="table-page-search-wrapper">
               <a-form layout="inline">
                 <a-row>
@@ -71,129 +71,120 @@
               </a-form>
             </div>
           </a-card>
-          <a-card :bordered="true" title="人员信息" v-show="editvisible">
-            <a href="#" slot="extra" @click="cacenlEdit">返回</a>
-            <a-form :form="editForm">
-              <a-tabs defaultActiveKey="1" tabPosition="left" @change="changeTab">
-                <a-tab-pane tab="基础信息" key="1">
-                  <a-row>
-                    <a-col :span="10" :offset="1">
-                      <a-form-item
-                        :labelCol="labelCol"
-                        :wrapperCol="wrapperCol"
-                        label="姓名"
-                      >
-                        <a-input v-decorator="['name',{rules: [{ required: true, message: '请输入姓名' },{ max:10,message:'长度不能超过10个字'}]}]"/>
-                      </a-form-item>
-                    </a-col>
-                    <a-col :span="10" :offset="1">
-                      <a-form-item
-                        :labelCol="labelCol"
-                        :wrapperCol="wrapperCol"
-                        label="密级"
-                      >
-                        <a-select placeholder="请选择" v-decorator="['slevel',{rules: [{ required: true, message: '请选择密级' }]}]">
-                          <a-select-option value="1">一般</a-select-option>
-                          <a-select-option value="2">重要</a-select-option>
-                          <a-select-option value="3">核心</a-select-option>
-                        </a-select>
-                      </a-form-item>
-                    </a-col>
-                  </a-row>
-                  <a-row>
-                    <a-col :span="10" :offset="1">
-                      <a-form-item
-                        :labelCol="labelCol"
-                        :wrapperCol="wrapperCol"
-                        label="身份证号"
-                      >
-                        <a-input
-                          v-decorator="['cardno',{rules: [{ required: true, message: '请输入身份证号' },{pattern: /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/, message: '身份证输入格式有误'}]}]"/>
-                      </a-form-item>
-                    </a-col>
-                    <a-col :span="10" :offset="1">
-                      <a-form-item
-                        :labelCol="labelCol"
-                        :wrapperCol="wrapperCol"
-                        label="在职状态"
-                      >
-                        <a-select placeholder="请选择" v-decorator="['inservice',{rules: [{ required: true, message: '请选择在职状态' }]}]">
-                          <a-select-option value="1">在职</a-select-option>
-                          <a-select-option value="2">离职</a-select-option>
-                        </a-select>
-                      </a-form-item>
-                    </a-col>
-                  </a-row>
-                  <a-row>
-                    <a-col :span="10" :offset="1">
-                      <a-form-item
-                        :labelCol="labelCol"
-                        :wrapperCol="wrapperCol"
-                        label="状态"
-                      >
-                        <a-switch defaultChecked v-decorator="['status']"/>
-                      </a-form-item>
-                    </a-col>
-                  </a-row>
-                </a-tab-pane>
-                <a-tab-pane tab="组织信息" key="2">
-                  <a-row>
-                    <a-col :span="10" :offset="1">
-                      <a-form-item
-                        :labelCol="labelCol"
-                        :wrapperCol="wrapperCol"
-                        label="所属组织"
-                      >
-                        <org-treeSelect :pvalue="userinfo.orgname"></org-treeSelect>
-                      </a-form-item>
-                    </a-col>
-                  </a-row>
-                </a-tab-pane>
-                <a-tab-pane tab="角色" key="3">
-                  <a-row>
-                    <a-col :span="10" :offset="1">
-                      <a-form-item
-                        :labelCol="labelCol"
-                        :wrapperCol="wrapperCol"
-                        label="选择角色"
-                      >
-                        <a-select
-                          mode="multiple"
-                          placeholder="请选择"
-                          v-decorator="['userrole']"
-                        >
-                          <a-select-option v-for="item in roleopts" :key="item.key">
-                            {{ item.title }}
-                          </a-select-option>
-                        </a-select>
-                      </a-form-item>
-                    </a-col>
-                  </a-row>
-                </a-tab-pane>
-              </a-tabs>
-              <a-row type="flex" justify="end">
-                <a-col>
-                  <a-button type="primary" @click="saveUserInfo">保存</a-button>
-                </a-col>
-              </a-row>
-            </a-form>
-          </a-card>
         </a-col>
+      </a-row>
+      <a-row :gutter="8">
+        <a-card :bordered="true" title="人员基础信息" v-show="editvisible">
+          <a href="#" slot="extra" @click="cacenlEdit">返回</a>
+          <a-form :form="editForm">
+            <a-row>
+              <a-col :span="10" :offset="1">
+                <a-form-item
+                  :labelCol="labelCol"
+                  :wrapperCol="wrapperCol"
+                  label="姓名"
+                >
+                  <a-input v-decorator="['name',{rules: [{ required: true, message: '请输入姓名' },{ max:10,message:'长度不能超过10个字'}]}]"/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="10" :offset="1">
+                <a-form-item
+                  :labelCol="labelCol"
+                  :wrapperCol="wrapperCol"
+                  label="密级"
+                >
+                  <a-select placeholder="请选择" v-decorator="['slevel',{rules: [{ required: true, message: '请选择密级' }]}]">
+                    <a-select-option value="1">一般</a-select-option>
+                    <a-select-option value="2">重要</a-select-option>
+                    <a-select-option value="3">核心</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="10" :offset="1">
+                <a-form-item
+                  :labelCol="labelCol"
+                  :wrapperCol="wrapperCol"
+                  label="身份证号"
+                >
+                  <a-input
+                    v-decorator="['cardno',{rules: [{ required: true, message: '请输入身份证号' },{pattern: /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/, message: '身份证输入格式有误'}]}]"/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="10" :offset="1">
+                <a-form-item
+                  :labelCol="labelCol"
+                  :wrapperCol="wrapperCol"
+                  label="在职状态"
+                >
+                  <a-select placeholder="请选择" v-decorator="['inservice',{rules: [{ required: true, message: '请选择在职状态' }]}]">
+                    <a-select-option value="1">在职</a-select-option>
+                    <a-select-option value="2">离职</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="10" :offset="1">
+                <a-form-item
+                  :labelCol="labelCol"
+                  :wrapperCol="wrapperCol"
+                  label="状态"
+                >
+                  <a-switch defaultChecked v-decorator="['status']"/>
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
+        </a-card>
+        <a-card :bordered="true" title="组织信息" v-show="editvisible">
+          <a-row>
+            <a-col :span="10" :offset="1">
+              <a-form-item
+                :labelCol="labelCol"
+                :wrapperCol="wrapperCol"
+                label="所属组织"
+              >
+                <org-treeSelect :values="userinfo.orgid" :dataSource="orgTree"></org-treeSelect>
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-card>
+        <a-card :bordered="true" title="角色信息" v-show="editvisible">
+          <a-row>
+            <a-col :span="10" :offset="1">
+              <a-form-item
+                :labelCol="labelCol"
+                :wrapperCol="wrapperCol"
+                label="选择角色"
+              >
+                <Role-checked :values="rolechecked"></Role-checked>
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row type="flex" justify="end">
+            <a-col>
+              <a-button type="primary" @click="saveUserInfo">保存</a-button>
+            </a-col>
+          </a-row>
+        </a-card>
       </a-row>
     </a-card>
   </div>
 </template>
-
 <script>
 import STable from '@/components/table/'
 import OrgTreeSelect from '@/components/admin/OrgTreeSelect'
+import RoleChecked from '@/components/admin/RoleChecked'
 import { setTimeout } from 'timers'
-import { getRoleList, getUserList, adduser, updateuser, deluser } from '@/api/admin'
+import { getUserList, adduser, updateuser, deluser, getOrgTree } from '@/api/admin'
 export default {
   name: 'UserList',
   components: {
     STable,
-    OrgTreeSelect
+    OrgTreeSelect,
+    RoleChecked
   },
   data () {
     return {
@@ -243,7 +234,7 @@ export default {
           dataIndex: 'status'
         },
         {
-          table: '操作',
+          title: '操作',
           width: '120px',
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' }
@@ -257,23 +248,17 @@ export default {
         })
       },
       orgTree: [],
-      // 角色可选择集合
-      roleopts: [],
       // 用户对应角色
       rolechecked: [],
       editType: ''
     }
   },
   created () {
-    // 一次加载所有角色信息
-    if (this.roleopts.length === 0) {
-      getRoleList().then(res => {
-        const result = res.result.data
-        result.forEach((re) => {
-          this.roleopts.push({ 'key': re.id, 'title': re.name })
-        })
-      })
-    }
+    // 获取树形组织信息
+    console.log('getOrgTree')
+    getOrgTree().then(res => {
+      this.orgTree = res.result
+    })
   },
   methods: {
     /**
@@ -296,6 +281,9 @@ export default {
      */
     saveUserInfo () {
       this.editForm.validateFields((err, values) => {
+        // 如果有必填项限制，在这里加 TODO，且需要有对应的提醒信息，tab页无法动态设置展示
+        values.orgid = this.userinfo.orgid
+        values.role = this.rolechecked
         if (!err) {
           if (this.editType === '1') {
             return adduser(
@@ -303,6 +291,8 @@ export default {
             ).then(
               res => {
                 if (res.status === '200') {
+                  this.editvisible = false
+                  this.cardvisible = true
                   this.$notification['success']({
                     message: '新增成功',
                     duration: 2
@@ -395,8 +385,9 @@ export default {
             status: true
           })
         }, 0)
+        this.userinfo.orgid = ''
+        this.rolechecked = []
       }
-      // this.visible = true
       this.editvisible = true
       this.cardvisible = false
     },
@@ -443,51 +434,14 @@ export default {
         }
       })
     },
-    /**
-     * tab页切换，初始表单信息
-     * 表单信息渲染出来后赋值
-     * 否则页面跑错Warning: You cannot set a form field before rendering a field associated with the value
-     */
-    changeTab (key) {
-      // 打开组织信息页
-      // if (key === '2') {
-      //   // 新增
-      //   if (this.editType === '1') {
-      //     setTimeout(() => {
-      //       this.editForm.setFieldsValue({
-      //         userorg: ''
-      //       })
-      //     }, 0)
-      //   } else {
-      //     // 编辑
-      //     setTimeout(() => {
-      //       this.editForm.setFieldsValue({
-      //         userorg: this.userinfo.orgname
-      //       })
-      //     }, 0)
-      //   }
-      // } else if (key === '3') {
-      //   // 打开角色信息页
-      //   // 新增
-      //   if (this.editType === '1') {
-      //     setTimeout(() => {
-      //       this.editForm.setFieldsValue({
-      //         userrole: []
-      //       })
-      //     }, 0)
-      //   } else {
-      //     // 编辑
-      //     setTimeout(() => {
-      //       this.editForm.setFieldsValue({
-      //         userrole: this.rolechecked
-      //       })
-      //     }, 0)
-      //   }
-      // }
+    changOrg (value) {
+      this.userinfo.orgid = value
+    },
+    changerolecheck (value) {
+      this.rolechecked = value
     }
   }
 }
 </script>
-<style lang="less">
-
+<style>
 </style>
