@@ -1,3 +1,5 @@
+// import storeConfig from '../store/modules/msgStore'
+import store from '../store'
 /**
  * @param {*} ws_protocol wss or ws
  * @param {*} ip
@@ -38,7 +40,8 @@ const socketApi = function (ws_protocol, ip, port, paramStr, param, heartbeatTim
     ws.binaryType = this.binaryType; // 'arraybuffer'; // 'blob' or 'arraybuffer';//arraybuffer是字节
     const self = this
     ws.onopen = function (event) {
-      console.log('连上了'+event)
+      console.info('连上了'+event)
+      ws.send('123')
       self.lastInteractionTime(new Date().getTime())
       self.pingIntervalId = setInterval(function () {
         //开始发心跳了
@@ -47,12 +50,15 @@ const socketApi = function (ws_protocol, ip, port, paramStr, param, heartbeatTim
     }
     ws.onmessage = function (event) {
       console.log('收到了'+event.data)
-      this.store.dispatch('SET_MESSAGE_LIST',event.data);
+      const a = new Date
+      store.dispatch('SET_MSG', JSON.parse(event.data)+a)
+      // console.log(store.state.getMsg())
+
+      // this.dispatchEvent()
+      // alert(event.data)
       self.lastInteractionTime(new Date().getTime())
     }
     ws.onclose = function (event) {
-      console.log('websocket 断开: ' + e.code + ' ' + e.reason + ' ' + e.wasClean)
-      console.log(e)
       clearInterval(self.pingIntervalId) // clear send heartbeat task
       try {
         console.log('走远了'+event)
@@ -80,7 +86,7 @@ const socketApi = function (ws_protocol, ip, port, paramStr, param, heartbeatTim
     var iv = new Date().getTime() - this.lastInteractionTime(); // 已经多久没发消息了
     // 单位：秒
     if ((this.heartbeatSendInterval + iv) >= this.heartbeatTimeout) {
-      this.ws.send('心跳')
+      this.ws.send('心跳内容')
     }
   };
 
@@ -88,6 +94,4 @@ const socketApi = function (ws_protocol, ip, port, paramStr, param, heartbeatTim
     this.ws.send(data);
   };
 }
-
-
 export default socketApi
