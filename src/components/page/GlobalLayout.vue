@@ -59,7 +59,7 @@
       />
 
       <!-- layout content -->
-      <a-layout-content :style="{ margin: '0', height: '100%', paddingTop: fixedHeader ? '64px' : '0' }">
+      <a-layout-content :style="{ margin: '24px 0 0', height: '100%', paddingTop: fixedHeader ? '64px' : '0' }">
         <slot></slot>
       </a-layout-content>
 
