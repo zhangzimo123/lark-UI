@@ -1,9 +1,9 @@
 import { axios } from '@/utils/request'
 
 const api = {
-  getStatHistorys: '/getStat/latest',
-  getToolStat: '/getStat/latest',
-  getTaskStat: '/getStat/latest'
+  getStatHistorys: '/stat/latest',
+  getToolStat: '/stat/latest',
+  getTaskStat: '/stat/latest'
 }
 
 export default api

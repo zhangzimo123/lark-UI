@@ -1,28 +1,6 @@
 <template>
   <div style="height:205px;overflow-y:auto">
-    <!--<a-card-->
-    <!--:headStyle="headStyle"-->
-    <!--:bordered="true"-->
-    <!--:style="{ minHeight: '300px'}">-->
-    <!--<div slot="title">-->
-    <!--<a-row>-->
-    <!--<a-col>-->
-    <!--{{ title }}-->
-    <!--</a-col>-->
-    <!--</a-row>-->
-    <!--</div>-->
-    <!--<a-popover-->
-    <!--placement="left"-->
-    <!--slot="extra"-->
-    <!--trigger="click">-->
-    <!--<template slot="content">-->
-    <!--<a>移除卡片</a>-->
-    <!--</template>-->
-    <!--<a href="#">-->
-    <!--<a-icon type="tool"/>-->
-    <!--</a>-->
-    <!--</a-popover>-->
-    <a-row class="row-magin" v-for="(row,index) in data.content" :key="'item'+index">
+    <a-row class="row-magin" v-for="(row,index) in showList" :key="'item'+index">
       <i class="ivu-tag-dot-inner"></i>
       <a-tag class="row-tag circle" :color="typeColor(row.type)">{{ typeName(row.type) }}</a-tag>
       <span @click="visibleModal(row)" class="content-adpat" style="color: #666666">{{ row.name }}</span>
@@ -36,11 +14,9 @@
         </a-row>
       </a-modal>
     </a-row>
-    <!--</a-card>-->
   </div>
 </template>
 <script>
-
 export default {
   props: {
     data: {
@@ -73,6 +49,9 @@ export default {
       return this.typeArray.filter(item => {
         return item.show
       })
+    },
+    showList () {
+      return this.data.content.slice(0, 5)
     }
   },
   methods: {
@@ -145,10 +124,12 @@ export default {
     font-size: 1px;
     margin-right: 8px;
     position: relative;
-    top: -2px;
+    top: -7px;
   }
   .row-tag{
     font-size: 12px;
+    position: relative;
+    top: -5px;
   }
   .content-adpat{
     width: 55%;

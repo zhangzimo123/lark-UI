@@ -6,20 +6,20 @@
     <a-spin :spinning="loadingState" :delay="200" tip="加载中···" class="loading-tip">
     </a-spin>
 
-    <div v-if="!selected.length" class="unselected-tip">
+    <div v-if="!selected" class="unselected-tip">
       <a-icon type="user" style="fontSize: 160px; color: #d7d9db" />
       <p>未选择联系人</p>
     </div>
 
     <!-- 重新加载 -->
-    <div v-show="!Object.keys(contactsInfo).length && !loadingState && selected.length" class="reload-tip">
+    <div v-if="!Object.keys(contactsInfo).length && !loadingState && selected.length" class="reload-tip">
       <a-icon type="frown" style="fontSize: 140px; color: #d7d9db" />
       <p>加载失败，
         <a-button type="danger" ghost size="small" @click="getData(selected)">重新加载</a-button>
       </p>
     </div>
 
-    <div v-if="Object.keys(contactsInfo).length && !loadingState" class="selected-info">
+    <div v-if="Object.keys(contactsInfo).length && !loadingState && selected.length" class="selected-info">
       <div class="info-wrapper">
         <div class="name-and-org">
           <p>{{ contactsInfo.name }}</p>
@@ -88,7 +88,9 @@ export default {
   },
   watch: {
     selected: function (newValue) {
-      this.getData(newValue)
+      if (newValue) {
+        this.getData(newValue)
+      }
     }
   },
   methods: {

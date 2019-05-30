@@ -1,6 +1,6 @@
 <template>
   <div @remove="test" >
-    <a-row style="boxShadow: 0px 2px #bfbfbf">
+    <a-row>
       <a-col span="12">
         <hot-news></hot-news>
       </a-col>

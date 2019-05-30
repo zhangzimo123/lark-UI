@@ -28,11 +28,11 @@
   <div style="height:205px;overflow-y:auto;overflow-x: hidden">
     <a-row type="flex" :gutter="10" v-if="selectedType === 0">
       <a-col :span="14">
-        <resource-chart :data="data.stat" :chartStyle="chartStyle" @myChart="myChart"/>
+        <resource-chart :data="list.stat" :chartStyle="chartStyle" @myChart="myChart"/>
       </a-col>
       <a-col :span="10">
         <span class="ant-card-body-title" style="color: #666666">计算资源列表</span>
-        <a-row v-for="(row,index) in data.list.content" :key="'item'+index">
+        <a-row v-for="(row,index) in list.list.content" :key="'item'+index">
           <i class="ivu-tag-dot-inner" ></i>
           <span class="resource-list content-adpat" style="color: #999999">{{ row.name }}</span>
         </a-row>
@@ -57,6 +57,7 @@
 
 import TypeBar from './TypeBar.vue'
 import ResourceChart from './ResourceChart.vue'
+import { resourceData } from '@/api/resource'
 export default {
   props: {
     headStyle: {
@@ -66,10 +67,6 @@ export default {
     loading: {
       type: Boolean,
       default: true
-    },
-    data: {
-      type: Object,
-      required: true
     }
   },
   components: {
@@ -85,7 +82,8 @@ export default {
         { type: 2, name: '人员资源', show: true },
         { type: 3, name: '其他', show: true }
       ],
-      size: 4
+      size: 4,
+      list: []
     }
   },
   filters: {
@@ -107,6 +105,9 @@ export default {
       return str.replace(/^(.{5})(.*)$/, '$1')
     }
   },
+  created () {
+    this.fetchResource()
+  },
   methods: {
     totalResource () {
       this.$router.push({
@@ -115,6 +116,12 @@ export default {
     },
     myChart (data) {
       this.$emit('myChart', data)
+    },
+    fetchResource () {
+      const vm = this
+      resourceData().then(data => {
+        vm.list = data.resource
+      })
     }
   }
 }
