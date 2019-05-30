@@ -74,14 +74,14 @@ export default {
   methods: {
     showChat (chat) {
       Utils.$emit('showChat', chat)
-      Utils.$emit('changePane', 1)
+      Utils.$emit('changePane', '1')
     },
     showSearchRecordModal () {
       Utils.$emit('openModal')
     },
     showGroup (item) {
       Utils.$emit('showGroup', item)
-      Utils.$emit('changePane', 2)
+      Utils.$emit('changePane', '2')
     }
   },
   activated: function () {

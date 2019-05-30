@@ -13,7 +13,7 @@
 </template>
 
 <script>
-
+import Utils from '../../../src/utils/utils.js'
 export default {
   name: 'SearchInput',
   components: {
@@ -57,6 +57,7 @@ export default {
     },
     cleanSearchValue () {
       console.log('clean')
+      Utils.$emit('changePane', '1')
       this.searchObj.searchValue = ''
       this.showSearchContent = true
       this.searchResultList = []

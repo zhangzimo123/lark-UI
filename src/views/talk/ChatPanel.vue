@@ -222,6 +222,15 @@ export default {
     /* 切换面板 */
     changePane (activeKey) {
       this.activeKey = activeKey
+      if( activeKey === '1'){
+        this.getRecentContacts()
+      }
+      // if( activeKey === '2'){
+      // this.getGroupList()
+      // }
+      // if( activeKey === '3'){
+      // this.getContactsTree()
+      // }
     },
     handleSaveOk () {
 
