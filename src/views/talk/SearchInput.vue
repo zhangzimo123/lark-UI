@@ -4,7 +4,6 @@
       placeholder="消息/联系人/群组"
       style="width: 200px;"
       v-model="searchObj.searchValue"
-      @blur="searchInputOnBlur"
       @focus="searchInputOnFocus"
       @input="searchValueChange"
     />
@@ -39,13 +38,13 @@ export default {
     this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
   },
   methods: {
-    searchInputOnBlur () {
-      console.log('onBlur')
-      if (!this.searchObj.searchValue) {
-        this.showSearchContent = true
-        this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
-      }
-    },
+    // searchInputOnBlur () {
+    // console.log('onBlur')
+    // if (!this.searchObj.searchValue) {
+    // this.showSearchContent = true
+    // this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
+    // }
+    // },
     searchInputOnFocus () {
       console.log('onFocus')
       if (!this.searchObj.searchValue) {
