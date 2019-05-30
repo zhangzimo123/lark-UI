@@ -36,9 +36,9 @@
               slot="extra"
               trigger="click">
               <template slot="content">
-                <a>移除卡片</a>
+                <a slot="content">移除卡片</a>
               </template>
-              <a href="#"><a-icon type="tool" /></a>
+              <a href="#"><a-icon type="ellipsis" /></a>
             </a-popover>
 
             <div v-if="talkData.length!=0" class="card-content">
@@ -76,14 +76,10 @@ const talkData = [
 ]
 // 工作台看板模拟数据
 var layoutCards = [
-  { 'x': 0, 'y': 0, 'w': 6, 'h': 5, 'i': '0', 'title': '研讨信息' },
-  { 'x': 6, 'y': 0, 'w': 6, 'h': 5, 'i': '1', 'title': '待办事项' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' },
-  { 'x': 0, 'y': 5, 'w': 6, 'h': 5, 'i': '2', 'title': '我的日程' },
-  { 'x': 6, 'y': 5, 'w': 6, 'h': 5, 'i': '3', 'title': '我的资源' }
+  { 'x': 0, 'y': 0, 'w': 1, 'h': 5, 'i': '0', 'title': '消息提醒' },
+  { 'x': 1, 'y': 0, 'w': 1, 'h': 5, 'i': '1', 'title': '待办事项' },
+  { 'x': 0, 'y': 5, 'w': 1, 'h': 5, 'i': '2', 'title': '我的收藏' },
+  { 'x': 1, 'y': 5, 'w': 1, 'h': 5, 'i': '3', 'title': '工作热图' }
 ]
 export default {
   name: 'Monitor',
@@ -139,4 +135,38 @@ export default {
     line-height: 22px;
     text-align: center;
   }
+  .dropdown-container{
+    position: relative;
+    background: #fff;
+    border: 0 solid transparent;
+    border-radius: 4px;
+    box-shadow: 0 2px 20px rgba(0,0,0,.1);
+    .menu {
+        border-radius: 4px;
+        background: #fff;
+        list-style: none;
+        overflow: auto;
+        margin: 0;
+        padding: 4px 0;
+        max-height: 400px;
+        min-width: 200px;
+        .menu-item {
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-size: 14px;
+            color: #383838;
+            box-sizing: border-box;
+            padding: 8px 16px;
+            word-break: break-all;
+        }
+    }
+  }
+
 </style>
