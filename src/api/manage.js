@@ -4,7 +4,7 @@ const api = {
   user: '/user',
   role: '/admin/role',
   service: '/service',
-  permission: '/permission',
+  permission: '/admin/role/permission',
   permissionNoPager: '/permission/no-pager',
   // orgTree: '/org/tree'
   orgTree: '/admin/orgtree'
@@ -28,6 +28,22 @@ export function getRoleList (parameter) {
   })
 }
 
+export function postRole (data) {
+  return axios({
+    url: api.role,
+    method: 'post',
+    data: data
+  })
+}
+
+export function putRole (data) {
+  return axios({
+    url: api.role,
+    method: 'put',
+    data: data
+  })
+}
+
 export function getServiceList (parameter) {
   return axios({
     url: api.service,
@@ -38,9 +54,17 @@ export function getServiceList (parameter) {
 
 export function getPermissions (parameter) {
   return axios({
-    url: api.permissionNoPager,
+    url: api.permission,
     method: 'get',
     params: parameter
+  })
+}
+
+export function putPermissions (data) {
+  return axios({
+    url: api.permission,
+    method: 'put',
+    data: data
   })
 }
 
