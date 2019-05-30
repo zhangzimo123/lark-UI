@@ -222,7 +222,7 @@ export default {
     /* 切换面板 */
     changePane (activeKey) {
       this.activeKey = activeKey
-      if( activeKey === '1'){
+      if (activeKey === '1') {
         this.getRecentContacts()
       }
       // if( activeKey === '2'){
