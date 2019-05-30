@@ -29,7 +29,9 @@ export default {
         searchValue: ''
       },
       searchResultList: [],
-      searchGroupResultList: []
+      searchGroupResultList: [],
+      searchContactsResultList: [],
+      contactsList: []
     }
   },
   computed: {
@@ -48,12 +50,15 @@ export default {
     // },
     searchInputOnFocus () {
       console.log('onFocus')
+      this.contactsList = []
       if (!this.searchObj.searchValue) {
         this.searchResultList = []
         this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList)
       }
       this.showSearchContent = false
       this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
+      const contactsTree = this.$store.state.chat.contactsTree
+      this.formatList(contactsTree)
     },
     cleanSearchValue () {
       console.log('clean')
@@ -62,9 +67,11 @@ export default {
       this.showSearchContent = true
       this.searchResultList = []
       this.searchGroupResultList = []
+      this.searchContactsResultList = []
       this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList)
       this.$store.commit('SET_SEARCH_GROUP_RESULT_LIST', this.searchGroupResultList)
       this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
+      this.$store.commit('SET_SEARCH_CONTACTS_RESULT_LIST', this.searchContactsResultList)
     },
     searchValueChange (e) {
       console.log('this.searchObj.searchValue', this.searchObj.searchValue)
@@ -74,8 +81,10 @@ export default {
       const groupList = this.$store.state.chat.groupList
       this.searchResultList = this.searchForContactsOrGroups(value, chatList)
       this.searchGroupResultList = this.searchForContactsOrGroups(value, groupList)
+      this.searchContactsResultList = this.searchForContactsOrGroups(value, this.contactsList)
       this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList)
       this.$store.commit('SET_SEARCH_GROUP_RESULT_LIST', this.searchGroupResultList)
+      this.$store.commit('SET_SEARCH_CONTACTS_RESULT_LIST', this.searchContactsResultList)
     },
     // 根据搜索值在联系人与群组中匹配对应的
     searchForContactsOrGroups (value, list) {
@@ -83,7 +92,12 @@ export default {
       const searchArr = []
       const searchResultList = []
       for (const item of list) {
-        strArr.push(item.name)
+        if (item.name) {
+          strArr.push(item.name)
+        }
+        if (item.title) {
+          strArr.push(item.title)
+        }
       }
       if (strArr && value) {
         for (let i = 0; i < strArr.length; i++) {
@@ -97,9 +111,30 @@ export default {
           if (searchArrItem === chatListItem.name) {
             searchResultList.push(chatListItem)
           }
+          if (searchArrItem === chatListItem.title) {
+            searchResultList.push(chatListItem)
+          }
         }
       }
+      console.log('searchResultList searchResultList', searchResultList)
       return searchResultList
+    },
+    // 将联系人树平铺 只要联系人
+    formatList (list) {
+      for (const value of list) {
+        if (value.scopedSlots.title === 'userNode') {
+          this.contactsList.push({
+            icon: value.icon,
+            key: value.key,
+            scopedSlots: value.scopedSlots,
+            title: value.title
+          })
+        }
+        if (value.children) {
+          this.formatList(value.children)
+        }
+      }
+      console.log('this.contactsList:', this.contactsList)
     }
   },
   activated: function () {

@@ -1,9 +1,17 @@
 <template>
   <div v-if="!showSearchContent" class="showSearchContent">
-    <div v-if="searchResultList && searchResultList.length>0" class="recent-contacts-container tab-content-container">
+    <!--<div v-if="searchResultList && searchResultList.length>0" class="recent-contacts-container tab-content-container">-->
+    <!--<div class="search-content-more-title">联系人</div>-->
+    <!--<div v-for="(item, index) in searchResultList" :key="index" @click="showChat(item)">-->
+    <!--<recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat"></recent-contacts-item>-->
+    <!--</div>-->
+    <!--</div>-->
+    <div v-if="searchContactsResultList && searchContactsResultList.length>0" class="recent-contacts-container tab-content-container">
       <div class="search-content-more-title">联系人</div>
-      <div v-for="(item, index) in searchResultList" :key="index" @click="showChat(item)">
-        <recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat"></recent-contacts-item>
+      <div v-for="(item, index) in searchContactsResultList" :key="index" @click="showContacts(item.key)">
+        <!--<recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat"></recent-contacts-item>-->
+        <a-avatar class="contacts-avatar" shape="square" :src="item.icon" :size="30"></a-avatar>
+        <span>{{ item.title }}</span>
       </div>
     </div>
     <div v-if="searchGroupResultList && searchGroupResultList.length>0" class="recent-contacts-container tab-content-container">
@@ -47,6 +55,10 @@ export default {
       type: Array,
       default: () => []
     },
+    searchContactsResultList: {
+      type: Array,
+      default: () => []
+    },
     showSearchContent: {
       type: Boolean,
       default: () => null
@@ -82,6 +94,10 @@ export default {
     showGroup (item) {
       Utils.$emit('showGroup', item)
       Utils.$emit('changePane', '2')
+    },
+    showContacts (key) {
+      Utils.$emit('showContacts', key)
+      Utils.$emit('changePane', '3')
     }
   },
   activated: function () {
@@ -121,5 +137,10 @@ export default {
   }
   .search-chat-record{
     margin: 16px;
+  }
+  .contacts-avatar{
+    width: 40px;
+    height: 40px;
+    margin: 18px;
   }
 </style>

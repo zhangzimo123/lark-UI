@@ -29,7 +29,8 @@ const chat = {
     // 是否显示搜索结果
     showSearchContent: null,
     searchResultList: [],
-    searchGroupResultList: []
+    searchGroupResultList: [],
+    searchContactsResultList: []
   },
   mutations: {
     /** modify -> jihainan */
@@ -185,6 +186,9 @@ const chat = {
     },
     SET_SEARCH_GROUP_RESULT_LIST: function (state, searchGroupResultList) {
       state.searchGroupResultList = searchGroupResultList
+    },
+    SET_SEARCH_CONTACTS_RESULT_LIST: function (state, searchContactsResultList) {
+      state.searchContactsResultList = searchContactsResultList
     }
   },
   actions: {

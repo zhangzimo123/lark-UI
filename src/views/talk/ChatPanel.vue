@@ -13,7 +13,14 @@
           </a-button>
         </a-dropdown>
       </div>
-      <SearchArea :activeChat="activeChat" :activeGroup="activeGroup" :searchResultList="searchResultList" :searchGroupResultList="searchGroupResultList" :showSearchContent="showSearchContent" />
+      <SearchArea
+        :activeChat="activeChat"
+        :activeGroup="activeGroup"
+        :searchResultList="searchResultList"
+        :searchGroupResultList="searchGroupResultList"
+        :showSearchContent="showSearchContent"
+        :searchContactsResultList="searchContactsResultList"
+      />
       <a-tabs
         v-if="showSearchContent"
         :activeKey="activeKey"
@@ -211,6 +218,9 @@ export default {
     },
     searchGroupResultList () {
       return this.$store.state.chat.searchGroupResultList
+    },
+    searchContactsResultList () {
+      return this.$store.state.chat.searchContactsResultList
     }
   },
   created () {
@@ -349,6 +359,9 @@ export default {
     })
     Utils.$on('changePane', function (key) {
       self.changePane(key)
+    })
+    Utils.$on('showContacts', function (key) {
+      self.showContacts(key)
     })
     // const self = this
     // const websocketHeartbeatJs = new WebsocketHeartbeatJs({

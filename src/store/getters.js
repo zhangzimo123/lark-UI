@@ -19,7 +19,8 @@ const getters = {
   flushTokenTimerId: state => state.chat.flushTokenTimerId,
   showSearchContent: state => state.chat.showSearchContent,
   searchResultList: state => state.chat.searchResultList,
-  searchGroupResultList: state => state.chat.searchGroupResultList
+  searchGroupResultList: state => state.chat.searchGroupResultList,
+  searchContactsResultList: state => state.chat.searchContactsResultList
 }
 
 export default getters
