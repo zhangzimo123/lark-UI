@@ -6,6 +6,12 @@
         <recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat"></recent-contacts-item>
       </div>
     </div>
+    <div v-if="searchGroupResultList && searchGroupResultList.length>0" class="recent-contacts-container tab-content-container">
+      <div class="search-content-more-title">群聊</div>
+      <div v-for="(item, index) in searchGroupResultList" :key="index" @click="showGroup(item)">
+        <group-item :groupInfo="item" :activated="item.id === activeGroup"></group-item>
+      </div>
+    </div>
     <div>
       <div class="search-content-more-title">更多</div>
       <div class="search-chat-record" @click="showSearchRecordModal">
@@ -21,17 +27,23 @@
 
 <script>
 import {
-  RecentContactsItem
+  RecentContactsItem,
+  GroupItem
 } from '@/components/Talk'
 import Utils from '../../../src/utils/utils.js'
 
 export default {
   name: 'SearchArea',
   components: {
-    RecentContactsItem
+    RecentContactsItem,
+    GroupItem
   },
   props: {
     searchResultList: {
+      type: Array,
+      default: () => []
+    },
+    searchGroupResultList: {
       type: Array,
       default: () => []
     },
@@ -40,6 +52,10 @@ export default {
       default: () => null
     },
     activeChat: {
+      type: String,
+      default: () => ''
+    },
+    activeGroup: {
       type: String,
       default: () => ''
     }
@@ -61,6 +77,9 @@ export default {
     },
     showSearchRecordModal () {
       Utils.$emit('openModal')
+    },
+    showGroup (item) {
+      Utils.$emit('showGroup', item)
     }
   },
   activated: function () {

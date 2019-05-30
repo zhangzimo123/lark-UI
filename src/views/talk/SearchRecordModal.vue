@@ -17,8 +17,8 @@
       <div v-for="(item, index) in searchResultList" :key="index">
         <div class="result-list-info">
           <img class="result-list-avatar" :src="item.avatar"/>
-          <div class="result-list-name">{{item.name}}</div>
-          <div class="result-list-count">{{item.count}}条相关聊天记录</div>
+          <div class="result-list-name">{{ item.name }}</div>
+          <div class="result-list-count">{{ item.count }}条相关聊天记录</div>
         </div>
         <a-divider />
       </div>
@@ -28,7 +28,6 @@
 
 <script>
 import Utils from '../../../src/utils/utils.js'
-import AInput from "ant-design-vue/es/input/Input";
 
 export default {
   name: 'SearchRecordModal',
@@ -38,20 +37,7 @@ export default {
     searchRecordModalVisible: {
       type: Boolean,
       default: () => null
-    },
-
-//    searchResultList: {
-//      type: Array,
-//      default: () => []
-//    },
-//    showSearchContent: {
-//      type: Boolean,
-//      default: () => null
-//    },
-//    activeChat: {
-//      type: String,
-//      default: () => ''
-//    }
+    }
   },
   data () {
     return {
@@ -94,7 +80,7 @@ export default {
 
   },
   created () {
-//    this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
+    // this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
   },
   methods: {
     handleOk () {

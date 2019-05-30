@@ -28,7 +28,8 @@ const chat = {
     flushTokenTimerId: null,
     // 是否显示搜索结果
     showSearchContent: null,
-    searchResultList: []
+    searchResultList: [],
+    searchGroupResultList: []
   },
   mutations: {
     /** modify -> jihainan */
@@ -181,6 +182,9 @@ const chat = {
     },
     SET_SEARCH_RESULT_LIST: function (state, searchResultList) {
       state.searchResultList = searchResultList
+    },
+    SET_SEARCH_GROUP_RESULT_LIST: function (state, searchGroupResultList) {
+      state.searchGroupResultList = searchGroupResultList
     }
   },
   actions: {

@@ -13,7 +13,7 @@
           </a-button>
         </a-dropdown>
       </div>
-      <SearchArea :activeChat="activeChat" :searchResultList="searchResultList" :showSearchContent="showSearchContent" />
+      <SearchArea :activeChat="activeChat" :activeGroup="activeGroup" :searchResultList="searchResultList" :searchGroupResultList="searchGroupResultList" :showSearchContent="showSearchContent" />
       <a-tabs
         v-if="showSearchContent"
         :activeKey="activeKey"
@@ -172,7 +172,7 @@ export default {
       groupLoading: false,
       contactsLoading: false,
 
-      searchRecordModalVisible:false
+      searchRecordModalVisible: false
     }
   },
   computed: {
@@ -208,6 +208,9 @@ export default {
     },
     searchResultList () {
       return this.$store.state.chat.searchResultList
+    },
+    searchGroupResultList () {
+      return this.$store.state.chat.searchGroupResultList
     }
   },
   created () {
@@ -325,6 +328,9 @@ export default {
     const self = this
     Utils.$on('showChat', function (chat) {
       self.showChat(chat)
+    })
+    Utils.$on('showGroup', function (chat) {
+      self.showGroup(chat)
     })
     Utils.$on('openModal', function (chat) {
       self.handleOpenSearchRecordModal()

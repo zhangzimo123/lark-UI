@@ -28,7 +28,8 @@ export default {
       searchObj: {
         searchValue: ''
       },
-      searchResultList: []
+      searchResultList: [],
+      searchGroupResultList: []
     }
   },
   computed: {
@@ -58,17 +59,29 @@ export default {
       console.log('clean')
       this.searchObj.searchValue = ''
       this.showSearchContent = true
+      this.searchResultList = []
+      this.searchGroupResultList = []
+      this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList)
+      this.$store.commit('SET_SEARCH_GROUP_RESULT_LIST', this.searchGroupResultList)
       this.$store.commit('SET_SHOW_SEARCH_CONTENT', this.showSearchContent)
     },
     searchValueChange (e) {
       console.log('this.searchObj.searchValue', this.searchObj.searchValue)
-      console.log(' searchValueChange this', this)
+      console.log('searchValueChange this', this)
       const value = e.target.value
+      const chatList = this.$store.state.chat.recentChatList
+      const groupList = this.$store.state.chat.groupList
+      this.searchResultList = this.searchForContactsOrGroups(value, chatList)
+      this.searchGroupResultList = this.searchForContactsOrGroups(value, groupList)
+      this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList)
+      this.$store.commit('SET_SEARCH_GROUP_RESULT_LIST', this.searchGroupResultList)
+    },
+    // 根据搜索值在联系人与群组中匹配对应的
+    searchForContactsOrGroups (value, list) {
       const strArr = []
       const searchArr = []
-      const chatList = this.$store.state.chat.recentChatList
-      this.searchResultList = []
-      for (const item of chatList) {
+      const searchResultList = []
+      for (const item of list) {
         strArr.push(item.name)
       }
       if (strArr && value) {
@@ -79,14 +92,13 @@ export default {
         }
       }
       for (const searchArrItem of searchArr) {
-        for (const chatListItem of chatList) {
+        for (const chatListItem of list) {
           if (searchArrItem === chatListItem.name) {
-            this.searchResultList.push(chatListItem)
+            searchResultList.push(chatListItem)
           }
         }
       }
-      console.log('this.searchResultList', this.searchResultList)
-      this.$store.commit('SET_SEARCH_RESULT_LIST', this.searchResultList)
+      return searchResultList
     }
   },
   activated: function () {
