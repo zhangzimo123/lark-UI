@@ -102,7 +102,7 @@
     </a-layout>
 
     <member-model ref="model" @ok="handleSaveOk" @close="handleSaveClose"/>
-
+    <SearchRecordModal :searchRecordModalVisible="searchRecordModalVisible"/>
   </a-layout>
 </template>
 
@@ -118,6 +118,7 @@ import {
 } from '@/components/Talk'
 import SearchInput from './SearchInput'
 import SearchArea from './SearchArea'
+import SearchRecordModal from './SearchRecordModal'
 // import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
 import {
   ChatListUtils,
@@ -142,7 +143,8 @@ export default {
     RecentContactsItem,
     GroupItem,
     SearchInput,
-    SearchArea
+    SearchArea,
+    SearchRecordModal
   },
   data () {
     return {
@@ -168,8 +170,9 @@ export default {
       // 加载状态
       recentLoading: false,
       groupLoading: false,
-      contactsLoading: false
+      contactsLoading: false,
 
+      searchRecordModalVisible:false
     }
   },
   computed: {
@@ -293,6 +296,12 @@ export default {
       }).finally(() => {
         this.recentLoading = false
       })
+    },
+    handleOpenSearchRecordModal () {
+      this.searchRecordModalVisible = true
+    },
+    handleCloseSearchRecordModal () {
+      this.searchRecordModalVisible = false
     }
   },
   activated: function () {
@@ -316,6 +325,12 @@ export default {
     const self = this
     Utils.$on('showChat', function (chat) {
       self.showChat(chat)
+    })
+    Utils.$on('openModal', function (chat) {
+      self.handleOpenSearchRecordModal()
+    })
+    Utils.$on('closeModal', function (chat) {
+      self.handleCloseSearchRecordModal()
     })
     // const self = this
     // const websocketHeartbeatJs = new WebsocketHeartbeatJs({
