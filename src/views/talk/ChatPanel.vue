@@ -338,6 +338,9 @@ export default {
     Utils.$on('closeModal', function (chat) {
       self.handleCloseSearchRecordModal()
     })
+    Utils.$on('changePane', function (key) {
+      self.changePane(key)
+    })
     // const self = this
     // const websocketHeartbeatJs = new WebsocketHeartbeatJs({
     //   url: conf.getWsUrl()
