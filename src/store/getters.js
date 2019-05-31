@@ -16,7 +16,11 @@ const getters = {
   currentChat: state => state.chat.currentChat,
   chatList: state => state.chat.recentChatList,
   userFriendList: state => state.chat.userFriendList,
-  flushTokenTimerId: state => state.chat.flushTokenTimerId
+  flushTokenTimerId: state => state.chat.flushTokenTimerId,
+  showSearchContent: state => state.chat.showSearchContent,
+  searchResultList: state => state.chat.searchResultList,
+  searchGroupResultList: state => state.chat.searchGroupResultList,
+  searchContactsResultList: state => state.chat.searchContactsResultList
 }
 
 export default getters
