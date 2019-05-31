@@ -16,6 +16,7 @@
       <SearchArea
         :activeChat="activeChat"
         :activeGroup="activeGroup"
+        :contactsGroup="activeContacts"
         :searchResultList="searchResultList"
         :searchGroupResultList="searchGroupResultList"
         :showSearchContent="showSearchContent"

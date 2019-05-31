@@ -10,8 +10,9 @@
       <div class="search-content-more-title">联系人</div>
       <div v-for="(item, index) in searchContactsResultList" :key="index" @click="showContacts(item.key)">
         <!--<recent-contacts-item :contactsInfo="item" :activated="item.id === activeChat"></recent-contacts-item>-->
-        <a-avatar class="contacts-avatar" shape="square" :src="item.icon" :size="30"></a-avatar>
-        <span>{{ item.title }}</span>
+        <!--<a-avatar class="contacts-avatar" shape="square" :src="item.icon" :size="30"></a-avatar>-->
+        <!--<span>{{ item.title }}</span>-->
+        <contacts-item :contactsInfo="item" :activated="item.key === contactsGroup"></contacts-item>
       </div>
     </div>
     <div v-if="searchGroupResultList && searchGroupResultList.length>0" class="recent-contacts-container tab-content-container">
@@ -36,7 +37,8 @@
 <script>
 import {
   RecentContactsItem,
-  GroupItem
+  GroupItem,
+  ContactsItem
 } from '@/components/Talk'
 import Utils from '../../../src/utils/utils.js'
 
@@ -44,7 +46,8 @@ export default {
   name: 'SearchArea',
   components: {
     RecentContactsItem,
-    GroupItem
+    GroupItem,
+    ContactsItem
   },
   props: {
     searchResultList: {
@@ -68,6 +71,10 @@ export default {
       default: () => ''
     },
     activeGroup: {
+      type: String,
+      default: () => ''
+    },
+    contactsGroup: {
       type: String,
       default: () => ''
     }
