@@ -1,13 +1,13 @@
 <template>
   <div>
     <a-tree-select
+      showSearch
       :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
       :treeData="orgTree"
       treeDefaultExpandAll
       allowClear
-      :value="orgid"
+      :value="inputvalue"
       @change="onChange"
-      style="width:100%"
     ></a-tree-select>
   </div>
 </template>
@@ -21,45 +21,29 @@ export default {
   data () {
     return {
       orgTree: [],
-      orgid: ''
+      inputvalue: this.pvalue
     }
   },
   created () {
-    if (this.dataSource.length === 0) {
-      // 获取树形组织信息
-      getOrgTree().then(res => {
-        this.orgTree = res.result
-      })
-    } else {
-      this.orgTree = this.dataSource
-    }
+    // 获取树形组织信息
+    getOrgTree().then(res => {
+      this.orgTree = res.result
+    })
   },
   props: {
-    // 树选择器选中内容 非必填可传递
-    values: {
+    pvalue: {
       type: String,
-      default: ''
-    },
-    // 树选择器下拉框内容 非必填可传递
-    dataSource: {
-      type: Array,
-      default: function () {
-        return []
-      }
-    }
-  },
-  watch: {
-    values (val) {
-      this.orgid = val
+      default: '',
+      required: false
     }
   },
   methods: {
     /**
-     * change事件
-     */
+         * change事件
+         */
     onChange (value) {
-      this.$emit('changOrg', value)
-      this.orgid = value
+      this.$emit('change', value)
+      this.inputvalue = value
     }
   }
 }

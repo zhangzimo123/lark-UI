@@ -9,13 +9,13 @@ const api = {
   orgTree: '/admin/org/tree',
   user: '/admin/user',
   org: '/admin/org',
-  role: '/admin/role/page',
-  rolepermission: '/admin/role/permissiontest'
+  role: '/admin/role/page'
 }
 
 export default api
 /**
  * 获取员工列表
+ * @param {userinfo}
  */
 export function getUserList (parameter) {
   return axios({
@@ -25,7 +25,19 @@ export function getUserList (parameter) {
   })
 }
 /**
+ * 获取角色列表
+ * @param {userinfo}
+ */
+export function getRoleList (parameter) {
+  return axios({
+    url: api.role,
+    method: 'get',
+    params: parameter
+  })
+}
+/**
  * 获取树结构组织信息
+ * @param {userinfo}
  */
 export function getOrgTree (parameter) {
   return axios({
@@ -36,6 +48,7 @@ export function getOrgTree (parameter) {
 }
 /**
  * 新增员工信息
+ * @param {userinfo}
  */
 export function adduser (parameter) {
   return axios({
@@ -46,6 +59,7 @@ export function adduser (parameter) {
 }
 /**
  * 修改员工信息
+ * @param {userinfo}
  */
 export function updateuser (parameter) {
   return axios({
@@ -56,6 +70,7 @@ export function updateuser (parameter) {
 }
 /**
  * 删除员工信息
+ * @param {userinfo}
  */
 export function deluser (parameter) {
   return axios({
@@ -66,6 +81,7 @@ export function deluser (parameter) {
 }
 /**
  * 新增组织信息
+ * @param {userinfo}
  */
 export function addorg (parameter) {
   return axios({
@@ -76,6 +92,7 @@ export function addorg (parameter) {
 }
 /**
  * 修改组织信息
+ * @param {userinfo}
  */
 export function updateorg (parameter) {
   return axios({
@@ -86,61 +103,12 @@ export function updateorg (parameter) {
 }
 /**
  * 删除组织信息
+ * @param {userinfo}
  */
 export function delorg (parameter) {
   return axios({
     url: api.org,
     method: 'delete',
     data: parameter
-  })
-}
-/**
- * 获取角色列表
- */
-export function getRoleList (parameter) {
-  return axios({
-    url: api.role,
-    method: 'get',
-    params: parameter
-  })
-}
-/**
- * 获取角色权限
- */
-export function getRolePermission (parameter) {
-  return axios({
-    url: api.rolepermission,
-    method: 'get',
-    params: parameter
-  })
-}
-/**
- * 修改角色
- */
-export function updateRole (parameter) {
-  return axios({
-    url: api.role,
-    method: 'put',
-    params: parameter
-  })
-}
-/**
- * 删除角色
- */
-export function delRole (parameter) {
-  return axios({
-    url: api.role,
-    method: 'delete',
-    params: parameter
-  })
-}
-/**
- * 禁用角色
- */
-export function disabledRole (parameter) {
-  return axios({
-    url: api.role,
-    method: 'put',
-    params: parameter
   })
 }

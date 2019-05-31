@@ -14,7 +14,6 @@ import ContactsInfo from './ContactsInfo'
 import GroupItem from './GroupItem'
 import GroupInfo from './GroupInfo'
 import Face from './Face'
-import ContactsItem from './ContactsItem'
 
 export {
   MemberBox,
@@ -44,6 +43,5 @@ export {
   GroupItem,
   // 群组信息组件
   GroupInfo,
-  Face,
-  ContactsItem
+  Face
 }

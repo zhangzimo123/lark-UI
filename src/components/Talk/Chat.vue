@@ -3,6 +3,10 @@
 
     <!-- 聊天设置选项的抽屉组件 -->
     <talk-history :activeOption="activeOption" @closeDrawer="triggerDrawer"></talk-history>
+    <group-notice :activeOption="activeOption" @closeDrawer="triggerDrawer"></group-notice>
+    <talk-setting :activeOption="activeOption" @closeDrawer="triggerDrawer"></talk-setting>
+    <talk-file :activeOption="activeOption" @closeDrawer="triggerDrawer"></talk-file>
+    <mark-message :activeOption="activeOption" @closeDrawer="triggerDrawer"></mark-message>
 
     <a-layout-header class="conv-box-header">
       <a-row type="flex" justify="space-between">
@@ -133,7 +137,7 @@
 <script>
 import conf from '@/api/index'
 import Faces from './Face.vue'
-import { TalkHistory } from '@/components/Talk'
+import { TalkHistory,GroupNotice,TalkSetting,MarkMessage,TalkFile } from '@/components/Talk'
 import MessagePiece from './MessagePiece'
 import { fetchPost, imageLoad, transform, ChatListUtils } from '../../utils/talk/chatUtils'
 import VEmojiPicker from 'v-emoji-picker'
@@ -146,7 +150,11 @@ export default {
     VEmojiPicker,
     Faces,
     MessagePiece,
-    TalkHistory
+    TalkHistory,
+    GroupNotice,
+    TalkSetting,
+    MarkMessage,
+    TalkFile
   },
   name: 'UserChat',
   props: {
@@ -292,8 +300,8 @@ export default {
     optionFilter (isGroup) {
       // 聊天操作选项
       const optionList = [
-        { group: true, name: 'groupNotice', message: '群公告', type: 'notification' },
-        { group: true, name: 'markMessage', message: '标记信息', type: 'tags' },
+        { group: false, name: 'groupNotice', message: '群公告', type: 'notification' },
+        { group: false, name: 'markMessage', message: '标记信息', type: 'tags' },
         { group: false, name: 'talkHistory', message: '聊天内容', type: 'file-text' },
         { group: false, name: 'talkFile', message: '文件', type: 'folder-open' },
         { group: false, name: 'moreInfo', message: '更多', type: 'ellipsis' }]
