@@ -25,7 +25,12 @@ const chat = {
     // 群组列表(群组)
     groupList: [],
     // 刷新token 的定时器
-    flushTokenTimerId: null
+    flushTokenTimerId: null,
+    // 是否显示搜索结果
+    showSearchContent: null,
+    searchResultList: [],
+    searchGroupResultList: [],
+    searchContactsResultList: []
   },
   mutations: {
     /** modify -> jihainan */
@@ -172,6 +177,18 @@ const chat = {
       state.recentChatList = tempChatList
       // 放入缓存
       ChatListUtils.setMessageList(state.user.id, tempChatList)
+    },
+    SET_SHOW_SEARCH_CONTENT: function (state, showSearchContent) {
+      state.showSearchContent = showSearchContent
+    },
+    SET_SEARCH_RESULT_LIST: function (state, searchResultList) {
+      state.searchResultList = searchResultList
+    },
+    SET_SEARCH_GROUP_RESULT_LIST: function (state, searchGroupResultList) {
+      state.searchGroupResultList = searchGroupResultList
+    },
+    SET_SEARCH_CONTACTS_RESULT_LIST: function (state, searchContactsResultList) {
+      state.searchContactsResultList = searchContactsResultList
     }
   },
   actions: {

@@ -60,6 +60,7 @@
       </grid-layout>
     </div>
     <!--这个地方放置最近访问-->
+
     <footer-tool-bar :style="{height:'64px', width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
 
     </footer-tool-bar>
