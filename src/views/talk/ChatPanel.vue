@@ -124,9 +124,11 @@ import {
   MemberBox as MemberModel,
   GroupItem
 } from '@/components/Talk'
+
 import SearchInput from './SearchInput'
 import SearchArea from './SearchArea'
 import SearchRecordModal from './SearchRecordModal'
+
 // import WebsocketHeartbeatJs from '../../utils/talk/WebsocketHeartbeatJs'
 import {
   ChatListUtils,
@@ -139,7 +141,9 @@ import {
 // import { ErrorType } from '@/utils/constants'
 import conf from '@/api/index'
 // import HttpApiUtils from '../../utils/talk/HttpApiUtils'
+
 import Utils from '../../../src/utils/utils.js'
+
 export default {
   name: 'ChatPanel',
   components: {

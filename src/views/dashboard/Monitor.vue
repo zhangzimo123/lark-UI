@@ -501,9 +501,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.lark-monitor{
-  margin: -21px 0 0 0
-}
   .antd-pro-pages-dashboard-analysis-twoColLayout {
     position: relative;
     display: flex;

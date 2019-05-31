@@ -87,12 +87,12 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://www.easy-mock.com/mock/5cd3d62bd0717344110ebfb4/lark',
+        target: ' https://www.easy-mock.com/mock/5cd3d62bd0717344110ebfb4/lark',
         ws: false,
         changeOrigin: true
       },
       '/gateway': {
-        target: 'https://www.easy-mock.com/mock/5cd3d62bd0717344110ebfb4/lark',
+        target: ' https://www.easy-mock.com/mock/5cd3d62bd0717344110ebfb4/lark',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
