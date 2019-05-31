@@ -77,7 +77,11 @@ module.exports = {
           'padding-lg': '12px',
           'padding-md': '8px',
           'padding-sm': '6px',
-          'padding-xs': '4px'
+          'padding-xs': '4px',
+          'card-head-padding': '8px',
+          'card-inner-head-padding': '6px',
+          'card-padding-base': '12px',
+          'card-padding-wider': '16px'
         },
         javascriptEnabled: true
       }
@@ -87,20 +91,12 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        // target: 'http://10.12.97.30:7300/mock/5c7e346c4e202c2e806a149d/lark',
-        target: 'https://www.easy-mock.com/mock/5cb52fb383745c2658d1c9a2/lark',
-        // target: 'http://localhost:7300/mock/5c7f89e819c70b5181f60a0e/lark',
-        // target: 'http://127.0.0.1:7300/mock/5caf246ad5ff9217f4aee7a8/lark',
-        // target: 'http://localhost:7300/mock/5c89c695a18a2c03a0a402b3/lark',
+        target: ' https://www.easy-mock.com/mock/5cd3d62bd0717344110ebfb4/lark',
         ws: false,
         changeOrigin: true
       },
       '/gateway': {
-        // target: 'http://10.12.97.30:7300/mock/5c7e346c4e202c2e806a149d/lark',
-        target: 'https://www.easy-mock.com/mock/5cb52fb383745c2658d1c9a2/lark',
-        // target: 'http://localhost:7300/mock/5c7f89e819c70b5181f60a0e/lark',
-        // target: 'http://127.0.0.1:7300/mock/5caf246ad5ff9217f4aee7a8/lark',
-        // target: 'http://localhost:7300/mock/5c89c695a18a2c03a0a402b3/lark',
+        target: ' https://www.easy-mock.com/mock/5cd3d62bd0717344110ebfb4/lark',
         ws: false,
         changeOrigin: true,
         pathRewrite: {

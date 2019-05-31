@@ -13,6 +13,7 @@ import '@/utils/filter' // global filter
 Vue.config.productionTip = false
 
 Vue.use(VueAxios, router)
+Vue.prototype.publicPath = process.env.BASE_URL
 
 new Vue({
   router,

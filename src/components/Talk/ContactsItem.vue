@@ -1,21 +1,18 @@
 <template>
-  <!-- groups and contacts item -->
-  <div class="contacts-item">
-
+  <div :class="contactsItemClasses">
     <div class="avatar">
-      <img src="/avatar2.jpg">
+      <a-avatar class="avatar-img" shape="square" :src="contactsInfo.icon" :size="30">
+        <span>{{ contactsInfo.title }}</span>
+      </a-avatar>
     </div>
-
     <div class="extra">
       <p class="attr on-line">
-        <a-icon type="check-circle" theme="filled" />
+        <!-- <a-icon type="check-circle" theme="filled" /> -->
       </p>
     </div>
-
     <div class="info">
-      <p class="nickname">我就是这个联系人的名字啊啦啦啦啦啦啦</p>
+      <p class="nickname">{{ contactsInfo.title }}</p>
     </div>
-
   </div>
 </template>
 
@@ -23,15 +20,36 @@
 export default {
   name: 'ContactsItem',
   props: {
+    contactsInfo: {
+      type: Object,
+      default: () => ({}),
+      required: true
+    },
+    activated: {
+      type: Boolean,
+      default: false,
+      required: false
+    }
   },
   data () {
     return {}
+  },
+  computed: {
+    contactsItemClasses () {
+      return {
+        'contacts-item': true,
+        'activated': this.activated
+      }
+    }
   },
   methods: {}
 }
 </script>
 
 <style lang="less" scoped>
+  .activated {
+    background-color: rgb(195, 197, 199)!important;
+  }
   .on-line {
     color: rgba(43, 162, 69, 1);
   }
@@ -58,10 +76,12 @@ export default {
     height: 30px;
     margin-right: 10px;
 
-    img {
-      width: 30px;
-      height: 30px;
+    &-img {
       border-radius: 2px;
+      background-color: rgb(0, 162, 174);
+      span {
+        color: #fff;
+      }
     }
   }
 

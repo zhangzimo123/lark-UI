@@ -22,6 +22,10 @@
               <span>东工业区</span>
               <span>研发楼</span>
             </p>
+            <p>
+              <i class="phone"></i>010-123456
+              <!--<Icon type="phone" />-->
+            </p>
           </div>
           <a-divider/>
 
@@ -250,6 +254,9 @@ export default {
     }
     .address {
       background-position: 0 -44px;
+    }
+    .phone {
+      background-position: 0 -66px;
     }
   }
 
