@@ -1,10 +1,7 @@
 <template>
   <div class="user-wrapper">
-    <span class="action">
-      <a-icon type="setting" @click="setFun"/>
-    </span>
-    <span class="action">
-      <a-icon type="message" @click="messageFun"/>
+    <span class="action" @click="messageFun">
+      <a-icon type="message"/>
     </span>
     <span class="action">
       <a-icon type="question-circle-o"></a-icon>
@@ -75,10 +72,6 @@ export default {
         onCancel () {
         }
       })
-    },
-    setFun () {
-      Utils.$emit('set', 'msg')
-      this.$router.push({ name: 'Analysis', params: { setFlag: true } })
     },
     messageFun () {
       Utils.$emit('message', 'msg')
