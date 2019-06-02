@@ -100,12 +100,6 @@ export default {
 </script>
 
 <style lang="less">
-  .ant-modal-header{
-    border-bottom: none !important;
-  }
-  .ant-modal-body{
-    padding: 8px 0 12px 0 !important;
-  }
   .result-list-avatar{
     width: 46px;
     height: 46px;
@@ -128,9 +122,5 @@ export default {
     height: 380px;
     overflow-y:scroll;
     width: 230px;
-  }
-  .ant-modal{
-    width: 890px !important;
-    margin-left: 365px !important;
   }
 </style>
