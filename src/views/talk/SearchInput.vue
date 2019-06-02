@@ -1,14 +1,13 @@
 <template>
   <div class="search-bar-input">
-    <a-input
+    <a-input-search
+      size="small"
       placeholder="消息/联系人/群组"
-      style="width: 200px;"
+      style="width: 200px"
       v-model="searchObj.searchValue"
       @focus="searchInputOnFocus"
       @input="searchValueChange"
     />
-    <span class="search-icon" v-if="!showSearchContent" @click="cleanSearchValue">✖</span>
-    <a-icon class="search-icon" v-if="showSearchContent" type="search" />
   </div>
 </template>
 
@@ -149,13 +148,5 @@ export default {
 <style lang="less">
   .search-icon{
     padding: 0 5px 0 5px;
-  }
-  .search-bar-input {
-    background-color: white;
-    border: 2px solid #eeeeee;
-
-    .ant-input{
-      border: 1px solid #fff!important;
-    }
   }
 </style>
