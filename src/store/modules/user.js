@@ -52,7 +52,7 @@ const user = {
     Login ({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
-          const result = response.result
+          const result = response
           Vue.ls.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
           commit('SET_TOKEN', result.token)
           resolve()
@@ -61,17 +61,15 @@ const user = {
         })
       })
     },
-
     // 获取用户信息
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-          const result = response.result
-
+          const result = response
           // 判断用户角色
-          if (result.role && result.role.permissions.length > 0) {
-            const role = result.role
-            role.permissions = result.role.permissions
+          if (result.userRole && result.userRole.frontPermissionList.length > 0) {
+            const role = result.userRole
+            role.permissions = result.userRole.frontPermissionList
             role.permissions.map(per => {
               if (per.actionEntitySet != null && per.actionEntitySet.length > 0) {
                 const action = per.actionEntitySet.map(action => { return action.action })
@@ -79,7 +77,7 @@ const user = {
               }
             })
             role.permissionList = role.permissions.map(permission => { return permission.permissionId })
-            commit('SET_ROLES', result.role)
+            commit('SET_ROLES', result.userRole)
             commit('SET_INFO', result)
           } else {
             reject(new Error('getInfo: roles必须是非空数组!'))
