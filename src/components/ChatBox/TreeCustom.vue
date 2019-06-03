@@ -111,9 +111,6 @@ export default {
     -webkit-box-orient: vertical;
     width: 100px;
   }
-  .tree-custom .ant-checkbox-inner {
-    border-radius: 50%!important;
-  }
   .tree-list-contacts-item{
     position: relative;
     width: 175px;

@@ -59,7 +59,11 @@
       />
 
       <!-- layout content -->
+<<<<<<< HEAD
       <a-layout-content :style="{ margin: $store.getters.multiTab ? '24px 0 0' : '24px 0 0', height: '100%', paddingTop: fixedHeader ? '64px' : '0' }">
+=======
+      <a-layout-content :style="{ margin: '0', height: '100%', paddingTop: fixedHeader ? '64px' : '0' }">
+>>>>>>> master
         <slot></slot>
       </a-layout-content>
 
@@ -484,6 +488,7 @@ export default {
         }
       }
     }
+<<<<<<< HEAD
 
     // 内容区
     .layout-content {
@@ -493,6 +498,8 @@ export default {
       padding: 0 12px 0 0;
     }
 
+=======
+>>>>>>> master
   }
 
   .topmenu {

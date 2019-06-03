@@ -126,9 +126,6 @@ export default {
     top: 160px;
     right: 500px;
   }
-  .search-window-style .ant-input{
-    background-color: #EEEEEE!important;
-  }
   .search-window-left-part{
     /*border-right: 1px solid #EEEEEE;*/
     height: 100%;

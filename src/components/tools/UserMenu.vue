@@ -1,10 +1,15 @@
 <template>
   <div class="user-wrapper">
+<<<<<<< HEAD
     <span class="action">
       <a-icon type="setting" @click="setFun"/>
     </span>
     <span class="action">
       <a-icon type="message" />
+=======
+    <span class="action" @click="messageFun">
+      <a-icon type="message"/>
+>>>>>>> master
     </span>
     <span class="action">
       <a-icon type="question-circle-o"></a-icon>
@@ -76,8 +81,14 @@ export default {
         }
       })
     },
+<<<<<<< HEAD
     setFun () {
       console.log('setFun', this)
+=======
+    messageFun () {
+      Utils.$emit('message', 'msg')
+      this.$router.push({ name: 'Analysis', params: { messageFlag: true } })
+>>>>>>> master
     }
   }
 }
