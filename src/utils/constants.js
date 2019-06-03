@@ -4,9 +4,9 @@
 
 // 密级常量
 const SECRETLEVEL_ENUM = new Map([
-  [60, { people: '非密', file: '非密' }],
-  [70, { people: '一般', file: '秘密' }],
-  [80, { people: '重要', file: '机密' }],
+  ['60', { people: '非密', file: '非密' }],
+  ['70', { people: '一般', file: '秘密' }],
+  ['80', { people: '重要', file: '机密' }],
   ['default', '非密']
 ])
 
