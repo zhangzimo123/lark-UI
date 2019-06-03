@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/components/layouts'
+import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView, GeneralView } from '@/components/layouts'
 // import { bxAnaalyse } from '@/core/icons'
 
 export const asyncRouterMap = [
@@ -16,7 +16,7 @@ export const asyncRouterMap = [
         path: '/dashboard',
         name: 'dashboard',
         redirect: '/dashboard/workplace',
-        component: RouteView,
+        component: GeneralView,
         meta: { title: '工作舱', keepAlive: true, icon: 'home', permission: [ 'dashboard' ] },
         children: [
           {
@@ -37,16 +37,16 @@ export const asyncRouterMap = [
       {
         path: '/talk',
         name: 'talk',
-        component: RouteView,
+        component: GeneralView,
         redirect: '/talk/ChatPanel',
-        meta: { title: '研讨', icon: 'message', hideHeader: true, keepAlive: true, permission: [ 'form' ] },
+        meta: { title: '研讨', icon: 'message', hideHeader: true, keepAlive: true, permission: [ 'talk' ] },
         hideChildrenInMenu: true,
         children: [
           {
             path: '/talk/ChatPanel',
             name: 'ChatPanel',
             component: () => import('@/views/talk/ChatPanel'),
-            meta: { title: '研讨面板', keepAlive: true, permission: ['form'], hidden: true }
+            meta: { title: '研讨面板', keepAlive: true, permission: ['talk'], hidden: true }
           }]
       },
       {
@@ -57,7 +57,7 @@ export const asyncRouterMap = [
         meta: {
           title: '系统管理',
           icon: 'appstore',
-          permission: ['table']
+          permission: ['user', 'org', 'role']
         },
         children: [
           {
@@ -68,7 +68,7 @@ export const asyncRouterMap = [
               title: '用户管理',
               icon: 'team',
               keepAlive: true,
-              permission: ['table']
+              permission: ['user']
             }
           },
           {
@@ -79,7 +79,7 @@ export const asyncRouterMap = [
               title: '组织管理',
               icon: 'cluster',
               keepAlive: true,
-              permission: ['table']
+              permission: ['org']
             }
           },
           {
@@ -90,7 +90,7 @@ export const asyncRouterMap = [
               title: '角色管理',
               icon: 'switcher',
               keepAlive: true,
-              permission: ['table']
+              permission: ['role']
             }
           },
           {
@@ -211,6 +211,12 @@ export const asyncRouterMap = [
                 name: 'NotificationSettings',
                 component: () => import('@/views/account/settings/Notification'),
                 meta: { title: '新消息通知', hidden: true, keepAlive: true, permission: [ 'user' ] }
+              },
+              {
+                path: '/account/settings/workplace',
+                name: 'WorkPlaceSettings',
+                component: () => import('@/views/account/settings/Workplace'),
+                meta: { title: '工作台设置', hidden: true, keepAlive: true, permission: [ 'user' ] }
               }
             ]
           }

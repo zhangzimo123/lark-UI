@@ -484,15 +484,6 @@ export default {
         }
       }
     }
-
-    // 内容区
-    // .layout-content {
-    //   margin: 24px 0px 0px;
-    //   height: 100%;
-    //   height: 64px;
-    //   padding: 0 12px 0 0;
-    // }
-
   }
 
   .topmenu {
